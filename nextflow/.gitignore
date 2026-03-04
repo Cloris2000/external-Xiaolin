@@ -1,0 +1,81 @@
+# Nextflow work directories (can be very large)
+work/
+work_combined_*/
+null/
+
+# Nextflow internal files
+.nextflow/
+.nextflow.log*
+.nextflow.cache/
+
+# Pipeline results (large GWAS output files, hundreds of GB)
+results/
+
+# Generated plots
+manhattan_plots/
+
+# Pipeline run logs (generated at runtime)
+*.log
+*.out
+
+# Nextflow reports
+*.html
+*.dot
+
+# AI assistant context/debug/status files (auto-generated)
+cursor_*.md
+.claude/
+.specstory/
+.vscode/
+*_SUMMARY.md
+*_REPORT.md
+*_README.md
+*_GUIDE.md
+*_COMPLETE.md
+*_SETUP.md
+*_STATUS.md
+*_PLAN.md
+*_INDEX.md
+*_TIMING.md
+*_ANALYSIS.md
+*_COMPARISON.md
+PIPELINE_SUMMARY.md
+FIXES_APPLIED.md
+FIXES_SUMMARY.md
+WARNINGS_EXPLAINED.md
+EXECUTIVE_SUMMARY.md
+FINAL_SUMMARY.md
+PI_VERIFICATION_CHECKLIST.md
+UPDATED_RUN_PLAN.md
+RUN_INSTRUCTIONS.md
+EXPLANATION_*.md
+CLARIFICATION_*.md
+DEBUGGING_*.md
+INVESTIGATION_*.md
+DECONVOLUTION_*.md
+
+# Debugging outputs
+debugging_outputs/
+visualizations/
+
+# Data directories (raw data, not code)
+data/
+data_input/
+cohorts/
+
+# Temporary and old pipeline files
+*_FINAL*.log
+*_COMPLETE*.log
+*_fixed.log
+*_v[0-9].log
+*_v[0-9][0-9].log
+pipeline_run*.log
+*.pipeline_start
+
+# Shell history
+.bash_history
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo

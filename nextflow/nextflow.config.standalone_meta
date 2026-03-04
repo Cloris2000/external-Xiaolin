@@ -1,0 +1,50 @@
+/*
+ * Configuration for Standalone Meta-Analysis Pipeline
+ */
+
+params {
+    // Base directory containing cohort results
+    base_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+    
+    // Cohorts to include in meta-analysis
+    cohorts = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GTEx", "NABEC"]
+    
+    // Software paths
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    
+    // Output directory
+    output_dir = "${base_dir}/results/meta_analysis"
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 20
+    submitRateLimit = '10 sec'
+}
+
+// Process configuration
+process {
+    // Default settings
+    cpus = 1
+    memory = '4 GB'
+    time = '1h'
+    
+    errorStrategy = 'retry'
+    maxRetries = 2
+    maxForks = 10
+    
+    // CONVERT_LOGP_TO_P settings
+    withName: 'CONVERT_LOGP_TO_P' {
+        cpus = 1
+        memory = '8 GB'
+        time = '1h'
+    }
+    
+    // METAL_META_ANALYSIS settings
+    withName: 'METAL_META_ANALYSIS' {
+        cpus = 1
+        memory = '16 GB'
+        time = '2h'
+    }
+}
