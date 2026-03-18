@@ -1,0 +1,6 @@
+includeConfig '../../nextflow.config.combined.rosmap'
+
+params {
+    output_dir = "${projectDir}/results/benchmark_tech_cov/ROSMAP/full"
+    tech_cov_mode = "auto_top_n"
+}

@@ -1,0 +1,7 @@
+includeConfig '../../nextflow.config.combined.rosmap'
+
+params {
+    output_dir = "${projectDir}/results/benchmark_tech_cov/ROSMAP/shared"
+    tech_cov_mode = "fixed_list"
+    tech_covariates_file = "${projectDir}/benchmark_tech_cov/benchmark_configs/tech_cov_sets/shared_rosmap.txt"
+}

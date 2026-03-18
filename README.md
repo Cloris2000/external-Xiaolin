@@ -124,6 +124,13 @@ bash run_8_cohorts_sequential.sh
 - **Per cohort:** `results/<cohort>/phenotypes_RINT.txt`, `clinical_covariates.txt`, `covariates.txt`, `pca.csv`, genotype QC outputs, `regenie_step2/*.regenie.raw_p`.
 - **Meta-analysis:** `results/meta_analysis/<CellType>_meta_analysis_<cohorts>.tbl` (METAL summary statistics).
 
+## Benchmarks
+
+**Technical covariate vs. MGP accuracy:** Benchmark comparing MGP cell-type proportion accuracy when different technical covariate sets are regressed out before deconvolution (none vs. shared vs. full), using CMC_MSSM and ROSMAP with snRNA-based ground truth. Code, run instructions, and raw data paths live in the **benchmark_tech_cov** folder:
+
+- [Tech covariate benchmark – README and run guide](nextflow/benchmark_tech_cov/README.md)
+- [Tech covariate benchmark – raw data manifest](nextflow/benchmark_tech_cov/DATA.md)
+
 ## Citation and data
 
 Cohort data (ROSMAP, Mayo, MSBB, CMC, GTEx, NABEC) are from their respective consortia and data use agreements; this repository contains only the pipeline code and configuration examples, not the data.

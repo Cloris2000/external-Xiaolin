@@ -1,0 +1,6 @@
+includeConfig '../../nextflow.config.combined.cmc_mssm'
+
+params {
+    output_dir = "${projectDir}/results/benchmark_tech_cov/CMC_MSSM/full"
+    tech_cov_mode = "auto_top_n"
+}

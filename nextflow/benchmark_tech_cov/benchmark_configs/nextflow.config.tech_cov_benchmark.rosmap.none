@@ -1,0 +1,7 @@
+includeConfig '../../nextflow.config.combined.rosmap'
+
+params {
+    output_dir = "${projectDir}/results/benchmark_tech_cov/ROSMAP/none"
+    tech_cov_mode = "none"
+    disable_batch_correction = true
+}

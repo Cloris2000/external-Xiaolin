@@ -1,0 +1,7 @@
+includeConfig '../../nextflow.config.combined.cmc_mssm'
+
+params {
+    output_dir = "${projectDir}/results/benchmark_tech_cov/CMC_MSSM/none"
+    tech_cov_mode = "none"
+    disable_batch_correction = true
+}
