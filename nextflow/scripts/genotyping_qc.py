@@ -78,7 +78,11 @@ def create_pgen(args):
             input_vcf = subset_vcf
         
         # Build plink command
-        plink_cmd = f'{args.plink_path} --vcf {input_vcf}'
+        # For imputed dosage VCFs (DS field), use dosage=DS so plink2 imports dosages
+        vcf_arg = f'--vcf {input_vcf}'
+        if getattr(args, 'vcf_dosage', None):
+            vcf_arg += f' dosage={args.vcf_dosage}'
+        plink_cmd = f'{args.plink_path} {vcf_arg}'
         
         # Add VCF quality filters if specified
         if args.vcf_min_gq:
@@ -146,7 +150,9 @@ def create_pgen_single_chr(args):
             samples_no_header = f"{output_prefix}.samples_no_header.txt"
             run(f"tail -n +2 {args.samples_to_keep} | awk '{{print $2}}' > {samples_no_header}")
             try:
-                run(f'{args.bcftools_path} view -S {samples_no_header} -O z -o {subset_vcf} {input_vcf}')
+                # --force-samples: silently skip sample IDs not present in VCF header
+                # (needed when samples_to_keep spans multiple genotyping platforms)
+                run(f'{args.bcftools_path} view --force-samples -S {samples_no_header} -O z -o {subset_vcf} {input_vcf}')
                 input_vcf = subset_vcf
             except subprocess.CalledProcessError as e:
                 print(f"  Chromosome {chrom}: bcftools subset failed ({e}), using original VCF with plink --keep")
@@ -155,7 +161,11 @@ def create_pgen_single_chr(args):
                 use_plink_keep = True
     
     # Build plink command
-    plink_cmd = f'{args.plink_path} --vcf {input_vcf}'
+    # For imputed dosage VCFs (DS field), use dosage=DS so plink2 imports dosages
+    vcf_arg = f'--vcf {input_vcf}'
+    if getattr(args, 'vcf_dosage', None):
+        vcf_arg += f' dosage={args.vcf_dosage}'
+    plink_cmd = f'{args.plink_path} {vcf_arg}'
     
     # Add VCF quality filters if specified
     if args.vcf_min_gq:
@@ -686,6 +696,7 @@ def main():
     parser.add_argument('--vcf_min_gq', type=int, help='Minimum genotype quality')
     parser.add_argument('--vcf_min_dp', type=int, help='Minimum depth')
     parser.add_argument('--vcf_min_qual', type=int, help='Minimum variant quality')
+    parser.add_argument('--vcf_dosage', help='VCF dosage field (e.g. DS for imputed Minimac3-style dosage)')
     
     # Pruning parameters
     parser.add_argument('--prune_window_size', default='500kb', help='LD pruning window size')

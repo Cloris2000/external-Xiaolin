@@ -74,8 +74,3 @@ pipeline_run*.log
 
 # Shell history
 .bash_history
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo

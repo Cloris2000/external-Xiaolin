@@ -32,6 +32,7 @@ workflow GENOTYPING_QC_PIPELINE {
     main:
     
     // Helper: Provide defaults for optional parameters
+    def qc_study = (params.genotyping_study != null && params.genotyping_study != '') ? params.genotyping_study : params.study
     def vcf_dir = params.vcf_dir ?: ''
     def vcf_pattern = params.vcf_pattern ?: ''
     def normalized_vcf_dir = params.normalized_vcf_dir ?: ''
@@ -39,6 +40,7 @@ workflow GENOTYPING_QC_PIPELINE {
     def vcf_min_gq = params.vcf_min_gq ?: ''
     def vcf_min_dp = params.vcf_min_dp ?: ''
     def vcf_min_qual = params.vcf_min_qual ?: ''
+    def vcf_dosage = params.vcf_dosage ?: ''
     def log_dir = params.log_dir ?: ''
     def output_dir = params.output_dir ?: ''
     
@@ -68,7 +70,7 @@ workflow GENOTYPING_QC_PIPELINE {
     def pgen_params = chrom_channel.combine(samples_to_keep_val).map { chrom, samples_path ->
         tuple(
             'create_pgen_single_chr',
-            params.study,
+            qc_study,
             file("${projectDir}/scripts/genotyping_qc.py"),
             start_marker,  // dependency marker
             params.qc_version,
@@ -87,6 +89,7 @@ workflow GENOTYPING_QC_PIPELINE {
             vcf_min_gq,
             vcf_min_dp,
             vcf_min_qual,
+            vcf_dosage,
             params.prune_window_size,
             params.prune_step_size,
             params.prune_r2_threshold,
@@ -124,24 +127,25 @@ workflow GENOTYPING_QC_PIPELINE {
         pgen_params.map { it[17] },  // vcf_min_gq
         pgen_params.map { it[18] },  // vcf_min_dp
         pgen_params.map { it[19] },  // vcf_min_qual
-        pgen_params.map { it[20] },  // prune_window_size
-        pgen_params.map { it[21] },  // prune_step_size
-        pgen_params.map { it[22] },  // prune_r2_threshold
-        pgen_params.map { it[23] },  // include_x
-        pgen_params.map { it[24] },  // sort_vars
-        pgen_params.map { it[25] },  // autosome_only
-        pgen_params.map { it[26] },  // samples_to_keep
-        pgen_params.map { it[27] },  // normalize_vcf
-        pgen_params.map { it[28] },  // use_slurm
-        pgen_params.map { it[29] },  // slurm_time
-        pgen_params.map { it[30] },  // log_dir
-        pgen_params.map { it[31] }   // output_dir
+        pgen_params.map { it[20] },  // vcf_dosage
+        pgen_params.map { it[21] },  // prune_window_size
+        pgen_params.map { it[22] },  // prune_step_size
+        pgen_params.map { it[23] },  // prune_r2_threshold
+        pgen_params.map { it[24] },  // include_x
+        pgen_params.map { it[25] },  // sort_vars
+        pgen_params.map { it[26] },  // autosome_only
+        pgen_params.map { it[27] },  // samples_to_keep
+        pgen_params.map { it[28] },  // normalize_vcf
+        pgen_params.map { it[29] },  // use_slurm
+        pgen_params.map { it[30] },  // slurm_time
+        pgen_params.map { it[31] },  // log_dir
+        pgen_params.map { it[32] }   // output_dir
     ).output_files.collect()  // Collect all chromosome completion markers
     
     // Stage 3: Merge pgen files across chromosomes (wait for create_pgen)
     def merge_output = MERGE_PGEN (
         'merge',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         create_pgen_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -160,6 +164,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -177,7 +182,7 @@ workflow GENOTYPING_QC_PIPELINE {
     // Stage 4: Standard GWAS QC (wait for merge)
     def standard_qc_output = STANDARD_QC (
         'standard_qc',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         merge_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -196,6 +201,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -213,7 +219,7 @@ workflow GENOTYPING_QC_PIPELINE {
     // Stage 5: LD pruning (wait for standard_qc)
     def pruning_output = LD_PRUNING (
         'ld_pruning',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         standard_qc_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -232,6 +238,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -249,7 +256,7 @@ workflow GENOTYPING_QC_PIPELINE {
     // Stage 6: Calculate heterozygosity (wait for pruning)
     def heterozygosity_output = HETEROZYGOSITY (
         'heterozygosity',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         pruning_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -268,6 +275,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -285,7 +293,7 @@ workflow GENOTYPING_QC_PIPELINE {
     // Stage 7: Generate final QC'd files (wait for heterozygosity)
     def final_qc_output = FINAL_QC (
         'final_qc',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         heterozygosity_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -304,6 +312,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -321,7 +330,7 @@ workflow GENOTYPING_QC_PIPELINE {
     // Stage 8: Calculate PCA (wait for final_qc)
     def pca_output = CALCULATE_PCA (
         'pca',
-        params.study,
+        qc_study,
         file("${projectDir}/scripts/genotyping_qc.py"),
         final_qc_output,  // Pass previous output to create dependency
         params.qc_version,  // Parameter version to invalidate cache when QC params change
@@ -340,6 +349,7 @@ workflow GENOTYPING_QC_PIPELINE {
         vcf_min_gq,
         vcf_min_dp,
         vcf_min_qual,
+        vcf_dosage,
         params.prune_window_size,
         params.prune_step_size,
         params.prune_r2_threshold,
@@ -356,10 +366,10 @@ workflow GENOTYPING_QC_PIPELINE {
     
     // Output summary - emit actual file channels that wait for process completion
     emit:
-    final_pgen = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${params.study}.QC.final.pgen") }
-    final_psam = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${params.study}.QC.final.psam") }
-    final_pvar = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${params.study}.QC.final.pvar") }
-    prune_in_file = LD_PRUNING.out.output_files.map { file("${params.output_dir}/${params.study}.QC.prune.in") }
+    final_pgen = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${qc_study}.QC.final.pgen") }
+    final_psam = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${qc_study}.QC.final.psam") }
+    final_pvar = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/${qc_study}.QC.final.pvar") }
+    prune_in_file = LD_PRUNING.out.output_files.map { file("${params.output_dir}/${qc_study}.QC.prune.in") }
     pca_file = CALCULATE_PCA.out.output_files.map { file("${params.output_dir}/pca.csv") }
 }
 

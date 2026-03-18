@@ -43,7 +43,7 @@ STDERR SE
 PVAL P
 ${process_commands}
 OUTFILE ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix} .tbl
-ANALYZE
+ANALYZE HETEROGENEITY
 QUIT
 EOF
 

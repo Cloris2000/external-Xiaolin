@@ -69,11 +69,12 @@ params {
     bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
     
     // QC parameters (matching ROSMAP, Mayo, MSBB)
-    qc_version = 'v2'  // Increment this when QC parameters change to force re-run
+    qc_version = 'v3'  // Bumped to v3: added mach_r2_filter = 0.8 to match other imputed cohorts
     maf_threshold = 0.05
     hwe_threshold = 1e-15  // Updated to match ROSMAP, Mayo, MSBB
     geno_threshold = 0.1
     mind_threshold = 0.1
+    mach_r2_filter = 0.8  // Imputation quality filter — matches ROSMAP, Mayo, MSBB, CMC_PENN, CMC_PITT
     
     // LD pruning (matching ROSMAP, Mayo, MSBB: --indep-pairwise 500kb 1 0.2)
     prune_window_size = 500  // Updated to match ROSMAP, Mayo, MSBB 

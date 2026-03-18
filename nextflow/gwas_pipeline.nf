@@ -20,9 +20,10 @@ include { METAL_META_ANALYSIS } from './modules/metal_meta_analysis.nf'
 workflow GWAS_PIPELINE {
     
     take:
-    pheno_file_ch  // Channel containing the phenotype file (waits for phenotype pipeline)
-    pgen_file_ch   // Channel containing the pgen file (waits for genotyping QC pipeline)
-    prune_in_file_ch  // Channel containing the prune.in file (waits for genotyping QC pipeline)
+    pheno_file_ch    // Channel containing the phenotype file (waits for phenotype pipeline)
+    pgen_file_ch     // Channel containing the pgen file (waits for genotyping QC pipeline)
+    prune_in_file_ch // Channel containing the prune.in file (waits for genotyping QC pipeline)
+    covar_file_ch    // Channel containing the covariate file (waits for COV_PREP)
     
     main:
     
@@ -90,14 +91,13 @@ workflow GWAS_PIPELINE {
         }
     
     // Stage 1: Regenie Step 1 for each cohort and cell type
-    // Wait for genotyping QC outputs to be available
-    // Combine phenotype channel with genotyping QC outputs
-    // First, wait for pgen and prune_in files to be ready
+    // Wait for genotyping QC outputs AND covariate file to be available
     def genotyping_ready = pgen_file_ch.combine(prune_in_file_ch)
     
     def regenie_step1_input = extracted_pheno_keyed
         .combine(genotyping_ready)
-        .map { key, pheno_file, pgen_file, prune_in_file ->
+        .combine(covar_file_ch)
+        .map { key, pheno_file, pgen_file, prune_in_file, covar_file ->
             def (cohort, cell_type) = key
             // Use the actual files from channels, not from params
             def pgen_prefix = pgen_file.toString().replace('.pgen', '')
@@ -106,9 +106,6 @@ workflow GWAS_PIPELINE {
                 file("${pgen_prefix}.pvar"),
                 file("${pgen_prefix}.psam")
             ]
-            // Get cohort-specific parameters for other files
-            def cohort_params = params.cohort_configs[cohort]
-            def covar_file = file("${cohort_params.covar_file}")
             // Create cohort-specific output directory
             def step1_dir = "${projectDir}/results/${cohort}/regenie_step1"
             
@@ -141,13 +138,13 @@ workflow GWAS_PIPELINE {
             [[cohort, cell_type], pred_list_file]
         }
     
-    // Join pred_list with extracted phenotype files
+    // Join pred_list with extracted phenotype files and covariate file
     def regenie_step2_input = pred_list_keyed
         .join(extracted_pheno_keyed, by: 0)
-        .map { key, pred_list_file, extracted_pheno_file ->
+        .combine(covar_file_ch)
+        .map { key, pred_list_file, extracted_pheno_file, covar_file ->
             def (cohort, cell_type) = key
             def cohort_params = params.cohort_configs[cohort]
-            def covar_file = file("${cohort_params.covar_file}")
             // Get all three pgen companion files
             def pgen_prefix = cohort_params.pgen_file.toString().replace('.pgen', '')
             def pgen_files = [

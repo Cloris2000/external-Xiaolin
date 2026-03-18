@@ -42,6 +42,10 @@ option_list <- list(
               help="Output filename for samples file"),
   make_option(c("--clinical_cov_output"), type="character", default="clinical_covariates.txt",
               help="Output filename for clinical covariates (sex, age)"),
+  make_option(c("--clinical_metadata"), type="character", default=NULL,
+              help="Optional extra clinical metadata file to merge by individual ID"),
+  make_option(c("--clinical_join_col"), type="character", default="individualID",
+              help="Join column in clinical metadata (default: individualID)"),
   make_option(c("--col_msex"), type="character", default=NULL,
               help="Column name for sex (will auto-detect if not specified)"),
   make_option(c("--col_age"), type="character", default=NULL,
@@ -67,6 +71,22 @@ option_list <- list(
 opt_parser <- OptionParser(option_list=option_list)
 opt <- parse_args(opt_parser)
 
+# Normalize empty/placeholder CLI args to NULL.
+empty_to_null <- function(x) {
+  if (is.null(x)) return(NULL)
+  x <- trimws(as.character(x))
+  if (nchar(x) == 0 || tolower(x) == "null") return(NULL)
+  x
+}
+opt$clinical_metadata <- empty_to_null(opt$clinical_metadata)
+opt$clinical_join_col <- empty_to_null(opt$clinical_join_col)
+opt$col_msex <- empty_to_null(opt$col_msex)
+opt$col_age <- empty_to_null(opt$col_age)
+opt$col_individualID <- empty_to_null(opt$col_individualID)
+opt$col_study <- empty_to_null(opt$col_study)
+opt$col_projid <- empty_to_null(opt$col_projid)
+opt$col_specimenID <- empty_to_null(opt$col_specimenID)
+
 cat("\n=============================================================================\n")
 cat("PHENOTYPE PREPARATION (Step 1 of Pipeline)\n")
 cat("=============================================================================\n\n")
@@ -89,6 +109,38 @@ if (endsWith(opt$metadata, ".RData") || endsWith(opt$metadata, ".rds")) {
   }
 } else {
   ROSMAP_meta_temp_cleaned <- read.csv(opt$metadata)
+}
+
+# Optionally enrich the RNA metadata with a clinical metadata table (e.g. GVEX).
+if (!is.null(opt$clinical_metadata)) {
+  if (!file.exists(opt$clinical_metadata)) {
+    stop(paste0("clinical_metadata file not found: ", opt$clinical_metadata))
+  }
+  cat("Merging optional clinical metadata from:", opt$clinical_metadata, "\n")
+  clinical_df <- if (grepl("\\.(tsv|txt)$", opt$clinical_metadata, ignore.case = TRUE)) {
+    read.delim(opt$clinical_metadata, stringsAsFactors = FALSE, check.names = FALSE)
+  } else {
+    read.csv(opt$clinical_metadata, stringsAsFactors = FALSE, check.names = FALSE)
+  }
+  meta_join_col <- if (!is.null(opt$col_individualID) && opt$col_individualID %in% colnames(ROSMAP_meta_temp_cleaned)) {
+    opt$col_individualID
+  } else {
+    find_column(ROSMAP_meta_temp_cleaned, c("individualID", "individual_id", "subjectID", "subject_id", "Individual"), required = TRUE)
+  }
+  clin_join_col <- if (!is.null(opt$clinical_join_col)) opt$clinical_join_col else "individualID"
+  if (!clin_join_col %in% colnames(clinical_df)) {
+    clin_join_col <- find_column(clinical_df, c("individualID", "individual_id", "subjectID", "subject_id", "Individual"), required = TRUE)
+  }
+  ROSMAP_meta_temp_cleaned <- merge(
+    ROSMAP_meta_temp_cleaned,
+    clinical_df,
+    by.x = meta_join_col,
+    by.y = clin_join_col,
+    all.x = TRUE,
+    sort = FALSE,
+    suffixes = c("", ".clinical")
+  )
+  cat("  - Metadata rows after merge:", nrow(ROSMAP_meta_temp_cleaned), "\n")
 }
 
 # Remove excluded samples
@@ -150,6 +202,29 @@ if (opt$fid_method == "study_projid") {
   ROSMAP_meta_sub$FID <- paste0(ROSMAP_meta_sub$Study, ROSMAP_meta_sub$projid)
 } else if (opt$fid_method == "individual_id") {
   ROSMAP_meta_sub$FID <- ROSMAP_meta_sub$individualID
+} else if (opt$fid_method == "biospec_specimen") {
+  # Map individualID -> Genotyping_Sample_ID via the biospecimen file,
+  # then optionally prepend a prefix stored in fid_format (e.g. "0_" to match
+  # imputed VCFs whose sample names are 0_<Genotyping_Sample_ID>).
+  if (is.null(opt$biospecimen_file) || !file.exists(opt$biospecimen_file)) {
+    stop("fid_method='biospec_specimen' requires --biospecimen_file to be set and exist")
+  }
+  biospec_df <- read.csv(opt$biospecimen_file, stringsAsFactors = FALSE)
+  biospec_ind_col <- opt$biospec_col_individual
+  biospec_spec_col <- opt$biospec_col_specimen
+  if (!biospec_ind_col %in% colnames(biospec_df)) {
+    stop(paste("biospec_col_individual '", biospec_ind_col, "' not found in biospecimen file"))
+  }
+  if (!biospec_spec_col %in% colnames(biospec_df)) {
+    stop(paste("biospec_col_specimen '", biospec_spec_col, "' not found in biospecimen file"))
+  }
+  biospec_map <- setNames(biospec_df[[biospec_spec_col]], biospec_df[[biospec_ind_col]])
+  spec_ids <- biospec_map[ROSMAP_meta_sub$individualID]
+  prefix <- if (!is.null(opt$fid_format) && nchar(trimws(opt$fid_format)) > 0) opt$fid_format else ""
+  ROSMAP_meta_sub$FID <- ifelse(is.na(spec_ids), NA_character_, paste0(prefix, spec_ids))
+  n_missing <- sum(is.na(ROSMAP_meta_sub$FID))
+  cat("  - biospec_specimen mapping: matched", sum(!is.na(ROSMAP_meta_sub$FID)),
+      "individuals; dropped", n_missing, "not found in biospecimen file\n")
 } else {
   stop(paste("Unknown fid_method:", opt$fid_method))
 }
@@ -255,6 +330,10 @@ ROSMAP_estimations_combined <- merge(ROSMAP_meta_matcher, ROSMAP_estimations_sca
 # Create FID for estimations
 if (opt$fid_method == "study_projid" && "Study" %in% colnames(ROSMAP_estimations_combined)) {
   ROSMAP_estimations_combined$FID <- paste0(ROSMAP_estimations_combined$Study, ROSMAP_estimations_combined$projid)
+} else if (opt$fid_method == "biospec_specimen") {
+  spec_ids2 <- biospec_map[ROSMAP_estimations_combined$individualID]
+  prefix <- if (!is.null(opt$fid_format) && nchar(trimws(opt$fid_format)) > 0) opt$fid_format else ""
+  ROSMAP_estimations_combined$FID <- ifelse(is.na(spec_ids2), NA_character_, paste0(prefix, spec_ids2))
 } else {
   ROSMAP_estimations_combined$FID <- ROSMAP_estimations_combined$individualID
 }

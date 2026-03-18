@@ -1,4 +1,11 @@
-# This script is inherited from QC_ROSMAP_WGS.py, and we want to add sex check in this script
+# This script is inherited from QC_ROSMAP_WGS.py, and we want to add vcf filtering, sex check has not been implemented yet
+# To add on top of that, I
+# - Add vcf filtering to remove low quality sequenced SNPs:		
+# 		            f'--vcf-min-gq 20 '
+# 		            f'--vcf-min-dp 10 '
+# 		            f'--vcf-min-qual 30 '
+# - Filp all filtering threshold back to genotype array QC
+################################################################################
 
 import pandas as pd
 import os, subprocess, pandas as pd
@@ -11,7 +18,7 @@ def run(cmd, pipefail=True, **kwargs):
                           **kwargs)
 
 #run_slurm
-def run_slurm(cmd, job_name, time, log_file='/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_new_log/rosmap_joint_WGS.log', num_threads=6,
+def run_slurm(cmd, job_name, time, log_file='/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_log/rosmap_joint_WGS.log', num_threads=6,
               mem_per_cpu='16000M', num_nodes=1):
     # 16000 MiB = 15.625 GiB, the memory per CPU on the 12-CPU SCC nodes:
     # $ scontrol show node node03 | grep CfgTRES
@@ -43,16 +50,16 @@ def run_slurm(cmd, job_name, time, log_file='/external/rprshnas01/netdata_kcni/s
 
 
 # Set to path where outputs should be saved
-os.chdir('/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS')
+os.chdir('/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update')
 # Michael has the most updated plink
 plink = '/external/rprshnas01/kcni/mwainberg/software/plink2'
 plink_old = '/external/rprshnas01/kcni/mwainberg/software/plink'
 bcftools = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/software/bcftools-1.12/bcftools'
 # vdf file path
-# mv *.normalized.vcf.gz /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_WGS_vcf_normalized
-normalized_vcf_path = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_WGS_vcf_normalized'
+# mv *.normalized.vcf.gz /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized
+normalized_vcf_path = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized'
 vcf_path = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS"'
-log_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_new_log"
+log_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_log"
 # path to rs id mapping files TODO: Make sure the rs id mapping file is correct for AMP-AD
 #rs_path = '/external/rprshnas01/external_data/rosmap/genotype/TOPmed_imputed/vcf/merged'
 # Study for output file naming
@@ -85,19 +92,18 @@ sex = True
 # If X chromosome is available use: for chrom in list(range(1, 23)) + ['X']]:
 # Can be a bit slow, might consider using run_slurm for this step instead, esp on larger cohorts
 ################################################################################
-study = "ROSMAP_new"
 for chrom in range(1, 23):
     if not os.path.exists(f'{study}.QC.{chrom}.pgen'):
         run_slurm(f'{plink} ' 
             f'--vcf {normalized_vcf_path}/ROSMAP.QC.{chrom}.normalized.vcf.gz '
-            # f'--vcf-min-gq 20 '
-            # f'--vcf-min-dp 10 '
-            # f'--vcf-min-qual 30 '
+            f'--vcf-min-gq 20 '
+            f'--vcf-min-dp 10 '
+            f'--vcf-min-qual 30 '
             f'--double-id '
             f'--make-pgen '
             f'--new-id-max-allele-len 2000 '
             f'--set-all-var-ids chr@:#:\$r:\$a '  # Set variant IDs
-            f'--out {study}.QC.{chrom}', job_name="ROSMAP_WGS_QC", time="0-4:0", log_file=f'{log_dir}/{study}.QC.{chrom}.pgenlog') 
+            f'--out {study}.QC.{chrom}', job_name="ROSMAP_WGS_QC_update", time="0-4:0", log_file=f'{log_dir}/{study}.QC.{chrom}.pgenlog')
 
         
 ################################################################################
@@ -130,18 +136,18 @@ if not os.path.exists(f'{study}.QC.merged.pgen'):
 # mach is an imputation filter the most common one
 # minimach is the less common one
 ################################################################################
-study = "ROSMAP_sex" #minor allele freq from 0.01 to 0.05 + include sex check    
+#study = "ROSMAP_sex" #minor allele freq from 0.01 to 0.05 + include sex check    
 
-if not os.path.exists(f'ROSMAP_new.QC.fam') or \
+if not os.path.exists(f'{study}.QC.fam') or \
         not os.path.exists(f'{study}.QC.snplist'):
     run(f'{plink} ' 
-        f'--pfile ROSMAP_new.QC.merged '
-        #f'--mach-r2-filter 0.8 '  #imputation quality
-        f'--maf 0.05 '             #minor allele freq from 0.01 to 0.05
-        f'--hwe 1e-6 '
-        f'--geno 0.02 '            # SNPs missingness - exclude SNPs with missing genotype rate > 2%
-        #f'--mind 0.1 '            # excludes individuals with a missing genotype rate higher than 10% (0.1).
-        f'--rm-dup error list '    # Check each group of duplicate-ID variants for equality. (Alleles are considered unequal even if the codes are the same, just in a different order; FILTER/INFO are considered unequal if the strings don't match exactly, even if they're semantically identical.) If any mismatches are found, this errors out, and writes a list of mismatching variant IDs to plink2.rmdup.mismatch
+        f'--pfile {study}.QC.merged '
+        f'--mach-r2-filter 0.8 '  #imputation quality
+        f'--maf 0.01 '            
+        f'--hwe 1e-15 '
+        f'--geno 0.1 '            # SNPs missingness - exclude SNPs with missing genotype rate
+        f'--mind 0.1 '            # excludes individuals with a missing genotype rate higher than 10% (0.1).
+        #f'--rm-dup error list '    # Check each group of duplicate-ID variants for equality. (Alleles are considered unequal even if the codes are the same, just in a different order; FILTER/INFO are considered unequal if the strings don't match exactly, even if they're semantically identical.) If any mismatches are found, this errors out, and writes a list of mismatching variant IDs to plink2.rmdup.mismatch
         f'--write-snplist '
         f'--make-just-fam '
         f'--out {study}.QC')
@@ -153,7 +159,7 @@ if not os.path.exists(f'ROSMAP_new.QC.fam') or \
 
 if not os.path.exists(f'{study}.QC.prune.in'):
     run(f'{plink} '
-        f'--pfile ROSMAP_new.QC.merged '
+        f'--pfile {study}.QC.merged '
         f'--keep {study}.QC.fam '
         f'--extract {study}.QC.snplist '
         f'--indep-pairwise 500kb 1 0.2 ' #Broad GWAS: Initial scans in GWAS are often done with higher r2 thresholds (0.2-0.5) to reduce the computational burden and focus on stronger genetic signals. For 0.2 threshold: 9409752/10213410 variants removed; for 0.5: 8505886/10213410 variants removed. fpr 0/8:  7273297/10213410 variants removed.
@@ -166,7 +172,7 @@ if not os.path.exists(f'{study}.QC.prune.in'):
 
 if not os.path.exists(f'{study}.QC.het'):
     run(f'{plink} '
-        f'--pfile ROSMAP_new.QC.merged '
+        f'--pfile {study}.QC.merged '
         f'--extract {study}.QC.prune.in '
         f'--keep {study}.QC.fam '
         f'--het '
@@ -183,8 +189,8 @@ if not os.path.exists(f'{study}.QC.valid'):
     data[["s"]] = data[["F"]].std()
     valid = data.query('F <= m+3*s and F >= m-3*s').iloc[:, [0, 1]]
     #valid = data.query('F <= 0.1 and F >= -0.1').iloc[:, [0, 1]]
-    valid.to_csv(f'{study}.valid.sample', index=False) # use if performing sex check
-    #valid.to_csv(f'{study}.QC.valid', sep="\t", header=False, index=False) # use if not performing sex check
+    #valid.to_csv(f'{study}.valid.sample', index=False) # use if performing sex check
+    valid.to_csv(f'{study}.QC.valid', sep="\t", header=False, index=False) # use if not performing sex check
 ################################################################################
 ################################################################################
 # Sex check
@@ -201,29 +207,29 @@ if not os.path.exists(f'{study}.QC.valid'):
 #         f'--make-bed '
 #         f'--out {study}.QC.new')
     
-# #use plink1.9 for sex check
-# plink1_9 = '/external/rprshnas01/kcni/mwainberg/software/plink'
-if not os.path.exists(f'{study}.QC.valid') and sex:
-    run(f'{plink} '
-        f'--pfile ROSMAP_new.QC.merged '
-        f'--extract {study}.QC.prune.in '
-        f'--keep {study}.valid.sample '
-        f'--keep-females '
-        f'--out {study}.QC.female')
+# # #use plink1.9 for sex check
+# # plink1_9 = '/external/rprshnas01/kcni/mwainberg/software/plink'
+# if not os.path.exists(f'{study}.QC.valid') and sex:
+#     run(f'{plink} '
+#         f'--pfile ROSMAP_new.QC.merged '
+#         f'--extract {study}.QC.prune.in '
+#         f'--keep {study}.valid.sample '
+#         f'--keep-females '
+#         f'--out {study}.QC.female')
     
 
-if not os.path.exists(f'{study}.QC.valid') and sex:
-    run(f'{plink} '
-        f'--pfile ROSMAP_new.QC.merged '
-        f'--extract {study}.QC.prune.in '
-        f'--keep {study}.valid.sample '
-        f'--keep-males '
-        f'--out {study}.QC.male')
+# if not os.path.exists(f'{study}.QC.valid') and sex:
+#     run(f'{plink} '
+#         f'--pfile {study}.merged '
+#         f'--extract {study}.QC.prune.in '
+#         f'--keep {study}.valid.sample '
+#         f'--keep-males '
+#         f'--out {study}.QC.male')
 
-    valid_FID = pd.read_table(f'{study}.valid.sample')["FID"] #valid_FID = pd.read_table(f'{study}.valid.sample')["#IID"] CHECK COLNAMES in valid file
-    sex_data = pd.read_table(f'{study}.QC.sexcheck')
-    valid_sex = sex_data.query('STATUS=="OK" and FID in @valid_DIF)').filter(["FID", "IID"]) # Check colnames in files
-    valid_sex.to_csv(f'{study}.QC.valid', sep="\t", header=False, index=False)
+    # valid_FID = pd.read_table(f'{study}.valid.sample')["FID"] #valid_FID = pd.read_table(f'{study}.valid.sample')["#IID"] CHECK COLNAMES in valid file
+    # sex_data = pd.read_table(f'{study}.QC.sexcheck')
+    # valid_sex = sex_data.query('STATUS=="OK" and FID in @valid_DIF)').filter(["FID", "IID"]) # Check colnames in files
+    # valid_sex.to_csv(f'{study}.QC.valid', sep="\t", header=False, index=False)
 
 ################################################################################
 # Generate final QC'ed target data file with relatedness filter
@@ -233,7 +239,7 @@ if not os.path.exists(f'{study}.QC.valid') and sex:
 
 if not os.path.exists(f'{study}.QC.final.pgen') and relatedness:
     run(f'{plink} '
-        f'--pfile ROSMAP_new.QC.merged '
+        f'--pfile {study}.QC.merged '
         f'--make-pgen '
         #f'--extract {study}.QC.prune.in ' # in the final pgen file, we want all vars, not only the pruned ones, so we exclude this line
         f'--keep {study}.QC.valid ' 
@@ -249,10 +255,10 @@ if not os.path.exists(f'{study}.QC.final.pgen') and relatedness:
 if not os.path.exists(f'{study}.QC.eigenvec'):
     run(f'{plink} '
         f'--pfile {study}.QC.final '
-        f'--extract {study}.QC.prune.in '
+        f'--extract {study}.QC.prune.in ' #need to extract the same pruned vars as used in the pruning step, updated by isabel to include this line
         f'--pca '
         f'--out {study}.QC')
 
 pca = pd.read_table(f'{study}.QC.eigenvec', header=None).tail(-1)
 pca.columns = ["FID", "IID"] + [f'PC{str(e)}' for e in range(1, len(pca.columns) -1)]
-pca.to_csv('pca_new.csv')
+pca.to_csv('pca.csv')

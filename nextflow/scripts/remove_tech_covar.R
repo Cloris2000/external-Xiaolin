@@ -31,6 +31,14 @@ option_list <- list(
               help="Path to metadata RData file"),
   make_option(c("--top_n_tech_cov"), type="integer", default=20,
               help="Number of top technical covariates to remove (default: 20)"),
+  make_option(c("--tech_cov_mode"), type="character", default="auto_top_n",
+              help="Technical covariate selection mode: auto_top_n, fixed_list, or none (default: auto_top_n)"),
+  make_option(c("--tech_covariates_file"), type="character", default=NULL,
+              help="Optional newline-delimited tech covariate list for fixed_list mode"),
+  make_option(c("--batch_covariates"), type="character", default="sequencingBatch,libraryPrep",
+              help="Comma-delimited batch columns for removeBatchEffect (default: sequencingBatch,libraryPrep)"),
+  make_option(c("--disable_batch_correction"), action="store_true", default=FALSE,
+              help="Disable batch correction entirely (default: FALSE)"),
   make_option(c("--output_dir"), type="character", default=".",
               help="Output directory"),
   make_option(c("--corrected_output"), type="character", default="corrected_data.RData",
@@ -79,6 +87,52 @@ validate_gene_ids <- function(gene_ids, context = "", min_ensembl_pct = 0.8) {
   return(TRUE)
 }
 
+normalize_cov_name <- function(x) {
+  tolower(gsub("[^a-z0-9]", "", x))
+}
+
+match_requested_covariates <- function(requested_covariates, available_covariates) {
+  matched_covariates <- c()
+  missing_covariates <- c()
+  available_lookup <- setNames(available_covariates, normalize_cov_name(available_covariates))
+  
+  for (requested_cov in requested_covariates) {
+    normalized_requested <- normalize_cov_name(requested_cov)
+    # Guard all edge cases before lookup (NA/empty/non-existent key).
+    if (is.na(normalized_requested) || normalized_requested == "") {
+      missing_covariates <- c(missing_covariates, requested_cov)
+      next
+    }
+
+    if (!(normalized_requested %in% names(available_lookup))) {
+      missing_covariates <- c(missing_covariates, requested_cov)
+      next
+    }
+
+    # Use single-bracket extraction to avoid out-of-bounds on malformed keys.
+    matched_vals <- unname(available_lookup[normalized_requested])
+    matched_vals <- matched_vals[!is.na(matched_vals) & matched_vals != ""]
+
+    if (length(matched_vals) > 0) {
+      matched_covariates <- c(matched_covariates, matched_vals[1])
+    } else {
+      missing_covariates <- c(missing_covariates, requested_cov)
+    }
+  }
+  
+  list(
+    matched = unique(matched_covariates),
+    missing = unique(missing_covariates)
+  )
+}
+
+parse_batch_covariates <- function(batch_covariates_string) {
+  if (is.null(batch_covariates_string) || batch_covariates_string == "") {
+    return(character(0))
+  }
+  trimws(unlist(strsplit(batch_covariates_string, ",")))
+}
+
 # CRITICAL: Store gene IDs (rownames) IMMEDIATELY after loading, before any operations
 # Check if rownames exist
 if (is.null(rownames(zscore_data)) || length(rownames(zscore_data)) == 0) {
@@ -107,15 +161,21 @@ if (endsWith(opt$metadata, ".RData") || endsWith(opt$metadata, ".rds")) {
 
 # Prepare metadata for PCA
 cat("Preparing metadata...\n")
+# Preserve essential ID columns for ground truth matching and benchmarking
+essential_id_cols <- c("specimenID", "projid", "synapseID", "id", "individualID", "subject_id")
+essential_cols_present <- intersect(essential_id_cols, colnames(rosmap_meta))
+
 # Remove tech cov (columns) with any NA values
 # Transpose to check each column for completeness, then use to subset columns
 cols_without_na <- complete.cases(t(rosmap_meta))
 rosmap_meta_cleaned <- rosmap_meta[, cols_without_na, drop = FALSE]
 
-# Remove tech cov with only one value
+# Remove tech cov with only one value, but preserve essential ID columns
 num_unique_values <- sapply(rosmap_meta_cleaned, function(x) length(unique(x)))
-cols_to_keep <- num_unique_values > 1
+cols_to_keep <- (num_unique_values > 1) | (names(num_unique_values) %in% essential_cols_present)
 rosmap_meta_cleaned_rmVar <- rosmap_meta_cleaned[, cols_to_keep]
+
+cat("  Preserved essential ID columns:", paste(intersect(colnames(rosmap_meta_cleaned_rmVar), essential_cols_present), collapse = ", "), "\n")
 
 # Set row names - try multiple ID columns (cohort-specific)
 # Priority: synapseID (ROSMAP), id, specimenID (Mayo/MSBB)
@@ -236,31 +296,63 @@ eigencorvalue <- function(pcaobj, components = getComponents(pcaobj, seq_len(10)
   return(corvals)
 }
 
-# Calculate correlations
+# Calculate correlations for auto selection
 all_corvals <- eigencorvalue(pcaobj = p, metavars = tech_covar_list, corFUN = "pearson")
 
-# Extract top tech covariates
-correlation_matrix <- all_corvals$correlation_values
-abs_correlation_values <- abs(correlation_matrix)
-cor_vector <- as.vector(abs_correlation_values)
+cat("Technical covariate selection mode:", opt$tech_cov_mode, "\n")
 
-# Find top N covariates
-top_n_indices <- order(cor_vector, decreasing = TRUE)[1:(opt$top_n_tech_cov * length(all_corvals$x_names))]
-all_covals_indices <- order(cor_vector, decreasing = TRUE)
+if (opt$tech_cov_mode == "auto_top_n") {
+  correlation_matrix <- all_corvals$correlation_values
+  abs_correlation_values <- abs(correlation_matrix)
+  cor_vector <- as.vector(abs_correlation_values)
+  all_covals_indices <- order(cor_vector, decreasing = TRUE)
+  
+  x_names <- all_corvals$x_names
+  y_names <- all_corvals$y_names
+  
+  all_covariates <- data.frame(
+    x_var = rep(x_names, each = length(y_names)),
+    y_var = rep(y_names, times = length(x_names)),
+    correlation = cor_vector,
+    stringsAsFactors = FALSE
+  )
+  
+  all_covariates <- all_covariates[all_covals_indices, ]
+  all_covariates_sorted <- unique(all_covariates$y_var)
+  top_tech_cov <- head(all_covariates_sorted, opt$top_n_tech_cov)
+} else if (opt$tech_cov_mode == "fixed_list") {
+  if (is.null(opt$tech_covariates_file) || !file.exists(opt$tech_covariates_file)) {
+    stop("ERROR: tech_cov_mode=fixed_list requires --tech_covariates_file")
+  }
+  requested_covariates <- readLines(opt$tech_covariates_file, warn = FALSE)
+  requested_covariates <- trimws(requested_covariates)
+  requested_covariates <- requested_covariates[requested_covariates != ""]
+  requested_covariates <- requested_covariates[!startsWith(requested_covariates, "#")]
+  
+  matched_covariates <- match_requested_covariates(requested_covariates, tech_covar_list)
+  top_tech_cov <- matched_covariates$matched
+  
+  if (length(matched_covariates$missing) > 0) {
+    cat("WARNING: Requested covariates not found in metadata:",
+        paste(matched_covariates$missing, collapse = ", "), "\n")
+  }
+} else if (opt$tech_cov_mode == "none") {
+  top_tech_cov <- character(0)
+} else {
+  stop("ERROR: Unknown tech_cov_mode. Use auto_top_n, fixed_list, or none.")
+}
 
-x_names <- all_corvals$x_names
-y_names <- all_corvals$y_names
+batch_covariates <- parse_batch_covariates(opt$batch_covariates)
+if (length(batch_covariates) > 0 && length(top_tech_cov) > 0) {
+  overlapping_batch_covariates <- intersect(top_tech_cov, batch_covariates)
+  if (length(overlapping_batch_covariates) > 0) {
+    cat("Removing batch covariates from technical covariate list:",
+        paste(overlapping_batch_covariates, collapse = ", "), "\n")
+    top_tech_cov <- setdiff(top_tech_cov, overlapping_batch_covariates)
+  }
+}
 
-all_covariates <- data.frame(
-  x_var = rep(x_names, each = length(y_names)),
-  y_var = rep(y_names, times = length(x_names)),
-  correlation = cor_vector,
-  stringsAsFactors = FALSE
-)
-
-all_covariates <- all_covariates[all_covals_indices, ]
-all_covariates_sorted <- unique(all_covariates$y_var)
-top_tech_cov <- all_covariates_sorted[1:opt$top_n_tech_cov]
+cat("Selected technical covariates:", ifelse(length(top_tech_cov) == 0, "none", paste(top_tech_cov, collapse = ", ")), "\n")
 
 # Save top tech covariates (save to current directory for Nextflow, also copy to output_dir)
 write.table(top_tech_cov, opt$tech_cov_output, 
@@ -272,7 +364,8 @@ if (opt$output_dir != "." && opt$output_dir != getwd()) {
 
 cat("Removing batch effects and technical covariates...\n")
 # Prepare metadata for batch removal
-metadata_nobatch <- metadata[, !colnames(metadata) %in% c("sequencingBatch", "notes", "libraryPrep"), drop = FALSE]
+batch_covariates_present <- if (opt$disable_batch_correction) character(0) else intersect(batch_covariates, colnames(metadata))
+metadata_nobatch <- metadata[, !colnames(metadata) %in% c(batch_covariates_present, "notes"), drop = FALSE]
 
 # Ensure all columns are numeric
 non_numeric_columns <- names(which(!sapply(metadata_nobatch, function(x) all(is.numeric(x)))))
@@ -282,7 +375,7 @@ for (i in seq_len(length(non_numeric_columns))) {
   }
 }
 
-# Select top tech covariates
+# Select requested tech covariates
 metadata_nobatch <- metadata_nobatch[, colnames(metadata_nobatch) %in% top_tech_cov, drop = FALSE]
 
 # Remove batch effects
@@ -304,33 +397,57 @@ cat("  First 5 rownames:", paste(head(rownames(zscore_data_df), 5), collapse=", 
 # Get batch columns if they exist
 batch1 <- NULL
 batch2 <- NULL
-if ("sequencingBatch" %in% colnames(metadata)) {
-  batch1 <- as.vector(metadata[, "sequencingBatch"])
+if (!opt$disable_batch_correction && length(batch_covariates_present) >= 1) {
+  batch1 <- as.vector(metadata[, batch_covariates_present[1]])
 }
-if ("libraryPrep" %in% colnames(metadata)) {
-  batch2 <- as.vector(metadata[, "libraryPrep"])
+if (!opt$disable_batch_correction && length(batch_covariates_present) >= 2) {
+  batch2 <- as.vector(metadata[, batch_covariates_present[2]])
 }
 
 if (any(is.na(zscore_data_df)) == FALSE && any(is.na(metadata_nobatch)) == FALSE) {
-  cat("Applying removeBatchEffect...\n")
-  if (!is.null(batch1) && !is.null(batch2)) {
-    zscore_data_removedBatchEff_cov <- removeBatchEffect(
-      x = zscore_data_df,
-      batch = batch1,
-      batch2 = batch2,
-      covariates = metadata_nobatch
-    )
-  } else if (!is.null(batch1)) {
-    zscore_data_removedBatchEff_cov <- removeBatchEffect(
-      x = zscore_data_df,
-      batch = batch1,
-      covariates = metadata_nobatch
-    )
+  has_covariates <- ncol(metadata_nobatch) > 0
+  has_batch1 <- !is.null(batch1)
+  has_batch2 <- !is.null(batch2)
+  
+  if (!has_covariates && !has_batch1 && !has_batch2) {
+    cat("No batch or technical covariate correction requested; passing z-score data through unchanged.\n")
+    zscore_data_removedBatchEff_cov <- as.matrix(zscore_data_df)
+  } else if (has_batch1 || has_batch2 || has_covariates) {
+    cat("Applying removeBatchEffect...\n")
+    if (has_batch1 && has_batch2 && has_covariates) {
+      zscore_data_removedBatchEff_cov <- removeBatchEffect(
+        x = zscore_data_df,
+        batch = batch1,
+        batch2 = batch2,
+        covariates = metadata_nobatch
+      )
+    } else if (has_batch1 && has_covariates) {
+      zscore_data_removedBatchEff_cov <- removeBatchEffect(
+        x = zscore_data_df,
+        batch = batch1,
+        covariates = metadata_nobatch
+      )
+    } else if (has_batch1 && has_batch2) {
+      zscore_data_removedBatchEff_cov <- removeBatchEffect(
+        x = zscore_data_df,
+        batch = batch1,
+        batch2 = batch2
+      )
+    } else if (has_batch1) {
+      zscore_data_removedBatchEff_cov <- removeBatchEffect(
+        x = zscore_data_df,
+        batch = batch1
+      )
+    } else if (has_covariates) {
+      zscore_data_removedBatchEff_cov <- removeBatchEffect(
+        x = zscore_data_df,
+        covariates = metadata_nobatch
+      )
+    } else {
+      zscore_data_removedBatchEff_cov <- as.matrix(zscore_data_df)
+    }
   } else {
-    zscore_data_removedBatchEff_cov <- removeBatchEffect(
-      x = zscore_data_df,
-      covariates = metadata_nobatch
-    )
+    zscore_data_removedBatchEff_cov <- as.matrix(zscore_data_df)
   }
 } else {
   stop("NA values detected in zscore data or metadata. Cannot proceed.")

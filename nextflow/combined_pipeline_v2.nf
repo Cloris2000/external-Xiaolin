@@ -152,6 +152,9 @@ workflow COMBINED_PIPELINE {
         params.fid_method,
         params.fid_format,
         params.col_msex ?: '',
+        params.col_age ?: '',
+        params.col_individualID ?: '',
+        params.clinical_metadata_file ?: '',
         params.biospec_col_individual ?: '',
         params.biospec_col_specimen ?: ''
     )
@@ -223,7 +226,8 @@ workflow COMBINED_PIPELINE {
     GWAS_PIPELINE(
         PHENO_PREP.out.phenotype_file,
         pgen_file_ch,
-        prune_in_file_ch
+        prune_in_file_ch,
+        COV_PREP.out.covariate_file
     )
     
     emit:

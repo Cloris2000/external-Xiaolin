@@ -28,6 +28,7 @@ process GENOTYPING_QC_STEP {
     val vcf_min_gq
     val vcf_min_dp
     val vcf_min_qual
+    val vcf_dosage
     val prune_window_size
     val prune_step_size
     val prune_r2_threshold
@@ -55,6 +56,7 @@ process GENOTYPING_QC_STEP {
     def vcf_min_gq_arg = (vcf_min_gq && vcf_min_gq != '') ? "--vcf_min_gq ${vcf_min_gq}" : ""
     def vcf_min_dp_arg = (vcf_min_dp && vcf_min_dp != '') ? "--vcf_min_dp ${vcf_min_dp}" : ""
     def vcf_min_qual_arg = (vcf_min_qual && vcf_min_qual != '') ? "--vcf_min_qual ${vcf_min_qual}" : ""
+    def vcf_dosage_arg = (vcf_dosage && vcf_dosage != '') ? "--vcf_dosage ${vcf_dosage}" : ""
     def include_x_arg = include_x ? "--include_x" : ""
     def sort_vars_arg = sort_vars ? "--sort_vars" : ""
     def autosome_only_arg = autosome_only ? "--autosome_only" : ""
@@ -67,8 +69,10 @@ process GENOTYPING_QC_STEP {
     
     """
     # QC Version: ${qc_version} (increment when QC parameters change to force re-run)
-    # Using system Python (which has pandas) - not activating conda_env
-    python3 "${script_file}" \\
+    # Use the python_env conda environment which has pandas installed.
+    PYTHON_BIN="/nethome/kcni/xzhou/.anaconda3/envs/python_env/bin/python"
+    echo "Using Python: \$PYTHON_BIN"
+    "\$PYTHON_BIN" "${script_file}" \\
         --step ${step} \\
         --study ${study} \\
         --work_dir ${work_dir} \\
@@ -88,6 +92,7 @@ process GENOTYPING_QC_STEP {
         ${vcf_min_gq_arg} \\
         ${vcf_min_dp_arg} \\
         ${vcf_min_qual_arg} \\
+        ${vcf_dosage_arg} \\
         ${include_x_arg} \\
         ${sort_vars_arg} \\
         ${autosome_only_arg} \\

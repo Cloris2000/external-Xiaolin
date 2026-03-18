@@ -137,6 +137,12 @@ if (length(rownames(zscore_data_removedBatchEff_cov)) == 0 || is.null(rownames(z
   cat("  Rownames successfully set. Length:", length(rownames(zscore_data_removedBatchEff_cov)), "\n")
   cat("  First 5 rownames:", paste(head(rownames(zscore_data_removedBatchEff_cov), 5), collapse=", "), "\n")
   
+  # IMPORTANT: Strip version suffixes from Ensembl IDs (e.g. ENSG00000122012.10 -> ENSG00000122012)
+  # This ensures marker matching works correctly with unversioned marker files
+  original_rownames <- rownames(zscore_data_removedBatchEff_cov)
+  rownames(zscore_data_removedBatchEff_cov) <- sub("\\.[0-9]+$", "", original_rownames)
+  cat("  After removing version suffixes - First 5 rownames:", paste(head(rownames(zscore_data_removedBatchEff_cov), 5), collapse=", "), "\n")
+  
   # CHECKPOINT: Validate gene IDs after loading corrected_data
   validate_gene_ids(rownames(zscore_data_removedBatchEff_cov), "After loading corrected_data")
 }

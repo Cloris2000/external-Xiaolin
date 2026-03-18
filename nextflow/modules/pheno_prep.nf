@@ -19,6 +19,9 @@ process PHENO_PREP {
     val fid_method
     val fid_format
     val col_msex
+    val col_age
+    val col_individualID
+    val clinical_metadata_file
     val biospec_col_individual
     val biospec_col_specimen
     
@@ -70,6 +73,9 @@ process PHENO_PREP {
         --fid_method "${fid_method}" \\
         ${fid_format && fid_format != '' ? "--fid_format \"${fid_format}\"" : ""} \\
         ${col_msex && col_msex != '' ? "--col_msex \"${col_msex}\"" : ""} \\
+        ${col_age && col_age != '' ? "--col_age \"${col_age}\"" : ""} \\
+        ${col_individualID && col_individualID != '' ? "--col_individualID \"${col_individualID}\"" : ""} \\
+        ${clinical_metadata_file && clinical_metadata_file != '' ? "--clinical_metadata \"${clinical_metadata_file}\"" : ""} \\
         ${biospec_col_individual && biospec_col_individual != '' ? "--biospec_col_individual \"${biospec_col_individual}\"" : ""} \\
         ${biospec_col_specimen && biospec_col_specimen != '' ? "--biospec_col_specimen \"${biospec_col_specimen}\"" : ""}
     """

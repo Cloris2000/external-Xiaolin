@@ -56,6 +56,10 @@ process REMOVE_TECH_COVAR {
         --zscore_data "${zscore_data}" \\
         --metadata "${metadata}" \\
         --top_n_tech_cov ${top_n_tech_cov} \\
+        --tech_cov_mode "${params.tech_cov_mode}" \\
+        ${params.tech_covariates_file ? "--tech_covariates_file \"${params.tech_covariates_file}\"" : ""} \\
+        --batch_covariates "${params.batch_covariates}" \\
+        ${params.disable_batch_correction ? "--disable_batch_correction" : ""} \\
         --output_dir "${output_dir}" \\
         --corrected_output "corrected_data.RData" \\
         --metadata_output "metadata_cleaned.csv" \\

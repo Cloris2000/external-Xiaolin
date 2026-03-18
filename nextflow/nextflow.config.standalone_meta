@@ -6,14 +6,41 @@ params {
     // Base directory containing cohort results
     base_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
     
-    // Cohorts to include in meta-analysis
+    // Cohorts to include in meta-analysis (used for output naming)
     cohorts = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GTEx", "NABEC"]
+    
+    // Optional: restrict which result dirs to include (empty = include all found)
+    cohort_include = []
     
     // Software paths
     metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
     
     // Output directory
     output_dir = "${base_dir}/results/meta_analysis"
+
+    // Primary analysis design
+    primary_meta_method = "METAL_SCHEME_STDERR_FIXED"
+    run_mr_mega = false
+    enable_heterogeneity = true
+
+    // Cohort metadata / audit
+    cohort_metadata_file = "${base_dir}/docs/meta_cohort_metadata.tsv"
+
+    // Harmonization defaults before METAL
+    drop_strand_ambiguous = true
+    min_present_cohorts = 2
+    min_meta_maf = 0.05
+    af_delta_report_threshold = 0.20
+    af_delta_filter_threshold = ""
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+
+    // Sensitivity suite defaults
+    sensitivity_output_dir = "${base_dir}/results/meta_sensitivity"
+
+    // Visualization thresholds
+    plot_p_thresh  = "1e-5"
+    plot_gw_thresh = "5e-8"
 }
 
 // Executor configuration
@@ -46,5 +73,19 @@ process {
         cpus = 1
         memory = '16 GB'
         time = '2h'
+    }
+
+    withName: 'META_COHORT_AUDIT' {
+        cpus = 1
+        memory = '4 GB'
+        time = '30m'
+    }
+
+    withName: 'HARMONIZE_META_SUMSTATS' {
+        cpus = 1
+        memory = { 32.GB * task.attempt }
+        time = { 2.h * task.attempt }
+        errorStrategy = { task.exitStatus == 137 ? 'retry' : 'terminate' }
+        maxRetries = 2
     }
 }

@@ -196,16 +196,29 @@ cat("Loaded count matrix:", nrow(combined_rnaseq_mat), "genes x", ncol(combined_
 
 cat("Loading metadata...\n")
 # Load metadata
-# Use fread() for large files, read_csv() for smaller files
+# Use fread() for large files, and choose the correct reader for smaller
+# delimited text files based on the file extension.
 file_size_mb <- file.info(opt$metadata_file)$size / (1024^2)
 if (file_size_mb > 10) {
   cat("  Large metadata file detected (", round(file_size_mb, 1), " MB), using fread()...\n", sep = "")
-  rosmap_meta <- fread(opt$metadata_file, data.table = FALSE)
+  metadata_sep <- if (grepl("\\.(tsv|txt)$", opt$metadata_file, ignore.case = TRUE)) "\t" else ","
+  rosmap_meta <- fread(opt$metadata_file, data.table = FALSE, sep = metadata_sep)
 } else {
-  cat("  Using read_csv() for smaller metadata file...\n")
-  rosmap_meta <- read_csv(opt$metadata_file, show_col_types = FALSE)
+  if (grepl("\\.(tsv|txt)$", opt$metadata_file, ignore.case = TRUE)) {
+    cat("  Using read_tsv() for smaller metadata file...\n")
+    rosmap_meta <- read_tsv(opt$metadata_file, show_col_types = FALSE)
+  } else {
+    cat("  Using read_csv() for smaller metadata file...\n")
+    rosmap_meta <- read_csv(opt$metadata_file, show_col_types = FALSE)
+  }
   # Convert tibble to data.frame for consistency
   rosmap_meta <- as.data.frame(rosmap_meta)
+}
+
+# Optionally filter to geneExpression rows if the metadata dataType column exists
+if ("dataType" %in% colnames(rosmap_meta)) {
+  cat("Filtering metadata to dataType == 'geneExpression'\n")
+  rosmap_meta <- rosmap_meta %>% filter(tolower(dataType) == 'geneexpression')
 }
 
 # Detect column names with flexible matching
@@ -342,6 +355,16 @@ if (!is.null(col_tissue) && col_tissue %in% colnames(rosmap_meta)) {
   use_tissue_sample_ids <- rosmap_meta[[col_synapseID]]
   rosmap_meta_filtered <- rosmap_meta
 }
+
+# Some metadata sources (e.g. GVEX manifest) can contain multiple rows per
+# subject/sample ID. Keep the first row for each matched sample before setting
+# row names so downstream metadata/count alignment remains well-defined.
+if (anyDuplicated(use_tissue_sample_ids) > 0) {
+  n_dup_ids <- sum(duplicated(use_tissue_sample_ids))
+  cat("Warning:", n_dup_ids, "duplicate metadata rows found for sample IDs; keeping first occurrence per ID\n")
+  rosmap_meta_filtered <- rosmap_meta_filtered[!duplicated(rosmap_meta_filtered[[col_synapseID]]), , drop = FALSE]
+  use_tissue_sample_ids <- rosmap_meta_filtered[[col_synapseID]]
+}
 rownames(rosmap_meta_filtered) <- rosmap_meta_filtered[[col_synapseID]]
 
 # Filter count matrix to match tissue-filtered samples
@@ -407,6 +430,14 @@ rownames(count_matrix) <- gene_ids_count
 cat("  count_matrix rownames length:", length(rownames(count_matrix)), "\n")
 cat("  count_matrix first 5 rownames:", paste(head(rownames(count_matrix), 5), collapse=", "), "\n")
 
+# DESeq2 requires numeric integer counts. If the matrix is character, the gene column or
+# a header row may have been included as data, or a sample column was read as text.
+if (typeof(count_matrix) == "character" || mode(count_matrix) == "character") {
+  stop("ERROR: Count matrix contains character/string values. DESeq2 requires integer counts. ",
+       "Check that (1) the first column is gene IDs and is used only as rownames (not as data), ",
+       "(2) column names are not read as a data row, and (3) all count columns are numeric.")
+}
+
 # Remove samples with NA RIN if RIN column exists
 if (!is.null(col_RIN) && col_RIN %in% colnames(rosmap_meta_filtered)) {
   cat("Filtering samples with NA RIN...\n")
@@ -422,6 +453,10 @@ if (!is.null(col_RIN) && col_RIN %in% colnames(rosmap_meta_filtered)) {
   cat("RIN column not found, using all samples\n")
   rosmap_meta_cleaned <- rosmap_meta_filtered
 }
+
+# DESeq2 requires integer counts; CSV read often yields numeric/double (e.g. 1.0, 2.0)
+count_matrix <- round(count_matrix)
+storage.mode(count_matrix) <- "integer"
 
 # Create DESeq2 object - rownames should be preserved
 dds <- DESeqDataSetFromMatrix(countData = count_matrix, 

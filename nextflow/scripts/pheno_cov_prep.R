@@ -31,6 +31,32 @@ find_column <- function(df, possible_names, required = FALSE) {
   return(NULL)
 }
 
+# Add genotyping array (batch) as dummy covariates when using CMC biospecimen file.
+# Enables "use all arrays and include batch as covariate" for HBCC GWAS.
+# Returns df with batch_1M and batch_Omni5M added (reference = H650/H650K/other).
+add_genotyping_batch_covariates <- function(cov_df, biospecimen_file, study_name) {
+  if (is.null(biospecimen_file) || !file.exists(biospecimen_file) ||
+      !grepl("CMC", study_name, ignore.case = TRUE)) {
+    return(cov_df)
+  }
+  bio <- read.csv(biospecimen_file, stringsAsFactors = FALSE)
+  if (!"Genotyping_Sample_ID" %in% colnames(bio) || !"Genotyping_Chip_Type" %in% colnames(bio)) {
+    return(cov_df)
+  }
+  # FID in covariate file for CMC is 0_Genotyping_Sample_ID
+  batch_lookup <- data.frame(
+    FID = paste0("0_", bio$Genotyping_Sample_ID),
+    batch_1M = as.integer(bio$Genotyping_Chip_Type == "H1M"),
+    batch_Omni5M = as.integer(bio$Genotyping_Chip_Type == "Infinium HumanOmni5"),
+    stringsAsFactors = FALSE
+  )
+  cov_df <- merge(cov_df, batch_lookup, by = "FID", all.x = TRUE, sort = FALSE)
+  cov_df$batch_1M[is.na(cov_df$batch_1M)] <- 0L
+  cov_df$batch_Omni5M[is.na(cov_df$batch_Omni5M)] <- 0L
+  cat("Added genotyping batch covariates: batch_1M, batch_Omni5M (reference = H650/H650K/other).\n")
+  cov_df
+}
+
 # Parse command line arguments
 option_list <- list(
   make_option(c("--cell_proportions"), type="character", default=NULL,
@@ -831,6 +857,12 @@ if (!is.null(opt$pca_file) && file.exists(opt$pca_file)) {
   pca_meta_combined <- pca_meta_combined[, c("FID", "IID", pc_cols, "msex", "age_death", 
                                              "age_death_sex", "age_death2", "age_death2_sex")]
   
+  # Add genotyping array (batch) as covariates when using CMC biospecimen (e.g. HBCC)
+  pca_meta_combined <- add_genotyping_batch_covariates(pca_meta_combined, opt$biospecimen_file, opt$study)
+  base_cov_cols <- c("FID", "IID", pc_cols, "msex", "age_death", "age_death_sex", "age_death2", "age_death2_sex")
+  batch_cols <- intersect(c("batch_1M", "batch_Omni5M"), colnames(pca_meta_combined))
+  pca_meta_combined <- pca_meta_combined[, c(base_cov_cols, batch_cols), drop = FALSE]
+  
   # Save covariate file
   write.table(pca_meta_combined,
               opt$covariate_output,
@@ -841,6 +873,10 @@ if (!is.null(opt$pca_file) && file.exists(opt$pca_file)) {
   cov_df <- combined_df[, c("FID", "IID", "msex", "age_death", "age_death_sex", 
                            "age_death2", "age_death2_sex"), drop = FALSE]
   cov_df$IID <- cov_df$FID
+  # Add genotyping array (batch) as covariates when using CMC biospecimen (e.g. HBCC)
+  cov_df <- add_genotyping_batch_covariates(cov_df, opt$biospecimen_file, opt$study)
+  batch_cols <- intersect(c("batch_1M", "batch_Omni5M"), colnames(cov_df))
+  cov_df <- cov_df[, c("FID", "IID", "msex", "age_death", "age_death_sex", "age_death2", "age_death2_sex", batch_cols), drop = FALSE]
   write.table(cov_df,
               opt$covariate_output,
               row.names = FALSE, quote = FALSE, sep = "\t")
