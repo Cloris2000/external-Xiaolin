@@ -1,0 +1,85 @@
+/*
+ * NIMH HBCC (CMC_HBCC) — Release 3 SNP array.
+ *
+ * RNA: Count matrix columns = specimenID (CMC_HBCC_RNA_PFC_XXXX).
+ * Metadata: specimenID <-> individualID from SYNAPSE_TABLE_QUERY.
+ * Genotype: CMC_Human_SNP_metadata maps Individual_ID -> Genotyping_Sample_ID;
+ *   pipeline adds 0_ prefix for CMC -> FID = 0_Genotyping_Sample_ID.
+ *
+ * Per-platform GWAS + meta-analysis: run pipeline with each config (same as
+ *   CMC_MSSM, CMC_PITT, etc.): -c nextflow.config.combined.nimh_hbcc_h650,
+ *   _1M, _Omni5M. Prep once: ./prep_hbcc_vcf.sh all (no merge; no platform covariate).
+ */
+
+// Include base combined configuration
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts = ["NIMH_HBCC"]
+    study = "CMC_HBCC"
+    conda_env = "test"
+
+    count_matrix_file = "${projectDir}/data_input/nimh_hbcc/HBCC_count_matrix.csv"
+    metadata_file = "${projectDir}/data_input/nimh_hbcc/HBCC_metadata.csv"
+    wgs_psam_file = "${projectDir}/results/NIMH_HBCC/CMC_HBCC.QC.final.psam"
+    pca_file = "${projectDir}/results/NIMH_HBCC/pca.csv"
+
+    biospecimen_file = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    tissue_filter = "dorsolateral prefrontal cortex"
+    col_sample_id_for_matching = "specimenID"
+    top_n_tech_cov = 10
+    deconv_tool = "MGP"
+    reference_taxonomy = "sonny_markers"
+    marker_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv"
+    hgnc_mapping_file = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
+
+    fid_method = "biospec_specimen"
+    fid_format = "0_"
+    col_msex = "reportedGender"
+    biospec_col_individual = "Individual_ID"
+    biospec_col_specimen = "Genotyping_Sample_ID"
+
+    vcf_dir = ""
+    vcf_pattern = ''
+    normalized_vcf_dir = ''
+
+    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    qc_version = 'v3'
+    maf_threshold = 0.05
+    mach_r2_filter = 0.8  // Imputation quality filter (R2)
+    vcf_min_gq = 20       // Minimum genotype quality
+    vcf_min_dp = 10       // Minimum read depth
+    vcf_min_qual = 30     // Minimum variant quality
+    hwe_threshold = 1e-15
+    geno_threshold = 0.1
+    mind_threshold = 0.1
+    prune_window_size = 500
+    prune_step_size = 1
+    prune_r2_threshold = 0.2
+    normalize_vcf = false
+    include_x = false
+    sort_vars = true
+    autosome_only = true
+    samples_to_keep = ""
+
+    work_dir = "${projectDir}/work/NIMH_HBCC"
+    log_dir = "${projectDir}/logs/NIMH_HBCC"
+    output_dir = "${projectDir}/results/NIMH_HBCC"
+    use_slurm = false
+    slurm_time = "24:00:00"
+
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize = 1000
+
+    cohort_configs = [
+        "NIMH_HBCC": [
+            pgen_file: "${projectDir}/results/NIMH_HBCC/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/results/NIMH_HBCC/CMC_HBCC.QC.prune.in",
+            pheno_file: "${projectDir}/results/NIMH_HBCC/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/NIMH_HBCC/covariates.txt"
+        ]
+    ]
+}

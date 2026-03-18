@@ -1,0 +1,16 @@
+/*
+ * Standalone meta-analysis for NIMH HBCC per-platform GWAS (h650, 1M, Omni5M).
+ * Use after running combined_pipeline_v2 three times with configs:
+ *   -nextflow.config.combined.nimh_hbcc_h650
+ *   -nextflow.config.combined.nimh_hbcc_1M
+ *   -nextflow.config.combined.nimh_hbcc_Omni5M
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+    cohorts = ["NIMH_HBCC_h650", "NIMH_HBCC_1M", "NIMH_HBCC_Omni5M"]
+    cohort_include = ["NIMH_HBCC_h650", "NIMH_HBCC_1M", "NIMH_HBCC_Omni5M"]
+    output_dir = "${projectDir}/results/meta_analysis_HBCC_platforms"
+}
