@@ -1,0 +1,111 @@
+/*
+ * Nextflow configuration file for MSBB Phenotype Processing Pipeline
+ */
+
+// Pipeline configuration
+params {
+    // Input data paths
+    count_matrix_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/MSBB_gene_all_counts_matrix_clean_gene_id_aggregated.csv'
+    metadata_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/msbb_meta.csv'
+    
+    // Processing parameters
+    tissue_filter = 'superior temporal gyrus'
+    top_n_tech_cov = 20
+    min_gene_variance = 0.1
+    
+    // Sample ID matching (for matching count matrix column names to metadata)
+    // MSBB: count matrix column names match metadata "specimenID" column
+    col_sample_id_for_matching = 'specimenID'  // MSBB uses specimenID for matching
+    
+    // Cell type deconvolution parameters
+    deconv_tool = 'MGP'
+    reference_taxonomy = 'sonny_markers'
+    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    
+    // GWAS preparation parameters
+    wgs_psam_file = "${projectDir}/results/MSBB/MSBB.QC.final.psam"
+    pca_file = "${projectDir}/results/MSBB/pca.csv"
+    biospecimen_file = "/nethome/kcni/xzhou/GWAS_tut/AMP-AD/MSBB_biospecimen_metadata.csv"  // Required for MSBB ID mapping
+    
+    // FID creation parameters (MSBB uses individualID, then maps to WGS via biospecimen)
+    fid_method = 'individual_id'  // MSBB uses individualID, biospecimen file maps to WGS IDs
+    fid_format = ''  // Not used for individual_id method
+    
+    // Output directory
+    output_dir = "${projectDir}/results/MSBB"
+    
+    // Conda environment
+    conda_env = 'test'
+}
+
+// Process configuration (same as ROSMAP and Mayo)
+process {
+    withLabel: 'high_memory' {
+        memory = '32.GB'
+        cpus = 4
+    }
+    
+    withLabel: 'medium_memory' {
+        memory = '16.GB'
+        cpus = 2
+    }
+    
+    withLabel: 'low_memory' {
+        memory = '8.GB'
+        cpus = 1
+    }
+    
+    withName: 'PCA_TECH_COV' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'REMOVE_TECH_COVAR' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'CELL_TYPE_DECONV' {
+        label = 'medium_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'PHENO_COV_PREP' {
+        label = 'low_memory'
+    }
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 10
+}
+
+workDir = "${projectDir}/work"
+
+// Reports
+report {
+    enabled = true
+    file = "${params.output_dir}/pipeline_report.html"
+}
+
+trace {
+    enabled = true
+    file = "${params.output_dir}/pipeline_trace.txt"
+}
+
+timeline {
+    enabled = true
+    file = "${params.output_dir}/pipeline_timeline.html"
+}
+
+dag {
+    enabled = true
+    file = "${params.output_dir}/pipeline_dag.svg"
+}
+
+

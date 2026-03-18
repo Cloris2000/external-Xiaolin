@@ -1,0 +1,93 @@
+/*
+ * Combined GWAS Pipeline Configuration for All 8 Cohorts
+ * 
+ * This configuration runs GWAS for all cohorts:
+ * - ROSMAP
+ * - MSBB
+ * - GTEx
+ * - Mayo
+ * - CMC_MSSM
+ * - CMC_PENN
+ * - CMC_PITT
+ * - NABEC
+ * 
+ * And performs meta-analysis across all cohorts for each cell type.
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.gwas'
+
+params {
+    // List of cohorts to process - all 8 cohorts
+    cohorts = ["ROSMAP", "MSBB", "GTEx", "Mayo", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "NABEC"]
+    
+    // Software paths
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    
+    // Regenie parameters
+    regenie_threads = 24
+    regenie_bsize = 1000
+    
+    // Output directories (handled dynamically in pipeline)
+    // regenie_step1_dir and regenie_step2_dir are cohort-specific: ${projectDir}/results/${cohort}/regenie_step1|step2
+    // meta_analysis_dir is shared: ${projectDir}/results/meta_analysis
+    
+    // Cohort-specific configurations
+    cohort_configs = [
+        "ROSMAP": [
+            pgen_file: "${projectDir}/results/ROSMAP/ROSMAP.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/ROSMAP/ROSMAP.QC.prune.in",
+            pheno_file: "${projectDir}/results/ROSMAP/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/ROSMAP/covariates.txt"
+        ],
+        "MSBB": [
+            pgen_file: "${projectDir}/results/MSBB/MSBB.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/MSBB/MSBB.QC.prune.in",
+            pheno_file: "${projectDir}/results/MSBB/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/MSBB/covariates.txt"
+        ],
+        "GTEx": [
+            pgen_file: "${projectDir}/results/GTEx/GTEx.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/GTEx/GTEx.QC.prune.in",
+            pheno_file: "${projectDir}/results/GTEx/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/GTEx/covariates.txt"
+        ],
+        "Mayo": [
+            pgen_file: "${projectDir}/results/Mayo/Mayo.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/Mayo/Mayo.QC.prune.in",
+            pheno_file: "${projectDir}/results/Mayo/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/Mayo/covariates.txt"
+        ],
+        "CMC_MSSM": [
+            pgen_file: "${projectDir}/results/CMC_MSSM/CMC_MSSM.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/CMC_MSSM/CMC_MSSM.QC.prune.in",
+            pheno_file: "${projectDir}/results/CMC_MSSM/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/CMC_MSSM/covariates.txt"
+        ],
+        "CMC_PENN": [
+            pgen_file: "${projectDir}/results/CMC_PENN/CMC_PENN.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/CMC_PENN/CMC_PENN.QC.prune.in",
+            pheno_file: "${projectDir}/results/CMC_PENN/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/CMC_PENN/covariates.txt"
+        ],
+        "CMC_PITT": [
+            pgen_file: "${projectDir}/results/CMC_PITT/CMC_PITT.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/CMC_PITT/CMC_PITT.QC.prune.in",
+            pheno_file: "${projectDir}/results/CMC_PITT/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/CMC_PITT/covariates.txt"
+        ],
+        "NABEC": [
+            pgen_file: "${projectDir}/results/NABEC/NABEC.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/NABEC/NABEC.QC.prune.in",
+            pheno_file: "${projectDir}/results/NABEC/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/NABEC/covariates.txt"
+        ]
+    ]
+}
+
+
+
+
+
+

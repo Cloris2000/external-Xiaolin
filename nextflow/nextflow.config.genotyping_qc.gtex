@@ -1,0 +1,29 @@
+/*
+ * GTEx Genotyping QC Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study = "GTEx"
+    work_dir = "${projectDir}/results/${study}"
+    output_dir = "${projectDir}/results/${study}"
+    
+    // VCF files are already normalized
+    vcf_pattern = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/GTEx_WGS/split_vcf_files/GTEx_Analysis_2016-01-15_v7_WholeGenomeSeq_635Ind_AllVar_QC_metrics_chr{chrom}.vcf.gz'
+    normalized_vcf_dir = null
+    normalize_vcf = false  // Already normalized
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    mach_r2_filter = null  // Not applicable for GTEx
+    
+    // VCF quality filters
+    vcf_min_gq = 20
+    vcf_min_dp = 10
+    vcf_min_qual = 30
+    
+    log_dir = "${projectDir}/results/${study}/logs"
+}
+

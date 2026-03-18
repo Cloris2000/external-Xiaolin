@@ -1,0 +1,119 @@
+/*
+ * Nextflow configuration file for CMC-PENN Phenotype Processing Pipeline
+ */
+
+// Pipeline configuration
+params {
+    // Input data paths
+    count_matrix_file = '/nethome/kcni/xzhou/GWAS_tut/CMC_reimputed/CMC_PENN_count_matrix.csv'
+    metadata_file = '/nethome/kcni/xzhou/GWAS_tut/CMC_reimputed/CMC_PENN_metadata.csv'
+    
+    // Processing parameters
+    tissue_filter = 'dorsolateral prefrontal cortex'  // All CMC samples are from DLPFC
+    top_n_tech_cov = 20
+    min_gene_variance = 0.1
+    
+    // Sample ID matching (for matching count matrix column names to metadata)
+    // CMC-PENN: count matrix column names (e.g., "CMC_PENN_106") match metadata "individualID" column
+    col_sample_id_for_matching = 'individualID'  // CMC uses individualID for matching
+    
+    // Column name mappings for metadata (optional - will auto-detect if not specified)
+    col_msex = 'reportedGender'  // CMC uses reportedGender for sex/gender information
+    
+    // Biospecimen file column names (for mapping RNA-seq IDs to WGS IDs)
+    biospec_col_individual = 'Individual_ID'  // Column name for individual/subject ID in biospecimen file
+    biospec_col_specimen = 'Genotyping_Sample_ID'  // Column name for genotyping/specimen ID in biospecimen file
+    
+    // Cell type deconvolution parameters
+    deconv_tool = 'MGP'
+    reference_taxonomy = 'sonny_markers'
+    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    
+    // GWAS preparation parameters
+    // Using noAfrAsian QC directory as per reference script (CMC_techAdj_phenp_cov_manipulation.r line 158)
+    wgs_psam_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_PENN_reimputed_noAfrAsian/PENN.QC.final.psam"
+    pca_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_PENN_reimputed_noAfrAsian/pca.csv"
+    biospecimen_file = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'  // ID matcher for RNA-seq to WGS
+    
+    // FID creation parameters 
+    // Use individual_id for initial FID, then biospecimen file will map to WGS IDs with "0_" prefix
+    fid_method = 'individual_id'  // Create initial FID from individualID
+    fid_format = ''  // Not used for individual_id method
+    
+    // Output directory
+    output_dir = "${projectDir}/results/CMC_PENN"
+    
+    // Conda environment
+    conda_env = 'test'
+}
+
+// Process configuration
+process {
+    withLabel: 'high_memory' {
+        memory = '32.GB'
+        cpus = 4
+    }
+    
+    withLabel: 'medium_memory' {
+        memory = '16.GB'
+        cpus = 2
+    }
+    
+    withLabel: 'low_memory' {
+        memory = '8.GB'
+        cpus = 1
+    }
+    
+    withName: 'PCA_TECH_COV' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'REMOVE_TECH_COVAR' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'CELL_TYPE_DECONV' {
+        label = 'medium_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'PHENO_COV_PREP' {
+        label = 'low_memory'
+    }
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 10
+}
+
+workDir = "${projectDir}/work"
+
+// Reports
+report {
+    enabled = true
+    file = "${params.output_dir}/pipeline_report.html"
+}
+
+trace {
+    enabled = true
+    file = "${params.output_dir}/pipeline_trace.txt"
+}
+
+timeline {
+    enabled = true
+    file = "${params.output_dir}/pipeline_timeline.html"
+}
+
+dag {
+    enabled = true
+    file = "${params.output_dir}/pipeline_dag.svg"
+}
+

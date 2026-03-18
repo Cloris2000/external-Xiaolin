@@ -1,0 +1,125 @@
+/*
+ * Nextflow configuration file for NABEC Phenotype Processing Pipeline
+ */
+
+// Pipeline configuration
+params {
+    // Input data paths
+    count_matrix_file = '/nethome/kcni/xzhou/GWAS_tut/NABEC/gene_count_matrix_geneid.csv'
+    metadata_file = '/nethome/kcni/xzhou/GWAS_tut/NABEC/NABEC_metadata_combined.csv'
+    
+    // Processing parameters
+    tissue_filter = 'Cerebral Frontal Cortex'  // Filter for frontal cortex only
+    top_n_tech_cov = 20
+    min_gene_variance = 0.1
+    
+    // Sample ID matching (for matching count matrix column names to metadata)
+    // NABEC: count matrix column names (SRR IDs like "SRR5588882") match metadata "specimenID" column
+    col_sample_id_for_matching = 'specimenID'  // NABEC uses Run/SRR ID stored as specimenID
+    
+    // Column name mappings for metadata (optional - will auto-detect if not specified)
+    col_msex = 'reportedGender'  // NABEC uses reportedGender (SEX column renamed)
+    
+    // Biospecimen file column names (for mapping RNA-seq IDs to WGS IDs)
+    // NABEC doesn't have a separate biospecimen file - IDs are in metadata
+    biospec_col_individual = 'submitted_subject_id'  // Column name for individual/subject ID
+    biospec_col_specimen = 'submitted_subject_id'  // For NABEC, use submitted_subject_id for WGS matching
+    
+    // Cell type deconvolution parameters
+    deconv_tool = 'MGP'
+    reference_taxonomy = 'sonny_markers'
+    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    
+    // GWAS preparation parameters
+    wgs_psam_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/NABEC/NABEC.QC.final.psam"
+    pca_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/NABEC/pca.csv"
+    biospecimen_file = null  // NABEC doesn't use separate biospecimen file - IDs are in metadata
+    
+    // FID creation parameters 
+    // NABEC uses submitted_subject_id as FID (from metadata)
+    fid_method = 'individual_id'  // Create initial FID from individualID (which is submitted_subject_id)
+    fid_format = ''  // Not used for individual_id method
+    
+    // Output directory
+    output_dir = "${projectDir}/results/NABEC"
+    
+    // Conda environment
+    conda_env = 'test'
+}
+
+// Process configuration
+process {
+    withLabel: 'high_memory' {
+        memory = '32.GB'
+        cpus = 4
+    }
+    
+    withLabel: 'medium_memory' {
+        memory = '16.GB'
+        cpus = 2
+    }
+    
+    withLabel: 'low_memory' {
+        memory = '8.GB'
+        cpus = 1
+    }
+    
+    withName: 'PCA_TECH_COV' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'REMOVE_TECH_COVAR' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'CELL_TYPE_DECONV' {
+        label = 'medium_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'PHENO_COV_PREP' {
+        label = 'low_memory'
+    }
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 10
+}
+
+workDir = "${projectDir}/work"
+
+// Reports
+report {
+    enabled = true
+    file = "${params.output_dir}/pipeline_report.html"
+}
+
+trace {
+    enabled = true
+    file = "${params.output_dir}/pipeline_trace.txt"
+}
+
+timeline {
+    enabled = true
+    file = "${params.output_dir}/pipeline_timeline.html"
+}
+
+dag {
+    enabled = true
+    file = "${params.output_dir}/pipeline_dag.svg"
+}
+
+
+
+
+
+
+

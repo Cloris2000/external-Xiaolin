@@ -1,0 +1,32 @@
+/*
+ * CMC MSSM Genotyping QC Configuration (SNP array re-imputed)
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study = "MSSM"
+    work_dir = "${projectDir}/results/${study}"
+    output_dir = "${projectDir}/results/${study}"
+    
+    // VCF files are already normalized and subsetted for MSSM samples
+    vcf_pattern = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+    normalize_vcf = false  // Already normalized and subsetted
+    
+    // Sample filtering (for subsetting) - VCF already subsetted, so set to empty
+    samples_to_keep = ""
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    mach_r2_filter = 0.8  // Imputation quality filter
+    
+    // VCF quality filters - removed for imputed data
+    vcf_min_gq = null
+    vcf_min_dp = null
+    vcf_min_qual = null
+    
+    log_dir = "${projectDir}/results/${study}/logs"
+}
+

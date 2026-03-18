@@ -1,0 +1,33 @@
+/*
+ * CMC-PENN GWAS Pipeline Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.gwas'
+
+params {
+    // List of cohorts to process
+    cohorts = ["CMC_PENN"]
+    
+    // Software paths
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    
+    // Regenie parameters
+    regenie_threads = 24
+    regenie_bsize = 1000
+    
+    // Output directory
+    output_dir = "${projectDir}/results/CMC_PENN"
+    
+    // Cohort-specific configurations
+    cohort_configs = [
+        "CMC_PENN": [
+            pgen_file: "${projectDir}/results/CMC_PENN/CMC_PENN.QC.final",
+            prune_in_file: "${projectDir}/results/CMC_PENN/CMC_PENN.QC.prune.in",
+            pheno_file: "${projectDir}/results/CMC_PENN/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/CMC_PENN/covariates.txt"
+        ]
+    ]
+}
+

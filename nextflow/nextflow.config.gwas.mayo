@@ -1,0 +1,33 @@
+/*
+ * Mayo GWAS Pipeline Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.gwas'
+
+params {
+    // List of cohorts to process
+    cohorts = ["Mayo"]
+    
+    // Software paths
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    
+    // Regenie parameters
+    regenie_threads = 24
+    regenie_bsize = 1000
+    
+    // Output directory
+    output_dir = "${projectDir}/results/Mayo"
+    
+    // Cohort-specific configurations
+    cohort_configs = [
+        "Mayo": [
+            pgen_file: "${projectDir}/results/Mayo/Mayo.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/Mayo/Mayo.QC.prune.in",
+            pheno_file: "${projectDir}/results/Mayo/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/Mayo/covariates.txt"
+        ]
+    ]
+}
+

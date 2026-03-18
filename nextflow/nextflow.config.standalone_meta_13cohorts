@@ -1,0 +1,39 @@
+/*
+ * 13-cohort meta-analysis:
+ *   Original 8: ROSMAP, Mayo, MSBB, CMC_MSSM, CMC_PENN, CMC_PITT, GTEx, NABEC
+ *   HBCC 3 platforms: NIMH_HBCC_1M, NIMH_HBCC_h650, NIMH_HBCC_Omni5M
+ *   GVEX
+ *   New: ROSMAP_array (170 TOPmed imputed array samples not in WGS pipeline)
+ *
+ * Requires all 13 cohorts to have completed GWAS (raw_p files present):
+ *   results/{cohort}/regenie_step2/{cohort}_*_step2.regenie.raw_p
+ *
+ * Results written to results/meta_analysis_13cohorts/ (new directory,
+ * does not overwrite existing meta_analysis/ or meta_analysis_all_cohorts/).
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+
+    cohorts = [
+        "ROSMAP", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "ROSMAP_array"
+    ]
+
+    cohort_include = [
+        "ROSMAP", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "ROSMAP_array"
+    ]
+
+    output_dir = "${projectDir}/results/meta_analysis_13cohorts"
+}

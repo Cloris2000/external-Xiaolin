@@ -1,0 +1,74 @@
+/*
+ * Base configuration for Genotyping QC Pipeline
+ */
+
+params {
+    // Study name
+    study = "ROSMAP"
+    
+    // Working directory (where intermediate and final files will be created)
+    work_dir = "${projectDir}/results/${study}"
+    
+    // Output directory (for final outputs like PCA)
+    output_dir = "${projectDir}/results/${study}"
+    
+    // Tool paths
+    plink_path = '/external/rprshnas01/kcni/mwainberg/software/plink2'
+    bcftools_path = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/software/bcftools-1.12/bcftools'
+    
+    // VCF input paths
+    // Option 1: Specify directory with VCF files (will look for chr{1..22}.vcf.gz)
+    vcf_dir = ''
+    
+    // Option 2: Specify pattern with {chrom} placeholder
+    // Example: '/path/to/vcf/chr{chrom}.vcf.gz'
+    vcf_pattern = ''
+    
+    // Normalized VCF directory (if normalization is needed)
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/${study}_joint_WGS_vcf_normalized'
+    
+    // Whether to normalize VCF files (set to false if already normalized)
+    normalize_vcf = true
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    hwe_threshold = '1e-15'
+    geno_threshold = 0.1  // SNP missingness
+    mind_threshold = 0.1  // Individual missingness
+    mach_r2_filter = 0.8  // Imputation quality (set to null if not applicable)
+    
+    // VCF quality filters
+    vcf_min_gq = 20
+    vcf_min_dp = 10
+    vcf_min_qual = 30
+    
+    // LD pruning parameters
+    prune_window_size = '500kb'
+    prune_step_size = 1
+    prune_r2_threshold = 0.2
+    
+    // Options
+    include_x = false  // Include X chromosome
+    sort_vars = false  // Sort variants (for NABEC)
+    autosome_only = false  // Only include autosomes
+    
+    // Sample filtering
+    samples_to_keep = ''  // File with samples to keep (FID IID format)
+    
+    // SLURM options
+    use_slurm = false  // Use SLURM for normalization (set to true for large cohorts)
+    slurm_time = '0-4:0'
+    log_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/${study}_joint_WGS_log'
+}
+
+process {
+    withLabel: 'high_memory' {
+        memory = '32 GB'
+        cpus = 4
+    }
+    withLabel: 'medium_memory' {
+        memory = '16 GB'
+        cpus = 2
+    }
+}
+

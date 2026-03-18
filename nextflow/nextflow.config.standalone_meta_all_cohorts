@@ -1,0 +1,35 @@
+/*
+ * Multi-ancestry meta-analysis across all 12 cohorts:
+ *   ROSMAP, Mayo, MSBB, CMC_MSSM, CMC_PENN, CMC_PITT, GTEx, NABEC,
+ *   NIMH_HBCC_1M, NIMH_HBCC_h650, NIMH_HBCC_Omni5M, GVEX
+ *
+ * Requires that each cohort has already completed GWAS (raw_p files present):
+ *   results/{cohort}/regenie_step2/{cohort}_*_step2.regenie.raw_p
+ *
+ * Run with:
+ *   sbatch run_meta_all_cohorts.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+
+    cohorts = [
+        "ROSMAP", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX"
+    ]
+
+    cohort_include = [
+        "ROSMAP", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX"
+    ]
+
+    output_dir = "${projectDir}/results/meta_analysis_all_cohorts"
+}

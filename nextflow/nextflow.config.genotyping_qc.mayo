@@ -1,0 +1,36 @@
+/*
+ * Mayo Genotyping QC Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study = "Mayo"
+    work_dir = "${projectDir}/results/${study}"
+    output_dir = "${projectDir}/results/${study}"
+    
+    // VCF files from joint analysis
+    vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/Mayo_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Mayo.vcf.gz"'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/Mayo_joint_WGS_vcf_normalized'
+    normalize_vcf = true
+    
+    // Sample filtering
+    samples_to_keep = "${projectDir}/results/${study}/samples_to_keep.txt"
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    mach_r2_filter = 0.8
+    
+    // VCF quality filters
+    vcf_min_gq = 20
+    vcf_min_dp = 10
+    vcf_min_qual = 30
+    
+    log_dir = "${projectDir}/results/${study}/logs"
+    
+    // Use SLURM for parallel processing (normalization and pgen creation)
+    use_slurm = true
+    slurm_time = '0-4:0'
+}
+

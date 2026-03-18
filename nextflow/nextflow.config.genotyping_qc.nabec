@@ -1,0 +1,37 @@
+/*
+ * NABEC Genotyping QC Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study = "NABEC"
+    work_dir = "${projectDir}/results/${study}"
+    output_dir = "${projectDir}/results/${study}"
+    
+    // VCF files
+    vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/NABEC_WGS/hg19_vcf/nabec.freeze9.chr{chrom}.gtonly.hg19.vcf.gz"'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/NABEC_WGS/normalized_vcf'
+    normalize_vcf = true
+    
+    // NABEC-specific options
+    sort_vars = true  // Fix split chromosome issue
+    autosome_only = true  // Only include autosomes
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    mach_r2_filter = null  // Not applicable
+    
+    // VCF quality filters
+    vcf_min_gq = 20
+    vcf_min_dp = 10
+    vcf_min_qual = 30
+    
+    // Use SLURM for normalization (large files)
+    use_slurm = true
+    slurm_time = '0-4:0'
+    
+    log_dir = "${projectDir}/results/${study}/logs"
+}
+

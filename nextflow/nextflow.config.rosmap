@@ -1,0 +1,137 @@
+/*
+ * Nextflow configuration file for ROSMAP Phenotype Processing Pipeline
+ */
+
+// Pipeline configuration
+params {
+    // Input data paths
+    // Single CSV count matrix file (genes as rows, samples as columns)
+    // First column should be gene identifier, remaining columns are samples
+    count_matrix_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_DLPFC_batch_all.csv'
+    
+    // Legacy: If you have multiple batch files, combine them into one CSV first
+    // batch_count_files = [
+    //     'batch1_counts.csv',
+    //     'batch2_counts.csv',
+    //     ...
+    // ]
+    
+    // Combined metadata file (should include all technical covariates from alignment)
+    metadata_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_combined_metrics.csv'
+    
+    // Processing parameters
+    tissue_filter = 'dorsolateral prefrontal cortex'
+    top_n_tech_cov = 20
+    min_gene_variance = 0.1
+    
+    // Sample ID matching (for matching count matrix column names to metadata)
+    // ROSMAP: count matrix uses synapseID, so use 'synapseID' or 'id' column
+    col_sample_id_for_matching = ''  // Auto-detect (will use synapseID/id for ROSMAP) - empty string instead of null
+    
+    // Cell type deconvolution parameters - FLEXIBLE
+    deconv_tool = 'MGP'  // Options: 'MGP', 'dtangle', 'CIBERSORT', 'MuSiC', 'Bisque', 'DWLS', etc.
+    reference_taxonomy = 'sonny_markers'  // Options: 'sonny_markers', 'aging_paper', 'custom'
+    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    
+    // GWAS preparation parameters
+    wgs_psam_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_maf5/ROSMAP.QC.merged.psam'
+    pca_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_maf5/pca.csv'
+    biospecimen_file = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+    
+    // FID creation parameters (for multi-cohort support)
+    fid_method = 'study_projid'  // Options: study_projid, individual_id, specimen_id, submitted_subject_id, genotyping_sample_id, subject_id_from_sampid
+    fid_format = ''  // Optional format string for custom FID creation (empty string = not used)
+    
+    // Output directory
+    output_dir = "${projectDir}/results/ROSMAP"
+    
+    // R script paths
+    r_script_dir = "${projectDir}/scripts"
+    
+    // Conda environment name (set to your R environment, e.g., 'test', 'r-env', etc.)
+    // Leave empty if using system R
+    conda_env = 'test'  // Change this to your conda environment name
+}
+
+// Process configuration
+process {
+    // Conda environment for R packages
+    // Option 1: Use conda environment (uncomment and set path)
+    // conda = '/path/to/your/conda/envs/your_r_env'
+    
+    // Option 2: Activate conda environment in module scripts
+    // Add: beforeScript = 'source activate your_r_env || conda activate your_r_env'
+    
+    // Option 3: Use system R with packages installed
+    // (default - uses R from system PATH)
+    
+    withLabel: 'high_memory' {
+        memory = '32.GB'
+        cpus = 4
+    }
+    
+    withLabel: 'medium_memory' {
+        memory = '16.GB'
+        cpus = 2
+    }
+    
+    withLabel: 'low_memory' {
+        memory = '8.GB'
+        cpus = 1
+    }
+    
+    withName: 'PCA_TECH_COV' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'REMOVE_TECH_COVAR' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'CELL_TYPE_DECONV' {
+        label = 'medium_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'PHENO_COV_PREP' {
+        label = 'low_memory'
+    }
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 10
+}
+
+// Work directory
+workDir = "${projectDir}/work"
+
+// Report and trace
+report {
+    enabled = true
+    file = "${params.output_dir}/pipeline_report.html"
+}
+
+trace {
+    enabled = true
+    file = "${params.output_dir}/pipeline_trace.txt"
+}
+
+// Timeline
+timeline {
+    enabled = true
+    file = "${params.output_dir}/pipeline_timeline.html"
+}
+
+// DAG
+dag {
+    enabled = true
+    file = "${params.output_dir}/pipeline_dag.svg"
+}

@@ -1,0 +1,32 @@
+/*
+ * CMC PENN Genotyping QC Configuration (SNP array re-imputed)
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study = "PENN"
+    work_dir = "${projectDir}/results/${study}"
+    output_dir = "${projectDir}/results/${study}"
+    
+    // VCF files are already normalized, but need subsetting
+    vcf_pattern = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/CMC_imputation/imputed_chr_normalized/CMC.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_PENN_reimputed/imputed_chr_normalized'
+    normalize_vcf = false  // Already normalized, but need subsetting
+    
+    // Sample filtering (for subsetting)
+    samples_to_keep = "${projectDir}/results/${study}/samples_to_keep.txt"
+    
+    // QC thresholds
+    maf_threshold = 0.05
+    mach_r2_filter = 0.8  // Imputation quality filter
+    
+    // VCF quality filters - removed for imputed data
+    vcf_min_gq = null
+    vcf_min_dp = null
+    vcf_min_qual = null
+    
+    log_dir = "${projectDir}/results/${study}/logs"
+}
+

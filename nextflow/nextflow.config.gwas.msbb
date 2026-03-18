@@ -1,0 +1,33 @@
+/*
+ * MSBB GWAS Pipeline Configuration
+ */
+
+// Include base configuration
+includeConfig 'nextflow.config.gwas'
+
+params {
+    // List of cohorts to process
+    cohorts = ["MSBB"]
+    
+    // Software paths
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    
+    // Regenie parameters
+    regenie_threads = 24
+    regenie_bsize = 1000
+    
+    // Output directory
+    output_dir = "${projectDir}/results/MSBB"
+    
+    // Cohort-specific configurations
+    cohort_configs = [
+        "MSBB": [
+            pgen_file: "${projectDir}/results/MSBB/MSBB.QC.final.pgen",
+            prune_in_file: "${projectDir}/results/MSBB/MSBB.QC.prune.in",
+            pheno_file: "${projectDir}/results/MSBB/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/MSBB/covariates.txt"
+        ]
+    ]
+}
+

@@ -1,0 +1,81 @@
+/*
+ * Base GWAS Pipeline Configuration
+ */
+
+// Process configuration
+process {
+    withLabel: 'high_memory' {
+        memory = '64.GB'
+        cpus = 24
+        time = '48:00:00'
+    }
+    
+    withLabel: 'medium_memory' {
+        memory = '32.GB'
+        cpus = 12
+        time = '24:00:00'
+    }
+    
+    withLabel: 'low_memory' {
+        memory = '8.GB'
+        cpus = 4
+        time = '4:00:00'
+    }
+    
+    withName: 'REGENIE_STEP1' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'REGENIE_STEP2' {
+        label = 'high_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+    
+    withName: 'METAL_META_ANALYSIS' {
+        label = 'medium_memory'
+        errorStrategy = 'retry'
+        maxRetries = 2
+    }
+}
+
+// Executor configuration
+executor {
+    name = 'slurm'
+    queueSize = 50
+}
+
+// Work directory
+workDir = "${projectDir}/work"
+
+// Default params (can be overridden in cohort-specific configs)
+params {
+    output_dir = "${projectDir}/results"
+}
+
+// Report and trace
+report {
+    enabled = true
+    file = "${projectDir}/results/gwas_pipeline_report.html"
+}
+
+trace {
+    enabled = true
+    file = "${projectDir}/results/gwas_pipeline_trace.txt"
+}
+
+// Timeline
+timeline {
+    enabled = true
+    file = "${projectDir}/results/gwas_pipeline_timeline.html"
+}
+
+// DAG
+dag {
+    enabled = true
+    file = "${projectDir}/results/gwas_pipeline_dag.svg"
+}
+
+
