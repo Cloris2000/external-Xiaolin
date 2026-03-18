@@ -2,6 +2,8 @@
 
 Use this list to obtain or point to the raw data needed to run the tech-covariate vs. MGP accuracy benchmark. Paths are the ones used on the lab server; your PI can replace them with local paths.
 
+**Standalone (no Nextflow):** set these paths in `config_standalone.sh` before running `run_standalone_benchmark.sh`.
+
 ---
 
 ## Ground truth (snRNA-derived cell type proportions)
