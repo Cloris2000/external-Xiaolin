@@ -49,7 +49,7 @@ params {
     // Phenotype/covariate preparation
     fid_method = "individual_id"
     fid_format = ""
-    col_msex = ""
+    col_msex = "sex"
     biospec_col_individual = ""
     biospec_col_specimen = ""
     

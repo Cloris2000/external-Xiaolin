@@ -60,6 +60,9 @@ process REMOVE_TECH_COVAR {
         ${params.tech_covariates_file ? "--tech_covariates_file \"${params.tech_covariates_file}\"" : ""} \\
         --batch_covariates "${params.batch_covariates}" \\
         ${params.disable_batch_correction ? "--disable_batch_correction" : ""} \\
+        ${params.col_diagnosis ? "--col_diagnosis \"${params.col_diagnosis}\"" : ""} \\
+        ${params.col_msex ? "--col_msex \"${params.col_msex}\"" : ""} \\
+        ${params.batch_recode ? "--batch_recode \"${params.batch_recode}\"" : ""} \\
         --output_dir "${output_dir}" \\
         --corrected_output "corrected_data.RData" \\
         --metadata_output "metadata_cleaned.csv" \\

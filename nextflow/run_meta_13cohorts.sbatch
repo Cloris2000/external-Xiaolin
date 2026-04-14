@@ -8,7 +8,7 @@
 #SBATCH --error=logs/meta_13cohorts_%j.err
 
 NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
-cd ${NF_DIR}
+cd ${NF_DIR}/run_dirs/meta_13cohorts
 
 # Verify all 13 cohorts have complete raw_p files (19 cell types each)
 echo "Checking GWAS results for all 13 cohorts..."
@@ -34,9 +34,8 @@ echo "All 13 cohorts complete. Starting 13-cohort meta-analysis..."
 
 nextflow run ${NF_DIR}/standalone_meta_analysis.nf \
     -c ${NF_DIR}/nextflow.config.standalone_meta_13cohorts \
-    -work-dir ${NF_DIR}/work/meta_13cohorts \
-    -resume
+    -work-dir ${NF_DIR}/work/meta_13cohorts
 
 echo ""
 echo "13-cohort meta-analysis complete."
-echo "Results written to: ${NF_DIR}/results/meta_analysis_13cohorts/"
+echo "Results written to: ${NF_DIR}/results/meta_analysis_13cohorts_design_matrix/"

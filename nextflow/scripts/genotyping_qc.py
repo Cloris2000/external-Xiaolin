@@ -126,7 +126,7 @@ def create_pgen_single_chr(args):
     # If bcftools fails (e.g. NABEC VCF has contig/tag header issues), fall back to using
     # the original VCF with plink --keep instead.
     def _subset_vcf_valid(path):
-        """Check if subset VCF exists and has valid header (not truncated from failed bcftools)"""
+        """Check if subset VCF exists, has valid header, and has a complete bgzf EOF block."""
         if not os.path.exists(path) or os.path.getsize(path) == 0:
             return False
         try:
@@ -134,7 +134,14 @@ def create_pgen_single_chr(args):
                 f'{args.bcftools_path} view -h {path}',
                 shell=True, capture_output=True, text=True, timeout=30
             )
-            return r.returncode == 0 and '#CHROM' in (r.stdout or '')
+            if not (r.returncode == 0 and '#CHROM' in (r.stdout or '')):
+                return False
+            # Also verify the file can be indexed (catches truncated bgzf body)
+            r2 = subprocess.run(
+                f'{args.bcftools_path} index --check {path}',
+                shell=True, capture_output=True, text=True, timeout=60
+            )
+            return r2.returncode == 0
         except Exception:
             return False
 
@@ -153,6 +160,8 @@ def create_pgen_single_chr(args):
                 # --force-samples: silently skip sample IDs not present in VCF header
                 # (needed when samples_to_keep spans multiple genotyping platforms)
                 run(f'{args.bcftools_path} view --force-samples -S {samples_no_header} -O z -o {subset_vcf} {input_vcf}')
+                # Index immediately so _subset_vcf_valid can verify completeness on reuse
+                run(f'{args.bcftools_path} index {subset_vcf}')
                 input_vcf = subset_vcf
             except subprocess.CalledProcessError as e:
                 print(f"  Chromosome {chrom}: bcftools subset failed ({e}), using original VCF with plink --keep")

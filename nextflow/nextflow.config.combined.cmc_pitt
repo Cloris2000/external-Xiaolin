@@ -45,9 +45,14 @@ params {
     hgnc_mapping_file = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
     
     // Phenotype/covariate preparation
-    fid_method = "individual_id"
-    fid_format = ""
+    // Use biospec_specimen so phenotype IDs match the VCF sample IDs in the imputed pgen.
+    // CMC PITT VCF sample names are "0_PITT_10005" or "0_Pitt_BP_10004" etc.; biospecimen
+    // maps CMC_PITT_002 -> PITT_10005 and CMC_PITT_124 -> Pitt_BP_10004, so prepending
+    // "0_" yields the correct genotype ID for both formats (138/138 VCF samples covered).
+    fid_method = "biospec_specimen"
+    fid_format = "0_"
     col_msex = "reportedGender"
+    col_diagnosis = "primaryDiagnosis"  // used for removeBatchEffect design=
     biospec_col_individual = "Individual_ID"
     biospec_col_specimen = "Genotyping_Sample_ID"
     

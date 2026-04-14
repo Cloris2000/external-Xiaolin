@@ -11,6 +11,7 @@ process METAL_META_ANALYSIS {
     tuple val(cell_type), path(raw_p_files), val(metal_path), val(output_dir), val(cohort_suffix)
     
     output:
+    tuple val(cell_type), path("${cell_type}_meta_analysis_${cohort_suffix}.tbl"), emit: meta_result_keyed
     path "${cell_type}_meta_analysis_${cohort_suffix}.tbl", emit: meta_result
     path "${cell_type}_meta_analysis_${cohort_suffix}.tbl.info", emit: meta_info, optional: true
     path "${cell_type}_meta.done", emit: done_file

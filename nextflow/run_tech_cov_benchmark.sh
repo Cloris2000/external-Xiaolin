@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-PROJECT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
-NEXTFLOW_BIN="/nethome/kcni/xzhou/.local/bin/nextflow"
+# Override PROJECT_DIR or NEXTFLOW_BIN via env for portability (e.g. when cloning repo elsewhere).
+PROJECT_DIR="${NEXTFLOW_BENCHMARK_PROJECT_DIR:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow}"
+NEXTFLOW_BIN="${NEXTFLOW_BIN:-/nethome/kcni/xzhou/.local/bin/nextflow}"
 WORK_ROOT="${PROJECT_DIR}/work_benchmark_tech_cov"
 
 export JAVA_HOME="$HOME/.sdkman/candidates/java/current"

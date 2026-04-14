@@ -1,0 +1,39 @@
+/*
+ * 13-cohort meta-analysis LDSC follow-up:
+ *   - Reuses harmonized sumstats from the 13-cohort meta-analysis
+ *   - Enables LDSC post-meta h2 for all 19 cell types
+ *   - run_plot_meta = false (plots are generated separately)
+ */
+
+includeConfig 'nextflow.config.standalone_meta_13cohorts'
+
+params {
+    run_ldsc = true
+    run_plot_meta = false
+
+    ldsc_conda_env             = "ldsc"
+    ldsc_variant_map           = "/nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref/ROSMAP_WGS_joint_SNPs_rsID/id_snp_matcher.txt"
+    ldsc_max_missing_variant_map_frac = 0.2
+    ldsc_merge_alleles         = "/nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref/eur_w_ld_chr/w_hm3.snplist"
+    ldsc_hm3_snplist           = "/nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref/eur_w_ld_chr/w_hm3.snplist"
+    ldsc_ref_ld_chr            = "/nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref/eur_w_ld_chr"
+    ldsc_w_ld_chr              = "/nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref/eur_w_ld_chr"
+    ldsc_sumstats_outdir       = "${output_dir}/ldsc/sumstats"
+    ldsc_results_outdir        = "${output_dir}/ldsc/results"
+    ldsc_summary_outdir        = "${output_dir}/ldsc/summary"
+}
+
+process {
+    withName: 'PREPARE_LDSC_SUMSTATS' {
+        cpus = 2
+        memory = { 32.GB * task.attempt }
+        time = { 2.h * task.attempt }
+        maxRetries = 5
+        errorStrategy = { task.exitStatus == 137 ? 'retry' : 'terminate' }
+        maxForks = 3
+    }
+    withName: 'RUN_LDSC_H2' {
+        time = '8h'
+        maxForks = 14
+    }
+}

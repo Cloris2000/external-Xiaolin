@@ -44,6 +44,7 @@ params {
     tissue_filter            = "dorsolateral prefrontal cortex"
     col_sample_id_for_matching = "individualID"   // column in RNA metadata with specimen IDs (= "2014-XXXX")
     top_n_tech_cov           = 10
+    batch_covariates         = "platform"         // HiSeq2000/2500/4000 — only real batch dimension in GVEX
 
     // Cell type deconvolution
     deconv_tool        = "MGP"
@@ -57,6 +58,7 @@ params {
     fid_method   = "individual_id"
     fid_format   = ""
     col_msex     = "reportedGender"               // from CapstoneCollection_Metadata_Clinical.csv
+    col_diagnosis = "primaryDiagnosis"            // used for removeBatchEffect design= (preserve biological signal across platform batches)
     col_age      = "ageDeath"                     // from CapstoneCollection_Metadata_Clinical.csv
     col_individualID = "individualID"             // RNA specimen ID in manifest (= "2014-XXXX")
 

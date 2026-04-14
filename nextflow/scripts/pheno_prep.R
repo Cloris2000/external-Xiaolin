@@ -65,7 +65,9 @@ option_list <- list(
   make_option(c("--biospec_col_individual"), type="character", default="individualID",
               help="Column name in biospecimen file for individual ID"),
   make_option(c("--biospec_col_specimen"), type="character", default="specimenID",
-              help="Column name in biospecimen file for specimen ID")
+              help="Column name in biospecimen file for specimen ID"),
+  make_option(c("--biospec_assay_filter"), type="character", default=NULL,
+              help="Optional: filter biospecimen file to rows where the 'assay' column equals this value before building the individualID->specimenID map (e.g. 'wholeGenomeSeq' for ROSMAP WGS). Useful when one individual has SM-* entries for multiple assays.")
 )
 
 opt_parser <- OptionParser(option_list=option_list)
@@ -217,6 +219,15 @@ if (opt$fid_method == "study_projid") {
   }
   if (!biospec_spec_col %in% colnames(biospec_df)) {
     stop(paste("biospec_col_specimen '", biospec_spec_col, "' not found in biospecimen file"))
+  }
+  # Optionally restrict to a single assay type (e.g. 'wholeGenomeSeq') before mapping.
+  # Without this, individuals sequenced with multiple assays (methylation + WGS, etc.)
+  # would map to the wrong SM-* ID because setNames() keeps the last match.
+  if (!is.null(opt$biospec_assay_filter) && "assay" %in% colnames(biospec_df)) {
+    n_before <- nrow(biospec_df)
+    biospec_df <- biospec_df[biospec_df$assay == opt$biospec_assay_filter, ]
+    cat("  - biospec_assay_filter: kept", nrow(biospec_df), "of", n_before,
+        "rows with assay ==", opt$biospec_assay_filter, "\n")
   }
   biospec_map <- setNames(biospec_df[[biospec_spec_col]], biospec_df[[biospec_ind_col]])
   spec_ids <- biospec_map[ROSMAP_meta_sub$individualID]

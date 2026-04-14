@@ -52,6 +52,7 @@ params {
     fid_method                 = 'study_projid'
     fid_format                 = ''
     col_msex                   = 'msex'
+    col_diagnosis              = 'cogdx'  // ROSMAP cognitive diagnosis — used for removeBatchEffect design=
     biospec_col_individual     = 'individualID'
     biospec_col_specimen       = 'specimenID'
 

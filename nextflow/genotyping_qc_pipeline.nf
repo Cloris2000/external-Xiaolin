@@ -97,7 +97,7 @@ workflow GENOTYPING_QC_PIPELINE {
             params.sort_vars,
             params.autosome_only,
             samples_path,  // resolved path string, not channel
-            false,  // normalize_vcf (deprecated - always use pre-normalized)
+            params.normalize_vcf,  // pass through from cohort config
             params.use_slurm,
             params.slurm_time,
             log_dir,

@@ -47,11 +47,17 @@ params {
     hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'  // From original config
     
     // FID creation parameters
-    fid_method = 'study_projid'  // From original config
-    fid_format = ''  // From original config (empty string)
+    // Use biospec_specimen so phenotype file IDs match the SM-* IDs in the WGS VCF/pgen.
+    // The ROSMAP VCF uses sequencing library IDs (SM-*); study_projid would generate
+    // MAP/ROS+projid IDs that don't match. We filter to assay=wholeGenomeSeq so that
+    // individuals with both WGS and methylation SM-* entries map to the right specimen.
+    fid_method          = 'biospec_specimen'
+    fid_format          = ''
+    biospec_assay_filter = 'wholeGenomeSeq'  // Pick the WGS SM-* entry per individual
     
     // Biospecimen file column names (needed by PHENO_COV_PREP)
     col_msex = 'msex'
+    col_diagnosis = 'cogdx'  // ROSMAP cognitive diagnosis (1=NCI, 2=MCI, 4/5=AD) — used for removeBatchEffect design=
     biospec_col_individual = 'individualID'
     biospec_col_specimen = 'specimenID'
     

@@ -156,7 +156,8 @@ workflow COMBINED_PIPELINE {
         params.col_individualID ?: '',
         params.clinical_metadata_file ?: '',
         params.biospec_col_individual ?: '',
-        params.biospec_col_specimen ?: ''
+        params.biospec_col_specimen ?: '',
+        params.biospec_assay_filter ?: ''
     )
     
     // ============================================================================

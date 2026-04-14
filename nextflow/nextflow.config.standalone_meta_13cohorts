@@ -35,5 +35,5 @@ params {
         "ROSMAP_array"
     ]
 
-    output_dir = "${projectDir}/results/meta_analysis_13cohorts"
+    output_dir = "${projectDir}/results/meta_analysis_13cohorts_design_matrix"
 }

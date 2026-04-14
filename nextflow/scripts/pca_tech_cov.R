@@ -96,7 +96,9 @@ option_list <- list(
   make_option(c("--metadata_output"), type="character", default="metadata_DLPFC.RData",
               help="Output filename for metadata"),
   make_option(c("--metrics_output"), type="character", default="combined_metrics.csv",
-              help="Output filename for combined metrics")
+              help="Output filename for combined metrics"),
+  make_option(c("--extra_metrics_file"), type="character", default=NULL,
+              help="Optional CSV of per-sample QC metrics (e.g. Picard/STAR) to merge into metadata. First column must be sample IDs matching specimenID.")
 )
 
 opt_parser <- OptionParser(option_list=option_list)
@@ -332,6 +334,24 @@ rosmap_meta <- rosmap_meta[rosmap_meta[[col_synapseID]] %in% sample_names, ]
 if (!is.null(col_age) && col_age %in% colnames(rosmap_meta)) {
   rosmap_meta$Age_norm <- gsub("90+", "90", rosmap_meta[[col_age]])
   rosmap_meta$Age_norm <- as.numeric(gsub("[+]", "", rosmap_meta$Age_norm))
+}
+
+# Optionally merge in extra per-sample QC metrics (e.g. Picard/STAR) before saving
+if (!is.null(opt$extra_metrics_file) && file.exists(opt$extra_metrics_file)) {
+  cat("Merging extra QC metrics from:", opt$extra_metrics_file, "\n")
+  extra_metrics <- read.csv(opt$extra_metrics_file, check.names = FALSE, stringsAsFactors = FALSE)
+  # First column is the sample ID; rename it to specimenID for joining
+  colnames(extra_metrics)[1] <- "specimenID"
+  # Drop any columns that already exist in rosmap_meta (except specimenID key)
+  overlap_cols <- setdiff(intersect(colnames(extra_metrics), colnames(rosmap_meta)), "specimenID")
+  if (length(overlap_cols) > 0) {
+    cat("  Dropping", length(overlap_cols), "columns already present in metadata:", paste(overlap_cols, collapse=", "), "\n")
+    extra_metrics <- extra_metrics[, !colnames(extra_metrics) %in% overlap_cols, drop = FALSE]
+  }
+  rosmap_meta <- merge(rosmap_meta, extra_metrics, by = "specimenID", all.x = TRUE)
+  cat("  Metadata now has", ncol(rosmap_meta), "columns after merging QC metrics\n")
+} else if (!is.null(opt$extra_metrics_file)) {
+  warning("extra_metrics_file specified but not found: ", opt$extra_metrics_file)
 }
 
 # Save combined metrics (save to current directory for Nextflow, also copy to output_dir)

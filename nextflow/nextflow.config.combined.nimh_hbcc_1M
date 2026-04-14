@@ -30,6 +30,7 @@ params {
     fid_method = "biospec_specimen"
     fid_format = "0_"
     col_msex = "reportedGender"
+    col_diagnosis = "primaryDiagnosis"  // used for removeBatchEffect design=
     biospec_col_individual = "Individual_ID"
     biospec_col_specimen = "Genotyping_Sample_ID"
 

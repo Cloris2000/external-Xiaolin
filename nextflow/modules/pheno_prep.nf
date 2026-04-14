@@ -24,6 +24,7 @@ process PHENO_PREP {
     val clinical_metadata_file
     val biospec_col_individual
     val biospec_col_specimen
+    val biospec_assay_filter
     
     output:
     path "phenotypes_RINT.txt", emit: phenotype_file
@@ -77,7 +78,8 @@ process PHENO_PREP {
         ${col_individualID && col_individualID != '' ? "--col_individualID \"${col_individualID}\"" : ""} \\
         ${clinical_metadata_file && clinical_metadata_file != '' ? "--clinical_metadata \"${clinical_metadata_file}\"" : ""} \\
         ${biospec_col_individual && biospec_col_individual != '' ? "--biospec_col_individual \"${biospec_col_individual}\"" : ""} \\
-        ${biospec_col_specimen && biospec_col_specimen != '' ? "--biospec_col_specimen \"${biospec_col_specimen}\"" : ""}
+        ${biospec_col_specimen && biospec_col_specimen != '' ? "--biospec_col_specimen \"${biospec_col_specimen}\"" : ""} \\
+        ${biospec_assay_filter && biospec_assay_filter != '' ? "--biospec_assay_filter \"${biospec_assay_filter}\"" : ""}
     """
 }
 

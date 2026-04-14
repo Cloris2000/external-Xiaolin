@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=hbcc_h650
 #SBATCH --partition=medium
-#SBATCH --time=8:00:00       # 8 hours
+#SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
 #SBATCH --output=logs/hbcc_h650_%j.out
@@ -12,5 +12,4 @@ cd ${NF_DIR}/run_dirs/NIMH_HBCC_h650
 
 nextflow run ${NF_DIR}/combined_pipeline_v2.nf \
   -c ${NF_DIR}/nextflow.config.combined.nimh_hbcc_h650 \
-  -work-dir ${NF_DIR}/work/NIMH_HBCC_h650 \
-  -resume
+  -work-dir ${NF_DIR}/work/NIMH_HBCC_h650

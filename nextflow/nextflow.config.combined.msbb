@@ -47,11 +47,20 @@ params {
     hgnc_mapping_file = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
     
     // Phenotype/covariate preparation
-    fid_method = "individual_id"
-    fid_format = ""
-    col_msex = ""
-    biospec_col_individual = ""
-    biospec_col_specimen = ""
+    // Use biospec_specimen so phenotype IDs match the numeric IDs in the WGS pgen.
+    // MSBB WGS VCF uses numeric specimen IDs (e.g. 68411); the RNA-seq metadata uses
+    // AMPAD_MSSM_* individualIDs. The biospecimen file maps AMPAD_MSSM_* -> numeric.
+    fid_method           = "biospec_specimen"
+    fid_format           = ""
+    biospec_assay_filter = "wholeGenomeSeq"
+    biospec_col_individual = "individualID"
+    biospec_col_specimen   = "specimenID"
+    col_msex = "sex"
+    col_diagnosis = "CDR"  // CDR (Clinical Dementia Rating) used for removeBatchEffect design=
+    // Recode the 13 fine-grained sequencingBatch values into 2 PCA-derived clusters,
+    // then use the recoded column as the single batch covariate for removeBatchEffect()
+    batch_recode        = "sequencingBatch:B18C014,E007C014,E2C014,E3C014,K75rC014,K79C014,L43C014,S115B394=cluster1;B82C014,H154B394,S112B394,S113B355,S113B394,S114B394=cluster2"
+    batch_covariates    = "sequencingBatch_recoded"
     
     // ============================================================================
     // GENOTYPING QC PIPELINE PARAMETERS

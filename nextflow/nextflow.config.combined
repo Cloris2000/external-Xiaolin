@@ -49,6 +49,9 @@ params {
     tech_covariates_file = ""  // Optional newline-delimited list for fixed_list mode
     batch_covariates = "sequencingBatch,libraryPrep"  // Comma-separated batch columns for removeBatchEffect
     disable_batch_correction = false  // Safe default preserves existing behavior
+    extra_metrics_file = null  // Optional per-sample QC metrics CSV (e.g. Picard/STAR) to merge into metadata
+    col_diagnosis = null  // Optional column name for diagnosis/condition — used to build design= for removeBatchEffect to preserve biological signal
+    batch_recode  = null  // Optional batch recoding: 'source_col:val1,val2=label1;val3,val4=label2' — creates '<source_col>_recoded' column
     
     // Cell type deconvolution parameters
     deconv_tool = "MGP"     // Deconvolution tool: "MGP", "MuSiC", etc.
@@ -65,6 +68,7 @@ params {
     clinical_metadata_file = "" // Optional extra clinical metadata to merge by individual ID
     biospec_col_individual = ""  // Column for individual ID in biospecimen file
     biospec_col_specimen = ""    // Column for specimen ID in biospecimen file
+    biospec_assay_filter = null  // Optional: filter biospecimen rows by assay type before ID mapping (e.g. 'wholeGenomeSeq' for ROSMAP)
     
     // ============================================================================
     // GENOTYPING QC PIPELINE PARAMETERS
@@ -164,7 +168,10 @@ process {
     cpus = 1
     memory = '4 GB'
     time = '1h'
-    
+    // Use mediumtmp partition (compute17,19-32) — the medium partition nodes (compute01-11)
+    // have broken SLURM prologs due to an expired RRG allocation.
+    clusterOptions = '--partition=medium'
+
     // Error handling
     errorStrategy = 'retry'
     maxRetries = 2

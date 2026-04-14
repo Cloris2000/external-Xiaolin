@@ -60,6 +60,7 @@ process PCA_TECH_COV {
         --zscore_output "zscore_data.RData" \\
         --metadata_output "metadata_DLPFC.RData" \\
         --metrics_output "combined_metrics.csv" \\
-        ${col_sample_id_for_matching && col_sample_id_for_matching != '' ? "--col_sample_id_for_matching \"${col_sample_id_for_matching}\"" : ""}
+        ${col_sample_id_for_matching && col_sample_id_for_matching != '' ? "--col_sample_id_for_matching \"${col_sample_id_for_matching}\"" : ""} \\
+        ${params.extra_metrics_file ? "--extra_metrics_file \"${params.extra_metrics_file}\"" : ""}
     """
 }

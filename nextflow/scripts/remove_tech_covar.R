@@ -39,6 +39,12 @@ option_list <- list(
               help="Comma-delimited batch columns for removeBatchEffect (default: sequencingBatch,libraryPrep)"),
   make_option(c("--disable_batch_correction"), action="store_true", default=FALSE,
               help="Disable batch correction entirely (default: FALSE)"),
+  make_option(c("--col_diagnosis"), type="character", default=NULL,
+              help="Optional column name for diagnosis/condition in metadata — used to build design= for removeBatchEffect to preserve biological signal (e.g. 'cogdx', 'primaryDiagnosis')"),
+  make_option(c("--col_msex"), type="character", default=NULL,
+              help="Optional column name for sex in metadata — combined with col_diagnosis in design= to also preserve sex differences during batch correction (e.g. 'msex', 'reportedGender', 'sex')"),
+  make_option(c("--batch_recode"), type="character", default=NULL,
+              help="Optional batch recoding spec to collapse fine-grained batch values into coarser clusters before correction. Format: 'source_col:val1,val2=new_label;val3,val4=new_label2'. A new column named '<source_col>_recoded' is created and should be referenced in --batch_covariates. Example for MSBB: 'sequencingBatch:B18C014,E007C014=cluster1;B82C014,H154B394=cluster2'"),
   make_option(c("--output_dir"), type="character", default=".",
               help="Output directory"),
   make_option(c("--corrected_output"), type="character", default="corrected_data.RData",
@@ -133,6 +139,9 @@ parse_batch_covariates <- function(batch_covariates_string) {
   trimws(unlist(strsplit(batch_covariates_string, ",")))
 }
 
+# Parse batch_covariates early so it is available throughout the script
+batch_covariates <- parse_batch_covariates(opt$batch_covariates)
+
 # CRITICAL: Store gene IDs (rownames) IMMEDIATELY after loading, before any operations
 # Check if rownames exist
 if (is.null(rownames(zscore_data)) || length(rownames(zscore_data)) == 0) {
@@ -159,19 +168,59 @@ if (endsWith(opt$metadata, ".RData") || endsWith(opt$metadata, ".rds")) {
   rosmap_meta <- read.csv(opt$metadata)
 }
 
+# Optionally recode a batch column into coarser clusters
+# Format: "source_col:val1,val2=new_label;val3,val4=new_label2"
+# Creates a new column "<source_col>_recoded" in rosmap_meta
+if (!is.null(opt$batch_recode) && nchar(trimws(opt$batch_recode)) > 0) {
+  cat("Applying batch recode:", opt$batch_recode, "\n")
+  # Parse: first split off the source column name
+  recode_parts <- strsplit(trimws(opt$batch_recode), ":", fixed = TRUE)[[1]]
+  if (length(recode_parts) != 2) {
+    stop("ERROR: --batch_recode must start with 'source_col:' followed by recode rules")
+  }
+  src_col   <- trimws(recode_parts[1])
+  rules_str <- trimws(recode_parts[2])
+  if (!src_col %in% colnames(rosmap_meta)) {
+    stop("ERROR: batch_recode source column '", src_col, "' not found in metadata")
+  }
+  # Parse each rule: "val1,val2=new_label"
+  rules <- strsplit(rules_str, ";", fixed = TRUE)[[1]]
+  new_col_name <- paste0(src_col, "_recoded")
+  rosmap_meta[[new_col_name]] <- NA_character_
+  for (rule in rules) {
+    rule <- trimws(rule)
+    eq_pos <- regexpr("=", rule, fixed = TRUE)
+    if (eq_pos < 0) stop("ERROR: batch_recode rule '", rule, "' missing '='")
+    old_vals  <- trimws(strsplit(substr(rule, 1, eq_pos - 1), ",", fixed = TRUE)[[1]])
+    new_label <- trimws(substr(rule, eq_pos + 1, nchar(rule)))
+    matched   <- rosmap_meta[[src_col]] %in% old_vals
+    rosmap_meta[[new_col_name]][matched] <- new_label
+    cat("  Mapped", sum(matched), "samples with", src_col, "in {",
+        paste(old_vals, collapse=", "), "} -> '", new_label, "'\n")
+  }
+  unmapped <- sum(is.na(rosmap_meta[[new_col_name]]))
+  if (unmapped > 0) {
+    warning("  WARNING: ", unmapped, " samples could not be mapped to any cluster in batch_recode. They will have NA in '", new_col_name, "'.")
+  }
+  cat("  Created new batch column '", new_col_name, "' with values:",
+      paste(sort(unique(rosmap_meta[[new_col_name]])), collapse=", "), "\n")
+}
+
 # Prepare metadata for PCA
 cat("Preparing metadata...\n")
 # Preserve essential ID columns for ground truth matching and benchmarking
 essential_id_cols <- c("specimenID", "projid", "synapseID", "id", "individualID", "subject_id")
 essential_cols_present <- intersect(essential_id_cols, colnames(rosmap_meta))
 
-# Remove tech cov (columns) with any NA values
-# Transpose to check each column for completeness, then use to subset columns
-cols_without_na <- complete.cases(t(rosmap_meta))
-rosmap_meta_cleaned <- rosmap_meta[, cols_without_na, drop = FALSE]
+# Remove columns that are ALL NA (i.e. completely empty), but keep columns with only
+# some NA values — those are valid tech covariates and NA rows are handled per-sample later.
+# (Previously used complete.cases(t(...)) which dropped any column with even one NA,
+#  e.g. PMI and RIN for GVEX where 1 sample has NA RIN, stripping all tech covariates.)
+cols_all_na <- sapply(rosmap_meta, function(col) all(is.na(col)))
+rosmap_meta_cleaned <- rosmap_meta[, !cols_all_na, drop = FALSE]
 
 # Remove tech cov with only one value, but preserve essential ID columns
-num_unique_values <- sapply(rosmap_meta_cleaned, function(x) length(unique(x)))
+num_unique_values <- sapply(rosmap_meta_cleaned, function(x) length(unique(na.omit(x))))
 cols_to_keep <- (num_unique_values > 1) | (names(num_unique_values) %in% essential_cols_present)
 rosmap_meta_cleaned_rmVar <- rosmap_meta_cleaned[, cols_to_keep]
 
@@ -192,14 +241,68 @@ if ("synapseID" %in% colnames(rosmap_meta_cleaned_rmVar)) {
   stop("ERROR: Cannot set rownames - need synapseID, id, or specimenID column")
 }
 
-# Get tech covariate list
-tech_covar_list <- colnames(rosmap_meta_cleaned_rmVar)
-tech_covar_list <- tech_covar_list[!tech_covar_list %in% c("X", "specimenID", "id", "synapseID", "tissue", "assay", "organ",
-                                                             "Started.job.on", "Started.mapping.on", "Finished.on")]
+# Get tech covariate list (exclude IDs, tissue, and biological/clinical fields — not technical)
+non_tech_metadata_cols <- c(
+  # ── Row/file index ──────────────────────────────────────────────────────────
+  "X",
+  # ── Sample / subject identifiers ────────────────────────────────────────────
+  "specimenID", "id", "synapseID", "individualID", "submitted_subject_id",
+  "biospecimen_repository_sample_id", "subject_id", "dbGaP_Subject_ID",
+  "SAMPID", "SUBJID",
+  # ── Tissue / assay metadata ──────────────────────────────────────────────────
+  "tissue", "assay", "organ", "dataType", "fileFormat", "contentType",
+  "synapseStore", "parent", "path", "name",
+  # ── Demographic / biological variables ──────────────────────────────────────
+  # (these capture biological variation, not technical noise — must NOT be regressed)
+  "ageDeath", "Age_norm", "ageOnset", "ageDeathUnits",
+  "reportedGender", "race", "RACE", "ethnicity", "ETHNCTY",
+  "SEX.x", "SEX.y", "AGE.x", "AGE.y", "HGHT", "HGHTU", "WGHT", "WGHTU", "BMI",
+  "DTHHRDY.x", "DTHHRDY.y", "COHORT", "INCEXC",
+  # ── Clinical / diagnosis ─────────────────────────────────────────────────────
+  "primaryDiagnosis", "causeDeath", "pH", "BrodmannArea", "hemisphere",
+  "iPSC_intergrative_analysis",
+  # ── Study / consortium admin ─────────────────────────────────────────────────
+  "consortium", "study", "contributingStudy", "Contributor", "platform",
+  "nucleicAcidSource", "species", "individualIdSource",
+  "used", "executed", "executed.1", "activityName", "activityDescription",
+  "notes", "isStranded",
+  # ── Timing (pipeline job timestamps) ────────────────────────────────────────
+  "Started.job.on", "Started.mapping.on", "Finished.on",
+  "STAR_Started_job_on", "STAR_Started_mapping_on", "STAR_Finished_on"
+)
+
+# Pattern-based exclusion for GTEx medical-history (MH*), death (DTH*),
+# lab serology (LB*), transport/ischemia (TR*), and NABEC/other misc prefixes.
+# Also exclude "executed...N" columns that arise when Synapse manifests have
+# duplicate "executed" columns and read_tsv deduplicates them (e.g. executed...7).
+non_tech_patterns <- c("^MH", "^DTH", "^LB", "^TRISCH", "^TRCL", "^TRORG",
+                       "^TRAMP", "^TRCRTMP", "^TRTPT", "^TRVNT", "^TRDNI",
+                       "^DTHPRNINT", "^DTHWT", "^DTHCLS", "^DTHTYP", "^DTHCAT",
+                       "^DTHICD", "^DTHFUC", "^DTHLUC", "^DTHLU", "^DTHCOD",
+                       "^DTHSEASON", "^DTHTIME", "^DTHPLCE",
+                       "^executed\\.")
+
+all_cols <- colnames(rosmap_meta_cleaned_rmVar)
+pattern_flagged <- sapply(all_cols, function(col) {
+  any(sapply(non_tech_patterns, function(pat) grepl(pat, col)))
+})
+tech_covar_list <- all_cols[!all_cols %in% non_tech_metadata_cols & !pattern_flagged]
+
+if (length(pattern_flagged[pattern_flagged]) > 0) {
+  cat("  Excluded by clinical/demographic pattern:", sum(pattern_flagged), "columns\n")
+}
 
 cat("Preparing metadata for PCA analysis...\n")
 # Prepare metadata - preserve row names when converting to data.frame
-metadata <- as.data.frame(rosmap_meta_cleaned_rmVar)[, tech_covar_list, drop = FALSE]
+# Always include batch_covariates columns so removeBatchEffect() can find them,
+# even if they were excluded from tech_covar_list (e.g. "platform" in GVEX)
+batch_cols_to_add <- intersect(batch_covariates, colnames(rosmap_meta_cleaned_rmVar))
+batch_cols_to_add <- setdiff(batch_cols_to_add, tech_covar_list)  # only add if not already present
+cols_for_metadata <- unique(c(tech_covar_list, batch_cols_to_add))
+if (length(batch_cols_to_add) > 0) {
+  cat("  Added batch column(s) to metadata for removeBatchEffect:", paste(batch_cols_to_add, collapse=", "), "\n")
+}
+metadata <- as.data.frame(rosmap_meta_cleaned_rmVar)[, cols_for_metadata, drop = FALSE]
 # Ensure row names are preserved
 rownames(metadata) <- rownames(rosmap_meta_cleaned_rmVar)
 
@@ -279,6 +382,14 @@ eigencorvalue <- function(pcaobj, components = getComponents(pcaobj, seq_len(10)
   xvals <- data.matrix(data[, which(colnames(data) %in% components), drop = FALSE])
   yvals <- metadata[, which(colnames(metadata) %in% metavars), drop = FALSE]
   
+  if (ncol(yvals) == 0) {
+    warning("eigencorvalue: no matching metavars found in PCA metadata — returning empty correlation")
+    corvals$x_names <- colnames(xvals)
+    corvals$y_names <- character(0)
+    corvals$correlation_values <- matrix(numeric(0), nrow=length(components), ncol=0)
+    return(corvals)
+  }
+  
   # Coerce non-numeric variables to numeric
   character_columns <- !unlist(lapply(yvals, is.numeric))
   character_columns <- names(which(character_columns))
@@ -342,7 +453,6 @@ if (opt$tech_cov_mode == "auto_top_n") {
   stop("ERROR: Unknown tech_cov_mode. Use auto_top_n, fixed_list, or none.")
 }
 
-batch_covariates <- parse_batch_covariates(opt$batch_covariates)
 if (length(batch_covariates) > 0 && length(top_tech_cov) > 0) {
   overlapping_batch_covariates <- intersect(top_tech_cov, batch_covariates)
   if (length(overlapping_batch_covariates) > 0) {
@@ -366,6 +476,92 @@ cat("Removing batch effects and technical covariates...\n")
 # Prepare metadata for batch removal
 batch_covariates_present <- if (opt$disable_batch_correction) character(0) else intersect(batch_covariates, colnames(metadata))
 metadata_nobatch <- metadata[, !colnames(metadata) %in% c(batch_covariates_present, "notes"), drop = FALSE]
+
+# Build design= matrix to preserve biological signal during batch correction (Gordon Smyth's recommendation).
+# Without this, removeBatchEffect() assumes all samples are equivalent and can inadvertently absorb
+# real case/control or sex differences as batch artifact when batches are unbalanced.
+# We include both diagnosis and sex when available: model.matrix(~ diagnosis + sex)
+design_for_batch <- NULL
+design_terms_used <- c()
+
+# Collect all sample-aligned biological variables from the full metadata (rosmap_meta)
+bio_vars <- list()
+
+if (!is.null(opt$col_diagnosis)) {
+  diag_col <- opt$col_diagnosis
+  if (diag_col %in% colnames(rosmap_meta)) {
+    diag_values <- rosmap_meta[rownames(metadata), diag_col]
+    if (!all(is.na(diag_values))) {
+      bio_vars$diagnosis <- factor(diag_values)
+      design_terms_used <- c(design_terms_used, paste0("diagnosis(", diag_col, ")"))
+    } else {
+      cat("  WARNING: col_diagnosis '", diag_col, "' is all NA — skipping\n", sep="")
+    }
+  } else {
+    cat("  WARNING: col_diagnosis '", diag_col, "' not found in metadata — skipping\n", sep="")
+  }
+}
+
+if (!is.null(opt$col_msex)) {
+  sex_col <- opt$col_msex
+  if (sex_col %in% colnames(rosmap_meta)) {
+    sex_values <- rosmap_meta[rownames(metadata), sex_col]
+    if (!all(is.na(sex_values)) && length(unique(na.omit(sex_values))) > 1) {
+      bio_vars$sex <- factor(sex_values)
+      design_terms_used <- c(design_terms_used, paste0("sex(", sex_col, ")"))
+    } else {
+      cat("  WARNING: col_msex '", sex_col, "' is all NA or single-valued — skipping\n", sep="")
+    }
+  } else {
+    cat("  WARNING: col_msex '", sex_col, "' not found in metadata — skipping\n", sep="")
+  }
+}
+
+if (length(bio_vars) > 0) {
+  # Build formula dynamically from available terms
+  design_df <- as.data.frame(bio_vars)
+  rownames(design_df) <- rownames(metadata)
+
+  # Identify and exclude samples with NA in any biological variable.
+  # model.matrix() silently drops NA rows (na.action=na.omit), producing a design
+  # matrix with fewer rows than the expression matrix — causing a cbind crash in
+  # removeBatchEffect. Dropping them here is explicit and safe: the design= argument
+  # only controls which biological signal is *preserved*, and these samples are still
+  # corrected (removeBatchEffect will use an intercept-only column for them instead).
+  complete_rows <- complete.cases(design_df)
+  n_dropped <- sum(!complete_rows)
+  if (n_dropped > 0) {
+    dropped_ids <- rownames(design_df)[!complete_rows]
+    cat("  NOTE: excluding", n_dropped, "sample(s) with NA in biological covariates from design= matrix:",
+        paste(dropped_ids, collapse=", "), "\n")
+    design_df <- design_df[complete_rows, , drop=FALSE]
+  }
+
+  design_formula <- as.formula(paste("~", paste(names(bio_vars), collapse = " + ")))
+  design_for_batch_sub <- model.matrix(design_formula, data = design_df)
+
+  # Re-expand to full sample set: samples excluded above get an intercept-only row
+  # (all zeros except the first column = 1), meaning removeBatchEffect treats them
+  # as "unknown group" and applies only the batch/covariate regression to them.
+  all_samples <- rownames(metadata)
+  design_for_batch <- matrix(0, nrow=length(all_samples), ncol=ncol(design_for_batch_sub))
+  rownames(design_for_batch) <- all_samples
+  colnames(design_for_batch) <- colnames(design_for_batch_sub)
+  design_for_batch[rownames(design_for_batch_sub), ] <- design_for_batch_sub
+  # Set intercept column to 1 for all rows (including the re-expanded NA rows)
+  if ("(Intercept)" %in% colnames(design_for_batch)) {
+    design_for_batch[, "(Intercept)"] <- 1
+  }
+  # Check rank — drop redundant columns if any
+  qr_check <- qr(design_for_batch)
+  if (qr_check$rank < ncol(design_for_batch)) {
+    cat("  WARNING: design matrix is rank-deficient (rank=", qr_check$rank,
+        ", cols=", ncol(design_for_batch), ") — keeping only linearly independent columns\n", sep="")
+    design_for_batch <- design_for_batch[, qr_check$pivot[seq_len(qr_check$rank)], drop = FALSE]
+  }
+  cat("  Built design= matrix from:", paste(design_terms_used, collapse=" + "),
+      "(", nrow(design_for_batch), "samples x", ncol(design_for_batch), "columns )\n")
+}
 
 # Ensure all columns are numeric
 non_numeric_columns <- names(which(!sapply(metadata_nobatch, function(x) all(is.numeric(x)))))
@@ -404,6 +600,47 @@ if (!opt$disable_batch_correction && length(batch_covariates_present) >= 2) {
   batch2 <- as.vector(metadata[, batch_covariates_present[2]])
 }
 
+# Handle NA values in tech covariate columns before passing to removeBatchEffect().
+# Strategy: if a column has <= 2 samples with NA, remove those samples from the
+# analysis (drop from both zscore_data_df and metadata_nobatch) and keep the column.
+# If a column has > 2 samples with NA, drop the column instead (too unreliable to use).
+# removeBatchEffect() does not tolerate NA in covariates= — without this guard the
+# entire correction block would be skipped, silently producing uncorrected data.
+if (any(is.na(metadata_nobatch))) {
+  # Identify samples that are NA in any covariate column
+  na_per_col <- sapply(metadata_nobatch, function(col) sum(is.na(col)))
+  cols_too_many_na <- names(na_per_col[na_per_col > 2])
+
+  if (length(cols_too_many_na) > 0) {
+    cat("  Dropping tech covariate(s) with > 2 NA samples:", paste(cols_too_many_na, collapse=", "), "\n")
+    metadata_nobatch <- metadata_nobatch[, !colnames(metadata_nobatch) %in% cols_too_many_na, drop=FALSE]
+  }
+
+  # After dropping unreliable columns, remove any remaining samples that still have NA
+  na_samples <- rownames(metadata_nobatch)[!complete.cases(metadata_nobatch)]
+  if (length(na_samples) > 0) {
+    cat("  Removing", length(na_samples), "sample(s) with NA in tech covariates:",
+        paste(na_samples, collapse=", "), "\n")
+    keep_samples <- setdiff(colnames(zscore_data_df), na_samples)
+    zscore_data_df   <- zscore_data_df[, keep_samples, drop=FALSE]
+    metadata_nobatch <- metadata_nobatch[keep_samples, , drop=FALSE]
+    # Also drop from the full metadata so metadata_cleaned.csv stays consistent
+    rosmap_meta_cleaned_rmVar <- rosmap_meta_cleaned_rmVar[
+      rownames(rosmap_meta_cleaned_rmVar) %in% keep_samples, , drop=FALSE]
+    # Rebuild batch vectors from the full metadata for only the kept samples
+    if (!opt$disable_batch_correction && length(batch_covariates_present) >= 1) {
+      batch1 <- as.vector(metadata[keep_samples, batch_covariates_present[1]])
+    }
+    if (!opt$disable_batch_correction && length(batch_covariates_present) >= 2) {
+      batch2 <- as.vector(metadata[keep_samples, batch_covariates_present[2]])
+    }
+    # Trim design matrix rows to match
+    if (!is.null(design_for_batch)) {
+      design_for_batch <- design_for_batch[keep_samples, , drop=FALSE]
+    }
+  }
+}
+
 if (any(is.na(zscore_data_df)) == FALSE && any(is.na(metadata_nobatch)) == FALSE) {
   has_covariates <- ncol(metadata_nobatch) > 0
   has_batch1 <- !is.null(batch1)
@@ -419,29 +656,34 @@ if (any(is.na(zscore_data_df)) == FALSE && any(is.na(metadata_nobatch)) == FALSE
         x = zscore_data_df,
         batch = batch1,
         batch2 = batch2,
-        covariates = metadata_nobatch
+        covariates = metadata_nobatch,
+        design = if (!is.null(design_for_batch)) design_for_batch else matrix(1, ncol(zscore_data_df), 1)
       )
     } else if (has_batch1 && has_covariates) {
       zscore_data_removedBatchEff_cov <- removeBatchEffect(
         x = zscore_data_df,
         batch = batch1,
-        covariates = metadata_nobatch
+        covariates = metadata_nobatch,
+        design = if (!is.null(design_for_batch)) design_for_batch else matrix(1, ncol(zscore_data_df), 1)
       )
     } else if (has_batch1 && has_batch2) {
       zscore_data_removedBatchEff_cov <- removeBatchEffect(
         x = zscore_data_df,
         batch = batch1,
-        batch2 = batch2
+        batch2 = batch2,
+        design = if (!is.null(design_for_batch)) design_for_batch else matrix(1, ncol(zscore_data_df), 1)
       )
     } else if (has_batch1) {
       zscore_data_removedBatchEff_cov <- removeBatchEffect(
         x = zscore_data_df,
-        batch = batch1
+        batch = batch1,
+        design = if (!is.null(design_for_batch)) design_for_batch else matrix(1, ncol(zscore_data_df), 1)
       )
     } else if (has_covariates) {
       zscore_data_removedBatchEff_cov <- removeBatchEffect(
         x = zscore_data_df,
-        covariates = metadata_nobatch
+        covariates = metadata_nobatch,
+        design = if (!is.null(design_for_batch)) design_for_batch else matrix(1, ncol(zscore_data_df), 1)
       )
     } else {
       zscore_data_removedBatchEff_cov <- as.matrix(zscore_data_df)
@@ -506,29 +748,58 @@ if (opt$output_dir != "." && opt$output_dir != getwd()) {
   file.copy(opt$metadata_output, file.path(opt$output_dir, opt$metadata_output), overwrite = TRUE)
 }
 
-# Generate eigencor plot (optional)
-cat("Generating eigencor plot...\n")
+# Generate eigencor plots: before and after batch/tech-covariate correction.
+# "Before" uses the original z-score PCA object `p` (already computed above for covariate
+# selection), so no extra PCA is needed.  "After" re-runs PCA on the corrected matrix.
+# Both plots use identical parameters and the same tech_covar_list so they are directly
+# comparable — any residual correlation in the "after" plot indicates incomplete correction.
+cat("Generating eigencor plots (before and after correction)...\n")
+
+# ── BEFORE correction ──
+tryCatch({
+  eigencor_plot_before <- eigencorplot(p,
+                                       metavars = tech_covar_list,
+                                       cexLabY = 0.5,
+                                       rotLabY = 0.8,
+                                       corFUN = "pearson",
+                                       main = "Correlation of PCs with technical covariates BEFORE correction",
+                                       titleX = "PCs",
+                                       titleY = "technical covariates",
+                                       corMultipleTestCorrection = "hochberg",
+                                       signifSymbols = c('***', '**', '*', ''),
+                                       signifCutpoints = c(0, 0.001, 0.01, 0.05, 1),
+                                       scale = FALSE)
+  png(file.path(opt$output_dir, "eigencor_plot_before_correction.png"),
+      width = 15, height = 10, units = 'in', res = 300)
+  print(eigencor_plot_before)
+  dev.off()
+  cat("  Saved: eigencor_plot_before_correction.png\n")
+}, error = function(e) {
+  cat("Warning: Could not generate before-correction eigencor plot:", e$message, "\n")
+})
+
+# ── AFTER correction ──
 tryCatch({
   p_removedBatchEff_cov <- PCAtools::pca(zscore_data_removedBatchEff_cov, metadata = metadata)
-  eigencor_plot <- eigencorplot(p_removedBatchEff_cov, 
-                                metavars = tech_covar_list, 
-                                cexLabY = 0.5, 
-                                rotLabY = 0.8, 
+  eigencor_plot <- eigencorplot(p_removedBatchEff_cov,
+                                metavars = tech_covar_list,
+                                cexLabY = 0.5,
+                                rotLabY = 0.8,
                                 corFUN = "pearson",
-                                main = "Correlation of PCs with technical covariates after correction",
-                                titleX = "PCs", 
+                                main = "Correlation of PCs with technical covariates AFTER correction",
+                                titleX = "PCs",
                                 titleY = "technical covariates",
                                 corMultipleTestCorrection = "hochberg",
                                 signifSymbols = c('***', '**', '*', ''),
                                 signifCutpoints = c(0, 0.001, 0.01, 0.05, 1),
                                 scale = FALSE)
-  
-  png(file.path(opt$output_dir, "eigencor_plot_removedBatchEff_cov.png"), 
+  png(file.path(opt$output_dir, "eigencor_plot_removedBatchEff_cov.png"),
       width = 15, height = 10, units = 'in', res = 300)
   print(eigencor_plot)
   dev.off()
+  cat("  Saved: eigencor_plot_removedBatchEff_cov.png\n")
 }, error = function(e) {
-  cat("Warning: Could not generate eigencor plot:", e$message, "\n")
+  cat("Warning: Could not generate after-correction eigencor plot:", e$message, "\n")
 })
 
 cat("Batch effect and technical covariate removal completed!\n")

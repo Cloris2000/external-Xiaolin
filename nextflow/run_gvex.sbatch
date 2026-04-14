@@ -12,5 +12,4 @@ cd ${NF_DIR}/run_dirs/GVEX
 
 nextflow run ${NF_DIR}/combined_pipeline_v2.nf \
   -c ${NF_DIR}/nextflow.config.combined.gvex \
-  -work-dir ${NF_DIR}/work/GVEX \
-  -resume
+  -work-dir ${NF_DIR}/work/GVEX

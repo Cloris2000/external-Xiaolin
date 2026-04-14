@@ -38,6 +38,7 @@ params {
     tissue_filter = "Cerebral Frontal Cortex"
     col_sample_id_for_matching = "specimenID"
     top_n_tech_cov = 20
+    extra_metrics_file = '/nethome/kcni/xzhou/GWAS_tut/NABEC/combined_metrics.csv'  // Picard/STAR QC metrics to merge into metadata
     
     // Cell type deconvolution
     deconv_tool = "MGP"

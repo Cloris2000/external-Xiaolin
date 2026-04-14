@@ -192,10 +192,16 @@ if ("synapseID" %in% colnames(rosmap_meta_cleaned_rmVar)) {
   stop("ERROR: Cannot set rownames - need synapseID, id, or specimenID column")
 }
 
-# Get tech covariate list
+# Get tech covariate list (exclude IDs, tissue, and biological/clinical fields — not technical)
+non_tech_metadata_cols <- c(
+  "X", "specimenID", "id", "synapseID", "tissue", "assay", "organ",
+  "Started.job.on", "Started.mapping.on", "Finished.on",
+  # Identifiers and clinical/demographic — must not be regressed as technical covariates
+  "individualID", "primaryDiagnosis", "path", "ageDeath", "race",
+  "BrodmannArea", "Age_norm", "ethnicity", "reportedGender", "name"
+)
 tech_covar_list <- colnames(rosmap_meta_cleaned_rmVar)
-tech_covar_list <- tech_covar_list[!tech_covar_list %in% c("X", "specimenID", "id", "synapseID", "tissue", "assay", "organ",
-                                                             "Started.job.on", "Started.mapping.on", "Finished.on")]
+tech_covar_list <- tech_covar_list[!tech_covar_list %in% non_tech_metadata_cols]
 
 cat("Preparing metadata for PCA analysis...\n")
 # Prepare metadata - preserve row names when converting to data.frame

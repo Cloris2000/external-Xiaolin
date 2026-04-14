@@ -16,7 +16,7 @@ params {
     normalize_vcf = false  // Already normalized and subsetted
     
     // Sample filtering (for subsetting) - VCF already subsetted, so set to empty
-    samples_to_keep = ""
+    samples_to_keep = "${projectDir}/results/${study}/samples_to_keep.txt"
     
     // QC thresholds
     maf_threshold = 0.05

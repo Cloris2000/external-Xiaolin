@@ -13,7 +13,7 @@ params {
     // VCF files from joint analysis
     vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Broad_Rush.vcf.gz"'
     normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized'
-    normalize_vcf = true
+    normalize_vcf = true                   #pre-normalized vcf existed. no subsetting for rosmap 
     
     // Sample filtering
     samples_to_keep = "${projectDir}/results/${study}/samples_to_keep.txt"
