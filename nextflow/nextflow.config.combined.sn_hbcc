@@ -1,0 +1,114 @@
+/*
+ * Combined Pipeline — NIMH HBCC (all platforms merged), snRNA-seq derived proportions
+ *
+ * Uses pre-computed cell type proportions from psychAD single-nucleus data (HBCC source).
+ * Genotype data is merged across all 3 platforms (1M + Omni5M + h650) into a single VCF.
+ *
+ * Prerequisites:
+ *   1. Merge VCFs: ./prep_hbcc_vcf.sh merged slurm
+ *   2. Proportions already generated in data_input/sn_hbcc/
+ *
+ *   Run:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_hbcc \
+ *       -w work/sn_NIMH_HBCC
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts          = ["NIMH_HBCC"]
+    study            = "NIMH_HBCC"
+    genotyping_study = "CMC_HBCC"
+    conda_env        = "test"
+
+    precomputed_proportions = "${projectDir}/data_input/sn_hbcc/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_hbcc/metadata.csv"
+
+    // 27 psychAD subclasses for HBCC
+    cell_type_list = [
+        "Adaptive", "Astro", "Endo", "Micro", "Oligo", "OPC", "PC", "PVM", "SMC", "VLMC",
+        "EN_L2_3_IT", "EN_L3_5_IT_1", "EN_L3_5_IT_2", "EN_L3_5_IT_3",
+        "EN_L5_6_NP", "EN_L5_ET", "EN_L6_CT", "EN_L6_IT_1", "EN_L6_IT_2", "EN_L6B",
+        "IN_ADARB2", "IN_LAMP5_LHX6", "IN_LAMP5_RELN", "IN_PVALB", "IN_PVALB_CHC",
+        "IN_SST", "IN_VIP"
+    ]
+    skip_metal = true
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = '0_'
+    biospec_col_individual = 'Individual_ID'
+    biospec_col_specimen   = 'Genotyping_Sample_ID'
+    col_msex               = 'sex'
+    col_age                = 'ageDeath'
+    col_individualID       = 'individualID'
+
+    vcf_dir            = ""
+    vcf_pattern        = ''
+    // Merged VCF directory — produced by: ./prep_hbcc_vcf.sh merged slurm
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized'
+
+    plink_path         = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path      = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    qc_version         = 'v4'          // same as per-platform HBCC runs
+    maf_threshold      = 0.05
+    mach_r2_filter     = 0.8           // imputation quality filter (R2)
+    vcf_min_gq         = ""            // imputed VCFs lack GQ field
+    vcf_min_dp         = ""            // imputed VCFs lack DP field
+    vcf_min_qual       = ""            // imputed VCFs have '.' QUAL; use mach_r2_filter instead
+    hwe_threshold      = 1e-15
+    geno_threshold     = 0.1
+    mind_threshold     = 0.1
+    prune_window_size  = 500
+    prune_step_size    = 1
+    prune_r2_threshold = 0.2
+    vcf_dosage         = "DS"          // imputed dosage VCFs use DS field (Minimac3-style)
+    normalize_vcf      = false
+    include_x          = false
+    sort_vars          = true
+    autosome_only      = true
+    samples_to_keep    = ""
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "NIMH_HBCC": [
+            pgen_file:     "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_NIMH_HBCC/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_NIMH_HBCC/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/sn_NIMH_HBCC"
+    log_dir    = "${projectDir}/logs/sn_NIMH_HBCC"
+    output_dir = "${projectDir}/results/sn_NIMH_HBCC"
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+process {
+    // Override partition to mediumtmp — has idle nodes (compute18-27, 12h limit)
+    clusterOptions = '--partition=mediumtmp'
+
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = '32 GB'
+        errorStrategy = { task.exitStatus in [1,5] ? 'retry' : 'terminate' }
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN' {
+        cpus = 4; memory = '32 GB'; errorStrategy = 'retry'; maxRetries = 5; time = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' { cpus = 1; memory = '4 GB' }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

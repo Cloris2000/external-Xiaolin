@@ -59,6 +59,12 @@ params {
     marker_file = ""        // Optional marker file for deconvolution
     hgnc_mapping_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/snRNAseq_mapping/hgnc_ensg_mapping.txt"
     
+    // Pre-computed cell proportions (skip RNA-seq processing when set)
+    precomputed_proportions = null   // Path to pre-computed cell_proportions.csv (bypasses PCA/batch/deconv)
+    precomputed_metadata    = null   // Path to metadata CSV (replaces PCA_TECH_COV metadata output)
+    cell_type_list          = null   // Override GWAS cell type list (null = use default 19 types)
+    skip_metal              = false  // Skip METAL meta-analysis step in GWAS pipeline
+    
     // Phenotype/covariate preparation parameters
     fid_method = "match"    // FID matching method: "match" or "copy"
     fid_format = "individualID"  // FID format for matching

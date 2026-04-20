@@ -31,35 +31,17 @@ workflow GWAS_PIPELINE {
     def sorted_cohorts = params.cohorts.sort { -it.length() }
     def cohort_suffix = params.cohorts.sort().join('_')
     
-    // Define cell types
-    def cell_types = [
+    // Define cell types (configurable via params.cell_type_list)
+    def cell_types = params.cell_type_list ?: [
         "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.ET", "L5.6.IT.Car3", 
         "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC", 
         "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP", "VLMC"
     ]
     
-    // Cell type name mapping for different cohort versions
-    def cell_type_mapping = [
-        "Astrocyte": "Astrocyte",
-        "Endothelial": "Endothelial",
-        "IT": "IT",
-        "L4.IT": "L4_IT",
-        "L5.ET": "L5_ET",
-        "L5.6.IT.Car3": "L5.6_IT_Car3",
-        "L5.6.NP": "L5.6_NP",
-        "L6.CT": "L6_CT",
-        "L6b": "L6b",
-        "LAMP5": "LAMP5",
-        "Microglia": "Microglia",
-        "OPC": "OPC",
-        "Oligodendrocyte": "Oligodendrocyte",
-        "PAX6": "PAX6",
-        "PVALB": "PVALB",
-        "Pericyte": "Pericyte",
-        "SST": "SST",
-        "VIP": "VIP",
-        "VLMC": "VLMC"
-    ]
+    // Build cell type name mapping dynamically: dots -> underscores for filenames
+    def cell_type_mapping = cell_types.collectEntries { ct ->
+        [(ct): ct.replace('.', '_')]
+    }
     
     // Create channels for cohort-cell type combinations
     def cohort_ch = Channel.fromList(params.cohorts)
@@ -107,7 +89,7 @@ workflow GWAS_PIPELINE {
                 file("${pgen_prefix}.psam")
             ]
             // Create cohort-specific output directory
-            def step1_dir = "${projectDir}/results/${cohort}/regenie_step1"
+            def step1_dir = "${params.output_dir}/regenie_step1"
             
             tuple(cohort, cell_type, pgen_files, prune_in_file, pheno_file, covar_file, params.regenie_path, params.regenie_threads, params.regenie_bsize, step1_dir)
         }
@@ -152,8 +134,8 @@ workflow GWAS_PIPELINE {
                 file("${pgen_prefix}.pvar"),
                 file("${pgen_prefix}.psam")
             ]
-            // Create cohort-specific output directory
-            def step2_dir = "${projectDir}/results/${cohort}/regenie_step2"
+            // Create cohort-specific output directory (use params.output_dir to avoid cross-cohort overwrites)
+            def step2_dir = "${params.output_dir}/regenie_step2"
             
             tuple(cohort, cell_type, pgen_files, extracted_pheno_file, covar_file, pred_list_file, params.regenie_path, params.regenie_threads, params.regenie_bsize, step2_dir)
         }
@@ -184,7 +166,7 @@ workflow GWAS_PIPELINE {
             if (cohort == null || cell_type == null) {
                 throw new Exception("Failed to parse cohort and cell_type from filename: ${basename}")
             }
-            def output_dir = "${projectDir}/results/${cohort}/regenie_step2"
+            def output_dir = "${params.output_dir}/regenie_step2"
             tuple(cohort, cell_type, regenie_file, output_dir)
         }
     
@@ -224,14 +206,19 @@ workflow GWAS_PIPELINE {
             tuple(cell_type, file_list, params.metal_path, meta_dir, cohort_suffix)
         }
     
-    // Call METAL meta-analysis
-    METAL_META_ANALYSIS(raw_p_by_celltype)
+    // Call METAL meta-analysis (skippable via params.skip_metal)
+    if (!params.skip_metal) {
+        METAL_META_ANALYSIS(raw_p_by_celltype)
+        meta_results_ch = METAL_META_ANALYSIS.out.meta_result
+    } else {
+        meta_results_ch = Channel.empty()
+    }
     
     emit:
     regenie_step1_pred = REGENIE_STEP1.out.pred_list
     regenie_step2_results = REGENIE_STEP2.out.regenie_file
     raw_p_files = CONVERT_LOGP_TO_P.out.raw_p_file
-    meta_analysis_results = METAL_META_ANALYSIS.out.meta_result
+    meta_analysis_results = meta_results_ch
 }
 
 // Main workflow entry point

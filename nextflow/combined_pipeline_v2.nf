@@ -76,49 +76,68 @@ workflow COMBINED_PIPELINE {
     """
     
     // ============================================================================
-    // STAGE 1: RNA-seq Processing Pipeline
+    // STAGE 1: Cell Type Proportions
     // ============================================================================
     
-    println """
-    ========================================
-    Stage 1: RNA-seq Processing
-    ========================================
-    Processing expression data...
-    - PCA and technical covariate identification
-    - Batch effect removal
-    - Cell type deconvolution
-    """
-    
-    // Stage 1a: PCA and technical covariate computation
-    PCA_TECH_COV (
-        params.count_matrix_file,
-        params.metadata_file,
-        file("${projectDir}/scripts/pca_tech_cov.R"),
-        params.tissue_filter,
-        params.output_dir,
-        params.col_sample_id_for_matching
-    )
-    
-    // Stage 1b: Remove batch effects and top tech covariates
-    REMOVE_TECH_COVAR (
-        PCA_TECH_COV.out.zscore_data,
-        PCA_TECH_COV.out.metadata,
-        file("${projectDir}/scripts/remove_tech_covar.R"),
-        params.top_n_tech_cov,
-        params.output_dir
-    )
-    
-    // Stage 1c: Cell type proportion estimation
-    CELL_TYPE_DECONV (
-        REMOVE_TECH_COVAR.out.corrected_data,
-        REMOVE_TECH_COVAR.out.metadata_cleaned,
-        file("${projectDir}/scripts/cell_type_deconv.R"),
-        params.deconv_tool,
-        params.reference_taxonomy,
-        params.marker_file,
-        params.hgnc_mapping_file,
-        params.output_dir
-    )
+    if (params.precomputed_proportions != null) {
+        // ── Pre-computed proportions mode: skip RNA-seq processing ──
+        println """
+        ========================================
+        Stage 1: SKIPPED (pre-computed proportions)
+        ========================================
+        Using pre-computed cell type proportions:
+          ${params.precomputed_proportions}
+        Using pre-computed metadata:
+          ${params.precomputed_metadata}
+        """
+        cell_proportions_ch = Channel.of(file(params.precomputed_proportions))
+        metadata_ch         = Channel.of(file(params.precomputed_metadata))
+    } else {
+        // ── Standard mode: RNA-seq processing pipeline ──
+        println """
+        ========================================
+        Stage 1: RNA-seq Processing
+        ========================================
+        Processing expression data...
+        - PCA and technical covariate identification
+        - Batch effect removal
+        - Cell type deconvolution
+        """
+        
+        // Stage 1a: PCA and technical covariate computation
+        PCA_TECH_COV (
+            params.count_matrix_file,
+            params.metadata_file,
+            file("${projectDir}/scripts/pca_tech_cov.R"),
+            params.tissue_filter,
+            params.output_dir,
+            params.col_sample_id_for_matching
+        )
+        
+        // Stage 1b: Remove batch effects and top tech covariates
+        REMOVE_TECH_COVAR (
+            PCA_TECH_COV.out.zscore_data,
+            PCA_TECH_COV.out.metadata,
+            file("${projectDir}/scripts/remove_tech_covar.R"),
+            params.top_n_tech_cov,
+            params.output_dir
+        )
+        
+        // Stage 1c: Cell type proportion estimation
+        CELL_TYPE_DECONV (
+            REMOVE_TECH_COVAR.out.corrected_data,
+            REMOVE_TECH_COVAR.out.metadata_cleaned,
+            file("${projectDir}/scripts/cell_type_deconv.R"),
+            params.deconv_tool,
+            params.reference_taxonomy,
+            params.marker_file,
+            params.hgnc_mapping_file,
+            params.output_dir
+        )
+        
+        cell_proportions_ch = CELL_TYPE_DECONV.out.cell_proportions
+        metadata_ch         = PCA_TECH_COV.out.metadata
+    }
     
     // ============================================================================
     // STAGE 2: Phenotype Preparation (NO GENOTYPE DATA REQUIRED)
@@ -143,8 +162,8 @@ workflow COMBINED_PIPELINE {
         : file("${projectDir}/.empty_biospecimen")
     
     PHENO_PREP (
-        CELL_TYPE_DECONV.out.cell_proportions,
-        PCA_TECH_COV.out.metadata,
+        cell_proportions_ch,
+        metadata_ch,
         file("${projectDir}/scripts/pheno_prep.R"),
         biospecimen_ch,
         params.output_dir,
@@ -246,10 +265,8 @@ workflow COMBINED_PIPELINE {
     // Covariate outputs
     covariate_file = COV_PREP.out.covariate_file
     
-    // RNA-seq processing outputs
-    cell_proportions = CELL_TYPE_DECONV.out.cell_proportions
-    corrected_data = REMOVE_TECH_COVAR.out.corrected_data
-    zscore_data = PCA_TECH_COV.out.zscore_data
+    // RNA-seq processing / pre-computed outputs
+    cell_proportions = cell_proportions_ch
     
     // GWAS pipeline outputs
     regenie_step1_pred = GWAS_PIPELINE.out.regenie_step1_pred

@@ -22,9 +22,7 @@ option_list <- list(
   make_option(c("--cohort"), type="character", default=NULL,
               help="Cohort name for plot title", metavar="STRING"),
   make_option(c("--output_dir"), type="character", default=".",
-              help="Output directory for plots", metavar="DIR"),
-  make_option(c("--downsample_n"), type="integer", default=100000,
-              help="Max SNPs to sample from non-suggestive (P>=1e-5) for plotting", metavar="N")
+              help="Output directory for plots", metavar="DIR")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
@@ -45,7 +43,7 @@ gwas_data <- fread(opt$input, header = TRUE, stringsAsFactors = FALSE, showProgr
   as.data.frame() %>%
   rename(POS = GENPOS) %>%
   mutate(
-    CHROM = as.numeric(gsub("chr", "", CHROM)),
+    CHROM = paste0("chr", gsub("chr", "", as.character(CHROM))),  # ensure "chr1" format for topr
     POS = as.numeric(POS),
     P = as.numeric(P)
   ) %>%
@@ -69,19 +67,11 @@ cat(paste("  Suggestive (p < 1e-5):", sig_1e5, "\n"))
 cat(paste("  Minimum p-value:", format(min_p, scientific = TRUE), "\n"))
 cat(paste("  Lambda:", round(lambda, 4), "\n"))
 
-# Downsample for plotting: keep all suggestive (P < 1e-5), sample from rest
-important <- gwas_data %>% filter(P < 1e-5)
-other <- gwas_data %>% filter(P >= 1e-5)
-if (nrow(other) > opt$downsample_n) {
-  set.seed(42)
-  other_sampled <- other %>% sample_n(opt$downsample_n)
-  gwas_plot <- bind_rows(important, other_sampled) %>% arrange(CHROM, POS)
-  cat(paste("\nDownsampled for plotting:", nrow(gwas_data), "->", nrow(gwas_plot),
-            "variants (kept all", nrow(important), "suggestive, sampled", opt$downsample_n, "from rest)\n"))
-} else {
-  gwas_plot <- gwas_data
-  cat(paste("\nNo downsampling needed (", nrow(gwas_data), "variants)\n"))
-}
+gwas_plot <- gwas_data %>%
+  mutate(chrom_num = as.numeric(gsub("chr", "", CHROM))) %>%
+  arrange(chrom_num, POS) %>%
+  dplyr::select(-chrom_num)
+cat(paste("\nPlotting all", nrow(gwas_plot), "variants (no downsampling)\n"))
 
 # Annotated Manhattan (topr) - only suggestive SNPs annotated, use downsampled data
 manhattan_annotated_file <- file.path(opt$output_dir, paste0(opt$output_prefix, "_manhattan_annotated.png"))

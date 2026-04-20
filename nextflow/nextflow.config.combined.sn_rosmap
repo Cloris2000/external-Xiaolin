@@ -1,0 +1,170 @@
+/*
+ * Combined Pipeline Configuration for ROSMAP — snRNA-seq derived cell type proportions
+ *
+ * Skips RNA-seq processing (PCA, batch correction, MGP deconvolution) and instead
+ * uses pre-computed cell type proportions from Green et al. single-nucleus data.
+ *
+ * Usage:
+ *   # 1. Generate pre-computed inputs (run once):
+ *   Rscript scripts/compute_sn_proportions.R \
+ *       --input_file  /external/rprshnas01/netdata_kcni/stlab/Xiaolin/data/Green_sn.csv \
+ *       --subject_col Donor.ID  --celltype_col Subclass \
+ *       --confidence_col Subclass.confidence  --confidence_threshold 0.8 \
+ *       --output_proportions data_input/sn_rosmap/cell_proportions.csv \
+ *       --output_metadata    data_input/sn_rosmap/metadata.csv
+ *
+ *   # 2. Run the pipeline:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_rosmap \
+ *       -w work/sn_rosmap
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL
+    // ============================================================================
+
+    cohorts = ["ROSMAP"]
+    study   = "ROSMAP"
+    conda_env = "test"
+
+    // ============================================================================
+    // PRE-COMPUTED PROPORTIONS (skip RNA-seq stages 1a-1c)
+    // ============================================================================
+
+    precomputed_proportions = "${projectDir}/data_input/sn_rosmap/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_rosmap/metadata.csv"
+
+    // All 24 snRNA-seq subclasses from Green et al., name-cleaned (/ and spaces → dots)
+    cell_type_list = [
+        "Astrocyte", "Chandelier", "Endothelial",
+        "L2.3.IT", "L4.IT", "L5.ET", "L5.IT", "L5.6.NP",
+        "L6.CT", "L6.IT", "L6.IT.Car3", "L6b",
+        "Lamp5", "Lamp5.Lhx6", "Microglia.PVM",
+        "OPC", "Oligodendrocyte", "Pax6", "Pvalb",
+        "Sncg", "Sst", "Sst.Chodl", "VLMC", "Vip"
+    ]
+
+    skip_metal = true   // no within-cohort meta-analysis for a single cohort
+
+    // ============================================================================
+    // PHENOTYPE PREP — same ID-mapping strategy as bulk ROSMAP
+    // ============================================================================
+
+    biospecimen_file       = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = ''
+    biospec_assay_filter   = 'wholeGenomeSeq'
+    biospec_col_individual = 'individualID'
+    biospec_col_specimen   = 'specimenID'
+
+    col_msex           = 'msex'
+    col_age            = 'age_death'
+    col_individualID   = 'individualID'
+
+    // ============================================================================
+    // GENOTYPING QC — identical to bulk ROSMAP
+    // ============================================================================
+
+    vcf_dir            = ""
+    vcf_pattern        = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Broad_Rush.vcf.gz"'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized'
+    normalize_vcf      = true
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    samples_to_keep = "${projectDir}/results/sn_ROSMAP/samples_to_keep.txt"
+
+    qc_version       = 'v1'
+    maf_threshold    = 0.05
+    mach_r2_filter   = 0.8
+    vcf_min_gq       = 20
+    vcf_min_dp       = 10
+    vcf_min_qual     = 30
+    hwe_threshold    = 1e-15
+    geno_threshold   = 0.1
+    mind_threshold   = 0.1
+    prune_window_size   = 500
+    prune_step_size     = 1
+    prune_r2_threshold  = 0.2
+
+    include_x     = false
+    sort_vars     = true
+    autosome_only = true
+
+    // ============================================================================
+    // GWAS
+    // ============================================================================
+
+    regenie_path   = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path     = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "ROSMAP": [
+            pgen_file:     "${projectDir}/results/sn_ROSMAP/ROSMAP.QC.final",
+            prune_in_file: "${projectDir}/results/sn_ROSMAP/ROSMAP.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_ROSMAP/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_ROSMAP/covariates.txt"
+        ]
+    ]
+
+    // ============================================================================
+    // DIRECTORIES — separate from bulk ROSMAP to avoid overwriting
+    // ============================================================================
+
+    work_dir   = "${projectDir}/work/sn_ROSMAP"
+    log_dir    = "${projectDir}/logs/sn_ROSMAP"
+    output_dir = "${projectDir}/results/sn_ROSMAP"
+
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+// ── Process resources (same as bulk ROSMAP) ─────────────────────────────────
+process {
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = '32 GB'
+        errorStrategy = { task.exitStatus in [1,5] ? 'retry' : 'terminate' }
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN' {
+        cpus   = 4
+        memory = '32 GB'
+        errorStrategy = 'retry'
+        maxRetries = 5
+        time   = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus   = 1
+        memory = '4 GB'
+    }
+}
+
+report {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_report.html"
+}
+timeline {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_timeline.html"
+}
+trace {
+    enabled = false
+}
+dag {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_dag.svg"
+}

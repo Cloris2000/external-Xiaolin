@@ -7,7 +7,7 @@
 process COV_PREP {
     label 'low_memory'
     
-    publishDir "${params.outdir}/${params.study}", mode: 'copy', overwrite: true
+    publishDir "${params.output_dir}", mode: 'copy', overwrite: true
     
     input:
     path pca_file
