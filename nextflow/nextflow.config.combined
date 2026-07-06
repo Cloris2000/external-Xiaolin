@@ -62,6 +62,7 @@ params {
     // Pre-computed cell proportions (skip RNA-seq processing when set)
     precomputed_proportions = null   // Path to pre-computed cell_proportions.csv (bypasses PCA/batch/deconv)
     precomputed_metadata    = null   // Path to metadata CSV (replaces PCA_TECH_COV metadata output)
+    precomputed_pgen        = null   // Prefix to pre-computed QC pgen (bypasses all genotyping QC steps)
     cell_type_list          = null   // Override GWAS cell type list (null = use default 19 types)
     skip_metal              = false  // Skip METAL meta-analysis step in GWAS pipeline
     

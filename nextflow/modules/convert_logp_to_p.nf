@@ -18,7 +18,7 @@ process CONVERT_LOGP_TO_P {
     
     script:
     """
-    awk 'NR==1 {print \$0, "P"} NR>1 {print \$0, 10^(-\$12)}' ${regenie_file} > ${cohort}_${cell_type}_step2.regenie.raw_p
+    awk 'NR==1 {for(i=1;i<=NF;i++) if(\$i=="LOG10P") log10p_col=i; print \$0, "P"} NR>1 {print \$0, 10^(-\$log10p_col)}' ${regenie_file} > ${cohort}_${cell_type}_step2.regenie.raw_p 
     
     touch ${cohort}_${cell_type}_logp_to_p.done
     """

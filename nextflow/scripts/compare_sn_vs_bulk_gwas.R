@@ -4,19 +4,22 @@
 #
 # Metrics per cell type:
 #   - Spearman correlation of -log10(P) genome-wide
+#   - Pearson correlation of Z-scores (BETA/SE) genome-wide
 #   - Concordance at top 100 hits
 #   - Beta sign agreement at sn suggestive SNPs (P < 1e-5)
 #   - Lambda (genomic inflation) for each
 #
 # Outputs:
 #   - sn_vs_bulk_summary.tsv
-#   - {cell_type}_sn_vs_bulk_scatter.png  (one per cell type)
+#   - {cell_type}_sn_vs_bulk_scatter.png     (-log10P scatter, one per cell type)
+#   - {cell_type}_sn_vs_bulk_zscore.png      (Z-score scatter, one per cell type)
 #   - sn_vs_bulk_correlation_barplot.png
 
 suppressPackageStartupMessages({
   library(optparse)
   library(data.table)
   library(dplyr)
+  library(tidyr)
   library(ggplot2)
   library(cowplot)
 })
@@ -67,26 +70,28 @@ rosmap_crosswalk <- list(
   #                       Lamp5.Lhx6, Sncg, Sst.Chodl
 )
 
-# HBCC: sn (psychAD subclasses) → bulk (MGP 19 types from NIMH_HBCC_1M)
+# HBCC: sn (psychAD subclasses) → bulk (MGP 19 types from NIMH_HBCC_bulk_matched)
+# 14 clear 1:1 pairs; sn-only types excluded (Adaptive, PC, PVM, SMC)
+# and bulk-only types excluded (PAX6, Pericyte, L4.IT).
 hbcc_crosswalk <- list(
-  "Astro"        = "Astrocyte",
-  "Endo"         = "Endothelial",
-  "OPC"          = "OPC",
-  "Oligo"        = "Oligodendrocyte",
-  "VLMC"         = "VLMC",
-  "Micro"        = "Microglia",
-  "PVM"          = "Microglia",      # PVM grouped with Microglia in bulk
-  "IN_PVALB"     = "PVALB",
-  "IN_SST"       = "SST",
-  "IN_VIP"       = "VIP",
-  "IN_LAMP5_RELN"= "LAMP5",
-  "EN_L5_ET"     = "L5.ET",
-  "EN_L5_6_NP"   = "L5.6.NP",
-  "EN_L6_CT"     = "EN_L6_CT",      # no bulk match → will be skipped (file won't exist)
-  "EN_L6B"       = "L6b"
-  # No direct bulk match: Adaptive, EN_L2_3_IT, EN_L3_5_IT_1/2/3,
-  #                       EN_L6_IT_1/2, IN_ADARB2, IN_LAMP5_LHX6,
-  #                       IN_PVALB_CHC, PC, SMC
+  "Astro"         = "Astrocyte",
+  "Endo"          = "Endothelial",
+  "Micro"         = "Microglia",
+  "OPC"           = "OPC",
+  "Oligo"         = "Oligodendrocyte",
+  "VLMC"          = "VLMC",
+  "IN_PVALB"      = "PVALB",
+  "IN_SST"        = "SST",
+  "IN_VIP"        = "VIP",
+  "IN_LAMP5_RELN" = "LAMP5",
+  "EN_L5_ET"      = "L5.ET",
+  "EN_L5_6_NP"    = "L5.6.NP",
+  "EN_L6_CT"      = "L6.CT",
+  "EN_L6B"        = "L6b"
+  # Excluded sn-only: Adaptive, EN_L2_3_IT, EN_L3_5_IT_1/2/3,
+  #                   EN_L6_IT_1/2, IN_ADARB2, IN_LAMP5_LHX6,
+  #                   IN_PVALB_CHC, PC, PVM, SMC
+  # Excluded bulk-only: L4.IT, PAX6, Pericyte
 )
 
 # Select crosswalk based on sn cohort prefix
@@ -110,10 +115,12 @@ load_gwas <- function(path, label) {
       POS    = as.integer(POS),
       P      = as.numeric(P),
       BETA   = as.numeric(BETA),
+      SE     = as.numeric(SE),
+      Z      = BETA / SE,
       LOG10P = -log10(P)
     ) %>%
     filter(!is.na(CHROM), !is.na(POS), !is.na(P), P > 0, P <= 1) %>%
-    dplyr::select(CHROM, POS, ID, P, BETA, LOG10P)
+    dplyr::select(CHROM, POS, ID, P, BETA, SE, Z, LOG10P)
   n_before <- nrow(dt)
   # Deduplicate multi-allelic sites: keep lowest P per position to avoid cartesian join explosion
   dt <- dt %>%
@@ -176,6 +183,7 @@ for (sn_ct in names(crosswalk)) {
     if (nrow(merged) < 100) { cat("  Too few shared SNPs, skipping\n"); next }
 
     spearman_r         <- cor(merged$LOG10P.sn, merged$LOG10P.bulk, method="spearman")
+    pearson_r_z        <- cor(merged$Z.sn, merged$Z.bulk, method="pearson", use="complete.obs")
     lambda_sn          <- calc_lambda(merged$P.sn)
     lambda_bulk        <- calc_lambda(merged$P.bulk)
     top100_sn          <- merged %>% arrange(P.sn)   %>% head(100) %>% pull(POS)
@@ -188,17 +196,18 @@ for (sn_ct in names(crosswalk)) {
       mean(sign(suggestive$BETA.sn) == sign(suggestive$BETA.bulk), na.rm=TRUE)
     else NA_real_
 
-    cat(sprintf("  Spearman r=%.4f | lambda_sn=%.3f | lambda_bulk=%.3f | top100=%.2f | sign_agree=%s (n_sugg=%d)\n",
-                spearman_r, lambda_sn, lambda_bulk, concordance_top100,
+    cat(sprintf("  Spearman r(logP)=%.4f | Pearson r(Z)=%.4f | lambda_sn=%.3f | lambda_bulk=%.3f | top100=%.2f | sign_agree=%s (n_sugg=%d)\n",
+                spearman_r, pearson_r_z, lambda_sn, lambda_bulk, concordance_top100,
                 ifelse(is.na(sign_agree), "NA", sprintf("%.2f", sign_agree)), n_suggestive))
 
     summary_rows[[sn_ct]] <- data.frame(
       sn_cell_type       = sn_ct,
       bulk_cell_type     = bulk_ct,
       n_shared_snps      = nrow(merged),
-      spearman_r         = round(spearman_r, 4),
-      lambda_sn          = round(lambda_sn,  4),
-      lambda_bulk        = round(lambda_bulk, 4),
+      spearman_r_logp    = round(spearman_r,  4),
+      pearson_r_z        = round(pearson_r_z, 4),
+      lambda_sn          = round(lambda_sn,   4),
+      lambda_bulk        = round(lambda_bulk,  4),
       concordance_top100 = round(concordance_top100, 3),
       n_suggestive_sn    = n_suggestive,
       beta_sign_agree    = round(sign_agree, 3),
@@ -223,7 +232,7 @@ for (sn_ct in names(crosswalk)) {
       geom_abline(slope=1, intercept=0, linetype="dashed", color="black", linewidth=0.4) +
       labs(
         title    = paste0(sn_ct, " (sn) vs ", bulk_ct, " (bulk)"),
-        subtitle = sprintf("Spearman r = %.3f | top-100 concordance = %.0f%%",
+        subtitle = sprintf("Spearman r(-log10P) = %.3f | top-100 concordance = %.0f%%",
                            spearman_r, concordance_top100 * 100),
         x     = expression(-log[10](P)~"sn"),
         y     = expression(-log[10](P)~"bulk"),
@@ -237,6 +246,35 @@ for (sn_ct in names(crosswalk)) {
     cat("  Saved scatter:", scatter_file, "\n")
     scatter_plots[[sn_ct]] <- p_scatter
 
+    # ── Z-score scatter ──────────────────────────────────────────────────────
+    z_lim <- quantile(c(merged$Z.sn, merged$Z.bulk), probs=c(0.001, 0.999), na.rm=TRUE)
+    p_zscore <- ggplot(plot_data, aes(x=Z.sn, y=Z.bulk, color=category)) +
+      geom_point(size=0.4, alpha=0.4) +
+      scale_color_manual(values=c(
+        "Other"                = "grey70",
+        "Suggestive (sn)"      = "#2196F3",
+        "Genome-wide sig (sn)" = "#F44336"
+      )) +
+      geom_abline(slope=1, intercept=0, linetype="dashed", color="black", linewidth=0.4) +
+      geom_hline(yintercept=0, color="grey40", linewidth=0.3) +
+      geom_vline(xintercept=0, color="grey40", linewidth=0.3) +
+      coord_cartesian(xlim=z_lim, ylim=z_lim) +
+      labs(
+        title    = paste0(sn_ct, " (sn) vs ", bulk_ct, " (bulk) — Effect sizes"),
+        subtitle = sprintf("Pearson r(Z-score) = %.3f | beta sign agree = %s",
+                           pearson_r_z,
+                           ifelse(is.na(sign_agree), "NA", sprintf("%.0f%%", sign_agree * 100))),
+        x     = "Z-score (BETA/SE) — sn",
+        y     = "Z-score (BETA/SE) — bulk",
+        color = NULL
+      ) +
+      theme_cowplot(font_size=10) +
+      theme(legend.position="bottom")
+
+    zscore_file <- file.path(opt$output_dir, paste0(sn_ct, "_sn_vs_bulk_zscore.png"))
+    ggsave(zscore_file, plot=p_zscore, width=6, height=5, dpi=200)
+    cat("  Saved Z-score scatter:", zscore_file, "\n")
+
   }, error = function(e) {
     cat(paste0("\nERROR processing ", sn_ct, ": ", e$message, "\n"))
   })
@@ -245,28 +283,37 @@ for (sn_ct in names(crosswalk)) {
 # ── Summary table ─────────────────────────────────────────────────────────────
 if (length(summary_rows) == 0) stop("No cell types were processed successfully.")
 
-summary_df <- bind_rows(summary_rows) %>% arrange(desc(spearman_r))
+summary_df <- bind_rows(summary_rows) %>% arrange(desc(spearman_r_logp))
 
 summary_file <- file.path(opt$output_dir, "sn_vs_bulk_summary.tsv")
 write.table(summary_df, summary_file, sep="\t", quote=FALSE, row.names=FALSE)
 cat("\nSummary table saved:", summary_file, "\n")
-print(summary_df[, c("sn_cell_type","spearman_r","concordance_top100","beta_sign_agree","lambda_sn","lambda_bulk")])
+print(summary_df[, c("sn_cell_type","spearman_r_logp","pearson_r_z","concordance_top100","beta_sign_agree","lambda_sn","lambda_bulk")])
 
-# ── Correlation barplot ───────────────────────────────────────────────────────
-p_bar <- ggplot(summary_df,
-                aes(x=reorder(sn_cell_type, spearman_r), y=spearman_r, fill=spearman_r)) +
-  geom_col() +
+# ── Correlation barplot (both metrics side by side) ───────────────────────────
+plot_long <- summary_df %>%
+  dplyr::select(sn_cell_type, spearman_r_logp, pearson_r_z) %>%
+  tidyr::pivot_longer(cols=c(spearman_r_logp, pearson_r_z),
+                      names_to="metric", values_to="value") %>%
+  mutate(metric = ifelse(metric == "spearman_r_logp",
+                         "Spearman r (-log10P)", "Pearson r (Z-score)"))
+
+p_bar <- ggplot(plot_long,
+                aes(x=reorder(sn_cell_type, value), y=value, fill=metric)) +
+  geom_col(position=position_dodge(width=0.7), width=0.65) +
   geom_hline(yintercept=0, linetype="dashed") +
-  scale_fill_gradient2(low="#d73027", mid="#fee090", high="#1a9850", midpoint=0.1,
-                       name="Spearman r") +
+  scale_fill_manual(values=c("Spearman r (-log10P)" = "#4575b4",
+                              "Pearson r (Z-score)"  = "#d73027"),
+                    name=NULL) +
   coord_flip() +
   labs(
     title    = paste0("sn vs Bulk GWAS Concordance (", sn_cohort, ")"),
-    subtitle = "Spearman correlation of -log10(P), genome-wide",
+    subtitle = "Spearman r of -log10(P) and Pearson r of Z-scores, genome-wide",
     x = "Cell type (sn name)",
-    y = "Spearman r"
+    y = "Correlation"
   ) +
-  theme_cowplot(font_size=11)
+  theme_cowplot(font_size=11) +
+  theme(legend.position="bottom")
 
 bar_file <- file.path(opt$output_dir, "sn_vs_bulk_correlation_barplot.png")
 ggsave(bar_file, plot=p_bar, width=7, height=6, dpi=200)

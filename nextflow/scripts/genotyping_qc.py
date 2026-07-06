@@ -17,6 +17,101 @@ def run(cmd, pipefail=True, **kwargs):
                           check=True, shell=True, executable='/bin/bash',
                           **kwargs)
 
+def _list_vcf_samples(bcftools_path, vcf_path):
+    """Return sample IDs from VCF header (order preserved)."""
+    r = subprocess.run(
+        f'{bcftools_path} query -l {vcf_path}',
+        shell=True, capture_output=True, text=True, check=True,
+    )
+    lines = [ln.strip() for ln in (r.stdout or '').splitlines() if ln.strip()]
+    return lines
+
+
+def _write_bcftools_subset_sample_list(samples_to_keep, vcf_path, bcftools_path, out_path):
+    """
+    Write one sample ID per line for bcftools view -S.
+
+    Most cohorts: IID in the keep file matches the VCF column name exactly.
+    GTEx WGS VCFs use donor_ID + plate suffix (e.g. GTEX-1117F-0003) while phenotype
+    pipelines emit subject-level IID (GTEX-1117F). Resolve each IID to a unique VCF
+    name by exact match, else a single VCF sample whose name starts with IID + '-'.
+    """
+    keep_df = pd.read_table(samples_to_keep)
+    iid_col = 'IID' if 'IID' in keep_df.columns else keep_df.columns[1]
+    vcf_samples = _list_vcf_samples(bcftools_path, vcf_path)
+    vcf_set = set(vcf_samples)
+
+    resolved = []
+    skipped = []
+    for _, row in keep_df.iterrows():
+        iid = str(row[iid_col]).strip()
+        if not iid:
+            continue
+        if iid in vcf_set:
+            resolved.append(iid)
+            continue
+        prefix_matches = [s for s in vcf_samples if s.startswith(iid + '-')]
+        if len(prefix_matches) == 1:
+            resolved.append(prefix_matches[0])
+        elif len(prefix_matches) > 1:
+            # Deterministic: prefer shortest suffix (typical GTEx single WGS per donor)
+            prefix_matches.sort(key=len)
+            resolved.append(prefix_matches[0])
+            print(f"  Note: IID {iid} matched multiple VCF samples; using {prefix_matches[0]}")
+        else:
+            skipped.append(iid)
+
+    if skipped:
+        print(f"  WARNING: {len(skipped)} keep-file IID(s) have no matching VCF sample "
+              f"(showing up to 10): {skipped[:10]}")
+    if not resolved:
+        raise SystemExit(
+            f'ERROR: No keep-file samples could be matched to VCF samples in {vcf_path}. '
+            'Check that IID values match VCF #CHROM line sample names (or donor prefix for GTEx WGS).'
+        )
+
+    with open(out_path, 'w') as f:
+        f.write('\n'.join(resolved) + '\n')
+    return len(resolved)
+
+
+def _maybe_strip_gtex_wgs_plate_suffix_from_psam(pgen_prefix, study):
+    """
+    GTEx WGS VCF sample names are donor_ID + plate suffix (e.g. GTEX-1117F-0003).
+    Phenotype and covariate files use donor-level IDs (GTEX-1117F). Rewrite .psam
+    after import so downstream GWAS matches phenotypes (REGENIE, --keep, etc.).
+    """
+    if not study or 'GTEX' not in study.upper():
+        return
+    psam_path = f'{pgen_prefix}.psam'
+    if not os.path.exists(psam_path):
+        return
+
+    def _strip_gtex_wgs_iid(iid):
+        s = str(iid).strip()
+        if not s.startswith('GTEX-'):
+            return s
+        parts = s.split('-')
+        if len(parts) >= 3 and parts[-1].isdigit() and len(parts[-1]) == 4:
+            return '-'.join(parts[:-1])
+        return s
+
+    psam = pd.read_table(psam_path)
+    fid_col = '#FID' if '#FID' in psam.columns else 'FID'
+    iid_col = 'IID' if 'IID' in psam.columns else None
+    if not iid_col or fid_col not in psam.columns:
+        return
+    new_fid = psam[fid_col].map(_strip_gtex_wgs_iid)
+    new_iid = psam[iid_col].map(_strip_gtex_wgs_iid)
+    # Series.equals() returns a scalar bool, not a Series (do not chain .all()).
+    if new_fid.equals(psam[fid_col]) and new_iid.equals(psam[iid_col]):
+        return
+    psam[fid_col] = new_fid
+    psam[iid_col] = new_iid
+    psam.to_csv(psam_path, sep='\t', index=False, na_rep='NA')
+    print(f"  Stripped GTEx WGS plate suffix from sample IDs in {psam_path}")
+
+
 def run_slurm(cmd, job_name, time, log_file, num_threads=6, mem_per_cpu='16000M', num_nodes=1):
     """Submit a SLURM job"""
     assert ' ' not in job_name
@@ -69,11 +164,11 @@ def create_pgen(args):
             subset_vcf = f"{output_prefix}.subset.vcf.gz"
             if not os.path.exists(subset_vcf):
                 print(f"  Chromosome {chrom}: Subsetting VCF...")
-                # bcftools view -S needs sample IDs only (no header), but samples_to_keep has "FID IID" header
-                # Create temp file with just the IID column (2nd column), skipping header
                 samples_no_header = f"{output_prefix}.samples_no_header.txt"
-                run(f"tail -n +2 {args.samples_to_keep} | awk '{{print $2}}' > {samples_no_header}")
-                # Use bcftools view -S to subset samples
+                n = _write_bcftools_subset_sample_list(
+                    args.samples_to_keep, input_vcf, args.bcftools_path, samples_no_header
+                )
+                print(f"  Chromosome {chrom}: Matched {n} keep-file sample(s) to VCF column names")
                 run(f'{args.bcftools_path} view -S {samples_no_header} -O z -o {subset_vcf} {input_vcf}')
             input_vcf = subset_vcf
         
@@ -101,6 +196,7 @@ def create_pgen(args):
         plink_cmd += f' --double-id --make-pgen --new-id-max-allele-len 2000 --set-all-var-ids chr@:#:\\$r:\\$a --out {output_prefix}'
         
         run(plink_cmd)
+        _maybe_strip_gtex_wgs_plate_suffix_from_psam(output_prefix, args.study)
         print(f"  Chromosome {chrom}: pgen created")
 
 def create_pgen_single_chr(args):
@@ -155,7 +251,10 @@ def create_pgen_single_chr(args):
                 os.remove(subset_vcf)  # Remove corrupt/truncated file from previous run
             print(f"  Chromosome {chrom}: Subsetting VCF with bcftools...")
             samples_no_header = f"{output_prefix}.samples_no_header.txt"
-            run(f"tail -n +2 {args.samples_to_keep} | awk '{{print $2}}' > {samples_no_header}")
+            n = _write_bcftools_subset_sample_list(
+                args.samples_to_keep, input_vcf, args.bcftools_path, samples_no_header
+            )
+            print(f"  Chromosome {chrom}: Matched {n} keep-file sample(s) to VCF column names")
             try:
                 # --force-samples: silently skip sample IDs not present in VCF header
                 # (needed when samples_to_keep spans multiple genotyping platforms)
@@ -191,10 +290,13 @@ def create_pgen_single_chr(args):
         plink_cmd += ' --autosome'
     if use_plink_keep:
         plink_cmd += f' --keep {args.samples_to_keep}'
+    if getattr(args, 'plink_memory', None):
+        plink_cmd += f' --memory {args.plink_memory}'
     
     plink_cmd += f' --double-id --make-pgen --new-id-max-allele-len 2000 --set-all-var-ids chr@:#:\\$r:\\$a --out {output_prefix}'
     
     run(plink_cmd)
+    _maybe_strip_gtex_wgs_plate_suffix_from_psam(output_prefix, args.study)
     print(f"  Chromosome {chrom}: pgen created successfully")
 
 def fix_psam_format(pgen_prefix):
@@ -517,15 +619,37 @@ def standard_qc(args):
         print(f"  WARNING: samples_to_keep file not found: {args.samples_to_keep}")
         print(f"  Continuing without sample filtering...")
     
-    # Add QC thresholds
-    plink_cmd += f' --maf {args.maf_threshold}'
-    plink_cmd += f' --hwe {args.hwe_threshold}'
-    plink_cmd += f' --geno {args.geno_threshold}'
-    plink_cmd += f' --mind {args.mind_threshold}'
-    
-    plink_cmd += f' --write-snplist --make-just-fam --out {qc_prefix}'
-    
-    run(plink_cmd)
+    # Two-pass QC: apply --geno first, then --mind separately.
+    # When the merged pgen contains variants from a larger cohort (e.g. GTEx 953
+    # WGS samples merged then subsetted to 318 phenotyped samples), variants
+    # absent in the subset inflate per-sample missingness far above the --mind
+    # threshold, incorrectly removing valid samples.  Running --geno first
+    # eliminates those variant-level missing sites, then --mind correctly
+    # reflects true per-sample call rates.
+
+    # Pass 1: variant-level QC (--geno, --maf, --hwe) — produces a snplist
+    pass1_prefix = f'{qc_prefix}.pass1'
+    plink_cmd_pass1 = plink_cmd  # already has --keep if needed
+    plink_cmd_pass1 += f' --maf {args.maf_threshold}'
+    plink_cmd_pass1 += f' --hwe {args.hwe_threshold}'
+    plink_cmd_pass1 += f' --geno {args.geno_threshold}'
+    if args.mach_r2_filter:
+        pass  # already added above
+    plink_cmd_pass1 += f' --write-snplist --make-just-fam --out {pass1_prefix}'
+    run(plink_cmd_pass1)
+
+    # Pass 2: sample-level QC (--mind) using the pass-1 snplist
+    pass1_snplist = f'{pass1_prefix}.snplist'
+    pass2_base = f'{args.plink_path} --pfile {args.study}.QC.merged'
+    if args.samples_to_keep and os.path.exists(args.samples_to_keep):
+        keep_file_p2 = f'{args.study}.QC.keep_converted.txt' \
+            if os.path.exists(f'{args.study}.QC.keep_converted.txt') \
+            else args.samples_to_keep
+        pass2_base += f' --keep {keep_file_p2}'
+    pass2_base += f' --extract {pass1_snplist}'
+    pass2_base += f' --mind {args.mind_threshold}'
+    pass2_base += f' --write-snplist --make-just-fam --out {qc_prefix}'
+    run(pass2_base)
     
     # Copy QC files to output directory if specified (useful for debugging)
     if args.output_dir:
@@ -552,6 +676,7 @@ def ld_pruning(args):
         f'--keep {prune_prefix}.fam '
         f'--extract {prune_prefix}.snplist '
         f'--rm-dup exclude-all '  # Remove duplicate variant IDs before LD pruning
+        f'{"--bad-ld " if getattr(args, "bad_ld", False) else ""}'
         f'--indep-pairwise {args.prune_window_size} {args.prune_step_size} {args.prune_r2_threshold} '
         f'--out {prune_prefix}')
     
@@ -581,6 +706,19 @@ def heterozygosity(args):
     het_file = f"{args.study}.QC.het"
     valid_file = f"{args.study}.QC.valid"
     
+    # With <50 samples the ±3 SD outlier test has essentially no power — skip het
+    # filtering and pass all samples through by writing the fam as the valid file.
+    if getattr(args, 'bad_ld', False):
+        print(f"  Skipping heterozygosity filtering (bad_ld=True: N<50, test has no power)")
+        import shutil
+        shutil.copy2(f'{args.study}.QC.fam', valid_file)
+        data_len = sum(1 for _ in open(f'{args.study}.QC.fam'))
+        print(f"  All {data_len} samples retained (het filter skipped)")
+        if args.output_dir:
+            os.makedirs(args.output_dir, exist_ok=True)
+            shutil.copy2(valid_file, f"{args.output_dir}/{valid_file}")
+        return
+
     # Calculate heterozygosity
     run(f'{args.plink_path} '
         f'--pfile {args.study}.QC.merged '
@@ -663,11 +801,26 @@ def calculate_pca(args):
     pca_csv = f"{args.output_dir}/pca.csv" if args.output_dir else "pca.csv"
     
     # Calculate PCA
-    run(f'{args.plink_path} '
-        f'--pfile {final_pfile} '
-        f'--extract {args.study}.QC.prune.in '
-        f'--pca '
-        f'--out {args.study}.QC')
+    # When N < 50, plink2 --pca requires allele frequencies via --read-freq.
+    # Pre-compute with --freq first (safe for any N).
+    if getattr(args, 'bad_ld', False):
+        run(f'{args.plink_path} '
+            f'--pfile {final_pfile} '
+            f'--extract {args.study}.QC.prune.in '
+            f'--freq '
+            f'--out {args.study}.QC')
+        run(f'{args.plink_path} '
+            f'--pfile {final_pfile} '
+            f'--extract {args.study}.QC.prune.in '
+            f'--read-freq {args.study}.QC.afreq '
+            f'--pca '
+            f'--out {args.study}.QC')
+    else:
+        run(f'{args.plink_path} '
+            f'--pfile {final_pfile} '
+            f'--extract {args.study}.QC.prune.in '
+            f'--pca '
+            f'--out {args.study}.QC')
     
     # Convert to CSV
     pca = pd.read_table(eigenvec_file, header=None).tail(-1)
@@ -715,6 +868,8 @@ def main():
     # Options
     parser.add_argument('--include_x', action='store_true', help='Include X chromosome')
     parser.add_argument('--sort_vars', action='store_true', help='Sort variants (for NABEC)')
+    parser.add_argument('--plink_memory', type=int, default=None, help='Per-process plink2 memory cap in MB (prevents OOM with many parallel chr tasks)')
+    parser.add_argument('--bad_ld', action='store_true', help='Pass --bad-ld to plink2 LD pruning; required for cohorts with <50 samples')
     parser.add_argument('--autosome_only', action='store_true', help='Only include autosomes')
     parser.add_argument('--samples_to_keep', help='File with samples to keep (FID IID format)')
     parser.add_argument('--normalize_vcf', action='store_true', help='Deprecated: normalization step removed, use pre-normalized VCFs')

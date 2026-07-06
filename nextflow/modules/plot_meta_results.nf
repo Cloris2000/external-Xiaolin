@@ -1,49 +1,54 @@
 /*
- * PLOT_META_RESULTS
+ * PLOT_META_RESULTS  (per cell type)
  *
- * Generates three sets of visualizations from METAL meta-analysis output:
- *   1. Manhattan + QQ plots     (per cell type)
- *   2. I² heterogeneity histograms (per cell type + combined overview)
- *   3. Cross-cell-type P-value heatmap
+ * Runs for a single cell type: generates Manhattan + QQ + I² histogram plots
+ * and writes three small intermediate TSV files used by PLOT_META_HEATMAP:
  *
- * Input:
- *   results_dir  — directory containing *.tbl files (no "1.tbl" stale files)
- *   plot_script  — path to plot_meta_results.R
- *   output_dir   — where to write all plots
+ *   {cell_type}_top_hits.tsv      — variants passing p_thresh (for heatmap)
+ *   {cell_type}_het_stats.tsv     — per-CT I² summary stats
+ *   {cell_type}_summary_stats.tsv — n_variants / lambda / n_gw / n_sugg
  *
- * Output:
- *   plot_dir     — directory path of generated plots (for downstream steps)
+ * Runs in parallel: one SLURM job per cell type.
+ * The aggregate cross-CT plots (heatmap, I² overview, summary table) are
+ * produced by PLOT_META_HEATMAP after all per-CT jobs complete.
  */
 
 process PLOT_META_RESULTS {
-    label 'medium_memory'
-    tag  "plot_meta"
+    label 'small_memory'
+    tag  "${cell_type}_plot"
 
-    publishDir "${output_dir}", mode: 'copy', overwrite: true
+    publishDir "${output_dir}/manhattan", mode: 'copy', overwrite: true,
+               saveAs: { name -> name.endsWith(".png") && name.contains("manhattan") ? name : null }
+    publishDir "${output_dir}/qq",        mode: 'copy', overwrite: true,
+               saveAs: { name -> name.endsWith(".png") && name.contains("qq") ? name : null }
+    publishDir "${output_dir}/het",       mode: 'copy', overwrite: true,
+               saveAs: { name -> name.endsWith(".png") && name.contains("het") ? name : null }
 
     input:
-    tuple val(results_dir),
+    tuple val(cell_type),
+          path(tbl_file),
           path(plot_script),
+          val(results_dir),
           val(output_dir),
           val(p_thresh),
           val(gw_thresh)
 
     output:
-    path "plots/**",        emit: plot_files
-    path "meta_analysis_summary.tsv", emit: summary_tsv, optional: true
+    tuple val(cell_type), path("plots/**/*.png"),                        emit: plot_files
+    tuple val(cell_type), path("plots/${cell_type}_top_hits.tsv"),       emit: top_hits
+    tuple val(cell_type), path("plots/${cell_type}_het_stats.tsv"),      emit: het_stats,     optional: true
+    tuple val(cell_type), path("plots/${cell_type}_summary_stats.tsv"),  emit: summary_stats
 
     script:
     """
-    mkdir -p plots
+    mkdir -p plots/manhattan plots/qq plots/het plots/heatmap
 
     Rscript ${plot_script} \
+        --mode        per_celltype \
         --results_dir ${results_dir} \
+        --cell_type   ${cell_type} \
         --output_dir  plots \
         --p_thresh    ${p_thresh} \
         --gw_thresh   ${gw_thresh}
-
-    # Copy summary table to top level for publishDir pickup
-    [ -f plots/meta_analysis_summary.tsv ] && \
-        cp plots/meta_analysis_summary.tsv meta_analysis_summary.tsv || true
     """
 }

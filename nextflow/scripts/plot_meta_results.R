@@ -34,11 +34,33 @@ suppressPackageStartupMessages({
 })
 
 # ---- CLI args ---------------------------------------------------------------
+# Two execution modes:
+#
+#   per_celltype (default)
+#     Processes a single cell type (--cell_type required).
+#     Writes Manhattan + QQ + I² plots and three intermediate TSVs:
+#       {output_dir}/{cell_type}_top_hits.tsv     — variants with P < p_thresh
+#       {output_dir}/{cell_type}_het_stats.tsv    — I² summary stats
+#       {output_dir}/{cell_type}_summary_stats.tsv — n/lambda/gw/sugg counts
+#
+#   aggregate
+#     Reads the intermediate TSVs produced by all per_celltype jobs
+#     (from --intermediate_dir) and generates:
+#       - combined I² overview panel
+#       - cross-cell-type heatmap
+#       - meta_analysis_summary.tsv
+#     Does not re-read any .tbl files.
+#
 option_list <- list(
-  make_option("--results_dir", type = "character", default = NULL),
+  make_option("--mode",    type = "character", default = "per_celltype",
+              help = "Execution mode: 'per_celltype' or 'aggregate' [default: per_celltype]"),
+  make_option("--results_dir", type = "character", default = NULL,
+              help = "Directory containing *.tbl files (per_celltype mode)"),
+  make_option("--intermediate_dir", type = "character", default = NULL,
+              help = "Directory with *_top_hits / *_het_stats / *_summary_stats TSVs (aggregate mode)"),
   make_option("--output_dir",  type = "character", default = NULL),
   make_option("--cell_type",   type = "character", default = NULL,
-              help = "Single cell type to process (default: all)"),
+              help = "Cell type to process (required in per_celltype mode)"),
   make_option("--p_thresh",    type = "double",    default = 1e-5,
               help = "P-value threshold for heatmap loci [default: 1e-5]"),
   make_option("--gw_thresh",   type = "double",    default = 5e-8,
@@ -48,8 +70,15 @@ option_list <- list(
 )
 opt <- parse_args(OptionParser(option_list = option_list))
 
-if (is.null(opt$results_dir)) stop("--results_dir is required")
 if (is.null(opt$output_dir))  stop("--output_dir is required")
+if (!(opt$mode %in% c("per_celltype", "aggregate")))
+  stop("--mode must be 'per_celltype' or 'aggregate'")
+if (opt$mode == "per_celltype" && is.null(opt$results_dir))
+  stop("--results_dir is required in per_celltype mode")
+if (opt$mode == "per_celltype" && is.null(opt$cell_type))
+  stop("--cell_type is required in per_celltype mode")
+if (opt$mode == "aggregate" && is.null(opt$intermediate_dir))
+  stop("--intermediate_dir is required in aggregate mode")
 
 dir.create(opt$output_dir, showWarnings = FALSE, recursive = TRUE)
 dir.create(file.path(opt$output_dir, "manhattan"), showWarnings = FALSE, recursive = TRUE)
@@ -59,7 +88,86 @@ dir.create(file.path(opt$output_dir, "heatmap"),   showWarnings = FALSE, recursi
 GW   <- opt$gw_thresh
 SUGG <- opt$p_thresh
 
-# ---- Discover .tbl files ----------------------------------------------------
+# ---- Aggregate mode: read intermediate TSVs and produce cross-CT plots ------
+if (opt$mode == "aggregate") {
+  cat("=== Aggregate mode: building cross-cell-type plots from intermediate files ===\n")
+  idir <- opt$intermediate_dir
+
+  top_hits_files   <- list.files(idir, pattern = "_top_hits\\.tsv$",     full.names = TRUE)
+  het_stats_files  <- list.files(idir, pattern = "_het_stats\\.tsv$",    full.names = TRUE)
+  summ_stats_files <- list.files(idir, pattern = "_summary_stats\\.tsv$", full.names = TRUE)
+
+  if (length(top_hits_files) == 0)
+    stop("No *_top_hits.tsv files found in: ", idir)
+
+  all_top       <- bind_rows(lapply(top_hits_files,   read.table, header = TRUE, sep = "\t",
+                                    stringsAsFactors = FALSE))
+  het_rows      <- lapply(het_stats_files,  read.table, header = TRUE, sep = "\t",
+                          stringsAsFactors = FALSE)
+  summary_parts <- lapply(summ_stats_files, read.table, header = TRUE, sep = "\t",
+                          stringsAsFactors = FALSE)
+
+  # ---- Combined I² overview
+  if (length(het_rows) > 1) {
+    cat("\nGenerating combined heterogeneity overview panel...\n")
+    het_summary <- bind_rows(het_rows)
+    het_summary$cell_type <- factor(het_summary$cell_type, levels = het_summary$cell_type)
+
+    p1 <- ggplot(het_summary, aes(x = reorder(cell_type, median_ISq), y = median_ISq)) +
+      geom_col(fill = "#4292C6") + coord_flip() +
+      labs(title = "Median I² by Cell Type", x = "Cell Type", y = "Median I² (%)") +
+      theme_bw(base_size = 10)
+
+    p2 <- ggplot(het_summary, aes(x = reorder(cell_type, pct_gt50), y = pct_gt50)) +
+      geom_col(fill = "#E6550D") + coord_flip() +
+      labs(title = "Percent Variants with I² > 50%", x = "Cell Type", y = "Percent (%)") +
+      theme_bw(base_size = 10)
+
+    p3 <- ggplot(het_summary, aes(x = reorder(cell_type, pct_gt75), y = pct_gt75)) +
+      geom_col(fill = "#A63603") + coord_flip() +
+      labs(title = "Percent Variants with I² > 75%", x = "Cell Type", y = "Percent (%)") +
+      theme_bw(base_size = 10)
+
+    combined_het <- (p1 | p2 | p3) +
+      plot_annotation(title = "I² Heterogeneity Summary Across Cell Types",
+                      theme = theme(plot.title = element_text(size = 14, face = "bold")))
+
+    tryCatch({
+      ggsave(file.path(opt$output_dir, "het", "all_celltypes_het_overview.png"),
+             combined_het, width = 18, height = 8, dpi = 220, limitsize = FALSE)
+    }, error = function(e) {
+      cat("  WARNING: combined het overview ggsave failed:", e$message, "\n")
+      ggsave(file.path(opt$output_dir, "het", "all_celltypes_median_I2.png"), p1, width=7, height=6, dpi=220)
+      ggsave(file.path(opt$output_dir, "het", "all_celltypes_pct_gt50.png"),  p2, width=7, height=6, dpi=220)
+      ggsave(file.path(opt$output_dir, "het", "all_celltypes_pct_gt75.png"),  p3, width=7, height=6, dpi=220)
+    })
+    write.table(het_summary, file.path(opt$output_dir, "het", "all_celltypes_het_summary.tsv"),
+                sep = "\t", quote = FALSE, row.names = FALSE)
+    cat("  Saved combined heterogeneity overview.\n")
+  }
+
+  # ---- Cross-cell-type heatmap
+  if (nrow(all_top) > 0) {
+    make_cross_celltype_heatmap(all_top, opt$output_dir)
+  }
+
+  # ---- Summary table
+  if (length(summary_parts) > 0) {
+    summary_df <- bind_rows(summary_parts) %>%
+      mutate(across(any_of(c("n_variants", "n_gw", "n_sugg")), as.integer),
+             across(any_of("lambda"), as.numeric))
+    out_sum <- file.path(opt$output_dir, "meta_analysis_summary.tsv")
+    write.table(summary_df, out_sum, sep = "\t", quote = FALSE, row.names = FALSE)
+    cat("\n=== Summary across all cell types ===\n")
+    print(summary_df)
+    cat(sprintf("\nSummary table saved to: %s\n", out_sum))
+  }
+
+  cat("\nAggregate plots complete.\n")
+  quit(save = "no", status = 0)
+}
+
+# ---- per_celltype mode: discover single .tbl file ---------------------------
 tbl_files <- list.files(opt$results_dir, pattern = "\\.tbl$", full.names = TRUE)
 # Exclude stale *1.tbl files (previous partial runs)
 tbl_files <- tbl_files[!grepl("1\\.tbl$", tbl_files)]
@@ -75,18 +183,13 @@ get_cell_type <- function(path) {
 cell_types_all <- sapply(tbl_files, get_cell_type)
 names(tbl_files) <- cell_types_all
 
-if (!is.null(opt$cell_type)) {
-  if (!(opt$cell_type %in% cell_types_all))
-    stop("Cell type '", opt$cell_type, "' not found. Available: ",
-         paste(sort(cell_types_all), collapse = ", "))
-  tbl_files  <- tbl_files[opt$cell_type]
-  cell_types <- opt$cell_type
-} else {
-  cell_types <- sort(cell_types_all)
-}
+if (!(opt$cell_type %in% cell_types_all))
+  stop("Cell type '", opt$cell_type, "' not found. Available: ",
+       paste(sort(cell_types_all), collapse = ", "))
+tbl_files  <- tbl_files[opt$cell_type]
+cell_types <- opt$cell_type
 
-cat(sprintf("Processing %d cell type(s): %s\n", length(cell_types),
-            paste(cell_types, collapse = ", ")))
+cat(sprintf("Processing cell type: %s\n", cell_types))
 
 # ---- Helper: read & parse one .tbl ------------------------------------------
 read_tbl <- function(path, cell_type) {
@@ -317,6 +420,7 @@ summary_rows    <- list()
 het_stats_list  <- list()
 all_data_list   <- list()
 
+# per_celltype mode: process exactly one cell type
 for (ct in cell_types) {
   cat(sprintf("\n=== %s ===\n", ct))
   path <- tbl_files[ct]
@@ -337,7 +441,7 @@ for (ct in cell_types) {
   het_info <- make_het_histogram(df, ct, opt$output_dir)
   if (!is.null(het_info)) het_stats_list[[ct]] <- het_info
 
-  # -- Accumulate top hits for heatmap
+  # -- Collect top hits for heatmap (written to intermediate TSV below)
   all_data_list[[ct]] <- df %>%
     filter(P < SUGG) %>%
     dplyr::select(cell_type, CHROM, POS, P)
@@ -347,78 +451,34 @@ for (ct in cell_types) {
   invisible(gc(verbose = FALSE))
 }
 
-# ---- Combined I² overview (lightweight summary panel) -------------------
-# Only run cross-cell-type summaries in all-cell-type mode.
-if (is.null(opt$cell_type) && length(het_stats_list) > 1) {
-  cat("\nGenerating combined heterogeneity overview panel...\n")
-  het_summary <- bind_rows(lapply(het_stats_list, as.data.frame))
-  het_summary$cell_type <- factor(het_summary$cell_type, levels = het_summary$cell_type)
-
-  p1 <- ggplot(het_summary, aes(x = reorder(cell_type, median_ISq), y = median_ISq)) +
-    geom_col(fill = "#4292C6") +
-    coord_flip() +
-    labs(title = "Median I² by Cell Type", x = "Cell Type", y = "Median I² (%)") +
-    theme_bw(base_size = 10)
-
-  p2 <- ggplot(het_summary, aes(x = reorder(cell_type, pct_gt50), y = pct_gt50)) +
-    geom_col(fill = "#E6550D") +
-    coord_flip() +
-    labs(title = "Percent Variants with I² > 50%", x = "Cell Type", y = "Percent (%)") +
-    theme_bw(base_size = 10)
-
-  p3 <- ggplot(het_summary, aes(x = reorder(cell_type, pct_gt75), y = pct_gt75)) +
-    geom_col(fill = "#A63603") +
-    coord_flip() +
-    labs(title = "Percent Variants with I² > 75%", x = "Cell Type", y = "Percent (%)") +
-    theme_bw(base_size = 10)
-
-  combined_het <- (p1 | p2 | p3) +
-    plot_annotation(
-      title = "I² Heterogeneity Summary Across Cell Types",
-      theme = theme(plot.title = element_text(size = 14, face = "bold"))
-    )
-
-  tryCatch({
-    ggsave(
-      file.path(opt$output_dir, "het", "all_celltypes_het_overview.png"),
-      combined_het,
-      width = 18, height = 8, dpi = 220, limitsize = FALSE
-    )
-  }, error = function(e) {
-    cat("  WARNING: combined het overview ggsave failed (patchwork/ggplot2 guide mismatch):", e$message, "\n")
-    cat("  Saving panels individually instead...\n")
-    ggsave(file.path(opt$output_dir, "het", "all_celltypes_median_I2.png"),    p1, width=7, height=6, dpi=220)
-    ggsave(file.path(opt$output_dir, "het", "all_celltypes_pct_gt50.png"),     p2, width=7, height=6, dpi=220)
-    ggsave(file.path(opt$output_dir, "het", "all_celltypes_pct_gt75.png"),     p3, width=7, height=6, dpi=220)
-    cat("  Saved 3 individual panels.\n")
-  })
-
-  write.table(
-    het_summary,
-    file = file.path(opt$output_dir, "het", "all_celltypes_het_summary.tsv"),
-    sep = "\t", quote = FALSE, row.names = FALSE
-  )
-  cat("  Saved combined heterogeneity overview + summary table.\n")
-}
-
-# ---- Cross-cell-type heatmap -------------------------------------------
-# Only run cross-cell-type summaries in all-cell-type mode.
-if (is.null(opt$cell_type) && length(all_data_list) > 0) {
-  all_data <- bind_rows(all_data_list)
-  make_cross_celltype_heatmap(all_data, opt$output_dir)
-}
-
-# ---- Summary table ---------------------------------------------------------
+# ---- Write per-CT intermediate TSVs (read by aggregate job) -----------------
 if (length(summary_rows) > 0) {
-  summary_df <- do.call(rbind, lapply(summary_rows, function(x) as.data.frame(t(x)))) %>%
-    mutate(across(c(n_variants, n_gw, n_sugg), as.integer),
-           lambda = as.numeric(lambda))
-  out_sum <- file.path(opt$output_dir, "meta_analysis_summary.tsv")
-  write.table(summary_df, out_sum, sep = "\t", quote = FALSE, row.names = FALSE)
-  cat("\n=== Summary across all cell types ===\n")
-  print(summary_df)
-  cat(sprintf("\nSummary table saved to: %s\n", out_sum))
+  summ_row <- as.data.frame(t(summary_rows[[cell_types[1]]]))
+  write.table(summ_row,
+              file.path(opt$output_dir, paste0(cell_types[1], "_summary_stats.tsv")),
+              sep = "\t", quote = FALSE, row.names = FALSE)
 }
+if (length(het_stats_list) > 0) {
+  write.table(as.data.frame(het_stats_list[[cell_types[1]]]),
+              file.path(opt$output_dir, paste0(cell_types[1], "_het_stats.tsv")),
+              sep = "\t", quote = FALSE, row.names = FALSE)
+}
+if (length(all_data_list) > 0) {
+  top_hits <- all_data_list[[cell_types[1]]]
+  if (nrow(top_hits) > 0) {
+    write.table(top_hits,
+                file.path(opt$output_dir, paste0(cell_types[1], "_top_hits.tsv")),
+                sep = "\t", quote = FALSE, row.names = FALSE)
+  } else {
+    # Write empty file with correct header so aggregate job doesn't fail
+    write.table(data.frame(cell_type = character(), CHROM = integer(),
+                           POS = numeric(), P = numeric()),
+                file.path(opt$output_dir, paste0(cell_types[1], "_top_hits.tsv")),
+                sep = "\t", quote = FALSE, row.names = FALSE)
+  }
+}
+cat(sprintf("\nIntermediate TSVs written for cell type: %s\n", cell_types[1]))
 
-cat("\nAll plots complete.\n")
+cat(sprintf("\nCell type %s complete. Run aggregate mode to produce cross-CT heatmap and summary.\n",
+            cell_types[1]))
 cat(sprintf("Output directory: %s\n", opt$output_dir))

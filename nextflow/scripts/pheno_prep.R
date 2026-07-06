@@ -67,7 +67,9 @@ option_list <- list(
   make_option(c("--biospec_col_specimen"), type="character", default="specimenID",
               help="Column name in biospecimen file for specimen ID"),
   make_option(c("--biospec_assay_filter"), type="character", default=NULL,
-              help="Optional: filter biospecimen file to rows where the 'assay' column equals this value before building the individualID->specimenID map (e.g. 'wholeGenomeSeq' for ROSMAP WGS). Useful when one individual has SM-* entries for multiple assays.")
+              help="Optional: filter biospecimen file to rows where the 'assay' column equals this value before building the individualID->specimenID map (e.g. 'wholeGenomeSeq' for ROSMAP WGS). Useful when one individual has SM-* entries for multiple assays."),
+  make_option(c("--samples_to_keep"), type="character", default=NULL,
+              help="Optional: path to a tab-delimited file (FID IID header) listing samples to retain. When provided, only these samples are included in phenotypes_RINT.txt and samples_with_phenotypes.txt, restricting both pheno prep and downstream genotype QC to this subset.")
 )
 
 opt_parser <- OptionParser(option_list=option_list)
@@ -229,8 +231,8 @@ if (opt$fid_method == "study_projid") {
     cat("  - biospec_assay_filter: kept", nrow(biospec_df), "of", n_before,
         "rows with assay ==", opt$biospec_assay_filter, "\n")
   }
-  biospec_map <- setNames(biospec_df[[biospec_spec_col]], biospec_df[[biospec_ind_col]])
-  spec_ids <- biospec_map[ROSMAP_meta_sub$individualID]
+  biospec_map <- setNames(biospec_df[[biospec_spec_col]], as.character(biospec_df[[biospec_ind_col]]))
+  spec_ids <- biospec_map[as.character(ROSMAP_meta_sub$individualID)]
   prefix <- if (!is.null(opt$fid_format) && nchar(trimws(opt$fid_format)) > 0) opt$fid_format else ""
   ROSMAP_meta_sub$FID <- ifelse(is.na(spec_ids), NA_character_, paste0(prefix, spec_ids))
   n_missing <- sum(is.na(ROSMAP_meta_sub$FID))
@@ -342,7 +344,7 @@ ROSMAP_estimations_combined <- merge(ROSMAP_meta_matcher, ROSMAP_estimations_sca
 if (opt$fid_method == "study_projid" && "Study" %in% colnames(ROSMAP_estimations_combined)) {
   ROSMAP_estimations_combined$FID <- paste0(ROSMAP_estimations_combined$Study, ROSMAP_estimations_combined$projid)
 } else if (opt$fid_method == "biospec_specimen") {
-  spec_ids2 <- biospec_map[ROSMAP_estimations_combined$individualID]
+  spec_ids2 <- biospec_map[as.character(ROSMAP_estimations_combined$individualID)]
   prefix <- if (!is.null(opt$fid_format) && nchar(trimws(opt$fid_format)) > 0) opt$fid_format else ""
   ROSMAP_estimations_combined$FID <- ifelse(is.na(spec_ids2), NA_character_, paste0(prefix, spec_ids2))
 } else {
@@ -391,6 +393,21 @@ cat("Total samples with phenotypes:", nrow(pivot_df), "\n")
 # Genotype QC downstream will filter to samples present in the VCF; REGENIE uses intersection
 samples_final <- pivot_df
 cat("\nIncluding all samples with bulk RNA-seq (no genotype overlap filter):", nrow(samples_final), "\n")
+
+# Optionally restrict to a pre-specified set of samples (e.g. matched sn∩bulk subjects)
+samples_to_keep_path <- empty_to_null(opt$samples_to_keep)
+if (!is.null(samples_to_keep_path) && file.exists(samples_to_keep_path)) {
+  keep_df <- read.table(samples_to_keep_path, header = TRUE, sep = "\t",
+                        stringsAsFactors = FALSE, comment.char = "")
+  iid_col <- if ("IID" %in% colnames(keep_df)) "IID" else colnames(keep_df)[2]
+  keep_iids <- keep_df[[iid_col]]
+  before_n <- nrow(samples_final)
+  samples_final <- samples_final[samples_final$IID %in% keep_iids, , drop = FALSE]
+  cat("Restricting to samples_to_keep (", samples_to_keep_path, "):",
+      before_n, "->", nrow(samples_final), "samples\n")
+} else if (!is.null(samples_to_keep_path)) {
+  warning("samples_to_keep file not found: ", samples_to_keep_path, " - using all samples")
+}
 
 # Save phenotype file
 cat("\nSaving phenotype file:", opt$phenotype_output, "\n")

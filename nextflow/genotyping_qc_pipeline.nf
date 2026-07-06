@@ -44,6 +44,29 @@ workflow GENOTYPING_QC_PIPELINE {
     def log_dir = params.log_dir ?: ''
     def output_dir = params.output_dir ?: ''
     
+    // ── Pre-computed pgen bypass ─────────────────────────────────────────────
+    // When params.precomputed_pgen is set, skip all 8 QC steps and emit the
+    // pre-existing files directly.  This is useful when genotyping QC has
+    // already completed successfully and only downstream steps (e.g. REGENIE)
+    // need to be rerun.
+    if (params.precomputed_pgen != null && params.precomputed_pgen != '') {
+        println """
+        ========================================
+        Stage 3: SKIPPED (pre-computed pgen)
+        ========================================
+        Using pre-computed QC pgen: ${params.precomputed_pgen}
+        """
+        def pc = params.precomputed_pgen  // prefix e.g. results/GTEx_v10/GTEx_v10.QC.final
+        emit:
+        final_pgen    = Channel.of(file("${pc}.pgen"))
+        final_psam    = Channel.of(file("${pc}.psam"))
+        final_pvar    = Channel.of(file("${pc}.pvar"))
+        prune_in_file = Channel.of(file("${params.output_dir}/${qc_study}.QC.prune.in"))
+        pca_file      = Channel.of(file("${params.output_dir}/pca.csv"))
+        return
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // Prepare samples_to_keep: Convert file channel to path string for process calls
     def samples_to_keep_val = samples_file_ch.map { it.toString() }
     

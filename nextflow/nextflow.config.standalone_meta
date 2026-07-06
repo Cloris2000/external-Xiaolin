@@ -11,6 +11,17 @@ params {
     
     // Optional: restrict which result dirs to include (empty = include all found)
     cohort_include = []
+
+    // Optional: restrict to specific cell types (empty = all 19). Used by SLURM array workers.
+    cell_type_include = []
+
+    // Optional: reuse harmonized per-cohort files from a prior meta run (skips liftover + harmonization).
+    // Layout: {pre_harmonized_input_dir}/{cell_type}/harmonized/{cohort}_{cell_type}_harmonized.raw_p
+    pre_harmonized_input_dir = null
+
+    // Stage toggles (array workers set audit/summary false; merge job runs both once)
+    run_cohort_audit = true
+    run_heterogeneity_summary = true
     
     // Software paths
     metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
@@ -41,6 +52,15 @@ params {
     // Visualization thresholds
     plot_p_thresh  = "1e-5"
     plot_gw_thresh = "5e-8"
+
+    // Genome-build liftover (hg38 → hg19) before harmonization.
+    // cohort_genome_builds: map of cohort name → "hg38" for cohorts whose
+    //   REGENIE summary stats are in GRCh38 coordinates.  Cohorts absent
+    //   from this map (or whose value is not "hg38") are treated as hg19
+    //   and pass through without liftover.  Default empty map = no liftover
+    //   for any cohort, preserving behaviour of all pre-existing configs.
+    cohort_genome_builds     = [:]
+    liftover_chain_hg38_to_hg19 = null
 }
 
 // Executor configuration
@@ -86,6 +106,33 @@ process {
         memory = { 32.GB * task.attempt }
         time = { 2.h * task.attempt }
         errorStrategy = { task.exitStatus == 137 ? 'retry' : 'terminate' }
+        maxRetries = 2
+    }
+
+    withName: 'LIFTOVER_SUMSTATS' {
+        cpus   = 1
+        memory = { 8.GB * task.attempt }
+        time   = { 2.h  * task.attempt }
+        errorStrategy = { task.exitStatus in [137, 140] ? 'retry' : 'terminate' }
+        maxRetries = 2
+    }
+
+    // Per-cell-type plotting: reads one .tbl file (~1-2 GB) + R overhead.
+    // 19 jobs run in parallel; each needs ~16 GB peak.
+    withName: 'PLOT_META_RESULTS' {
+        cpus   = 1
+        memory = { 16.GB * task.attempt }
+        time   = { 1.h  * task.attempt }
+        errorStrategy = { task.exitStatus in [137, 140] ? 'retry' : 'terminate' }
+        maxRetries = 2
+    }
+
+    // Aggregate heatmap: reads only small intermediate TSVs (MBs total).
+    withName: 'PLOT_META_HEATMAP' {
+        cpus   = 1
+        memory = { 8.GB * task.attempt }
+        time   = { 30.m * task.attempt }
+        errorStrategy = { task.exitStatus in [137, 140] ? 'retry' : 'terminate' }
         maxRetries = 2
     }
 }

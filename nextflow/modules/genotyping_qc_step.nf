@@ -60,6 +60,8 @@ process GENOTYPING_QC_STEP {
     def include_x_arg = include_x ? "--include_x" : ""
     def sort_vars_arg = sort_vars ? "--sort_vars" : ""
     def autosome_only_arg = autosome_only ? "--autosome_only" : ""
+    def plink_memory_arg = (params.containsKey('plink_memory') && params.plink_memory) ? "--plink_memory ${params.plink_memory}" : ""
+    def bad_ld_arg = (params.containsKey('bad_ld') && params.bad_ld) ? "--bad_ld" : ""
     def samples_to_keep_arg = (samples_to_keep && samples_to_keep != '' && !samples_to_keep.toString().contains('DataflowVariable')) ? "--samples_to_keep ${samples_to_keep}" : ""
     def normalize_vcf_arg = normalize_vcf ? "--normalize_vcf" : ""
     def use_slurm_arg = use_slurm ? "--use_slurm" : ""
@@ -96,6 +98,8 @@ process GENOTYPING_QC_STEP {
         ${include_x_arg} \\
         ${sort_vars_arg} \\
         ${autosome_only_arg} \\
+        ${plink_memory_arg} \\
+        ${bad_ld_arg} \\
         ${samples_to_keep_arg} \\
         ${normalize_vcf_arg} \\
         ${use_slurm_arg} \\

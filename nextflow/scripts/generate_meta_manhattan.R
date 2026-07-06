@@ -21,7 +21,11 @@ option_list <- list(
   make_option(c("--cell_type"), type="character", default="Unknown",
               help="Cell type name for plot title", metavar="STRING"),
   make_option(c("--output_dir"), type="character", default=".",
-              help="Output directory for plots", metavar="DIR")
+              help="Output directory for plots", metavar="DIR"),
+  make_option(c("--manhattan_only"), type="logical", default=FALSE,
+              help="If TRUE, skip QQ plot generation for faster runtime [default: FALSE]"),
+  make_option(c("--max_bg_plot"), type="integer", default=0,
+              help="Maximum non-significant variants to plot; <=0 means no downsampling [default: 0]")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
@@ -59,8 +63,8 @@ meta_data <- raw_tbl %>%
   separate(MarkerName, into = c("CHROM", "POS", "REF", "ALT"), sep = ":", remove = FALSE) %>%
   rename(ID = MarkerName, P = `P-value`) %>%
   mutate(
-    CHROM = gsub("chr", "", CHROM),
-    CHROM = as.numeric(CHROM),
+    CHROM = gsub("^chr", "", CHROM, ignore.case = TRUE),
+    CHROM = paste0("chr", CHROM),
     POS   = as.numeric(POS),
     P     = as.numeric(P)
   ) %>%
@@ -84,6 +88,22 @@ cat(paste("After filtering:", nrow(plot_data), "valid variants\n"))
 
 if (nrow(plot_data) == 0) {
   stop("No valid variants after filtering!")
+}
+
+# Optional downsampling for plotting speed while keeping all suggestive variants.
+# Default behavior is no downsampling.
+plot_data_sig <- plot_data %>% filter(P < 1e-5)
+plot_data_bg  <- plot_data %>% filter(P >= 1e-5)
+if (!is.na(opt$max_bg_plot) && opt$max_bg_plot > 0 && nrow(plot_data_bg) > opt$max_bg_plot) {
+  set.seed(42)
+  keep_idx <- sample.int(nrow(plot_data_bg), size = opt$max_bg_plot)
+  plot_data_bg <- plot_data_bg[keep_idx, , drop = FALSE]
+}
+plot_data_vis <- bind_rows(plot_data_sig, plot_data_bg)
+if (!is.na(opt$max_bg_plot) && opt$max_bg_plot > 0) {
+  cat(paste("Plotting variants after optional downsampling:", nrow(plot_data_vis), "\n"))
+} else {
+  cat(paste("Plotting all variants (no downsampling):", nrow(plot_data_vis), "\n"))
 }
 
 # Calculate lambda (genomic inflation factor)
@@ -145,9 +165,10 @@ cat(paste("  Found", length(suggestive_snps), "suggestive SNPs to highlight\n"))
 # Create annotated Manhattan plot with gene annotation
 tryCatch({
   p_manhattan <- manhattanExtra(
-    df = plot_data,
+    df = plot_data_vis,
     genome_wide_thresh = 5e-8,
     suggestive_thresh = 1e-5,
+    color = c("grey80", "#0072B2", "#D55E00"),
     annotate = 1e-5,
     build = 37,  # GRCh37/hg19
     label_size = 4,
@@ -172,7 +193,18 @@ cat("Generating basic Manhattan plot with qqman...\n")
 manhattan_file <- file.path(opt$output_dir, paste0(opt$output_prefix, "_manhattan_basic.png"))
 
 qqman_data <- plot_data %>%
-  rename(CHR = CHROM, BP = POS, SNP = ID)
+  mutate(
+    CHR = gsub("^chr", "", CHROM, ignore.case = TRUE),
+    CHR = dplyr::case_when(
+      CHR == "X" ~ "23",
+      CHR == "Y" ~ "24",
+      CHR %in% c("M", "MT") ~ "25",
+      TRUE ~ CHR
+    ),
+    CHR = as.numeric(CHR)
+  ) %>%
+  filter(!is.na(CHR)) %>%
+  rename(BP = POS, SNP = ID)
 
 png(file = manhattan_file, width = 4800, height = 1800, res = 300)
 qqman::manhattan(qqman_data,
@@ -184,15 +216,19 @@ title(main = paste("Meta-Analysis Manhattan Plot:", opt$cell_type))
 dev.off()
 cat(paste("  Saved basic plot:", manhattan_file, "\n"))
 
-# Generate QQ plot
-cat("Generating QQ plot...\n")
-qq_file <- file.path(opt$output_dir, paste0(opt$output_prefix, "_qq.png"))
-png(file = qq_file, width = 1400, height = 1400, res = 300)
-qqman::qq(plot_data$P,
-   main = paste("Meta-Analysis QQ Plot:", opt$cell_type),
-   sub = paste("Lambda =", round(lambda, 3)))
-dev.off()
-cat(paste("  Saved:", qq_file, "\n"))
+if (!opt$manhattan_only) {
+  # Generate QQ plot
+  cat("Generating QQ plot...\n")
+  qq_file <- file.path(opt$output_dir, paste0(opt$output_prefix, "_qq.png"))
+  png(file = qq_file, width = 1400, height = 1400, res = 300)
+  qqman::qq(plot_data$P,
+     main = paste("Meta-Analysis QQ Plot:", opt$cell_type),
+     sub = paste("Lambda =", round(lambda, 3)))
+  dev.off()
+  cat(paste("  Saved:", qq_file, "\n"))
+} else {
+  cat("Skipping QQ plot (--manhattan_only=TRUE)\n")
+}
 
 # Save summary statistics (includes heterogeneity summary when available)
 summary_file <- file.path(opt$output_dir, paste0(opt$output_prefix, "_summary.txt"))

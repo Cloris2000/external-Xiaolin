@@ -1,7 +1,8 @@
 /*
- * Multi-ancestry meta-analysis across all 12 cohorts:
+ * Multi-ancestry meta-analysis across all 15 cohorts:
  *   ROSMAP, Mayo, MSBB, CMC_MSSM, CMC_PENN, CMC_PITT, GTEx, NABEC,
- *   NIMH_HBCC_1M, NIMH_HBCC_h650, NIMH_HBCC_Omni5M, GVEX
+ *   NIMH_HBCC_1M, NIMH_HBCC_h650, NIMH_HBCC_Omni5M, GVEX,
+ *   AMP_AD_Columbia, AMP_AD_MtSinai, AMP_AD_Rush
  *
  * Requires that each cohort has already completed GWAS (raw_p files present):
  *   results/{cohort}/regenie_step2/{cohort}_*_step2.regenie.raw_p
@@ -20,7 +21,8 @@ params {
         "CMC_MSSM", "CMC_PENN", "CMC_PITT",
         "GTEx", "NABEC",
         "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
-        "GVEX"
+        "GVEX",
+        "AMP_AD_Columbia", "AMP_AD_MtSinai", "AMP_AD_Rush"
     ]
 
     cohort_include = [
@@ -28,8 +30,18 @@ params {
         "CMC_MSSM", "CMC_PENN", "CMC_PITT",
         "GTEx", "NABEC",
         "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
-        "GVEX"
+        "GVEX",
+        "AMP_AD_Columbia", "AMP_AD_MtSinai", "AMP_AD_Rush"
     ]
 
     output_dir = "${projectDir}/results/meta_analysis_all_cohorts"
+
+    // AMP-AD Diverse cohorts all use GRCh38 joint-called WGS (DivCo_GRCh38_743Samples_*).
+    // GTEx (v7) uses hg19 WGS — no liftover needed for that cohort.
+    cohort_genome_builds = [
+        "AMP_AD_Columbia": "hg38",
+        "AMP_AD_MtSinai":  "hg38",
+        "AMP_AD_Rush":     "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
 }
