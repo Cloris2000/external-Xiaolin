@@ -1,0 +1,38 @@
+/*
+ * Ancestry-matched diagnosis stratum: psychiatric cohorts, EUR-homogeneous only.
+ *
+ * Cohorts: CMC_MSSM, CMC_PENN, CMC_PITT
+ * Excludes: HBCC (AFR-enriched), GVEX (mixed), AD cohorts, controls
+ *
+ * Run: sbatch run_stratified_meta_psychiatric_eur.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "psychiatric_EUR"
+    stratified_meta_dimension = "diagnosis_group_ancestry_matched"
+
+    cohorts = [
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT"
+    ]
+    cohort_include = [
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_psychiatric_eur_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    // Reuse harmonized cohort files from EUR_homogeneous meta (9-cohort harmonization;
+    // METAL here subsets to the 3 EUR psychiatric CMC cohorts only).
+    pre_harmonized_input_dir = "${projectDir}/results/meta_sensitivity/stratified_eur_homogeneous_15cohorts/harmonized"
+    cohort_genome_builds = [:]
+    liftover_chain_hg38_to_hg19 = null
+
+    // Array workers run one cell type each; merge sbatch runs audit + heterogeneity summary.
+    run_cohort_audit = false
+    run_heterogeneity_summary = false
+    run_plot_meta = false
+    run_heterogeneity_breakdown = false
+}

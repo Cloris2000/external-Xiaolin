@@ -1,0 +1,72 @@
+/*
+ * 15-cohort meta-analysis:
+ *   Original 8: ROSMAP, Mayo, MSBB, CMC_MSSM, CMC_PENN, CMC_PITT, GTEx_v10, NABEC
+ *   HBCC 3 platforms: NIMH_HBCC_1M, NIMH_HBCC_h650, NIMH_HBCC_Omni5M
+ *   GVEX
+ *   ROSMAP_array (170 TOPmed imputed array samples not in WGS pipeline)
+ *   AMP-AD Diverse: AMP_AD_Rush, AMP_AD_Mayo
+ *
+ * Changes vs 13-cohort meta:
+ *   - GTEx upgraded from v8 → v10 (GRCh38 WGS, larger N)
+ *   - Added AMP_AD_Rush  (~133 DLPFC samples, GRCh38 WGS)
+ *   - Added AMP_AD_Mayo  (~234 DLPFC samples, GRCh38 WGS)
+ *
+ * Requires all 15 cohorts to have completed GWAS (raw_p files present):
+ *   results/{cohort}/regenie_step2/{cohort}_*_step2.regenie.raw_p
+ *
+ * Run:
+ *   sbatch run_meta_15cohorts.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+// Override HARMONIZE_META_SUMSTATS for 15-cohort run:
+// With 15 cohorts the harmonization script handles ~15x the data vs the 8-cohort run,
+// so 2h base time is insufficient. Exit code 140 = SLURM wall-time kill (SIGXCPU),
+// which needs the same retry+time-scaling treatment as exit 137 (OOM kill).
+process {
+    withName: 'HARMONIZE_META_SUMSTATS' {
+        cpus          = 1
+        memory        = { 32.GB * task.attempt }
+        time          = { 4.h  * task.attempt }  // 4h → 8h → 12h on retries
+        errorStrategy = { task.exitStatus in [137, 140] ? 'retry' : 'terminate' }
+        maxRetries    = 2
+    }
+
+
+}
+
+params {
+    base_dir = "${projectDir}"
+
+    cohorts = [
+        "ROSMAP", "ROSMAP_array",
+        "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+
+    cohort_include = [
+        "ROSMAP", "ROSMAP_array",
+        "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+
+    output_dir = "${projectDir}/results/meta_analysis_15cohorts"
+
+    // GTEx_v10 uses GTEx v9 WGS (GRCh38); AMP-AD Diverse WGS is also GRCh38.
+    // All other cohorts in this meta are hg19/b37.
+    cohort_genome_builds = [
+        "GTEx_v10":    "hg38",
+        "AMP_AD_Rush": "hg38",
+        "AMP_AD_Mayo": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+}

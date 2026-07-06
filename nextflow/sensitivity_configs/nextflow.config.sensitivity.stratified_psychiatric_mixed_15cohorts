@@ -1,0 +1,37 @@
+/*
+ * Stratified meta-analysis: psychiatric / mixed-diagnosis cohorts (15-cohort base).
+ *
+ * Cohorts: CMC_MSSM, CMC_PENN, CMC_PITT, NIMH_HBCC (3 platforms), GVEX
+ * Purpose: Test replication in psychiatric brain-bank cohorts separately from AD cohorts.
+ *
+ * Run: sbatch run_stratified_meta_psychiatric_mixed.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "psychiatric_mixed"
+    stratified_meta_dimension = "diagnosis_group"
+
+    cohorts = [
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX"
+    ]
+    cohort_include = [
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_psychiatric_mixed_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [:]
+    liftover_chain_hg38_to_hg19 = null
+
+    run_heterogeneity_summary = true
+    run_plot_meta = true
+    run_heterogeneity_breakdown = false
+}

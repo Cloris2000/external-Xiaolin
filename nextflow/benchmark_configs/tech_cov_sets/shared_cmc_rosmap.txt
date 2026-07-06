@@ -1,0 +1,7 @@
+PMI
+RIN
+platform
+libraryPrep
+runType
+readLength
+isStranded

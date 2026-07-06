@@ -1,0 +1,48 @@
+/*
+ * Standalone Meta-Analysis — AMP-AD Diverse Cohort (3 sub-cohorts)
+ *
+ * Meta-analyses Columbia, MSSM (AMP_AD_MtSinai), and Rush DLPFC GWAS results
+ * produced by:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.amp_ad_columbia
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.amp_ad_mssm
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.amp_ad_rush
+ *
+ * All three cohorts share the same joint-called WGS VCF and the same QC'd
+ * genotype files from results/AMP_AD_DiverseCohort/. Each sub-cohort has its
+ * own RNA processing, phenotype file, and REGENIE GWAS results.
+ *
+ * Note on sample sizes:
+ *   AMP_AD_Rush      ~207 DLPFC individuals
+ *   AMP_AD_Columbia  ~50  DLPFC individuals
+ *   AMP_AD_MtSinai   ~51  DLPFC individuals
+ *   (min_present_cohorts=2 keeps variants present in at least 2 sub-cohorts)
+ *
+ * Run:
+ *   nextflow run standalone_meta_analysis.nf \
+ *       -c nextflow.config.standalone_meta_amp_ad_diverse \
+ *       -w work/meta_AMP_AD_Diverse \
+ *       -resume
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+
+    cohorts = [
+        "AMP_AD_Columbia",
+        "AMP_AD_MtSinai",
+        "AMP_AD_Rush"
+    ]
+
+    cohort_include = [
+        "AMP_AD_Columbia",
+        "AMP_AD_MtSinai",
+        "AMP_AD_Rush"
+    ]
+
+    output_dir = "${projectDir}/results/meta_analysis_amp_ad_diverse"
+
+    // Require variant present in at least 2 of 3 sub-cohorts
+    min_present_cohorts = 2
+}

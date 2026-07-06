@@ -1,0 +1,5 @@
+stratum_label	results_dir
+pooled_15cohorts	results/meta_analysis_15cohorts
+AD_neurological	results/meta_sensitivity/stratified_ad_neurological_15cohorts
+EUR_homogeneous	results/meta_sensitivity/stratified_eur_homogeneous_15cohorts
+HBCC_AFR_enriched	results/meta_sensitivity/stratified_hbcc_15cohorts

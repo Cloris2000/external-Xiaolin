@@ -1,0 +1,123 @@
+/*
+ * Combined Pipeline Configuration for sn-MSBB (psychAD MSSM snRNA + MSBB WGS)
+ *
+ * Uses precomputed snRNA-derived cell proportions keyed by MSBB specimen IID and
+ * restricts the run to the canonical overlap set in results/MSBB_sn/samples_to_keep_224.txt.
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL PARAMETERS
+    // ============================================================================
+    cohorts = ["MSBB"]
+    study = "MSBB"
+    conda_env = "test"
+
+    // ============================================================================
+    // PHENOTYPE PIPELINE PARAMETERS (PRECOMPUTED snRNA PROPORTIONS)
+    // ============================================================================
+    precomputed_proportions = "${projectDir}/data_input/sn_msbb/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_msbb/metadata.csv"
+    cell_type_list = [
+        "Adaptive",
+        "Astro",
+        "EN_L2_3_IT",
+        "EN_L3_5_IT_1",
+        "EN_L3_5_IT_2",
+        "EN_L3_5_IT_3",
+        "EN_L5_6_NP",
+        "EN_L5_ET",
+        "EN_L6B",
+        "EN_L6_CT",
+        "EN_L6_IT_1",
+        "EN_L6_IT_2",
+        "Endo",
+        "IN_ADARB2",
+        "IN_LAMP5_LHX6",
+        "IN_LAMP5_RELN",
+        "IN_PVALB",
+        "IN_PVALB_CHC",
+        "IN_SST",
+        "IN_VIP",
+        "Micro",
+        "OPC",
+        "Oligo",
+        "PC",
+        "PVM",
+        "SMC",
+        "VLMC"
+    ]
+
+    // Canonical WGS sample list for MSBB (post-QC)
+    wgs_psam_file = "${projectDir}/results/MSBB/MSBB.QC.final.psam"
+    pca_file = "${projectDir}/results/MSBB/pca.csv"
+
+    // Metadata columns in precomputed sn_msbb/metadata.csv
+    col_msex = "sex"
+    col_age = "ageDeath"
+    col_individualID = "individualID"
+
+    // IDs are already numeric specimen IDs that match WGS IID directly
+    fid_method = "individual_id"
+    fid_format = ""
+
+    // ============================================================================
+    // GENOTYPING QC PIPELINE PARAMETERS
+    // ============================================================================
+    vcf_dir = ""
+    vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.MSSM.vcf.gz"'
+    normalized_vcf_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf_normalized"
+
+    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    qc_version = "v2_sn224"
+    maf_threshold = 0.05
+    hwe_threshold = 1e-15
+    geno_threshold = 0.1
+    mind_threshold = 0.1
+    vcf_min_gq = 20
+    vcf_min_dp = 10
+    vcf_min_qual = 30
+    mach_r2_filter = 0.8
+    prune_window_size = 500
+    prune_step_size = 1
+    prune_r2_threshold = 0.2
+    normalize_vcf = true
+    include_x = false
+    sort_vars = true
+    autosome_only = true
+
+    // Restrict to snRNA + WGS overlap set
+    samples_to_keep = "${projectDir}/results/MSBB_sn/samples_to_keep_224.txt"
+
+    // ============================================================================
+    // DIRECTORIES
+    // ============================================================================
+    work_dir = "${projectDir}/work/MSBB_sn"
+    log_dir = "${projectDir}/logs/MSBB_sn"
+    output_dir = "${projectDir}/results/MSBB_sn"
+
+    // ============================================================================
+    // GWAS PIPELINE PARAMETERS
+    // ============================================================================
+    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    skip_metal = true
+    regenie_threads = 12
+    regenie_bsize = 1000
+
+    // ============================================================================
+    // COHORT-SPECIFIC CONFIGURATIONS
+    // ============================================================================
+    cohort_configs = [
+        "MSBB": [
+            pgen_file: "${projectDir}/results/MSBB_sn/MSBB.QC.final",
+            prune_in_file: "${projectDir}/results/MSBB_sn/MSBB.QC.prune.in",
+            pheno_file: "${projectDir}/results/MSBB_sn/phenotypes_RINT.txt",
+            covar_file: "${projectDir}/results/MSBB_sn/covariates.txt"
+        ]
+    ]
+}

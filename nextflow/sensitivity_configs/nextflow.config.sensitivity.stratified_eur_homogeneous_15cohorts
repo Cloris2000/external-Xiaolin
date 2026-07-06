@@ -1,0 +1,39 @@
+/*
+ * Stratified meta-analysis: EUR-homogeneous cohorts only (15-cohort base).
+ *
+ * Excludes GVEX, AMP-AD Diverse (Rush/Mayo), and NIMH HBCC platforms (AFR-enriched).
+ * Purpose: Ancestry-matched sensitivity meta without mixed- or AFR-enriched cohorts.
+ *
+ * Run: sbatch run_stratified_meta_eur_homogeneous.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "EUR_homogeneous"
+    stratified_meta_dimension = "ancestry_class"
+
+    cohorts = [
+        "ROSMAP", "ROSMAP_array", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC"
+    ]
+    cohort_include = [
+        "ROSMAP", "ROSMAP_array", "Mayo", "MSBB",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_eur_homogeneous_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [
+        "GTEx_v10": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+
+    run_heterogeneity_summary = true
+    run_plot_meta = true
+    run_heterogeneity_breakdown = false
+}

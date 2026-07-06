@@ -1,0 +1,47 @@
+/*
+ * Stratified meta-analysis: DLPFC / frontal cortex only (15-cohort base).
+ *
+ * Excludes Mayo (temporal cortex) and MSBB (superior temporal gyrus).
+ * Purpose: Reduce tissue heterogeneity in the pooled meta.
+ *
+ * Run: sbatch run_stratified_meta_dlpfc_only.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "DLPFC_only"
+    stratified_meta_dimension = "analysis_type"
+
+    cohorts = [
+        "ROSMAP", "ROSMAP_array",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+    cohort_include = [
+        "ROSMAP", "ROSMAP_array",
+        "CMC_MSSM", "CMC_PENN", "CMC_PITT",
+        "GTEx_v10", "NABEC",
+        "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
+        "GVEX",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_dlpfc_only_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [
+        "GTEx_v10":    "hg38",
+        "AMP_AD_Rush": "hg38",
+        "AMP_AD_Mayo": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+
+    run_heterogeneity_summary = true
+    run_plot_meta = true
+    run_heterogeneity_breakdown = false
+}

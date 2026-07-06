@@ -1,0 +1,29 @@
+/*
+ * Standalone meta-analysis for sn cohorts only:
+ *   - sn_ROSMAP
+ *   - MSBB_sn
+ *   - sn_NIMH_HBCC
+ *
+ * Strict mode: require presence in all three cohorts (min_present_cohorts = 3).
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+y     meta_input_results_dir = "${projectDir}/results/meta_sn_strict_inputs"
+
+    cohorts = ["ROSMAP", "MSBB", "NIMH_HBCC"]
+    cohort_include = ["ROSMAP", "MSBB", "NIMH_HBCC"]
+
+    // Strict 3-cohort overlap only.
+    min_present_cohorts = 3
+
+    output_dir = "${projectDir}/results/meta_analysis_sn_rosmap_msbb_hbcc_strict_v2"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+
+    // Keep plotting enabled for quick visual QC of meta outputs.
+    run_plot_meta = true
+}

@@ -1,0 +1,25 @@
+/*
+ * HBCC platforms only — AFR-enriched stratum (15-cohort pipeline base).
+ * Run: sbatch run_stratified_meta_hbcc_15cohorts.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "HBCC_AFR_enriched"
+    stratified_meta_dimension = "ancestry_class"
+
+    cohorts = ["NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M"]
+    cohort_include = ["NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M"]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_hbcc_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [:]
+    liftover_chain_hg38_to_hg19 = null
+
+    run_heterogeneity_summary = true
+    run_plot_meta = false
+    run_heterogeneity_breakdown = false
+}

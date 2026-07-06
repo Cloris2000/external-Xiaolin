@@ -1,0 +1,38 @@
+/*
+ * Stratified meta-analysis: AD / neurological brain-bank cohorts only (15-cohort base).
+ *
+ * Cohorts: ROSMAP, ROSMAP_array, Mayo, MSBB, AMP_AD_Rush, AMP_AD_Mayo
+ * Purpose: Test whether pooled meta signals replicate in disease-focused cohorts.
+ *
+ * Run: sbatch run_stratified_meta_ad_neurological.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "AD_neurological"
+    stratified_meta_dimension = "diagnosis_group"
+
+    cohorts = [
+        "ROSMAP", "ROSMAP_array", "Mayo", "MSBB",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+    cohort_include = [
+        "ROSMAP", "ROSMAP_array", "Mayo", "MSBB",
+        "AMP_AD_Rush", "AMP_AD_Mayo"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/stratified_ad_neurological_15cohorts"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [
+        "AMP_AD_Rush": "hg38",
+        "AMP_AD_Mayo": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+
+    run_heterogeneity_summary = true
+    run_plot_meta = false
+    run_heterogeneity_breakdown = false
+}

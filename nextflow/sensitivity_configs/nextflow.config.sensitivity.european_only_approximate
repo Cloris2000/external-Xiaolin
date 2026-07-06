@@ -1,0 +1,15 @@
+/*
+ * Auto-generated sensitivity config — do not edit by hand.
+ */
+includeConfig '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/nextflow.config.standalone_meta'
+
+params {
+    base_dir       = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+    cohorts        = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GTEx", "NABEC", "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M"]
+    cohort_include = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GTEx", "NABEC", "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M"]
+    output_dir     = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/european_only_approximate"
+    metal_path     = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    harmonized_output_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/european_only_approximate/harmonized"
+    audit_output_dir      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/european_only_approximate/audit"
+    sensitivity_output_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/european_only_approximate"
+}

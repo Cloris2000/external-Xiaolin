@@ -1,0 +1,137 @@
+/*
+ * Combined Pipeline — ROSMAP, bulk MGP proportions, N=423 matched subjects
+ *                     Library prep only batch correction, NO expression PC correction
+ *
+ * Exploratory sn vs bulk comparison cohort:
+ *   - Bulk RNA-seq MGP-derived cell type proportions
+ *   - 423 subjects present in BOTH sn_ROSMAP AND bulk ROSMAP
+ *   - Same WGS VCF as sn_ROSMAP and standard bulk ROSMAP
+ *   - batch_covariates = "libraryPrep"  (library prep only — no sequencingBatch)
+ *   - top_n_tech_cov = 0  (no expression PC correction)
+ *   - skip_metal = true  (not included in the main meta-analysis)
+ *
+ * This config is the minimal-correction counterpart of:
+ *   nextflow.config.combined.rosmap_bulk_matched  (full design matrix, top_n_tech_cov=20)
+ *
+ * Prerequisites:
+ *   Same as nextflow.config.combined.rosmap_bulk_matched
+ *
+ * Run:
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c nextflow.config.combined.rosmap_bulk_matched_libprep \
+ *       -w work/ROSMAP_bulk_matched_libprep
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts   = ["ROSMAP_bulk_matched_libprep"]
+    study     = "ROSMAP_bulk_matched_libprep"
+    conda_env = "test"
+
+    // Bulk RNA-seq inputs (same as standard ROSMAP run)
+    count_matrix_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_DLPFC_batch_all.csv'
+    metadata_file     = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_combined_metrics.csv'
+
+    // Files produced by genotype QC (will be created by this pipeline run)
+    wgs_psam_file = "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/ROSMAP.QC.merged.psam"
+    pca_file      = "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/pca.csv"
+
+    biospecimen_file = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+
+    tissue_filter              = 'dorsolateral prefrontal cortex'
+    top_n_tech_cov             = 0               // no expression PC correction
+    batch_covariates           = "libraryPrep"   // library prep only (no sequencingBatch)
+    col_sample_id_for_matching = ''
+
+    deconv_tool        = 'MGP'
+    reference_taxonomy = 'sonny_markers'
+    marker_file        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file  = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+
+    fid_method             = 'biospec_specimen'
+    fid_format             = ''
+    biospec_assay_filter   = 'wholeGenomeSeq'
+    biospec_col_individual = 'individualID'
+    biospec_col_specimen   = 'specimenID'
+    col_msex               = 'msex'
+    col_diagnosis          = 'cogdx'
+
+    // Restrict to the 423 subjects also present in sn_ROSMAP
+    samples_to_keep = "${projectDir}/compare_sn_gwas_rosmap/samples_to_keep.txt"
+
+    // Use default 19 bulk cell types (cell_type_list = null → pipeline default)
+    cell_type_list = null
+    skip_metal     = true
+
+    vcf_dir            = ""
+    vcf_pattern        = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Broad_Rush.vcf.gz"'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized'
+    normalize_vcf      = true
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    qc_version         = 'v4'   // fresh QC for the 423-sample matched subset
+    maf_threshold      = 0.05
+    mach_r2_filter     = 0.8
+    vcf_min_gq         = 20
+    vcf_min_dp         = 10
+    vcf_min_qual       = 30
+    hwe_threshold      = 1e-15
+    geno_threshold     = 0.1
+    mind_threshold     = 0.1
+    prune_window_size  = 500
+    prune_step_size    = 1
+    prune_r2_threshold = 0.2
+
+    include_x     = false
+    sort_vars     = true
+    autosome_only = true
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "ROSMAP_bulk_matched_libprep": [
+            pgen_file:     "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/ROSMAP.QC.final",
+            prune_in_file: "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/ROSMAP.QC.prune.in",
+            pheno_file:    "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/ROSMAP_bulk_matched_libprep"
+    log_dir    = "${projectDir}/logs/ROSMAP_bulk_matched_libprep"
+    output_dir = "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep"
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = '32 GB'
+        errorStrategy = { task.exitStatus in [1,5] ? 'retry' : 'terminate' }
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN' {
+        cpus = 4; memory = '32 GB'; errorStrategy = 'retry'; maxRetries = 5; time = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:PHENOTYPE_PIPELINE:.*' {
+        cpus = { task.attempt == 1 ? 4 : 2 }; memory = '16 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' { cpus = 1; memory = '4 GB' }
+    withName: 'COMBINED_PIPELINE:CHECK_GENOTYPING_COMPLETE' { cpus = 1; memory = '1 GB' }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

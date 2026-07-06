@@ -1,0 +1,5 @@
+stratum_label	results_dir
+pooled_15cohorts	results/meta_analysis_15cohorts
+EUR_homogeneous	results/meta_sensitivity/stratified_eur_homogeneous_15cohorts
+AD_EUR	results/meta_sensitivity/stratified_ad_eur_15cohorts
+psychiatric_EUR	results/meta_sensitivity/stratified_psychiatric_eur_15cohorts

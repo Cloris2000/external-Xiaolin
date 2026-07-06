@@ -1,0 +1,34 @@
+/*
+ * Standalone meta-analysis (no-tech-except-ROSMAP-libprep policy), LDSC-first:
+ *   - input:  results/tech_cov_policy/no_tech_except_rosmap_libprep/ per-cohort GWAS output
+ *   - output: results/meta_analysis_no_tech_except_rosmap_libprep
+ *   - plotting disabled by default to avoid blocking LDSC completion
+ */
+
+includeConfig '../nextflow.config.standalone_meta_13cohorts_ldsc'
+
+params {
+    meta_input_results_dir = "${projectDir}/results/tech_cov_policy/no_tech_except_rosmap_libprep"
+    output_dir = "${projectDir}/results/meta_analysis_no_tech_except_rosmap_libprep"
+    ldsc_sumstats_outdir = "${output_dir}/ldsc/sumstats"
+    ldsc_results_outdir = "${output_dir}/ldsc/results"
+    ldsc_summary_outdir = "${output_dir}/ldsc/summary"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+}
+
+process {
+    withName: 'PREPARE_LDSC_SUMSTATS' {
+        cpus = 2
+        memory = { 32.GB * task.attempt }
+        time = { 2.h * task.attempt }
+        maxRetries = 5
+        errorStrategy = { task.exitStatus == 137 ? 'retry' : 'terminate' }
+        maxForks = 3
+    }
+
+    withName: 'RUN_LDSC_H2' {
+        maxForks = 14
+    }
+}

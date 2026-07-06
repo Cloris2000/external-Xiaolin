@@ -1,0 +1,133 @@
+/*
+ * Combined Pipeline — NIMH HBCC, bulk MGP proportions, N=258 matched subjects
+ *                     NO technical covariate correction (top_n_tech_cov = 0)
+ *
+ * Exploratory sn vs bulk comparison cohort:
+ *   - Bulk RNA-seq MGP-derived cell type proportions
+ *   - 258 subjects present in BOTH sn_NIMH_HBCC AND at least one bulk platform
+ *   - Same merged VCF as sn_NIMH_HBCC (imputed_chr_normalized)
+ *   - top_n_tech_cov = 0 (no expression PCs regressed from proportions)
+ *   - skip_metal = true (not included in the main meta-analysis)
+ *
+ * This config is the no-tech-cov counterpart of:
+ *   nextflow.config.combined.nimh_hbcc_bulk_matched  (top_n_tech_cov = 10)
+ *
+ * Comparison with sn_NIMH_HBCC lets us disentangle:
+ *   sn vs bulk (bulk_matched)           — same N, same VCF, different proportions + tech cov
+ *   sn vs bulk (bulk_matched_no_tech)   — same N, same VCF, different proportions, no tech cov
+ *
+ * Prerequisites:
+ *   Same as nextflow.config.combined.nimh_hbcc_bulk_matched
+ *
+ * Run:
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c nextflow.config.combined.nimh_hbcc_bulk_matched_no_tech \
+ *       -w work/NIMH_HBCC_bulk_matched_no_tech
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts          = ["NIMH_HBCC_bulk_matched_no_tech"]
+    study            = "NIMH_HBCC_bulk_matched_no_tech"
+    genotyping_study = "CMC_HBCC"
+    conda_env        = "test"
+
+    // Bulk RNA-seq inputs (same as per-platform HBCC runs)
+    count_matrix_file = "${projectDir}/data_input/nimh_hbcc/HBCC_count_matrix.csv"
+    metadata_file     = "${projectDir}/data_input/nimh_hbcc/HBCC_metadata.csv"
+
+    // Files produced by genotype QC (will be created by this pipeline run)
+    wgs_psam_file = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/CMC_HBCC.QC.final.psam"
+    pca_file      = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/pca.csv"
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    tissue_filter          = "dorsolateral prefrontal cortex"
+    col_sample_id_for_matching = "specimenID"
+    top_n_tech_cov         = 0             // no expression PC correction
+    deconv_tool            = "MGP"
+    reference_taxonomy     = "sonny_markers"
+    marker_file            = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv"
+    hgnc_mapping_file      = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
+
+    fid_method             = 'biospec_specimen'
+    fid_format             = '0_'
+    biospec_col_individual = 'Individual_ID'
+    biospec_col_specimen   = 'Genotyping_Sample_ID'
+    col_msex               = 'reportedGender'
+    col_diagnosis          = 'primaryDiagnosis'
+
+    // Restrict to the 258 subjects that also appear in sn_NIMH_HBCC
+    samples_to_keep = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/samples_to_keep.txt"
+
+    // Use default 19 bulk cell types (cell_type_list = null → pipeline default)
+    cell_type_list = null
+    skip_metal     = true
+
+    vcf_dir            = ""
+    vcf_pattern        = ''
+    // Same merged VCF as sn_NIMH_HBCC
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized'
+
+    plink_path         = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path      = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    qc_version         = 'v6'          // fresh QC for the 258-sample subset
+    maf_threshold      = 0.05
+    mach_r2_filter     = 0.8
+    vcf_min_gq         = ""
+    vcf_min_dp         = ""
+    vcf_min_qual       = ""
+    hwe_threshold      = 1e-15
+    geno_threshold     = 0.1
+    mind_threshold     = 0.1
+    prune_window_size  = 500
+    prune_step_size    = 1
+    prune_r2_threshold = 0.2
+    vcf_dosage         = "DS"
+    normalize_vcf      = false
+    include_x          = false
+    sort_vars          = true
+    autosome_only      = true
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "NIMH_HBCC_bulk_matched_no_tech": [
+            pgen_file:     "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/CMC_HBCC.QC.prune.in",
+            pheno_file:    "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/NIMH_HBCC_bulk_matched_no_tech"
+    log_dir    = "${projectDir}/logs/NIMH_HBCC_bulk_matched_no_tech"
+    output_dir = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched_no_tech"
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = '32 GB'
+        errorStrategy = { task.exitStatus in [1,5] ? 'retry' : 'terminate' }
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN' {
+        cpus = 4; memory = '32 GB'; errorStrategy = 'retry'; maxRetries = 5; time = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' { cpus = 12; memory = '48 GB' }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' { cpus = 1; memory = '4 GB' }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

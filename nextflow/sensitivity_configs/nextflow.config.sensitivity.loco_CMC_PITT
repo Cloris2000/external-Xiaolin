@@ -1,0 +1,15 @@
+/*
+ * Auto-generated sensitivity config — do not edit by hand.
+ */
+includeConfig '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/nextflow.config.standalone_meta'
+
+params {
+    base_dir       = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+    cohorts        = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "GTEx", "NABEC", "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M", "GVEX"]
+    cohort_include = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "GTEx", "NABEC", "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M", "GVEX"]
+    output_dir     = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/loco_CMC_PITT"
+    metal_path     = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    harmonized_output_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/loco_CMC_PITT/harmonized"
+    audit_output_dir      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/loco_CMC_PITT/audit"
+    sensitivity_output_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_sensitivity/loco_CMC_PITT"
+}

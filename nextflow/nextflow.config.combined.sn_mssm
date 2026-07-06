@@ -1,0 +1,144 @@
+/*
+ * Combined Pipeline Configuration for CMC-MSSM — snRNA-seq derived cell type proportions
+ *
+ * Uses pre-computed cell type proportions from psychAD single-nucleus data (MSSM source).
+ * Genotyping is identical to the bulk CMC_MSSM run (same VCFs, same biospecimen mapping).
+ *
+ * Prerequisites — run once to generate inputs:
+ *   Rscript scripts/compute_sn_proportions.R \
+ *       --input_file    /external/rprshnas01/netdata_kcni/stlab/Xiaolin/data/psychAD_metadata.csv \
+ *       --subject_col   SubID_export_synapse \
+ *       --celltype_col  subclass \
+ *       --source_filter MSSM \
+ *       --crosswalk_file <AMPAD_to_CMC_crosswalk.csv> \
+ *       --crosswalk_from ampad_id \
+ *       --crosswalk_to   cmc_id \
+ *       --metadata_cols  sex,ageDeath \
+ *       --output_proportions data_input/sn_mssm/cell_proportions.csv \
+ *       --output_metadata    data_input/sn_mssm/metadata.csv
+ *
+ *   NOTE: psychAD metadata lacks sex/age. Merge from NPS-AD_individual_metadata.csv
+ *   using SubID_export_synapse == individualID, then use sex and ageDeath columns.
+ *
+ *   Run the pipeline:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_mssm \
+ *       -w work/sn_MSSM
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL
+    // ============================================================================
+
+    cohorts   = ["CMC_MSSM"]
+    study     = "CMC_MSSM"
+    conda_env = "test"
+
+    // ============================================================================
+    // PRE-COMPUTED PROPORTIONS (skip RNA-seq stages 1a-1c)
+    // ============================================================================
+
+    precomputed_proportions = "${projectDir}/data_input/sn_mssm/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_mssm/metadata.csv"
+
+    // Cell type list will be set once we confirm psychAD subclass names
+    // (run compute_sn_proportions.R and check the printed unique cell types)
+    cell_type_list = null   // TODO: fill in after running compute_sn_proportions.R
+
+    skip_metal = true
+
+    // ============================================================================
+    // PHENOTYPE PREP — same CMC biospecimen mapping as bulk MSSM
+    // ============================================================================
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = '0_'
+    biospec_col_individual = 'Individual_ID'
+    biospec_col_specimen   = 'Genotyping_Sample_ID'
+
+    col_msex         = 'sex'       // from NPS-AD_individual_metadata.csv
+    col_age          = 'ageDeath'  // from NPS-AD_individual_metadata.csv
+    col_individualID = 'individualID'
+
+    // ============================================================================
+    // GENOTYPING QC — identical to bulk CMC_MSSM
+    // ============================================================================
+
+    vcf_dir            = ""
+    vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    qc_version       = 'v1'
+    maf_threshold    = 0.05
+    mach_r2_filter   = 0.8
+    vcf_min_gq       = ""
+    vcf_min_dp       = ""
+    vcf_min_qual     = ""
+    hwe_threshold    = 1e-15
+    geno_threshold   = 0.1
+    mind_threshold   = 0.1
+    prune_window_size   = 500
+    prune_step_size     = 1
+    prune_r2_threshold  = 0.2
+    normalize_vcf    = false
+    include_x        = false
+    sort_vars        = true
+    autosome_only    = true
+    samples_to_keep  = ""
+
+    // ============================================================================
+    // GWAS
+    // ============================================================================
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "CMC_MSSM": [
+            pgen_file:     "${projectDir}/results/sn_CMC_MSSM/CMC_MSSM.QC.final",
+            prune_in_file: "${projectDir}/results/sn_CMC_MSSM/CMC_MSSM.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_CMC_MSSM/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_CMC_MSSM/covariates.txt"
+        ]
+    ]
+
+    // ============================================================================
+    // DIRECTORIES — separate from bulk MSSM
+    // ============================================================================
+
+    work_dir   = "${projectDir}/work/sn_CMC_MSSM"
+    log_dir    = "${projectDir}/logs/sn_CMC_MSSM"
+    output_dir = "${projectDir}/results/sn_CMC_MSSM"
+    use_slurm  = false
+    slurm_time = "24:00:00"
+}
+
+process {
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = '32 GB'
+        errorStrategy = { task.exitStatus in [1,5] ? 'retry' : 'terminate' }
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }
