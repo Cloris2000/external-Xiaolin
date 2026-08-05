@@ -27,7 +27,13 @@ option_list <- list(
     default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits"),
   make_option("--sugg_thresh", type = "double", default = 1e-5),
   make_option("--clump_window_kb", type = "integer", default = 500,
-    help = "Distance window (kb) for greedy LD pruning [default %default]")
+    help = "Distance window (kb) for greedy LD pruning [default %default]"),
+  make_option("--match_by_name", type = "logical", default = FALSE,
+    help = paste(
+      "If TRUE, map each bulk cell type to the identically named sn table",
+      "(use for Hodge-label sn meta). Default FALSE keeps the legacy",
+      "abbreviated/proxy sn name mapping."
+    ))
 )
 opt <- parse_args(OptionParser(option_list = option_list))
 dir.create(opt$outdir, recursive = TRUE, showWarnings = FALSE)
@@ -37,22 +43,34 @@ CLUMP_WIN   <- opt$clump_window_kb * 1000L   # convert to bp
 
 # ---- cell-type mapping ------------------------------------------------------
 # All 19 bulk cell types → nearest matched sn cell type.
-crosswalk <- data.frame(
-  bulk  = c("Astrocyte", "Endothelial", "IT", "L4.IT", "L5.6.IT.Car3",
-            "L5.6.NP", "L5.ET", "L6b", "L6.CT",
-            "LAMP5", "Microglia", "Oligodendrocyte", "OPC",
-            "PAX6", "Pericyte", "PVALB", "SST", "VIP", "VLMC"),
-  sn    = c("ASTRO", "ENDO", "L23IT", "L23IT", "L23IT",
-            "L56NP", "L5ET", "L6B", "L6CT",
-            "LAMP5LHX6", "PVM", "OLIGO", "OPC",
-            "L23IT", "ENDO", "PVALB", "SST", "VIP", "VLMC"),
-  # flag the 4 bulk types that have no direct sn counterpart
-  direct_match = c(TRUE, TRUE, TRUE, FALSE, FALSE,
-                   TRUE, TRUE, TRUE, TRUE,
-                   TRUE, FALSE, TRUE, TRUE,
-                   FALSE, FALSE, TRUE, TRUE, TRUE, TRUE),
-  stringsAsFactors = FALSE
-)
+bulk_cts <- c("Astrocyte", "Endothelial", "IT", "L4.IT", "L5.6.IT.Car3",
+              "L5.6.NP", "L5.ET", "L6b", "L6.CT",
+              "LAMP5", "Microglia", "Oligodendrocyte", "OPC",
+              "PAX6", "Pericyte", "PVALB", "SST", "VIP", "VLMC")
+if (isTRUE(opt$match_by_name)) {
+  message("Using identity bulk↔sn cell-type mapping (--match_by_name)")
+  crosswalk <- data.frame(
+    bulk = bulk_cts,
+    sn   = bulk_cts,
+    direct_match = TRUE,
+    stringsAsFactors = FALSE
+  )
+} else {
+  # Legacy abbreviated / proxy mapping for older sn meta (alias15 etc.)
+  crosswalk <- data.frame(
+    bulk  = bulk_cts,
+    sn    = c("ASTRO", "ENDO", "L23IT", "L23IT", "L23IT",
+              "L56NP", "L5ET", "L6B", "L6CT",
+              "LAMP5LHX6", "PVM", "OLIGO", "OPC",
+              "L23IT", "ENDO", "PVALB", "SST", "VIP", "VLMC"),
+    # flag bulk types that have no direct sn counterpart under legacy naming
+    direct_match = c(TRUE, TRUE, TRUE, FALSE, FALSE,
+                     TRUE, TRUE, TRUE, TRUE,
+                     TRUE, FALSE, TRUE, TRUE,
+                     FALSE, FALSE, TRUE, TRUE, TRUE, TRUE),
+    stringsAsFactors = FALSE
+  )
+}
 
 # ---- helper: locate .tbl file -----------------------------------------------
 find_tbl <- function(dir, cell_type) {

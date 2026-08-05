@@ -1,0 +1,88 @@
+/*
+ * PsychAD HBCC snRNA-seq (Hodge label-transfer) cell-proportion GWAS — full HBCC set
+ *
+ * Inputs (IDs already remapped AMPAD_HBCC_* -> CMC_HBCC_*):
+ *   data_input/sn_psychad_hbcc_hodge/{cell_proportions,metadata}.csv
+ * Clinical covariates from NPS-AD_individual_metadata.csv (sex, ageDeath).
+ *
+ * Genotype (precomputed):
+ *   results/sn_NIMH_HBCC/CMC_HBCC.QC.final
+ *
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_psychad_hbcc_hodge \
+ *       -w work/sn_psychad_hbcc_hodge
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts          = ["PsychAD_HBCC_Hodge"]
+    study            = "PsychAD_HBCC_Hodge"
+    genotyping_study = "CMC_HBCC"
+    conda_env        = "test"
+
+    precomputed_proportions = "${projectDir}/data_input/sn_psychad_hbcc_hodge/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_psychad_hbcc_hodge/metadata.csv"
+    precomputed_pgen        = "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.final"
+
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.ET", "L5.6.IT.Car3",
+        "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC",
+        "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP", "VLMC"
+    ]
+    skip_metal = true
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = '0_'
+    biospec_col_individual = 'Individual_ID'
+    biospec_col_specimen   = 'Genotyping_Sample_ID'
+
+    col_msex         = 'sex'
+    col_age          = 'ageDeath'
+    col_individualID = 'individualID'
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "PsychAD_HBCC_Hodge": [
+            pgen_file:     "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/results/sn_psychad_hbcc_hodge/CMC_HBCC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_psychad_hbcc_hodge/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_psychad_hbcc_hodge/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/sn_psychad_hbcc_hodge"
+    log_dir    = "${projectDir}/logs/sn_psychad_hbcc_hodge"
+    output_dir = "${projectDir}/results/sn_psychad_hbcc_hodge"
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+process {
+    // medium partition nodes have broken SLURM prologs; use mediumtmp
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus = 1; memory = '4 GB'
+    }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

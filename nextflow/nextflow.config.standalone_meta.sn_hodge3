@@ -1,0 +1,51 @@
+/*
+ * Standalone meta-analysis: snRNA-seq Hodge label-transfer CTP GWAS
+ *   - ROSMAP_Green_Hodge  (N≈385)
+ *   - PsychAD_HBCC_Hodge  (N≈258)
+ *   - PsychAD_MSSM_Hodge  (N≈203; MSBB WGS subset)
+ *
+ * Inputs are staged under results/meta_sn_hodge3_inputs/ with directory
+ * names matching the study prefix in *.regenie.raw_p filenames.
+ *
+ * Run:
+ *   nextflow run standalone_meta_analysis.nf \
+ *       -c nextflow.config.standalone_meta.sn_hodge3 \
+ *       -w work/meta_sn_hodge3 -resume
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+    meta_input_results_dir = "${projectDir}/results/meta_sn_hodge3_inputs"
+
+    cohorts = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge"
+    ]
+    cohort_include = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge"
+    ]
+
+    // Keep variants present in at least 2 of 3 cohorts
+    min_present_cohorts = 2
+
+    output_dir = "${projectDir}/results/meta_analysis_sn_hodge3"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+
+    // Disable pipeline qqman plots (racey vs METAL publish; annotated
+    // lead-SNP Manhattan is generated separately after meta completes).
+    run_plot_meta = false
+}
+
+process {
+    // medium partition nodes have broken SLURM prologs; use mediumtmp
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+}

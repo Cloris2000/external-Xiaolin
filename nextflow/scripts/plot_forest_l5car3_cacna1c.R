@@ -1,45 +1,46 @@
 #!/usr/bin/env Rscript
-# Forest plot for TMEM106B locus in VIP 15-cohort meta-analysis
-# SNP: chr7:12284378:G:A (52 bp from lead indel chr7:12284430:T:TA)
-# Effect allele: A (ALT). Present in 11/15 cohorts.
-# Missing from GTEx_v10, AMP_AD_Mayo, AMP_AD_Rush (overlapping indel at 12284365),
-# and ROSMAP_array (SNP array). NIMH HBCC cohorts are predominantly African-American;
-# different LD structure at TMEM106B accounts for heterogeneity in those cohorts.
-# METAL Allele1 = a (A allele), Effect = +0.1178; cohort betas also for A allele.
+# Forest plot for CACNA1C locus in L5.6.IT.Car3 15-cohort meta-analysis
+# SNP: chr12:2324042:T:C  (METAL Allele1 = T; effect allele = T throughout)
+# Present in 11/15 cohorts (Direction: ??++-?+++-++++?)
+# Missing from: AMP_AD_Mayo, AMP_AD_Rush (not in meta input), GTEx_v10 (?),
+#   ROSMAP_array (SNP array coverage).
+# METAL Effect = +0.1018 for T allele; all per-cohort betas are flipped from
+#   REGENIE output (which uses C=ALLELE1) so that every entry = beta for T allele.
+# NIMH HBCC cohorts are predominantly African-American.
 
 library(ggplot2)
 library(dplyr)
 
-# ---------- per-cohort data (REGENIE, effect allele = A) ---------------
-# ancestry: "EUR" = European WGS, "AFR" = African-American array/imputed
+# ---------- per-cohort data (REGENIE ALLELE1=C, flipped → T-allele betas) ----
+# ancestry: "EUR" = European, "AFR" = Mixed ancestries (predominantly AFR)
 cohorts <- data.frame(
   label    = c("ROSMAP", "Mayo", "MSBB", "NABEC",
                "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GVEX",
                "NIMH_HBCC_1M", "NIMH_HBCC_Omni5M", "NIMH_HBCC_h650"),
-  beta     = c( 0.318855,  0.154605,  0.229885,  0.0346592,
-                0.0990067, 0.127878, -0.0901743,  0.00345954,
-                0.0280202, -0.0826726, -0.193582),
-  se       = c( 0.0451451, 0.0571266, 0.0764044, 0.0886242,
-                0.0810084, 0.0894102,  0.09388,   0.067703,
-                0.0851864,  0.0949025,  0.0960267),
-  n        = c(795L, 257L, 252L, 210L,
+  beta     = c( 0.0423,  0.1314,  0.1710, -0.0316,
+                0.1854,  0.0163, -0.0203,  0.1114,
+                0.2233,  0.1080,  0.1091),
+  se       = c( 0.04636, 0.07910, 0.07265, 0.09907,
+                0.07003, 0.11999, 0.09023, 0.06855,
+                0.07263, 0.07202, 0.08284),
+  n        = c(796L, 257L, 252L, 210L,
                242L,  92L, 161L, 394L,
                202L,  79L,  97L),
-  pval     = c(1.63042e-12, 0.00680268, 0.00262289, 0.695738,
-               0.22164,     0.152649,   0.33679,    0.959247,
-               0.74221,     0.383683,   0.0438087),
+  pval     = c(0.3616, 0.0968, 0.01856, 0.7499,
+               0.00812, 0.8916,  0.8216,  0.1040,
+               0.002110, 0.1336,  0.1879),
   ancestry = c(rep("EUR", 8), rep("AFR", 3)),
   is_meta  = FALSE,
   stringsAsFactors = FALSE
 )
 
-# ---------- meta (METAL, 11 cohorts, Allele1 = A) ----------------------
+# ---------- meta-analysis (METAL, 11 cohorts, Allele1 = T) -------------------
 meta <- data.frame(
   label    = "Meta-analysis",
-  beta     =  0.1178,
-  se       =  0.0220,
+  beta     =  0.1018,
+  se       =  0.0221,
   n        = NA_integer_,
-  pval     = 8.831e-08,
+  pval     = 3.959e-06,
   ancestry = "META",
   is_meta  = TRUE,
   stringsAsFactors = FALSE
@@ -61,7 +62,6 @@ df <- df %>%
                       formatC(pval, format = "e", digits = 2),
                       formatC(pval, format = "f", digits = 3)),
     nlabel    = ifelse(is.na(n), "", paste0("N = ", formatC(n, format = "d", big.mark = ","))),
-    # map ancestry to a display label for the legend
     anc_label = dplyr::case_when(
       ancestry == "EUR"  ~ "European",
       ancestry == "AFR"  ~ "Mixed ancestries",
@@ -71,12 +71,12 @@ df <- df %>%
 df$anc_label <- factor(df$anc_label,
                        levels = c("European", "Mixed ancestries", "Meta-analysis"))
 
-# ---------- colours ----------------------------------------------------
+# ---------- colours ----------------------------------------------------------
 clr_eur  <- "#2166AC"
 clr_afr  <- "#D95F02"
 clr_meta <- "#B2182B"
 
-# ---------- plot -------------------------------------------------------
+# ---------- plot -------------------------------------------------------------
 p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
 
   # dotted separator between EUR and AFR cohort groups
@@ -103,9 +103,9 @@ p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
 
   scale_colour_manual(
     name   = "Ancestry",
-    values = c("European" = clr_eur,
+    values = c("European"         = clr_eur,
                "Mixed ancestries" = clr_afr,
-               "Meta-analysis" = clr_meta),
+               "Meta-analysis"    = clr_meta),
     guide  = guide_legend(override.aes = list(shape = 16, size = 3,
                                               linewidth = 0.6))
   ) +
@@ -114,8 +114,8 @@ p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
   scale_size_manual(values     = c("FALSE" = 2.5, "TRUE" = 4.0),  guide = "none") +
 
   labs(
-    title = "chr7:12284378:G:A — TMEM106B locus (VIP)",
-    x     = "Beta (95% CI), effect allele A",
+    title = "chr12:2324042:T:C — CACNA1C (L5.6.IT.Car3)",
+    x     = "Beta (95% CI), effect allele T",
     y     = NULL
   ) +
 
@@ -137,7 +137,9 @@ p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
     plot.margin        = margin(8, 100, 8, 8)
   )
 
-# ---------- save -------------------------------------------------------
-out <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest/VIP_TMEM106B_chr7_12284378_forest.png"
+# ---------- save -------------------------------------------------------------
+out_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest"
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+out <- file.path(out_dir, "L5.6.IT.Car3_CACNA1C_chr12_2324042_forest.png")
 ggsave(out, plot = p, width = 6, height = 8, dpi = 200, bg = "white")
 message("Saved: ", out)

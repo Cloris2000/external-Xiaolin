@@ -1,0 +1,157 @@
+/*
+ * Combined Pipeline Configuration for PsychAD/HBCC_1 — snRNA-seq derived cell type
+ * proportions from the new Hodge label-transferred annotation.
+ *
+ * Uses pre-computed cell type proportions derived from
+ * data/PsychAD/HBCC_1_HodgeLabelled.rds (98 donors, "AMPAD_HBCC_##########" IDs).
+ * These are crosswalked to CMC_HBCC individual IDs via the pre-existing
+ * data_input/sn_hbcc/ampad_to_cmc_crosswalk.csv (built for the earlier CSV-based
+ * sn_hbcc run) — 98/98 donors mapped, and all 98 already have QC'd genotype in
+ * the existing sn_hbcc genotyping QC run (97/98 present in the final pgen).
+ *
+ * FAST PATH: reuses the already-QC'd results/sn_NIMH_HBCC/CMC_HBCC.QC.final
+ * pgen directly via `precomputed_pgen` (bypasses GENOTYPING_QC_PIPELINE entirely
+ * -- safe here because that pgen's QC'd sample set is a superset of our 98
+ * pilot donors). The `prune.in` and `pca.csv` companion files consumed by the
+ * bypass path are copied into this run's own output_dir so the original
+ * sn_NIMH_HBCC production outputs (phenotypes_RINT.txt, covariates.txt, etc.)
+ * are never touched/overwritten:
+ *   mkdir -p results/sn_PsychAD_HBCC1
+ *   cp results/sn_NIMH_HBCC/CMC_HBCC.QC.prune.in results/sn_PsychAD_HBCC1/
+ *   cp results/sn_NIMH_HBCC/pca.csv             results/sn_PsychAD_HBCC1/
+ *
+ * Prerequisites — already generated:
+ *   Rscript scripts/extract_seurat_labels.R \
+ *       --input_rds data/PsychAD/HBCC_1_HodgeLabelled.rds \
+ *       --output_csv data_input/sn_psychad_hbcc1/percell_annotations.csv \
+ *       --metadata_cols "Sex,Age,PMI,apoeGenotype,Diagnosis,Source"
+ *   Rscript scripts/compute_sn_proportions.R \
+ *       --input_file data_input/sn_psychad_hbcc1/percell_annotations.csv \
+ *       --subject_col Donor --celltype_col broad_subclass \
+ *       --confidence_col broad_subclass_score --confidence_threshold 0.8 \
+ *       --metadata_cols "Sex,Age,PMI,apoeGenotype,Diagnosis,Source" \
+ *       --crosswalk_file data_input/sn_hbcc/ampad_to_cmc_crosswalk.csv \
+ *       --crosswalk_from ampad_id --crosswalk_to cmc_id \
+ *       --output_proportions data_input/sn_psychad_hbcc1/cell_proportions.csv \
+ *       --output_metadata    data_input/sn_psychad_hbcc1/metadata.csv
+ *
+ *   Run:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_psychad_hbcc1 \
+ *       -w work/sn_PsychAD_HBCC1
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL
+    // ============================================================================
+
+    cohorts          = ["PsychAD_HBCC1"]
+    study            = "PsychAD_HBCC1"
+    genotyping_study = "CMC_HBCC"
+    conda_env        = "test"
+
+    // ============================================================================
+    // PRE-COMPUTED PROPORTIONS (skip RNA-seq stages 1a-1c)
+    // ============================================================================
+
+    precomputed_proportions = "${projectDir}/data_input/sn_psychad_hbcc1/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_psychad_hbcc1/metadata.csv"
+
+    // Only 17/19 broad subclasses observed post confidence-filtering in this
+    // subcohort (L4.IT and VLMC absent) -- restrict the GWAS cell type list to
+    // what's actually present so EXTRACT_PHENOTYPE_COLUMN doesn't fail on
+    // missing columns.
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L5.ET", "L5.6.IT.Car3",
+        "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC",
+        "Oligodendrocyte", "PAX6", "PVALB", "SST", "VIP", "Pericyte"
+    ]
+
+    skip_metal = true   // single-cohort pilot, no cross-cohort meta-analysis yet
+
+    // ============================================================================
+    // PHENOTYPE PREP — crosswalked cmc_id, same CMC_HBCC biospecimen mapping
+    // ============================================================================
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method              = 'biospec_specimen'
+    fid_format              = '0_'
+    biospec_col_individual  = 'Individual_ID'
+    biospec_col_specimen    = 'Genotyping_Sample_ID'
+
+    col_msex          = 'Sex'
+    col_age           = 'Age'
+    col_individualID  = 'individualID'
+
+    // ============================================================================
+    // GENOTYPING QC — bypassed, reuse existing sn_NIMH_HBCC QC'd pgen
+    // ============================================================================
+
+    precomputed_pgen = "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.final"
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    // ============================================================================
+    // GWAS
+    // ============================================================================
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "PsychAD_HBCC1": [
+            pgen_file:     "${projectDir}/results/sn_NIMH_HBCC/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/results/sn_PsychAD_HBCC1/CMC_HBCC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_PsychAD_HBCC1/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_PsychAD_HBCC1/covariates.txt"
+        ]
+    ]
+
+    // ============================================================================
+    // DIRECTORIES — separate from sn_NIMH_HBCC production run
+    // ============================================================================
+
+    work_dir   = "${projectDir}/work/sn_PsychAD_HBCC1"
+    log_dir    = "${projectDir}/logs/sn_PsychAD_HBCC1"
+    output_dir = "${projectDir}/results/sn_PsychAD_HBCC1"
+
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+// ── Process resources (same as sn_hbcc) ─────────────────────────────────────
+process {
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus   = 1
+        memory = '4 GB'
+    }
+}
+
+report {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_report.html"
+}
+timeline {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_timeline.html"
+}
+trace {
+    enabled = false
+}
+dag {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_dag.svg"
+}

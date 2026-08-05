@@ -1,0 +1,183 @@
+/*
+ * Combined Pipeline Configuration for Brainscope/CMC — snRNA-seq derived cell type
+ * proportions from the new Hodge label-transferred annotation.
+ *
+ * Uses pre-computed cell type proportions derived from
+ * data/Brainscope/LabelTransferred/CMC_HodgeLabelled.rds (100 donors, all with
+ * "CMC_MSSM_###"-style IDs that match the CommonMind biospecimen file directly —
+ * no ID crosswalk needed). Genotyping reuses the same CMC_MSSM reimputed VCFs as
+ * the bulk CMC_MSSM run, but re-QC'd filtered to this snRNA-seq donor set (the
+ * existing bulk results/CMC_MSSM QC'd pgen only covers 70/100 of these donors,
+ * so a fresh, cohort-specific QC pass is required — same pattern as sn_rosmap /
+ * sn_hbcc).
+ *
+ * Prerequisites — already generated:
+ *   Rscript scripts/extract_seurat_labels.R \
+ *       --input_rds data/Brainscope/LabelTransferred/CMC_HodgeLabelled.rds \
+ *       --output_csv data_input/sn_brainscope_cmc/percell_annotations.csv \
+ *       --metadata_cols "Biological_Sex,Age_death,Disorder,X1000G_ancestry,Cohort,Genotype_data"
+ *   Rscript scripts/compute_sn_proportions.R \
+ *       --input_file data_input/sn_brainscope_cmc/percell_annotations.csv \
+ *       --subject_col Donor --celltype_col broad_subclass \
+ *       --confidence_col broad_subclass_score --confidence_threshold 0.8 \
+ *       --metadata_cols "Biological_Sex,Age_death,Disorder,X1000G_ancestry,Cohort,Genotype_data" \
+ *       --output_proportions data_input/sn_brainscope_cmc/cell_proportions.csv \
+ *       --output_metadata    data_input/sn_brainscope_cmc/metadata.csv
+ *
+ *   Run:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_brainscope_cmc \
+ *       -w work/sn_Brainscope_CMC
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL
+    // ============================================================================
+
+    cohorts          = ["Brainscope_CMC"]
+    study            = "Brainscope_CMC"
+    genotyping_study = "CMC_MSSM"   // reuse the CMC_MSSM VCF/biospecimen convention
+    conda_env        = "test"
+
+    // ============================================================================
+    // PRE-COMPUTED PROPORTIONS (skip RNA-seq stages 1a-1c)
+    // ============================================================================
+
+    precomputed_proportions = "${projectDir}/data_input/sn_brainscope_cmc/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_brainscope_cmc/metadata.csv"
+
+    // 19 broad Hodge subclasses (argmax over prediction.score.<Subclass> columns)
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.ET", "L5.6.IT.Car3",
+        "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC",
+        "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP", "VLMC"
+    ]
+
+    skip_metal = true   // single-cohort pilot, no cross-cohort meta-analysis yet
+
+    // ============================================================================
+    // PHENOTYPE PREP — Donor IDs already match CMC Individual_ID directly
+    // ============================================================================
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method              = 'biospec_specimen'
+    fid_format              = '0_'
+    biospec_col_individual  = 'Individual_ID'
+    biospec_col_specimen    = 'Genotyping_Sample_ID'
+
+    col_msex          = 'Biological_Sex'
+    col_age           = 'Age_death'
+    col_individualID  = 'individualID'
+
+    // ============================================================================
+    // GENOTYPING QC — same CMC_MSSM reimputed VCFs as bulk CMC_MSSM / draft sn_mssm
+    // ============================================================================
+
+    vcf_dir            = ""
+    vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+    normalize_vcf      = false
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    qc_version       = 'v1'
+    maf_threshold    = 0.05
+    mach_r2_filter   = 0.8
+    vcf_min_gq       = ""
+    vcf_min_dp       = ""
+    vcf_min_qual     = ""
+    hwe_threshold    = 1e-15
+    geno_threshold   = 0.1
+    mind_threshold   = 0.1
+    prune_window_size   = 500
+    prune_step_size     = 1
+    prune_r2_threshold  = 0.2
+
+    include_x       = false
+    sort_vars       = true
+    autosome_only   = true
+    samples_to_keep = ""   // GENOTYPING_QC_PIPELINE filters to PHENO_PREP's samples_with_phenotypes.txt automatically
+
+    // ============================================================================
+    // GWAS
+    // ============================================================================
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "Brainscope_CMC": [
+            pgen_file:     "${projectDir}/results/sn_Brainscope_CMC/CMC_MSSM.QC.final",
+            prune_in_file: "${projectDir}/results/sn_Brainscope_CMC/CMC_MSSM.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_Brainscope_CMC/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_Brainscope_CMC/covariates.txt"
+        ]
+    ]
+
+    // ============================================================================
+    // DIRECTORIES — separate from bulk CMC_MSSM and from the draft sn_mssm config
+    // ============================================================================
+
+    work_dir   = "${projectDir}/work/sn_Brainscope_CMC"
+    log_dir    = "${projectDir}/logs/sn_Brainscope_CMC"
+    output_dir = "${projectDir}/results/sn_Brainscope_CMC"
+
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+// ── Process resources (same as sn_rosmap / sn_hbcc) ─────────────────────────
+process {
+    // Blanket retry (with escalating memory) on ANY failure, including SLURM/
+    // node-level kills that report an "unknown" exit status rather than a
+    // specific code -- restricting errorStrategy to specific exit codes (e.g.
+    // only [1,5]) let a handful of transient external kills terminate the
+    // whole run instead of retrying, which is what happened on the first
+    // attempt of this pilot.
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = { 32.GB * task.attempt }
+        errorStrategy = 'retry'
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN_CHR' {
+        cpus   = 8
+        memory = { 32.GB * task.attempt }
+        errorStrategy = 'retry'
+        maxRetries = 5
+        time   = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus   = 1
+        memory = '4 GB'
+    }
+}
+
+report {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_report.html"
+}
+timeline {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_timeline.html"
+}
+trace {
+    enabled = false
+}
+dag {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_dag.svg"
+}
