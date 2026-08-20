@@ -1,0 +1,76 @@
+/*
+ * Standalone meta-analysis: snRNA-seq Hodge label-transfer CTP GWAS (5-cohort, Mathys)
+ *   - ROSMAP_Green_Hodge   (N~385)   hg19/b37
+ *   - PsychAD_HBCC_Hodge   (N~258)   hg19/b37
+ *   - PsychAD_MSSM_Hodge   (N~203; MSBB WGS subset)  hg19/b37
+ *   - Ruz_MSSM             (N~92;  Ruzicka MSSM)      hg19/b37
+ *   - ROSMAP_Mathys_Hodge  (N~323; Mathys/ROSMAP WGS) b37
+ *
+ * This is the corrected counterpart of nextflow.config.standalone_meta.sn_hodge5:
+ * it replaces the undersized PsychAD_RADC_snRNA stand-in (89 donors, hg38) with
+ * the proper ROSMAP_Mathys_Hodge cohort (323 genotyped donors, b37) built from
+ * data/Mathys/mathys_hodge_subclass_fine_hodge19_labels.csv + the ROSMAP joint WGS.
+ * The hodge5 (RADC) config/outputs are left intact for the record.
+ *
+ * ALL cohorts are hg19/b37 -> NO liftover (cohort_genome_builds empty).
+ *
+ * Cell-type coverage (Hodge subclasses):
+ *   - ROSMAP_Green/PsychAD_HBCC/PsychAD_MSSM : 19 (incl. L4.IT, L5.ET, VLMC)
+ *   - Ruz_MSSM            : 18 (no VLMC)
+ *   - ROSMAP_Mathys_Hodge : 16 (no L5.ET, no Pericyte, no VLMC)
+ * With min_present_cohorts = 2, every Hodge cell type remains meta-analysable.
+ *
+ * NOTE — donor overlap: ROSMAP_Mathys_Hodge and ROSMAP_Green_Hodge share ~215
+ * ROSMAP donors (same individuals / genotypes, different snRNA datasets). METAL
+ * treats them as independent cohorts, so shared-donor genotypes are effectively
+ * counted in both. This mirrors the general situation of overlapping sn cohorts
+ * and is retained as the primary analysis; revisit if strict independence needed.
+ *
+ * Inputs staged under results/meta_sn_hodge5m_inputs/ (dir names = study prefix).
+ *
+ * Run:
+ *   nextflow run standalone_meta_analysis.nf \
+ *       -c nextflow.config.standalone_meta.sn_hodge5m \
+ *       -w work/meta_sn_hodge5m -resume
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+    meta_input_results_dir = "${projectDir}/results/meta_sn_hodge5m_inputs"
+
+    cohorts = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "Ruz_MSSM",
+        "ROSMAP_Mathys_Hodge"
+    ]
+    cohort_include = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "Ruz_MSSM",
+        "ROSMAP_Mathys_Hodge"
+    ]
+
+    // All cohorts are hg19/b37 -> no liftover.
+    cohort_genome_builds = [:]
+
+    // Keep variants present in at least 2 of 5 cohorts
+    min_present_cohorts = 2
+
+    output_dir = "${projectDir}/results/meta_analysis_sn_hodge5m"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+
+    run_plot_meta = false
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+}

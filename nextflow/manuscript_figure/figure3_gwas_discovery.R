@@ -3,7 +3,8 @@
 #           proportion phenotypes
 #
 # Main figure panels:
-#   A — Genome-wide signal burden across cell types   (stacked bar)
+#   A — Cell-type-specific vs shared CTP GWAS loci
+#       (lead-SNP multi-cell-type Manhattan, GWS + suggestive)
 #   B — VIP Miami plot          (signed -log10 p: up = positive beta)
 #   C — L5.6.IT.Car3 Miami plot
 #   D — Microglia Miami plot
@@ -26,9 +27,10 @@
 #   CELLTYPE_GROUP_FILE   — cell-type → broad class mapping (optional)
 #   GWAS_QC_SUMMARY_FILE  — per-cell-type QC summary (optional)
 #
-# Output:
-#   figure3_gwas_discovery.png / .pdf
-#   figure3_panelA_signal_burden.tsv
+# Output (two review variants share Panel A):
+#   figure3_v1_overview_heatmap.png   (Panel A + specificity heatmap)
+#   figure3_v2_overview_miami.png     (Panel A + data-driven exemplar Miami)
+#   figure3_supp_gwas_diagnostics.png (lambda GC + QQ)
 #   figure3_panelB_lambda_gc.tsv
 #   figure3_gws_loci_deduplicated.tsv
 # =============================================================================
@@ -72,13 +74,17 @@ CELLTYPE_GROUP_FILE <- file.path(OUT_DIR, "celltype_grouping.tsv")
 # Expected columns: cell_type, lambda_gc, n_snps, n_genomewide, n_suggestive, min_p
 GWAS_QC_SUMMARY_FILE <- file.path(OUT_DIR, "gwas_qc_summary.tsv")
 
-# --- Representative / focus cell types ---
-# Selected from coloc PP.H4 >= 0.5 hits (MDD2025 / BD bip2024 / SCZ):
-#   VIP         — MDD × TMEM106B chr7 (PP.H4 ≈ 1.0); strong VIP-specific GWAS peak
-#   L5.6.IT.Car3 — BD/SCZ × CACNA1C chr12 (PP.H4 0.88/0.63); cell-type-specific, not shared
-#   Microglia   — MDD × TMEM106B + BD × PRKN chr6 (PP.H4 1.0/0.62)
-# (VLMC/LAMP5/etc. share the same TMEM106B signal — redundant for Manhattan panels.)
-representative_cell_types <- c("VIP", "L5.6.IT.Car3", "Microglia")
+# --- Representative / focus cell types (Panels B–D signed Miami plots) ---
+# These are chosen by a neutral, reproducible DISCOVERY-BURDEN rule rather than
+# by disease colocalisation (which is not assumed here): rank cell types by the
+# number of independent genome-wide loci (p < 5e-8), tie-broken by the number of
+# independent suggestive loci (p < 1e-5) and then the strongest lead p, and take
+# the top N_FOCUS_PANELS. The selection is computed after loci are derived
+# (SECTION 5); `representative_cell_types` below is only a fallback used when
+# FOCUS_SELECTION != "auto" or no loci are found.
+FOCUS_SELECTION <- "auto"   # "auto" = data-driven; anything else keeps the list below
+N_FOCUS_PANELS  <- 3         # number of focus Miami panels (B, C, D, ...)
+representative_cell_types <- c("VLMC", "Pericyte", "L5 ET")  # fallback only
 
 # --- Canonical biological cell-type order ---
 CELLTYPE_ORDER_CANONICAL <- c(
@@ -706,6 +712,36 @@ if (nrow(loci_sugg) > 0L) {
 cat("GWS loci:", if (!is.null(loci) && nrow(loci) > 0L) nrow(loci) else 0,
     "| Suggestive loci:", nrow(loci_sugg), "\n")
 
+# ---- Data-driven focus cell-type selection (discovery-burden rule) ----------
+# Neutral, reproducible alternative to hand-picking by colocalisation: rank
+# cell types by the number of independent genome-wide loci (p < 5e-8), then by
+# the number of independent suggestive loci (p < 1e-5), then by strongest lead
+# p, and keep the top N_FOCUS_PANELS. Used for the exemplar-Miami figure (V2).
+if (identical(FOCUS_SELECTION, "auto")) {
+  n_gws_ct <- if (!is.null(loci) && nrow(loci) > 0L)
+    loci[, .(n_gws = .N), by = cell_type]
+  else data.table(cell_type = character(), n_gws = integer())
+  n_sug_ct <- if (nrow(loci_sugg) > 0L)
+    loci_sugg[, .(n_sugg = .N, min_p = min(lead_p)), by = cell_type]
+  else data.table(cell_type = character(), n_sugg = integer(), min_p = numeric())
+  rank_dt <- merge(n_sug_ct, n_gws_ct, by = "cell_type", all = TRUE)
+  rank_dt[is.na(n_gws),  n_gws  := 0L]
+  rank_dt[is.na(n_sugg), n_sugg := 0L]
+  rank_dt[is.na(min_p),  min_p  := 1]
+  setorder(rank_dt, -n_gws, -n_sugg, min_p)
+  focus_auto <- as.character(rank_dt$cell_type)[seq_len(min(N_FOCUS_PANELS, nrow(rank_dt)))]
+  if (length(focus_auto) > 0L && !all(is.na(focus_auto))) {
+    representative_cell_types <- focus_auto[!is.na(focus_auto)]
+    cat("Data-driven focus cell types (discovery burden):",
+        paste(representative_cell_types, collapse = ", "), "\n")
+    cat("  Ranking head (cell_type, n_gws, n_sugg, min_p):\n")
+    print(rank_dt[seq_len(min(6L, nrow(rank_dt)))])
+  } else {
+    cat("Auto focus selection found no loci; keeping fallback focus cell types:",
+        paste(representative_cell_types, collapse = ", "), "\n")
+  }
+}
+
 # =============================================================================
 # SECTION 6 — Focus cell-type subsets for Manhattan / QQ panels
 # =============================================================================
@@ -813,108 +849,314 @@ COL_SUGG <- "#3A6EA5"    # suggestive  (p < 1e-5)
 COL_NS   <- "grey65"     # not significant (Miami legend only)
 
 # =============================================================================
-# SECTION 8 — Panel A: Genome-wide signal burden across cell types
+# SECTION 8 — Panel A: Cell-type-specific vs shared CTP GWAS loci
+#             (lead-SNP multi-cell-type Manhattan, GWS + suggestive)
+#
+# Replaces the previous stacked-bar "signal burden" panel. Each point is an
+# independent lead SNP; colour = cell type, shape = specific (circle) vs
+# shared (triangle). Suggestive leads (5e-8 <= p < 1e-5) sit underneath as
+# small translucent points; genome-wide leads (p < 5e-8) are drawn larger and
+# opaque on top with nearest-gene annotations.
+#
+# Inputs (all pre-existing on disk):
+#   figure3_gws_loci_deduplicated.tsv     (regenerated in SECTION 12)
+#   figure3_panelE_top_loci_matrix.tsv    (per-cell-type GWS p-values)
+#   test_multict_suggestive_leads.tsv     (cached suggestive leads)
 # =============================================================================
-cat("\n--- Building Panel A ---\n")
+cat("\n--- Building Panel A (multi-cell-type lead-SNP Manhattan) ---\n")
 
-build_panelA_data <- function(loci_gws, loci_sg, ct_ord) {
-  make_summary <- function(dt, label) {
-    if (is.null(dt) || nrow(dt) == 0L)
-      return(data.table(cell_type = factor(ct_ord, levels = ct_ord), n = 0L, tier = label))
-    cnt <- dt[, .N, by = cell_type]
-    full <- data.table(cell_type = factor(ct_ord, levels = ct_ord))
-    cnt  <- cnt[full, on = "cell_type"]
-    cnt[is.na(N), N := 0L]
-    cnt[, tier := label]
-    setnames(cnt, "N", "n")
-    cnt
-  }
-  gws_dt  <- make_summary(loci_gws, "Genome-wide (p < 5e-8)")
-  sugg_dt <- make_summary(loci_sg,  "Suggestive (p < 1e-5)")
-  # Suggestive count = loci at p<1e-5 minus those at p<5e-8 (incremental)
-  gws_map  <- setNames(gws_dt$n,  as.character(gws_dt$cell_type))
-  sugg_dt[, n := pmax(0L, n - gws_map[as.character(cell_type)])]
-  rbind(gws_dt, sugg_dt)
+PANELA_SUGG_CACHE <- file.path(OUT_DIR, "test_multict_suggestive_leads.tsv")
+PANELA_CLUMP_BP   <- 5e5L
+
+# GRCh38 chromosome lengths for cumulative x-axis layout
+PANELA_CHR_LEN <- c(
+  248956422, 242193529, 198295559, 190214555, 181538259, 170805979,
+  159345973, 145138636, 138394717, 133797422, 135086622, 133275309,
+  114364328, 107043718, 101991189, 90338345, 83257441, 80373285,
+  58617616, 64444167, 46709983, 50818468
+)
+names(PANELA_CHR_LEN) <- as.character(1:22)
+panelA_chr_offset <- c(0, cumsum(as.numeric(PANELA_CHR_LEN)))[1:22]
+names(panelA_chr_offset) <- as.character(1:22)
+
+# Variant display ID: prefer rsID, else chr:pos (alleles dropped for brevity)
+panelA_variant_label <- function(lead_snp, chr, pos) {
+  snp <- as.character(lead_snp)
+  pos_lab <- paste0("chr", chr, ":", format(as.integer(pos), scientific = FALSE, trim = TRUE))
+  ifelse(
+    grepl("^rs[0-9]+$", snp, ignore.case = TRUE),
+    snp,
+    ifelse(grepl("^chr[0-9XYM]+:[0-9]+", snp, ignore.case = TRUE),
+           sub("^((chr)?[0-9XYM]+:[0-9]+).*", "\\1", snp, ignore.case = TRUE),
+           ifelse(!is.na(snp) & nzchar(snp), snp, pos_lab))
+  )
 }
 
-panelA_dat <- build_panelA_data(
-  if (!is.null(loci) && nrow(loci) > 0L) loci else NULL,
-  if (nrow(loci_sugg) > 0L) loci_sugg else NULL,
-  ct_order_use
+panelA_nearest_gene <- function(chr, pos, p) {
+  fallback <- paste0("chr", chr, ":", format(pos, scientific = FALSE, trim = TRUE))
+  out <- tryCatch({
+    ann <- topr::annotate_with_nearest_gene(
+      data.frame(CHROM = as.character(chr), POS = as.integer(pos), P = as.numeric(p))
+    )
+    g <- if ("Gene_Symbol" %in% names(ann)) as.character(ann$Gene_Symbol) else NULL
+    if (is.null(g) || length(g) != length(fallback)) fallback else g
+  }, error = function(e) {
+    cat("    (nearest-gene lookup failed:", conditionMessage(e), "- using chr:pos)\n")
+    fallback
+  })
+  out[is.na(out) | out == ""] <- fallback[is.na(out) | out == ""]
+  out
+}
+
+# ---- Suggestive-only leads (prefer cache; else derive from gwas_sig) ----
+if (file.exists(PANELA_SUGG_CACHE)) {
+  cat("  Loading cached suggestive leads:", PANELA_SUGG_CACHE, "\n")
+  panelA_sugg_all <- data.table::fread(PANELA_SUGG_CACHE)
+} else {
+  cat("  Deriving suggestive leads from gwas_sig...\n")
+  panelA_sugg_all <- derive_loci(gwas_sig, p_thresh = PVAL_SUGG, window = PANELA_CLUMP_BP)
+  panelA_sugg_all[, cell_type := as.character(cell_type)]
+  panelA_sugg_all[, chr := as.integer(chr)]
+  panelA_sugg_all[, lead_pos := as.integer(lead_pos)]
+  panelA_sugg_all[, lead_p := as.numeric(lead_p)]
+  data.table::fwrite(panelA_sugg_all, PANELA_SUGG_CACHE, sep = "\t")
+}
+
+panelA_sugg <- panelA_sugg_all[lead_p >= PVAL_GWS & lead_p < PVAL_SUGG]
+panelA_sugg[, `:=`(source = "suggestive_clump", sig_tier = "Suggestive")]
+
+# ---- GWS leads: per-cell-type p from panel E; backfill from dedup ----
+panelA_dedup  <- data.table::fread(file.path(OUT_DIR, "figure3_gws_loci_deduplicated.tsv"))
+panelA_pE     <- data.table::fread(file.path(OUT_DIR, "figure3_panelE_top_loci_matrix.tsv"))
+
+panelA_dedup_exp <- panelA_dedup[, {
+  cts <- trimws(unlist(strsplit(cell_types, ";")))
+  .(cell_type = cts,
+    chr = as.integer(chr),
+    lead_pos = as.integer(lead_pos),
+    lead_p = as.numeric(lead_p),
+    n_cell_types = as.integer(n_cell_types),
+    region_id = as.integer(region_id))
+}, by = seq_len(nrow(panelA_dedup))]
+panelA_dedup_exp[, seq_len := NULL]
+
+gE <- panelA_pE[is_gws == TRUE]
+gE[, region_bin := paste0(lead_chr, "_", floor(as.numeric(lead_pos) / PANELA_CLUMP_BP))]
+gE <- gE[, .SD[which.min(as.numeric(p_min))], by = .(cell_type, region_bin)]
+gE <- gE[, .(cell_type,
+             chr = as.integer(lead_chr),
+             lead_pos = as.integer(lead_pos),
+             lead_p = as.numeric(p_min),
+             region_bin,
+             source = "panelE")]
+
+panelA_dedup_exp[, region_bin := paste0(chr, "_", floor(lead_pos / PANELA_CLUMP_BP))]
+gE[, key := paste(cell_type, region_bin, sep = "|")]
+panelA_dedup_exp[, key := paste(cell_type, region_bin, sep = "|")]
+panelA_missing <- panelA_dedup_exp[!key %in% gE$key]
+if (nrow(panelA_missing)) {
+  gE <- rbind(
+    gE[, .(cell_type, chr, lead_pos, lead_p, region_bin, source)],
+    panelA_missing[, .(cell_type, chr, lead_pos, lead_p, region_bin, source = "dedup")],
+    use.names = TRUE
+  )
+} else {
+  gE <- gE[, .(cell_type, chr, lead_pos, lead_p, region_bin, source)]
+}
+gE[, sig_tier := "GWS"]
+
+# ---- Combine; tier-aware sharing so GWS labels stay GWS-only ----
+panelA_sugg[, region_bin := paste0(chr, "_", floor(lead_pos / PANELA_CLUMP_BP))]
+panelA_pts <- rbind(
+  gE[, .(cell_type, chr, lead_pos, lead_p, region_bin, source, sig_tier)],
+  panelA_sugg[, .(cell_type, chr, lead_pos, lead_p, region_bin, source, sig_tier)],
+  use.names = TRUE
 )
 
-gws_totals <- panelA_dat[tier == "Genome-wide (p < 5e-8)",
-                          setNames(n, as.character(cell_type))]
-panelA_order <- ct_order_use[order(-gws_totals[ct_order_use])]
-panelA_dat[, cell_type := factor(as.character(cell_type), levels = rev(panelA_order))]
+panelA_n_gws <- panelA_pts[sig_tier == "GWS", .(n_gws = uniqueN(cell_type)), by = region_bin]
+panelA_n_any <- panelA_pts[, .(n_any = uniqueN(cell_type)), by = region_bin]
+panelA_pts <- merge(panelA_pts, panelA_n_gws, by = "region_bin", all.x = TRUE)
+panelA_pts <- merge(panelA_pts, panelA_n_any, by = "region_bin", all.x = TRUE)
+panelA_pts[is.na(n_gws), n_gws := 0L]
+panelA_pts[, n_cell_types := fifelse(sig_tier == "GWS", n_gws, n_any)]
+panelA_pts[, specificity := fifelse(n_cell_types >= 2L, "Shared", "Specific")]
+panelA_pts[, nlp := pmin(-log10(lead_p), 20)]
+panelA_pts[, sig_tier := factor(sig_tier, levels = c("Suggestive", "GWS"))]
 
-pA <- ggplot(panelA_dat,
-             aes(x = n, y = cell_type,
-                 fill = factor(tier, levels = c("Suggestive (p < 1e-5)",
-                                                "Genome-wide (p < 5e-8)")))) +
-  geom_col(width = 0.65, position = position_stack()) +
-  scale_fill_manual(
-    values = c("Genome-wide (p < 5e-8)" = COL_GWS,
-               "Suggestive (p < 1e-5)"  = COL_SUGG),
-    guide = "none"
+# Cumulative genomic position + within-region jitter for shared stacks
+panelA_pts[, x_base := panelA_chr_offset[as.character(chr)] + lead_pos]
+setorder(panelA_pts, chr, lead_pos, sig_tier, cell_type)
+panelA_pts[, idx_in_region := seq_len(.N), by = .(region_bin, sig_tier)]
+panelA_pts[, n_dodge := uniqueN(cell_type), by = .(region_bin, sig_tier)]
+panelA_pts[, x := x_base + (idx_in_region - (n_dodge + 1) / 2) * 2.2e6]
+
+# ---- GWS-only region annotations ----
+panelA_gws_pts <- panelA_pts[sig_tier == "GWS"]
+panelA_ann <- panelA_gws_pts[, {
+  i <- which.max(nlp)
+  .(x = mean(x_base),
+    nlp = max(nlp),
+    n_cell_types = n_gws[1],
+    specificity = fifelse(n_gws[1] >= 2L, "Shared", "Specific"),
+    chr = chr[i],
+    lead_pos = as.integer(lead_pos[i]),
+    lead_p = lead_p[i])
+}, by = region_bin]
+
+panelA_dedup[, region_bin := paste0(chr, "_", floor(as.integer(lead_pos) / PANELA_CLUMP_BP))]
+panelA_ann <- merge(
+  panelA_ann,
+  panelA_dedup[, .(region_bin, lead_snp, dedup_pos = as.integer(lead_pos))],
+  by = "region_bin", all.x = TRUE
+)
+panelA_ann[!is.na(dedup_pos), lead_pos := dedup_pos]
+
+cat("  Annotating nearest genes with topr...\n")
+panelA_ann[, gene := panelA_nearest_gene(chr, lead_pos, lead_p)]
+panelA_ann[, var_id := panelA_variant_label(lead_snp, chr, lead_pos)]
+panelA_ann[, label := paste0(
+  gene, "\n", var_id, "\n(",
+  n_cell_types, " CT",
+  fifelse(n_cell_types > 1L, "s, shared", ", specific"), ")"
+)]
+
+panelA_chr_mids <- data.table(chr = 1:22, mid = panelA_chr_offset + PANELA_CHR_LEN / 2)
+panelA_chr_rects <- data.table(
+  chr  = 1:22,
+  xmin = panelA_chr_offset,
+  xmax = panelA_chr_offset + PANELA_CHR_LEN,
+  fill = rep(c("a", "b"), length.out = 22)
+)
+
+# Colour palette (Okabe-Ito extended; colourblind-safe)
+panelA_ct_levels <- sort(unique(panelA_pts$cell_type))
+panelA_pal <- c(
+  "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
+  "#CC79A7", "#999999", "#332288", "#88CCEE", "#117733", "#DDCC77",
+  "#AA4499", "#44AA99", "#882255", "#661100", "#6699CC", "#888888",
+  "#BBBBBB"
+)
+panelA_ct_cols <- setNames(panelA_pal[seq_along(panelA_ct_levels)], panelA_ct_levels)
+
+panelA_pts_sugg <- panelA_pts[sig_tier == "Suggestive"]
+panelA_pts_gws  <- panelA_pts[sig_tier == "GWS"]
+
+cat("  Panel A:", nrow(panelA_pts_sugg), "suggestive +", nrow(panelA_pts_gws),
+    "GWS leads across", uniqueN(panelA_pts$cell_type), "cell types;",
+    uniqueN(panelA_pts$region_bin), "regions (",
+    sum(panelA_ann$n_cell_types >= 2), "GWS-shared,",
+    sum(panelA_ann$n_cell_types == 1), "GWS-specific labelled)\n")
+
+pA <- ggplot() +
+  geom_rect(
+    data = panelA_chr_rects,
+    aes(xmin = xmin, xmax = xmax, ymin = -Inf, ymax = Inf, fill = fill),
+    alpha = 0.35, colour = NA, show.legend = FALSE
   ) +
-  scale_x_continuous(expand = expansion(mult = c(0, 0.08)),
-                     breaks = scales::pretty_breaks(n = 5)) +
-  labs(title = NULL,
-       x = "Number of independent loci", y = NULL) +
-  theme_fig3(base_size = 13) +
+  scale_fill_manual(values = c(a = "grey96", b = "grey90"), guide = "none") +
+  geom_hline(yintercept = -log10(PVAL_SUGG), linetype = "dotted",
+             colour = COL_SUGG, linewidth = 0.35) +
+  geom_hline(yintercept = -log10(PVAL_GWS), linetype = "dashed",
+             colour = COL_GWS, linewidth = 0.45) +
+  geom_point(
+    data = data.table(x = -Inf, y = -Inf, cell_type = panelA_ct_levels),
+    aes(x = x, y = y, colour = cell_type),
+    size = 2.5, alpha = 1, shape = 16,
+    show.legend = c(colour = TRUE)
+  ) +
+  geom_point(
+    data = panelA_pts_sugg,
+    aes(x = x, y = nlp, colour = cell_type, shape = specificity),
+    size = 1.15, alpha = 0.38, stroke = 0.35,
+    show.legend = c(colour = FALSE, shape = TRUE)
+  ) +
+  geom_point(
+    data = panelA_pts_gws,
+    aes(x = x, y = nlp, colour = cell_type, shape = specificity),
+    size = 3.2, alpha = 0.95, stroke = 0.7,
+    show.legend = c(colour = FALSE, shape = TRUE)
+  ) +
+  scale_shape_manual(name = "Locus type", values = c(Specific = 16, Shared = 17)) +
+  scale_colour_manual(
+    name = "Cell type", values = panelA_ct_cols,
+    breaks = panelA_ct_levels, limits = panelA_ct_levels, drop = FALSE
+  ) +
+  geom_point(
+    data = data.table(
+      x = -Inf, y = -Inf,
+      tier = factor(c("Suggestive (p < 1e-5)", "Genome-wide (p < 5e-8)"),
+                    levels = c("Suggestive (p < 1e-5)", "Genome-wide (p < 5e-8)"))
+    ),
+    aes(x = x, y = y, size = tier, alpha = tier),
+    shape = 16,
+    show.legend = c(size = TRUE, alpha = TRUE, colour = FALSE, shape = FALSE)
+  ) +
+  scale_size_manual(
+    name = "Significance",
+    values = c("Suggestive (p < 1e-5)" = 1.2, "Genome-wide (p < 5e-8)" = 3.2)
+  ) +
+  scale_alpha_manual(
+    name = "Significance",
+    values = c("Suggestive (p < 1e-5)" = 0.4, "Genome-wide (p < 5e-8)" = 0.95)
+  ) +
+  ggrepel::geom_label_repel(
+    data = panelA_ann,
+    aes(x = x, y = nlp, label = label),
+    size = 2.5, lineheight = 0.9,
+    box.padding = 0.35, point.padding = 0.2,
+    min.segment.length = 0, segment.size = 0.3,
+    max.overlaps = Inf, seed = 1,
+    fill = alpha("white", 0.88), label.size = 0.2,
+    inherit.aes = FALSE
+  ) +
+  annotate("text", x = Inf, y = -log10(PVAL_GWS),
+           label = "  GWS 5e-8", hjust = 1, vjust = -0.4,
+           size = 2.4, colour = COL_GWS) +
+  annotate("text", x = Inf, y = -log10(PVAL_SUGG),
+           label = "  sugg. 1e-5", hjust = 1, vjust = -0.4,
+           size = 2.4, colour = COL_SUGG) +
+  scale_x_continuous(
+    breaks = panelA_chr_mids$mid,
+    labels = as.character(panelA_chr_mids$chr),
+    expand = expansion(mult = c(0.01, 0.01))
+  ) +
+  scale_y_continuous(
+    name = expression(-log[10](italic(P))),
+    limits = c(0, 22),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  labs(x = "Chromosome", tag = "A") +
+  theme_classic(base_size = 13) +
   theme(
-    plot.margin  = margin(8, 12, 4, 4),
-    axis.text.y  = element_text(size = 12, colour = "black", face = "plain",
-                               margin = margin(r = 6)),
-    legend.position = "none"
+    plot.tag = element_text(size = 16, face = "bold"),
+    plot.tag.position = "topleft",
+    axis.text.x = element_text(size = 9),
+    legend.position = "right",
+    legend.key.size = unit(0.32, "cm"),
+    legend.title = element_text(size = 10, face = "bold"),
+    legend.text = element_text(size = 8),
+    legend.spacing.y = unit(0.08, "cm"),
+    panel.grid.major.y = element_line(colour = "grey92", linewidth = 0.3),
+    plot.background  = element_rect(fill = "white", color = NA),
+    plot.margin = margin(10, 8, 6, 8)
+  ) +
+  guides(
+    colour = guide_legend(
+      order = 1, ncol = 1,
+      override.aes = list(size = 2.5, alpha = 1, shape = 16, stroke = 0.5)
+    ),
+    size = guide_legend(
+      order = 2,
+      override.aes = list(shape = 16, colour = "grey25", alpha = 1)
+    ),
+    alpha = "none",
+    shape = guide_legend(
+      order = 3,
+      override.aes = list(size = 3, colour = "grey20", alpha = 1)
+    )
   )
 
-# Annotate total counts at bar ends (before wrapping into cowplot)
-totals_by_ct <- panelA_dat[, .(total = sum(n)), by = cell_type]
-pA_bars <- pA +
-  geom_text(data = totals_by_ct[total > 0],
-            aes(x = total, y = cell_type, label = total),
-            inherit.aes = FALSE,
-            hjust = -0.2, size = 4.2, color = "grey30")
-
-# Panel A tag + legend drawn outside the bar plot so they cannot collide
-# with y-axis labels or each other (ggplot legend spacing is unreliable).
-panelA_legend <- ggplot(
-  data.frame(
-    key = factor(c("sugg", "gws"), levels = c("sugg", "gws")),
-    lab = c("Suggestive (p < 1e-5)", "Genome-wide (p < 5e-8)"),
-    x = c(1.0, 5.0),
-    y = 1
-  ),
-  aes(x = x, y = y)
-) +
-  geom_point(aes(colour = key), shape = 15, size = 6.0) +
-  geom_text(aes(label = lab), hjust = 0, nudge_x = 0.22,
-            size = 4.0, colour = "grey20") +
-  scale_colour_manual(values = c(sugg = COL_SUGG, gws = COL_GWS), guide = "none") +
-  coord_cartesian(xlim = c(0.7, 8.0), ylim = c(0.6, 1.4), clip = "off") +
-  theme_void() +
-  theme(plot.margin = margin(2, 8, 4, 8))
-
-# Put "A" on its own row above the bars — never overlaps y-axis labels
-panelA_tag <- cowplot::ggdraw() +
-  cowplot::draw_label("A", fontface = "bold", size = 16,
-                      x = 0.02, y = 0.5, hjust = 0, vjust = 0.5)
-
-pA <- cowplot::plot_grid(
-  panelA_tag,
-  pA_bars,
-  panelA_legend,
-  ncol = 1,
-  # Tag row must be tall enough that the bold "A" does not overflow
-  # downward onto "Oligodendrocyte"
-  rel_heights = c(0.14, 1, 0.16)
-)
-
-data.table::fwrite(panelA_dat, file.path(OUT_DIR, "figure3_panelA_signal_burden.tsv"),
-                   sep = "\t")
-cat("Panel A data saved.\n")
+cat("Panel A (multi-cell-type Manhattan) built.\n")
 
 # =============================================================================
 # SECTION 9 — Panel B: Genomic inflation (lambda GC) across cell types
@@ -1440,32 +1682,27 @@ focus_label <- function(key) {
   if (!is.null(focus_matched[[key]])) focus_matched[[key]] else key
 }
 
-cat("--- Building Panel B (VIP Miami) ---\n")
-miami_vip <- make_miami_plot(
-  dt_ct        = get_focus_gwas("VIP"),
-  cell_label   = focus_label("VIP"),
-  loci_dt      = loci,
-  loci_sugg_dt = loci_sugg,
-  panel_tag    = "B"
-)
-
-cat("--- Building Panel C (L5.6.IT.Car3 Miami) ---\n")
-miami_car3 <- make_miami_plot(
-  dt_ct        = get_focus_gwas("L5.6.IT.Car3"),
-  cell_label   = focus_label("L5.6.IT.Car3"),
-  loci_dt      = loci,
-  loci_sugg_dt = loci_sugg,
-  panel_tag    = "C"
-)
-
-cat("--- Building Panel D (Microglia Miami) ---\n")
-miami_micro <- make_miami_plot(
-  dt_ct        = get_focus_gwas("Microglia"),
-  cell_label   = focus_label("Microglia"),
-  loci_dt      = loci,
-  loci_sugg_dt = loci_sugg,
-  panel_tag    = "D"
-)
+# Build one signed-Miami panel + QQ per selected focus cell type. Looping keeps
+# the selection fully data-driven; panels are tagged B, C, D, ... in rank order.
+focus_keys <- representative_cell_types
+panel_tags <- LETTERS[seq(2L, length.out = length(focus_keys))]  # B, C, D, ...
+miami_list <- vector("list", length(focus_keys))
+qq_list    <- vector("list", length(focus_keys))
+for (i in seq_along(focus_keys)) {
+  key <- focus_keys[i]
+  lab <- focus_label(key)
+  cat(sprintf("--- Building Panel %s (%s Miami) ---\n", panel_tags[i], lab))
+  miami_list[[i]] <- make_miami_plot(
+    dt_ct        = get_focus_gwas(key),
+    cell_label   = lab,
+    loci_dt      = loci,
+    loci_sugg_dt = loci_sugg,
+    panel_tag    = panel_tags[i]
+  )
+  cat(sprintf("--- Building QQ for %s (panel %s) ---\n", lab, panel_tags[i]))
+  qq_list[[i]] <- make_qq_plot(get_focus_gwas(key), qc_summary, lab,
+                               panel_letter = panel_tags[i])
+}
 
 # Shared Miami colour legend as a real plot (cowplot::get_legend returns
 # zeroGrob under ggplot2 >= 3.5). Large dots + explicit text, no guide box.
@@ -1486,15 +1723,6 @@ miami_legend <- ggplot(miami_legend_df, aes(x = x, y = y)) +
   coord_cartesian(xlim = c(0.7, 8.2), ylim = c(0.5, 1.5), clip = "off") +
   theme_void() +
   theme(plot.margin = margin(4, 10, 8, 10))
-
-# ---- Supplementary QQ plots (same three focus cell types) ----
-cat("--- Building supplementary QQ plots ---\n")
-qq_vip <- make_qq_plot(get_focus_gwas("VIP"), qc_summary,
-                       focus_label("VIP"), panel_letter = "B")
-qq_car3 <- make_qq_plot(get_focus_gwas("L5.6.IT.Car3"), qc_summary,
-                        focus_label("L5.6.IT.Car3"), panel_letter = "C")
-qq_micro <- make_qq_plot(get_focus_gwas("Microglia"), qc_summary,
-                         focus_label("Microglia"), panel_letter = "D")
 
 # =============================================================================
 # SECTION 12 — Export deduplicated GWS loci (supplementary table, not in figure)
@@ -1538,29 +1766,114 @@ if (!is.null(loci) && nrow(loci) > 0L) {
 }
 
 # =============================================================================
-# SECTION 13 — Assemble figure
+# SECTION 12b — Specificity heatmap (loci × cell type) for review figure V1
+#
+# Rows = all 19 cell types (canonical order); columns = independent genome-wide
+# lead loci (from Panel A / dedup, gene-labelled); fill = max -log10(p) for that
+# cell type within +/- CLUMP_WINDOW of the lead. Black outline marks cell types
+# reaching genome-wide significance at that locus. Blank (grey) tiles = no
+# variant with p < P_KEEP (1e-4) in that cell type at that locus. This shows the
+# cell-type-specific-vs-shared structure across ALL cell types without
+# hand-picking exemplars (cf. Bryois 2022 Nat Neurosci; Yazar 2022 Science).
 # =============================================================================
-cat("\n--- Assembling figure ---\n")
+cat("--- Building specificity heatmap (Panel B, V1) ---\n")
+
+build_specificity_heatmap <- function(gwas_sig_dt, regions, ct_order,
+                                       window = CLUMP_WINDOW, cap = NEG_LOG10_CAP,
+                                       floor_p = P_KEEP, panel_tag = "B") {
+  regs <- copy(as.data.table(regions))[!is.na(chr) & !is.na(lead_pos)]
+  if (nrow(regs) == 0L)
+    return(make_placeholder("No GWS regions for heatmap", ""))
+  setorder(regs, chr, lead_pos)
+  regs[, region_label := paste0(gene, "\nchr", chr, ":", lead_pos)]
+  regs[, region_ord := seq_len(.N)]
+
+  gs <- as.data.table(gwas_sig_dt)
+  gs[, chr := as.integer(as.character(chr))]
+  heat <- data.table::rbindlist(lapply(seq_len(nrow(regs)), function(i) {
+    r   <- regs[i]
+    sub <- gs[chr == r$chr & abs(pos - r$lead_pos) <= window]
+    if (nrow(sub) == 0L) return(NULL)
+    agg <- sub[, .(nlp = max(neg_log10_p, na.rm = TRUE)),
+               by = .(cell_type = as.character(cell_type))]
+    agg[, region_ord := r$region_ord]
+    agg
+  }), use.names = TRUE)
+
+  grid <- CJ(cell_type = ct_order, region_ord = regs$region_ord, unique = TRUE)
+  grid <- merge(grid, regs[, .(region_ord, region_label)], by = "region_ord")
+  heat <- merge(grid, heat, by = c("cell_type", "region_ord"), all.x = TRUE)
+  heat[, nlp_cap := pmin(nlp, cap)]
+  heat[, is_gws  := !is.na(nlp) & nlp >= -log10(PVAL_GWS)]
+  heat[, cell_type    := factor(cell_type, levels = rev(ct_order))]
+  heat[, region_label := factor(region_label, levels = regs$region_label)]
+
+  ggplot(heat, aes(x = region_label, y = cell_type)) +
+    geom_tile(aes(fill = nlp_cap), colour = "grey88", linewidth = 0.3) +
+    geom_tile(data = heat[is_gws == TRUE],
+              fill = NA, colour = "black", linewidth = 0.7) +
+    scale_fill_distiller(
+      palette = "YlOrRd", direction = 1, na.value = "grey96",
+      name = expression(-log[10](italic(p))),
+      limits = c(-log10(floor_p), cap), oob = scales::squish
+    ) +
+    scale_x_discrete(position = "top", expand = expansion(mult = 0)) +
+    scale_y_discrete(expand = expansion(mult = 0)) +
+    labs(x = NULL, y = NULL, tag = panel_tag) +
+    theme_fig3(base_size = 12) +
+    theme(
+      axis.text.x.top = element_text(size = 9, angle = 45, hjust = 0, vjust = 0),
+      axis.text.y     = element_text(size = 11, colour = "black"),
+      plot.tag          = element_text(size = 16, face = "bold"),
+      plot.tag.position = "topleft",
+      legend.position = "right",
+      legend.key.height = unit(1.1, "cm"),
+      panel.grid      = element_blank(),
+      plot.margin     = margin(30, 12, 8, 8)
+    )
+}
+
+panel_heat <- build_specificity_heatmap(
+  gwas_sig_dt = gwas_sig,
+  regions     = panelA_ann,
+  ct_order    = ct_order_use,
+  panel_tag   = "B"
+)
+
+# =============================================================================
+# SECTION 13 — Assemble figures (two review variants)
+#   V1 = Panel A overview + specificity heatmap
+#   V2 = Panel A overview + data-driven exemplar signed-Miami panels
+# =============================================================================
+cat("\n--- Assembling figures ---\n")
+
+n_focus <- length(miami_list)
+
+# V2: overview + exemplar Miami stack (+ shared colour legend)
+miami_stack <- cowplot::plot_grid(
+  plotlist    = miami_list,
+  ncol        = 1,
+  rel_heights = rep(1.20, n_focus)
+)
+fig_v2 <- cowplot::plot_grid(
+  pA, miami_stack, miami_legend,
+  ncol        = 1,
+  rel_heights = c(1.55, 1.117 * n_focus, 0.42)
+)
+
+# V1: overview + specificity heatmap
+fig_v1 <- cowplot::plot_grid(
+  pA, panel_heat,
+  ncol        = 1,
+  rel_heights = c(1.55, 1.50)
+)
 
 cat("  Panel grobs built OK.\n")
 
-# Main figure: Panel A already includes its tag+legend; Miami tags via plot.tag;
-# shared Miami colour legend is a separate large-dot plot under panel D.
-miami_stack <- cowplot::plot_grid(
-  miami_vip, miami_car3, miami_micro,
-  ncol = 1,
-  rel_heights = c(1.20, 1.20, 1.20)
-)
-fig3 <- cowplot::plot_grid(
-  pA, miami_stack, miami_legend,
-  ncol        = 1,
-  rel_heights = c(1.55, 3.35, 0.42)
-)
-
 # Supplementary diagnostics figure: lambda GC across all cell types, then the
-# three focus-cell-type QQ plots side by side.
+# focus-cell-type QQ plots side by side.
 supp_qq_row <- cowplot::plot_grid(
-  qq_vip, qq_car3, qq_micro,
+  plotlist = qq_list,
   nrow = 1, align = "h", axis = "tb"
 )
 
@@ -1572,36 +1885,30 @@ fig3_supp <- cowplot::plot_grid(
 )
 
 # =============================================================================
-# SECTION 14 — Save outputs
+# SECTION 14 — Save outputs (two review variants + supplement)
 # =============================================================================
-cat("--- Saving figure ---\n")
+cat("--- Saving figures ---\n")
 
-out_png <- file.path(OUT_DIR, "figure3_gwas_discovery.png")
-out_svg <- file.path(OUT_DIR, "figure3_gwas_discovery.svg")
+# V1: overview + specificity heatmap (shorter — two panels)
+out_v1 <- file.path(OUT_DIR, "figure3_v1_overview_heatmap.png")
+cowplot::save_plot(out_v1, fig_v1,
+                  base_width  = FIG_WIDTH,
+                  base_height = 12.5,
+                  dpi         = FIG_DPI,
+                  bg          = "white")
+cat("  Wrote V1 PNG:", out_v1, "\n")
 
-cowplot::save_plot(out_png, fig3,
+# V2: overview + data-driven exemplar Miami panels
+out_v2 <- file.path(OUT_DIR, "figure3_v2_overview_miami.png")
+cowplot::save_plot(out_v2, fig_v2,
                   base_width  = FIG_WIDTH,
                   base_height = FIG_HEIGHT,
                   dpi         = FIG_DPI,
                   bg          = "white")
-cat("  Wrote PNG:", out_png, "\n")
-
-# SVG optional — full Miami panels are slow to vectorise; set WRITE_SVG=1 to enable.
-WRITE_SVG <- identical(Sys.getenv("WRITE_SVG", unset = "0"), "1")
-HAS_SVG <- WRITE_SVG && requireNamespace("svglite", quietly = TRUE)
-if (HAS_SVG) {
-  cowplot::save_plot(out_svg, fig3,
-                    base_width  = FIG_WIDTH,
-                    base_height = FIG_HEIGHT,
-                    bg          = "white")
-  cat("  Wrote SVG:", out_svg, "\n")
-} else {
-  cat("  Skipping SVG (set WRITE_SVG=1 to enable).\n")
-}
+cat("  Wrote V2 PNG:", out_v2, "\n")
 
 # --- Supplementary diagnostics figure (PNG only) ---
 supp_png <- file.path(OUT_DIR, "figure3_supp_gwas_diagnostics.png")
-
 cowplot::save_plot(supp_png, fig3_supp,
                   base_width  = SUPP_WIDTH,
                   base_height = SUPP_HEIGHT,
@@ -1610,10 +1917,9 @@ cowplot::save_plot(supp_png, fig3_supp,
 cat("  Wrote supp PNG:", supp_png, "\n")
 
 cat("\n=== Figure 3 outputs ===\n")
-cat("  Main PNG :", out_png, "\n")
-if (HAS_SVG) cat("  Main SVG :", out_svg, "\n")
+cat("  V1 (overview + heatmap):", out_v1, "\n")
+cat("  V2 (overview + Miami)  :", out_v2, "\n")
 cat("  Supp PNG :", supp_png, "\n")
-cat("  Panel A table:", file.path(OUT_DIR, "figure3_panelA_signal_burden.tsv"), "\n")
 cat("  Lambda GC table:", file.path(OUT_DIR, "figure3_panelB_lambda_gc.tsv"), "\n")
 cat("  GWS loci table:", file.path(OUT_DIR, "figure3_gws_loci_deduplicated.tsv"), "\n")
 cat("Done.\n")

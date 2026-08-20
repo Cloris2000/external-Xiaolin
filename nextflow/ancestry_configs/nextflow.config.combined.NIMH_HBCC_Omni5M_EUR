@@ -1,0 +1,53 @@
+/*
+ * Ancestry-subset GWAS: NIMH_HBCC_Omni5M_EUR (N=50)
+ *
+ * Parent config: nextflow.config.combined.nimh_hbcc_Omni5M
+ * Keep list: docs/ancestry_specific/keep_lists/NIMH_HBCC_Omni5M_EUR_samples_to_keep.txt
+ * QC/VCF basename: CMC_HBCC
+ *
+ * Strategy:
+ *   - Reuse parent cell proportions / metadata (skip RNA + deconv)
+ *   - Restrict samples via samples_to_keep
+ *   - Re-run genotyping QC + REGENIE on the ancestry subset
+ *
+ * Run:
+ *   mkdir -p run_dirs/NIMH_HBCC_Omni5M_EUR work/NIMH_HBCC_Omni5M_EUR logs/NIMH_HBCC_Omni5M_EUR
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c ancestry_configs/nextflow.config.combined.NIMH_HBCC_Omni5M_EUR \
+ *       -work-dir work/NIMH_HBCC_Omni5M_EUR \
+ *       -resume
+ */
+
+includeConfig '../nextflow.config.combined.nimh_hbcc_Omni5M'
+
+params {
+    cohorts = ["NIMH_HBCC_Omni5M_EUR"]
+    study   = "NIMH_HBCC_Omni5M_EUR"
+    genotyping_study = "CMC_HBCC"  // VCF/QC basename (not ancestry study name)
+
+    samples_to_keep = "${projectDir}/docs/ancestry_specific/keep_lists/NIMH_HBCC_Omni5M_EUR_samples_to_keep.txt"
+
+    precomputed_proportions = "${projectDir}/results/NIMH_HBCC_Omni5M/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/results/NIMH_HBCC_Omni5M/combined_metrics.csv"
+
+    // Bump so cached CREATE_PGEN from failed pilots is not reused
+    qc_version = "v4_ancestry"
+
+    wgs_psam_file = "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/CMC_HBCC.QC.final.psam"
+    pca_file      = "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/pca.csv"
+
+    work_dir   = "${projectDir}/work/NIMH_HBCC_Omni5M_EUR"
+    log_dir    = "${projectDir}/logs/NIMH_HBCC_Omni5M_EUR"
+    output_dir = "${projectDir}/results/NIMH_HBCC_Omni5M_EUR"
+
+    skip_metal = true
+
+    cohort_configs = [
+        "NIMH_HBCC_Omni5M_EUR": [
+            pgen_file:     "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/CMC_HBCC.QC.final",
+            prune_in_file: "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/CMC_HBCC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/NIMH_HBCC_Omni5M_EUR/covariates.txt"
+        ]
+    ]
+}

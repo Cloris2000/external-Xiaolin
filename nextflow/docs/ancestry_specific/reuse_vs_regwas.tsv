@@ -1,0 +1,18 @@
+cohort	ancestry	n	n_gwas_total	pct_of_gwas	recommendation	reason
+ROSMAP	EUR	796	796	100.0	reuse_existing	All GWAS samples map to EUR; re-GWAS identical to current results/ROSMAP
+ROSMAP_array	EUR	113	162	69.8	re_gwas	Only 113/162 labeled EUR; 49 unlabeled excluded
+Mayo	EUR	257	257	100.0	reuse_existing	All White
+MSBB	EUR	205	252	81.3	re_gwas	Drop AFR/AMR/other for ancestry-homogeneous EUR GWAS
+CMC_MSSM	EUR	230	245	93.9	re_gwas	Drop small non-EUR tails
+CMC_PENN	EUR	80	94	85.1	re_gwas	Drop non-EUR tails
+CMC_PITT	EUR	139	166	83.7	re_gwas	Drop non-EUR tails
+GTEx_v10	EUR	312	312	100.0	reuse_existing	cohort_policy_EUR (no race column)
+NABEC	EUR	210	210	100.0	reuse_existing	All US Caucasian in labeled set
+NIMH_HBCC_1M	EUR	88	202	43.6	re_gwas	True within-cohort ancestry split
+NIMH_HBCC_1M	AFR	101	202	50.0	re_gwas	True within-cohort ancestry split
+NIMH_HBCC_h650	AFR	53	97	54.6	re_gwas	True within-cohort ancestry split
+NIMH_HBCC_Omni5M	EUR	50	79	63.3	dropped_pca_n48	PCA failed: 48 samples after QC; PLINK2 --pca needs >=50; excluded from EUR meta
+GVEX	EUR	388	394	98.5	reuse_existing	Nearly all EUR; 6 non-EUR only
+AMP_AD_Rush	AFR	64	133	48.1	re_gwas	True within-cohort ancestry split
+AMP_AD_Mayo	AFR	52	230	22.6	re_gwas	True within-cohort ancestry split
+AMP_AD_Mayo	AMR	178	230	77.4	re_gwas	True within-cohort ancestry split; single-cohort AMR (no meta)

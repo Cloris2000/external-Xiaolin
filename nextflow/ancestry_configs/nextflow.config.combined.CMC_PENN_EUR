@@ -1,0 +1,53 @@
+/*
+ * Ancestry-subset GWAS: CMC_PENN_EUR (N=80)
+ *
+ * Parent config: nextflow.config.combined.cmc_penn
+ * Keep list: docs/ancestry_specific/keep_lists/CMC_PENN_EUR_samples_to_keep.txt
+ * QC/VCF basename: CMC
+ *
+ * Strategy:
+ *   - Reuse parent cell proportions / metadata (skip RNA + deconv)
+ *   - Restrict samples via samples_to_keep
+ *   - Re-run genotyping QC + REGENIE on the ancestry subset
+ *
+ * Run:
+ *   mkdir -p run_dirs/CMC_PENN_EUR work/CMC_PENN_EUR logs/CMC_PENN_EUR
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c ancestry_configs/nextflow.config.combined.CMC_PENN_EUR \
+ *       -work-dir work/CMC_PENN_EUR \
+ *       -resume
+ */
+
+includeConfig '../nextflow.config.combined.cmc_penn'
+
+params {
+    cohorts = ["CMC_PENN_EUR"]
+    study   = "CMC_PENN_EUR"
+    genotyping_study = "CMC"  // VCF/QC basename (not ancestry study name)
+
+    samples_to_keep = "${projectDir}/docs/ancestry_specific/keep_lists/CMC_PENN_EUR_samples_to_keep.txt"
+
+    precomputed_proportions = "${projectDir}/results/CMC_PENN/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/results/CMC_PENN/combined_metrics.csv"
+
+    // Bump so cached CREATE_PGEN from failed pilots is not reused
+    qc_version = "v4_ancestry"
+
+    wgs_psam_file = "${projectDir}/results/CMC_PENN_EUR/CMC.QC.final.psam"
+    pca_file      = "${projectDir}/results/CMC_PENN_EUR/pca.csv"
+
+    work_dir   = "${projectDir}/work/CMC_PENN_EUR"
+    log_dir    = "${projectDir}/logs/CMC_PENN_EUR"
+    output_dir = "${projectDir}/results/CMC_PENN_EUR"
+
+    skip_metal = true
+
+    cohort_configs = [
+        "CMC_PENN_EUR": [
+            pgen_file:     "${projectDir}/results/CMC_PENN_EUR/CMC.QC.final",
+            prune_in_file: "${projectDir}/results/CMC_PENN_EUR/CMC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/CMC_PENN_EUR/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/CMC_PENN_EUR/covariates.txt"
+        ]
+    ]
+}

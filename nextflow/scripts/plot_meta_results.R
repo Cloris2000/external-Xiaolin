@@ -168,20 +168,29 @@ if (opt$mode == "aggregate") {
 }
 
 # ---- per_celltype mode: discover single .tbl file ---------------------------
-tbl_files <- list.files(opt$results_dir, pattern = "\\.tbl$", full.names = TRUE)
-# Exclude stale *1.tbl files (previous partial runs)
-tbl_files <- tbl_files[!grepl("1\\.tbl$", tbl_files)]
+# METAL OUTFILE + ANALYZE HETEROGENEITY writes prefix1.tbl (real data).
+# A bare prefix.tbl may also exist and can be empty (0 bytes) from partial runs.
+# Prefer the largest non-empty file per cell type; allow *1.tbl.
+all_tbl <- list.files(opt$results_dir, pattern = "\\.tbl$", full.names = TRUE)
+all_tbl <- all_tbl[file.size(all_tbl) > 0]
+if (length(all_tbl) == 0) stop("No non-empty .tbl files found in: ", opt$results_dir)
 
-if (length(tbl_files) == 0) stop("No .tbl files found in: ", opt$results_dir)
-
-# Extract cell type from filename (everything before _meta_analysis_)
 get_cell_type <- function(path) {
   bn <- basename(path)
   sub("_meta_analysis_.*\\.tbl$", "", bn)
 }
 
-cell_types_all <- sapply(tbl_files, get_cell_type)
-names(tbl_files) <- cell_types_all
+# Score: prefer *1.tbl, then larger files
+pick_tbl <- function(paths) {
+  if (length(paths) == 1) return(paths)
+  is_metal1 <- grepl("1\\.tbl$", paths)
+  sizes <- file.size(paths)
+  paths[order(!is_metal1, -sizes)][1]
+}
+
+by_ct <- split(all_tbl, sapply(all_tbl, get_cell_type))
+tbl_files <- vapply(by_ct, pick_tbl, character(1))
+cell_types_all <- names(tbl_files)
 
 if (!(opt$cell_type %in% cell_types_all))
   stop("Cell type '", opt$cell_type, "' not found. Available: ",

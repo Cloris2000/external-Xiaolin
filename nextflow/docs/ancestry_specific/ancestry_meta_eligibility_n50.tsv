@@ -1,0 +1,4 @@
+ancestry	n_cohorts	total_n	cohorts	run_meta	note
+AFR	4	270	NIMH_HBCC_1M,NIMH_HBCC_h650,AMP_AD_Rush,AMP_AD_Mayo	1	meta
+AMR	1	178	AMP_AD_Mayo	0	single_cohort_only
+EUR	12	2868	ROSMAP,ROSMAP_array,Mayo,MSBB,CMC_MSSM,CMC_PENN,CMC_PITT,GTEx_v10,NABEC,NIMH_HBCC_1M,NIMH_HBCC_Omni5M,GVEX	1	meta

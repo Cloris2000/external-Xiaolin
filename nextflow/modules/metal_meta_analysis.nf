@@ -50,16 +50,17 @@ EOF
 
     metal ${cell_type}_metal_script.txt
     
-    # METAL appends a number (1, 2, etc.) when there's only one input file
-    # Find the actual output file (could be ${cell_type}_meta_analysis_${cohort_suffix}.tbl or ${cell_type}_meta_analysis_${cohort_suffix}1.tbl, etc.)
-    meta_output=\$(ls ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*.tbl 2>/dev/null | head -1)
-    meta_info=\$(ls ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*.tbl.info 2>/dev/null | head -1)
+    # METAL OUTFILE + ANALYZE HETEROGENEITY writes prefix1.tbl (real data).
+    # A bare prefix.tbl can be empty; never pick size-0 or lexicographic head -1.
+    meta_output=\$(ls -S ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*1.tbl ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}.tbl 2>/dev/null | while read f; do [ -s "\$f" ] && echo "\$f" && break; done)
+    meta_info=\$(ls ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*1.tbl.info ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}.tbl.info 2>/dev/null | head -1)
     
     if [ -z "\$meta_output" ]; then
-        echo "ERROR: METAL output file not found in ${output_dir}/" >&2
+        echo "ERROR: METAL output file not found (or all empty) in ${output_dir}/" >&2
         ls -la ${output_dir}/${cell_type}_meta_analysis* 2>/dev/null || echo "No files found matching pattern"
         exit 1
     fi
+    echo "Using METAL output: \$meta_output (\$(wc -c < "\$meta_output") bytes)"
     
     # Copy output files to work directory for Nextflow
     cp "\$meta_output" ${cell_type}_meta_analysis_${cohort_suffix}.tbl

@@ -1,0 +1,81 @@
+/*
+ * Standalone meta-analysis: snRNA-seq Hodge label-transfer CTP GWAS (5-cohort)
+ *   - ROSMAP_Green_Hodge  (N≈385)          hg19
+ *   - PsychAD_HBCC_Hodge  (N≈258)          hg19
+ *   - PsychAD_MSSM_Hodge  (N≈203; MSBB WGS subset)  hg19
+ *   - PsychAD_RADC_snRNA  (N≈89;  Mathys/RADC)      hg38 -> lifted to hg19
+ *   - Ruz_MSSM            (N≈92;  Ruzicka MSSM)      hg19
+ *
+ * This extends nextflow.config.standalone_meta.sn_hodge3 by adding the
+ * PsychAD_RADC_snRNA (Mathys) and Ruz_MSSM (Ruzicka) single-nucleus cohorts.
+ * The hodge3 config/outputs are left untouched for backward compatibility;
+ * this variant writes to results/meta_analysis_sn_hodge5.
+ *
+ * Cell-type coverage (Hodge subclasses):
+ *   - ROSMAP_Green_Hodge / PsychAD_HBCC_Hodge / PsychAD_MSSM_Hodge : 19 (incl. L4.IT, VLMC)
+ *   - Ruz_MSSM            : 18 (no VLMC)
+ *   - PsychAD_RADC_snRNA  : 17 (no L4.IT, no VLMC)
+ * With min_present_cohorts = 2, every Hodge cell type remains meta-analysable
+ * (VLMC/L4.IT are still present in >=2 of the hg19 cohorts).
+ *
+ * Genome build:
+ *   PsychAD_RADC_snRNA genotypes are GRCh38, so its REGENIE sumstats are lifted
+ *   hg38 -> hg19 inside this pipeline (LIFTOVER_SUMSTATS) before harmonization,
+ *   matching the b37 coordinates of the other sn cohorts and the bulk meta.
+ *
+ * Inputs are staged under results/meta_sn_hodge5_inputs/ with directory names
+ * matching the study prefix in *.regenie.raw_p filenames.
+ *
+ * Run:
+ *   nextflow run standalone_meta_analysis.nf \
+ *       -c nextflow.config.standalone_meta.sn_hodge5 \
+ *       -w work/meta_sn_hodge5 -resume
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+    meta_input_results_dir = "${projectDir}/results/meta_sn_hodge5_inputs"
+
+    cohorts = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "PsychAD_RADC_snRNA",
+        "Ruz_MSSM"
+    ]
+    cohort_include = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "PsychAD_RADC_snRNA",
+        "Ruz_MSSM"
+    ]
+
+    // PsychAD_RADC_snRNA sumstats are GRCh38 -> lift to hg19 before harmonization.
+    // All other cohorts are hg19/b37 and pass through untouched.
+    cohort_genome_builds = [
+        "PsychAD_RADC_snRNA": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+
+    // Keep variants present in at least 2 of 5 cohorts
+    min_present_cohorts = 2
+
+    output_dir = "${projectDir}/results/meta_analysis_sn_hodge5"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+
+    // Disable pipeline qqman plots (racey vs METAL publish; annotated
+    // lead-SNP Manhattan is generated separately after meta completes).
+    run_plot_meta = false
+}
+
+process {
+    // medium partition nodes have broken SLURM prologs; use mediumtmp
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+}

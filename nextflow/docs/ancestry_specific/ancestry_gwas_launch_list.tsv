@@ -1,0 +1,18 @@
+study	cohort	ancestry	n	action	config	source_results	keep_list
+ROSMAP_EUR	ROSMAP	EUR	796	reuse_existing		results/ROSMAP	docs/ancestry_specific/keep_lists/ROSMAP_EUR_samples_to_keep.txt
+ROSMAP_array_EUR	ROSMAP_array	EUR	113	re_gwas	ancestry_configs/nextflow.config.combined.ROSMAP_array_EUR	results/ROSMAP_array_EUR	docs/ancestry_specific/keep_lists/ROSMAP_array_EUR_samples_to_keep.txt
+Mayo_EUR	Mayo	EUR	257	reuse_existing		results/Mayo	docs/ancestry_specific/keep_lists/Mayo_EUR_samples_to_keep.txt
+MSBB_EUR	MSBB	EUR	205	re_gwas	ancestry_configs/nextflow.config.combined.MSBB_EUR	results/MSBB_EUR	docs/ancestry_specific/keep_lists/MSBB_EUR_samples_to_keep.txt
+CMC_MSSM_EUR	CMC_MSSM	EUR	230	re_gwas	ancestry_configs/nextflow.config.combined.CMC_MSSM_EUR	results/CMC_MSSM_EUR	docs/ancestry_specific/keep_lists/CMC_MSSM_EUR_samples_to_keep.txt
+CMC_PENN_EUR	CMC_PENN	EUR	80	re_gwas	ancestry_configs/nextflow.config.combined.CMC_PENN_EUR	results/CMC_PENN_EUR	docs/ancestry_specific/keep_lists/CMC_PENN_EUR_samples_to_keep.txt
+CMC_PITT_EUR	CMC_PITT	EUR	139	re_gwas	ancestry_configs/nextflow.config.combined.CMC_PITT_EUR	results/CMC_PITT_EUR	docs/ancestry_specific/keep_lists/CMC_PITT_EUR_samples_to_keep.txt
+GTEx_v10_EUR	GTEx_v10	EUR	312	reuse_existing		results/GTEx_v10	docs/ancestry_specific/keep_lists/GTEx_v10_EUR_samples_to_keep.txt
+NABEC_EUR	NABEC	EUR	210	reuse_existing		results/NABEC	docs/ancestry_specific/keep_lists/NABEC_EUR_samples_to_keep.txt
+NIMH_HBCC_1M_EUR	NIMH_HBCC_1M	EUR	88	re_gwas	ancestry_configs/nextflow.config.combined.NIMH_HBCC_1M_EUR	results/NIMH_HBCC_1M_EUR	docs/ancestry_specific/keep_lists/NIMH_HBCC_1M_EUR_samples_to_keep.txt
+NIMH_HBCC_1M_AFR	NIMH_HBCC_1M	AFR	101	re_gwas	ancestry_configs/nextflow.config.combined.NIMH_HBCC_1M_AFR	results/NIMH_HBCC_1M_AFR	docs/ancestry_specific/keep_lists/NIMH_HBCC_1M_AFR_samples_to_keep.txt
+NIMH_HBCC_h650_AFR	NIMH_HBCC_h650	AFR	53	re_gwas	ancestry_configs/nextflow.config.combined.NIMH_HBCC_h650_AFR	results/NIMH_HBCC_h650_AFR	docs/ancestry_specific/keep_lists/NIMH_HBCC_h650_AFR_samples_to_keep.txt
+NIMH_HBCC_Omni5M_EUR	NIMH_HBCC_Omni5M	EUR	50	dropped_pca_n48	ancestry_configs/nextflow.config.combined.NIMH_HBCC_Omni5M_EUR	results/NIMH_HBCC_Omni5M_EUR	docs/ancestry_specific/keep_lists/NIMH_HBCC_Omni5M_EUR_samples_to_keep.txt
+GVEX_EUR	GVEX	EUR	388	reuse_existing		results/GVEX	docs/ancestry_specific/keep_lists/GVEX_EUR_samples_to_keep.txt
+AMP_AD_Rush_AFR	AMP_AD_Rush	AFR	64	re_gwas	ancestry_configs/nextflow.config.combined.AMP_AD_Rush_AFR	results/AMP_AD_Rush_AFR	docs/ancestry_specific/keep_lists/AMP_AD_Rush_AFR_samples_to_keep.txt
+AMP_AD_Mayo_AFR	AMP_AD_Mayo	AFR	52	re_gwas	ancestry_configs/nextflow.config.combined.AMP_AD_Mayo_AFR	results/AMP_AD_Mayo_AFR	docs/ancestry_specific/keep_lists/AMP_AD_Mayo_AFR_samples_to_keep.txt
+AMP_AD_Mayo_AMR	AMP_AD_Mayo	AMR	178	re_gwas	ancestry_configs/nextflow.config.combined.AMP_AD_Mayo_AMR	results/AMP_AD_Mayo_AMR	docs/ancestry_specific/keep_lists/AMP_AD_Mayo_AMR_samples_to_keep.txt

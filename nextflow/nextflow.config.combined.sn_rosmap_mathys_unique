@@ -1,0 +1,111 @@
+/*
+ * ROSMAP Mathys snRNA-seq (Hodge label-transfer) cell-proportion GWAS
+ *   -- MATHYS-UNIQUE subset (de-duplicated vs ROSMAP_Green) --
+ *
+ * To add the Mathys single-nucleus cohort to the sn meta-analysis WITHOUT
+ * double-counting donors already contributed by ROSMAP_Green, this cohort is
+ * restricted to the 128 Mathys donors whose individual is NOT present in the
+ * ROSMAP_Green snRNA cohort at all (strict, individual-level disjoint set).
+ *
+ *   Green analyzed:            385 donors
+ *   Mathys analyzed:           323 donors
+ *   shared (both analyzed):    194 donors
+ *   Mathys-unique (this run):  128 donors  (not in any Green snRNA donor)
+ *
+ * Inputs:
+ *   data_input/sn_rosmap_mathys_unique/{cell_proportions,metadata}.csv
+ *     - subset of data_input/sn_rosmap_mathys_hodge_wgs/* to the 128 unique donors
+ *     - 16 Hodge subclasses, individualID = R*
+ *   Donor list: data_input/sn_rosmap_mathys_unique/mathys_unique_donors.txt
+ *
+ * Genotype (precomputed, full-cohort ROSMAP joint WGS, b37):
+ *   results/ROSMAP/ROSMAP.QC.final  (796 samples, SM-* IIDs)
+ *   PCA + prune recomputed on just the 128 unique donors:
+ *     results/sn_rosmap_mathys_unique/{pca.csv,ROSMAP.QC.prune.in}
+ *
+ * Genome build: b37. No liftover needed for meta with the other b37 sn/bulk
+ * CTP cohorts.
+ *
+ * Run:
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c nextflow.config.combined.sn_rosmap_mathys_unique \
+ *       -w work/sn_rosmap_mathys_unique
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts          = ["ROSMAP_Mathys_unique"]
+    study            = "ROSMAP_Mathys_unique"
+    genotyping_study = "ROSMAP"
+    conda_env        = "test"
+
+    precomputed_proportions = "${projectDir}/data_input/sn_rosmap_mathys_unique/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_rosmap_mathys_unique/metadata.csv"
+    precomputed_pgen        = "${projectDir}/results/ROSMAP/ROSMAP.QC.final"
+
+    // 16 cell types present with adequate representation in the Mathys labels
+    // (all >=83/128 donors nonzero in the unique subset).
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.6.IT.Car3", "L5.6.NP",
+        "L6.CT", "L6b", "LAMP5", "Microglia", "OPC", "Oligodendrocyte",
+        "PAX6", "PVALB", "SST", "VIP"
+    ]
+    skip_metal = true
+
+    biospecimen_file       = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = ''
+    biospec_assay_filter   = 'wholeGenomeSeq'
+    biospec_col_individual = 'individualID'
+    biospec_col_specimen   = 'specimenID'
+
+    col_msex         = 'Sex'
+    col_age          = 'Age_at_Death'
+    col_individualID = 'individualID'
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "ROSMAP_Mathys_unique": [
+            pgen_file:     "${projectDir}/results/ROSMAP/ROSMAP.QC.final",
+            prune_in_file: "${projectDir}/results/sn_rosmap_mathys_unique/ROSMAP.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_rosmap_mathys_unique/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_rosmap_mathys_unique/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/sn_rosmap_mathys_unique"
+    log_dir    = "${projectDir}/logs/sn_rosmap_mathys_unique"
+    output_dir = "${projectDir}/results/sn_rosmap_mathys_unique"
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+process {
+    // medium partition nodes have broken SLURM prologs; use mediumtmp
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus = 1; memory = '4 GB'
+    }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

@@ -1,0 +1,16 @@
+cohort	n_gwas_samples	n_labeled	n_unlabeled	label_source	id_join	assignment_mode
+ROSMAP	796	796	0	ROSMAP_combined_metrics.race via biospecimen specimenID	covariates.IID == biospecimen.specimenID -> individualID	metadata_race
+ROSMAP_array	162	113	49	ROSMAP_combined_metrics.race via projid->MAP*	IID == MAP + zfill8(projid)	metadata_race
+Mayo	257	257	0	Mayo_meta_tissue_counts_Nov_18.race	covariates.IID == individualID	metadata_race
+MSBB	252	252	0	msbb_meta.race/ethnicity via MSBB biospecimen	covariates.IID == biospecimen.specimenID (WGS numeric)	metadata_race_ethnicity
+CMC_MSSM	245	245	0	CMC_MSSM/metadata_cleaned ethnicity/race via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+CMC_PENN	94	94	0	CMC_PENN/metadata_cleaned ethnicity/race via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+CMC_PITT	166	166	0	CMC_PITT/metadata_cleaned ethnicity/race via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+GTEx_v10	312	312	0	none (GTEx_v10 BA9 metadata has no race/ethnicity column)	cohort_policy_EUR for all GWAS samples	cohort_policy_EUR
+NABEC	210	210	0	NABEC_metadata_combined.RACE	covariates.IID == individualID	metadata_race
+NIMH_HBCC_1M	202	202	0	HBCC_metadata.ethnicity via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+NIMH_HBCC_h650	97	97	0	HBCC_metadata.ethnicity via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+NIMH_HBCC_Omni5M	79	79	0	HBCC_metadata.ethnicity via CMC SNP metadata	covariates.IID == 0_+Genotyping_Sample_ID -> Individual_ID	metadata_ethnicity
+GVEX	394	394	0	CapstoneCollection_Metadata_Clinical.ethnicity/race	covariates.IID == GVEX specimenID/individualID	metadata_ethnicity
+AMP_AD_Rush	133	131	2	Rush_DLPFC_metadata.csv race + isHispanic (Hispanic-first)	covariates.IID == individualID	metadata_race_hispanic
+AMP_AD_Mayo	230	230	0	Mayo_DLPFC_metadata.csv race + isHispanic (Hispanic-first)	covariates.IID (strip _WGS) == specimenID	metadata_race_hispanic

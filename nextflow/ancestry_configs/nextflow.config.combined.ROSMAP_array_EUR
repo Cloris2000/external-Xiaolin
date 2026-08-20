@@ -1,0 +1,53 @@
+/*
+ * Ancestry-subset GWAS: ROSMAP_array_EUR (N=113)
+ *
+ * Parent config: nextflow.config.combined.rosmap_array
+ * Keep list: docs/ancestry_specific/keep_lists/ROSMAP_array_EUR_samples_to_keep.txt
+ * QC/VCF basename: ROSMAP_array
+ *
+ * Strategy:
+ *   - Reuse parent cell proportions / metadata (skip RNA + deconv)
+ *   - Restrict samples via samples_to_keep
+ *   - Re-run genotyping QC + REGENIE on the ancestry subset
+ *
+ * Run:
+ *   mkdir -p run_dirs/ROSMAP_array_EUR work/ROSMAP_array_EUR logs/ROSMAP_array_EUR
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c ancestry_configs/nextflow.config.combined.ROSMAP_array_EUR \
+ *       -work-dir work/ROSMAP_array_EUR \
+ *       -resume
+ */
+
+includeConfig '../nextflow.config.combined.rosmap_array'
+
+params {
+    cohorts = ["ROSMAP_array_EUR"]
+    study   = "ROSMAP_array_EUR"
+    genotyping_study = "ROSMAP_array"  // VCF/QC basename (not ancestry study name)
+
+    samples_to_keep = "${projectDir}/docs/ancestry_specific/keep_lists/ROSMAP_array_EUR_samples_to_keep.txt"
+
+    precomputed_proportions = "${projectDir}/results/ROSMAP_array/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/results/ROSMAP_array/combined_metrics.csv"
+
+    // Bump so cached CREATE_PGEN from failed pilots is not reused
+    qc_version = "v4_ancestry"
+
+    wgs_psam_file = "${projectDir}/results/ROSMAP_array_EUR/ROSMAP_array.QC.final.psam"
+    pca_file      = "${projectDir}/results/ROSMAP_array_EUR/pca.csv"
+
+    work_dir   = "${projectDir}/work/ROSMAP_array_EUR"
+    log_dir    = "${projectDir}/logs/ROSMAP_array_EUR"
+    output_dir = "${projectDir}/results/ROSMAP_array_EUR"
+
+    skip_metal = true
+
+    cohort_configs = [
+        "ROSMAP_array_EUR": [
+            pgen_file:     "${projectDir}/results/ROSMAP_array_EUR/ROSMAP_array.QC.final",
+            prune_in_file: "${projectDir}/results/ROSMAP_array_EUR/ROSMAP_array.QC.prune.in",
+            pheno_file:    "${projectDir}/results/ROSMAP_array_EUR/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/ROSMAP_array_EUR/covariates.txt"
+        ]
+    ]
+}

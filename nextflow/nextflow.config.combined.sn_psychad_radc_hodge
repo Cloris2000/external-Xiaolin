@@ -1,0 +1,139 @@
+/*
+ * PsychAD RADC snRNA-seq (Hodge label-transfer) cell-proportion GWAS
+ * Cohort name: PsychAD_RADC_snRNA
+ *
+ * Inputs:
+ *   data_input/sn_psychad_radc_hodge/cell_proportions.csv
+ *     - 89 donors (proportion ∩ PsychAD combined VCF), 17 Hodge subclasses
+ *     - VLMC and L4.IT excluded (only 4 and 14 nonzero among 89)
+ *   data_input/sn_psychad_radc_hodge/metadata.csv
+ *     - Sex, Age_at_Death for all 89 (from NPS-AD_individual_metadata.csv;
+ *       covers ROS/MAP + MARS/CLINCOR studies, unlike ROSMAP_clinical.csv)
+ *
+ * Genotype:
+ *   results/sn_psychad_radc_hodge/PsychAD_RADC.QC.final  (after geno QC)
+ *   Source VCF: syn60552875 combined.vcf.gz (GRCh38)
+ *   IDs: R* matching proportion file directly (fid_method = individual_id)
+ *
+ * Prerequisites (in order):
+ *   1. Download done: data_input/sn_psychad_radc_hodge/genotype/combined.vcf.gz
+ *   2. sbatch scripts/split_psychad_radc_vcf_by_chr.sbatch
+ *   3. metadata.csv Sex/Age complete for all 89 (DONE)
+ *   4. nextflow run genotyping_qc_pipeline.nf \
+ *          -c nextflow.config.genotyping_qc.psychad_radc \
+ *          -w work/sn_psychad_radc_geno_qc
+ *   5. nextflow run combined_pipeline_v2.nf \
+ *          -c nextflow.config.combined.sn_psychad_radc_hodge \
+ *          -w work/sn_psychad_radc_hodge
+ *
+ * NOTE — ancestry:
+ *   Diverse cohort (55 AFR / 15 AMR / 14 EUR / 5 EAS). Genotype PCs are
+ *   recomputed by the QC pipeline from the 89-donor genotypes and used as
+ *   covariates — important given ancestry differs from the mostly-EUR bulk.
+ *
+ * NOTE — genome build:
+ *   Genotypes are GRCh38. Lift GWAS sumstats to b37 before meta-analysis
+ *   with bulk CTP cohorts (scripts/liftover_sumstats.py).
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    cohorts          = ["PsychAD_RADC_snRNA"]
+    study            = "PsychAD_RADC_snRNA"
+    genotyping_study = "PsychAD_RADC"
+    conda_env        = "test"
+
+    precomputed_proportions = "${projectDir}/data_input/sn_psychad_radc_hodge/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_psychad_radc_hodge/metadata.csv"
+    // Genotype QC already completed INLINE from the per-chr VCFs (no pre-existing
+    // bulk pgen covers these RADC donors). QC.final is now REGENIE-safe:
+    // the imputed PsychAD VCF produced a pgen with multiallelic + phase/dosage,
+    // which REGENIE step1 rejects ("Multiallelic variants and phase/dosage info
+    // simultaneously present") and then segfaults on multiallelic records. Fixed by
+    // regenerating QC.final as biallelic-only, hardcalls:
+    //   plink2 --pfile PsychAD_RADC.QC.final --max-alleles 2 \
+    //          --make-pgen erase-phase erase-dosage --out PsychAD_RADC.QC.final
+    // (original saved as PsychAD_RADC.QC.final.multiallelic.*; 171 multiallelic dropped)
+    // precomputed_pgen set so reruns skip QC and go straight to GWAS.
+    precomputed_pgen        = "${projectDir}/results/sn_psychad_radc_hodge/PsychAD_RADC.QC.final"
+
+    // 17 Hodge subclasses (VLMC and L4.IT excluded)
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L5.ET", "L5.6.IT.Car3",
+        "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC",
+        "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP"
+    ]
+    skip_metal = true
+
+    // R* IDs already match VCF sample IDs
+    fid_method       = 'individual_id'
+    fid_format       = ''
+    biospecimen_file = ''
+
+    col_msex         = 'Sex'
+    col_age          = 'Age_at_Death'
+    col_individualID = 'individualID'
+
+    // Genotype QC inputs (also used if re-running QC via combined pipeline)
+    vcf_pattern        = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/sn_psychad_radc_hodge/genotype/by_chr/PsychAD_RADC.chr{chrom}.vcf.gz"'
+    normalized_vcf_dir = ''
+    normalize_vcf      = false
+    samples_to_keep    = "${projectDir}/results/sn_psychad_radc_hodge/samples_to_keep.txt"
+    include_x          = false
+    sort_vars          = true
+    autosome_only      = true
+    maf_threshold      = 0.05
+    hwe_threshold      = 1e-15
+    geno_threshold     = 0.1
+    mind_threshold     = 0.1
+    vcf_min_gq         = 20
+    vcf_min_dp         = 10
+    vcf_min_qual       = 30
+    mach_r2_filter     = 0.8
+    qc_version         = 'v1_radc89'
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "PsychAD_RADC_snRNA": [
+            pgen_file:     "${projectDir}/results/sn_psychad_radc_hodge/PsychAD_RADC.QC.final",
+            prune_in_file: "${projectDir}/results/sn_psychad_radc_hodge/PsychAD_RADC.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_psychad_radc_hodge/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_psychad_radc_hodge/covariates.txt"
+        ]
+    ]
+
+    work_dir   = "${projectDir}/work/sn_psychad_radc_hodge"
+    log_dir    = "${projectDir}/logs/sn_psychad_radc_hodge"
+    output_dir = "${projectDir}/results/sn_psychad_radc_hodge"
+    use_slurm  = true
+    slurm_time = "0-6:0"
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy  = 'retry'
+    maxRetries     = 3
+
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus = 12; memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus = 1; memory = '4 GB'
+    }
+}
+
+report   { enabled = true;  file = "${params.output_dir}/combined_pipeline_report.html" }
+timeline { enabled = true;  file = "${params.output_dir}/combined_pipeline_timeline.html" }
+trace    { enabled = false }
+dag      { enabled = true;  file = "${params.output_dir}/combined_pipeline_dag.svg" }

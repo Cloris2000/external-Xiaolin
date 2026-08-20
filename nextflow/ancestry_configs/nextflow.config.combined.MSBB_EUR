@@ -1,0 +1,53 @@
+/*
+ * Ancestry-subset GWAS: MSBB_EUR (N=205)
+ *
+ * Parent config: nextflow.config.combined.msbb
+ * Keep list: docs/ancestry_specific/keep_lists/MSBB_EUR_samples_to_keep.txt
+ * QC/VCF basename: MSBB
+ *
+ * Strategy:
+ *   - Reuse parent cell proportions / metadata (skip RNA + deconv)
+ *   - Restrict samples via samples_to_keep
+ *   - Re-run genotyping QC + REGENIE on the ancestry subset
+ *
+ * Run:
+ *   mkdir -p run_dirs/MSBB_EUR work/MSBB_EUR logs/MSBB_EUR
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c ancestry_configs/nextflow.config.combined.MSBB_EUR \
+ *       -work-dir work/MSBB_EUR \
+ *       -resume
+ */
+
+includeConfig '../nextflow.config.combined.msbb'
+
+params {
+    cohorts = ["MSBB_EUR"]
+    study   = "MSBB_EUR"
+    genotyping_study = "MSBB"  // VCF/QC basename (not ancestry study name)
+
+    samples_to_keep = "${projectDir}/docs/ancestry_specific/keep_lists/MSBB_EUR_samples_to_keep.txt"
+
+    precomputed_proportions = "${projectDir}/results/MSBB/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/results/MSBB/combined_metrics.csv"
+
+    // Bump so cached CREATE_PGEN from failed pilots is not reused
+    qc_version = "v4_ancestry"
+
+    wgs_psam_file = "${projectDir}/results/MSBB_EUR/MSBB.QC.final.psam"
+    pca_file      = "${projectDir}/results/MSBB_EUR/pca.csv"
+
+    work_dir   = "${projectDir}/work/MSBB_EUR"
+    log_dir    = "${projectDir}/logs/MSBB_EUR"
+    output_dir = "${projectDir}/results/MSBB_EUR"
+
+    skip_metal = true
+
+    cohort_configs = [
+        "MSBB_EUR": [
+            pgen_file:     "${projectDir}/results/MSBB_EUR/MSBB.QC.final",
+            prune_in_file: "${projectDir}/results/MSBB_EUR/MSBB.QC.prune.in",
+            pheno_file:    "${projectDir}/results/MSBB_EUR/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/MSBB_EUR/covariates.txt"
+        ]
+    ]
+}

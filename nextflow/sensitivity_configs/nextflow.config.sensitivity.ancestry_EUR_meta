@@ -1,0 +1,45 @@
+/*
+ * Ancestry-specific meta: EUR samples only.
+ *
+ * Inputs mix:
+ *   - reuse_existing: ROSMAP, Mayo, GTEx_v10, NABEC, GVEX (original GWAS dirs)
+ *   - re_gwas subsets: ROSMAP_array_EUR, MSBB_EUR, CMC_*_EUR, NIMH_HBCC_1M_EUR
+ *
+ * Dropped: NIMH_HBCC_Omni5M_EUR (PCA failed; N=48 after QC < PLINK --pca minimum)
+ *
+ * Run: sbatch run_ancestry_meta_EUR.sbatch
+ */
+includeConfig '../nextflow.config.standalone_meta_15cohorts'
+
+params {
+    stratified_meta_label = "ancestry_EUR"
+    stratified_meta_dimension = "ancestry_specific"
+
+    cohorts = [
+        "ROSMAP", "Mayo", "GTEx_v10", "NABEC", "GVEX",
+        "ROSMAP_array_EUR", "MSBB_EUR",
+        "CMC_MSSM_EUR", "CMC_PENN_EUR", "CMC_PITT_EUR",
+        "NIMH_HBCC_1M_EUR"
+    ]
+    cohort_include = [
+        "ROSMAP", "Mayo", "GTEx_v10", "NABEC", "GVEX",
+        "ROSMAP_array_EUR", "MSBB_EUR",
+        "CMC_MSSM_EUR", "CMC_PENN_EUR", "CMC_PITT_EUR",
+        "NIMH_HBCC_1M_EUR"
+    ]
+
+    output_dir = "${projectDir}/results/meta_sensitivity/ancestry_specific_EUR"
+    harmonized_output_dir = "${params.output_dir}/harmonized"
+    audit_output_dir = "${params.output_dir}/audit"
+    heterogeneity_output_dir = "${params.output_dir}/heterogeneity"
+
+    cohort_genome_builds = [
+        "GTEx_v10": "hg38",
+        "ROSMAP_array_EUR": "hg38"
+    ]
+    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
+
+    run_heterogeneity_summary = true
+    run_plot_meta = false
+    run_heterogeneity_breakdown = false
+}

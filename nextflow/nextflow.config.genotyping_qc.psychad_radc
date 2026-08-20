@@ -1,0 +1,59 @@
+/*
+ * PsychAD RADC Genotyping QC
+ *
+ * Input: per-chromosome VCFs split from syn60552875 combined.vcf.gz
+ *   (GRCh38; contigs renamed chrN -> N for pipeline compatibility)
+ * Sample filter: 89 RADC snRNA donors overlapping the proportion file
+ *
+ * Prerequisites:
+ *   sbatch scripts/split_psychad_radc_vcf_by_chr.sbatch
+ *
+ *   nextflow run genotyping_qc_pipeline.nf \
+ *       -c nextflow.config.genotyping_qc.psychad_radc \
+ *       -w work/sn_psychad_radc_geno_qc
+ *
+ * NOTE: Positions are GRCh38. After GWAS, lift summary stats to b37
+ * before meta-analysis with bulk CTP cohorts (scripts/liftover_sumstats.py).
+ */
+
+includeConfig 'nextflow.config.genotyping_qc'
+
+params {
+    study      = "PsychAD_RADC"
+    work_dir   = "${projectDir}/results/sn_psychad_radc_hodge"
+    output_dir = "${projectDir}/results/sn_psychad_radc_hodge"
+
+    // Per-chr VCFs from split_psychad_radc_vcf_by_chr.sbatch
+    vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/sn_psychad_radc_hodge/genotype/by_chr/PsychAD_RADC.chr{chrom}.vcf.gz"'
+    normalized_vcf_dir = ''
+    normalize_vcf = false
+
+    // Restrict QC / pgen to the 89 matched RADC snRNA donors
+    samples_to_keep = "${projectDir}/results/sn_psychad_radc_hodge/samples_to_keep.txt"
+
+    maf_threshold  = 0.05
+    mach_r2_filter = 0.8
+    hwe_threshold  = 1e-15
+    geno_threshold = 0.1
+    mind_threshold = 0.1
+    vcf_min_gq     = 20
+    vcf_min_dp     = 10
+    vcf_min_qual   = 30
+    include_x      = false
+    sort_vars      = true
+    autosome_only  = true
+    qc_version     = 'v1_radc89'
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    log_dir    = "${projectDir}/logs/sn_psychad_radc_hodge"
+    use_slurm  = true
+    slurm_time = '0-6:0'
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy  = 'retry'
+    maxRetries     = 2
+}

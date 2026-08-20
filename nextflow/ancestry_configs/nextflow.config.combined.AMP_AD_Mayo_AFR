@@ -1,0 +1,53 @@
+/*
+ * Ancestry-subset GWAS: AMP_AD_Mayo_AFR (N=52)
+ *
+ * Parent config: nextflow.config.combined.amp_ad_mayo
+ * Keep list: docs/ancestry_specific/keep_lists/AMP_AD_Mayo_AFR_samples_to_keep.txt
+ * QC/VCF basename: AMP_AD_Mayo_AFR
+ *
+ * Strategy:
+ *   - Reuse parent cell proportions / metadata (skip RNA + deconv)
+ *   - Restrict samples via samples_to_keep
+ *   - Re-run genotyping QC + REGENIE on the ancestry subset
+ *
+ * Run:
+ *   mkdir -p run_dirs/AMP_AD_Mayo_AFR work/AMP_AD_Mayo_AFR logs/AMP_AD_Mayo_AFR
+ *   nextflow run combined_pipeline_v2.nf \
+ *       -c ancestry_configs/nextflow.config.combined.AMP_AD_Mayo_AFR \
+ *       -work-dir work/AMP_AD_Mayo_AFR \
+ *       -resume
+ */
+
+includeConfig '../nextflow.config.combined.amp_ad_mayo'
+
+params {
+    cohorts = ["AMP_AD_Mayo_AFR"]
+    study   = "AMP_AD_Mayo_AFR"
+    genotyping_study = null
+
+    samples_to_keep = "${projectDir}/docs/ancestry_specific/keep_lists/AMP_AD_Mayo_AFR_samples_to_keep.txt"
+
+    precomputed_proportions = "${projectDir}/results/AMP_AD_Mayo/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/results/AMP_AD_Mayo/combined_metrics.csv"
+
+    // Bump so cached CREATE_PGEN from failed pilots is not reused
+    qc_version = "v4_ancestry"
+
+    wgs_psam_file = "${projectDir}/results/AMP_AD_Mayo_AFR/AMP_AD_Mayo_AFR.QC.final.psam"
+    pca_file      = "${projectDir}/results/AMP_AD_Mayo_AFR/pca.csv"
+
+    work_dir   = "${projectDir}/work/AMP_AD_Mayo_AFR"
+    log_dir    = "${projectDir}/logs/AMP_AD_Mayo_AFR"
+    output_dir = "${projectDir}/results/AMP_AD_Mayo_AFR"
+
+    skip_metal = true
+
+    cohort_configs = [
+        "AMP_AD_Mayo_AFR": [
+            pgen_file:     "${projectDir}/results/AMP_AD_Mayo_AFR/AMP_AD_Mayo_AFR.QC.final",
+            prune_in_file: "${projectDir}/results/AMP_AD_Mayo_AFR/AMP_AD_Mayo_AFR.QC.prune.in",
+            pheno_file:    "${projectDir}/results/AMP_AD_Mayo_AFR/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/AMP_AD_Mayo_AFR/covariates.txt"
+        ]
+    ]
+}

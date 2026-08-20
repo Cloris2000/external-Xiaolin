@@ -1,0 +1,171 @@
+/*
+ * Combined Pipeline Configuration for Ruzicka/MtSinai — snRNA-seq derived cell type
+ * proportions from the Ruzicka et al. 2024 Science study (DOI: 10.1126/science.adg5136).
+ *
+ * The Ruzicka study profiled PFC (Brodmann areas 9, 10, 46) snRNA-seq from MSSM
+ * (MtSinai) donors, a subset of whom also contributed to the CMC bulk DLPFC RNA-seq
+ * program and were genotyped on the CMC SNP array (re-imputed under CMC_MSSM_reimputed).
+ *
+ * Donor matching (see ruz_mssm_genotype_matching_corrected.csv):
+ *   - 92 MtSinai donors in Seurat; Ruzicka CMC_ID field = Genotyping_Sample_ID
+ *   - 65 have QC-passing CMC_MSSM psam genotypes (60 EUR + 5 AFR)
+ *   - 53 of those also pass snRNA QC (have cell proportions) → analysis set
+ *     (21 SZ + 32 CON; 49 EUR + 4 AFR; all ancestries included per analysis design)
+ *   - 48 McLean donors: no genotype data in this pipeline
+ *
+ * Prerequisites — already generated:
+ *   data_input/sn_ruz_mssm/cell_proportions.csv   (53 donors, CMC_MSSM_NNN IDs)
+ *   data_input/sn_ruz_mssm/metadata.csv            (53 donors)
+ *   data_input/sn_ruz_mssm/samples_to_keep.txt     (53 psam IDs: 0_MSSM_NNN)
+ *
+ *   Run:
+ *   nextflow run combined_pipeline_v2.nf -c nextflow.config.combined.sn_ruz_mssm \
+ *       -w work/sn_Ruz_MSSM
+ */
+
+includeConfig 'nextflow.config.combined'
+
+params {
+    // ============================================================================
+    // GENERAL
+    // ============================================================================
+
+    cohorts          = ["Ruz_MSSM"]
+    study            = "Ruz_MSSM"
+    genotyping_study = "CMC_MSSM"   // reuse CMC_MSSM VCF/biospecimen convention
+    conda_env        = "test"
+
+    // ============================================================================
+    // PRE-COMPUTED PROPORTIONS (skip RNA-seq stages 1a-1c)
+    // ============================================================================
+
+    precomputed_proportions = "${projectDir}/data_input/sn_ruz_mssm/cell_proportions.csv"
+    precomputed_metadata    = "${projectDir}/data_input/sn_ruz_mssm/metadata.csv"
+
+    // 18 broad Hodge subclasses (no VLMC — zero Ruzicka nuclei assigned to VLMC)
+    cell_type_list = [
+        "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.ET", "L5.6.IT.Car3",
+        "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC",
+        "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP"
+    ]
+
+    skip_metal = true   // single-cohort run; no cross-cohort meta-analysis
+
+    // ============================================================================
+    // PHENOTYPE PREP — individualID = CMC_MSSM_NNN → biospecimen lookup → 0_MSSM_NNN
+    // ============================================================================
+
+    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    fid_method             = 'biospec_specimen'
+    fid_format             = '0_'
+    biospec_col_individual = 'Individual_ID'
+    biospec_col_specimen   = 'Genotyping_Sample_ID'
+
+    col_msex         = 'Biological_Sex'
+    col_age          = 'Age_death'
+    col_individualID = 'individualID'
+
+    // ============================================================================
+    // GENOTYPING QC — same CMC_MSSM reimputed VCFs as bulk CMC_MSSM / sn_brainscope_cmc
+    // ============================================================================
+
+    vcf_dir            = ""
+    vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+    normalize_vcf      = false
+
+    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+
+    qc_version       = 'v1'
+    maf_threshold    = 0.05
+    mach_r2_filter   = 0.8
+    vcf_min_gq       = ""
+    vcf_min_dp       = ""
+    vcf_min_qual     = ""
+    hwe_threshold    = 1e-15
+    geno_threshold   = 0.1
+    mind_threshold   = 0.1
+    prune_window_size   = 500
+    prune_step_size     = 1
+    prune_r2_threshold  = 0.2
+
+    include_x       = false
+    sort_vars       = true
+    autosome_only   = true
+    samples_to_keep = ""   // GENOTYPING_QC_PIPELINE filters to PHENO_PREP's samples_with_phenotypes.txt automatically
+
+    // ============================================================================
+    // GWAS
+    // ============================================================================
+
+    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
+    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_threads = 12
+    regenie_bsize   = 1000
+
+    cohort_configs = [
+        "Ruz_MSSM": [
+            pgen_file:     "${projectDir}/results/sn_Ruz_MSSM/CMC_MSSM.QC.final",
+            prune_in_file: "${projectDir}/results/sn_Ruz_MSSM/CMC_MSSM.QC.prune.in",
+            pheno_file:    "${projectDir}/results/sn_Ruz_MSSM/phenotypes_RINT.txt",
+            covar_file:    "${projectDir}/results/sn_Ruz_MSSM/covariates.txt"
+        ]
+    ]
+
+    // ============================================================================
+    // DIRECTORIES
+    // ============================================================================
+
+    work_dir   = "${projectDir}/work/sn_Ruz_MSSM"
+    log_dir    = "${projectDir}/logs/sn_Ruz_MSSM"
+    output_dir = "${projectDir}/results/sn_Ruz_MSSM"
+
+    use_slurm  = true
+    slurm_time = "0-4:0"
+}
+
+// ── Process resources (same as sn_brainscope_cmc) ───────────────────────────
+process {
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:.*' {
+        cpus   = { task.attempt == 1 ? 8 : 4 }
+        memory = { 32.GB * task.attempt }
+        errorStrategy = 'retry'
+        maxRetries = 5
+    }
+    withName: 'COMBINED_PIPELINE:GENOTYPING_QC_PIPELINE:CREATE_PGEN_CHR' {
+        cpus   = 8
+        memory = { 32.GB * task.attempt }
+        errorStrategy = 'retry'
+        maxRetries = 5
+        time   = '4h'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP1' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:REGENIE_STEP2' {
+        cpus   = 12
+        memory = '48 GB'
+    }
+    withName: 'COMBINED_PIPELINE:GWAS_PIPELINE:EXTRACT_PHENOTYPE_COLUMN' {
+        cpus   = 1
+        memory = '4 GB'
+    }
+}
+
+report {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_report.html"
+}
+timeline {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_timeline.html"
+}
+trace {
+    enabled = false
+}
+dag {
+    enabled = true
+    file    = "${params.output_dir}/combined_pipeline_dag.svg"
+}

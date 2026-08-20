@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 # Figure 5: snRNA-seq CTP GWAS concordance analysis
 # Panel A: Direction concordance (same vs opposite) among loci found in sn — all 19 CTs
-# Panel B: Bulk vs sn beta (95% CI) at the strongest bulk lead found in sn — all 19 CTs
+# Panel B: Bulk β vs sn β scatter over all bulk-suggestive loci found in sn;
+#          dot size ∝ -log10(bulk P), coloured by direction, with Spearman r + n
 #
 # Outputs:
 #   manuscript_figure/figure5_sn_concordance.png
@@ -14,19 +15,38 @@ suppressPackageStartupMessages({
 })
 
 OUT_DIR   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+
+# Which sn-vs-bulk concordance analysis to plot.
+#   "hodge5u" = 5-cohort sn meta, de-duplicated (ROSMAP_Green + PsychAD_HBCC
+#               + PsychAD_MSSM + Ruz_MSSM/Ruzicka + ROSMAP_Mathys_unique, i.e.
+#               the 128 Mathys donors NOT shared with ROSMAP_Green)  [current]
+#   "hodge5m" = 5-cohort sn meta with the FULL ROSMAP_Mathys_Hodge (323 donors;
+#               194 shared with Green -> double-counted, superseded by hodge5u)
+#   "hodge5"  = 5-cohort sn meta using the PsychAD_RADC_snRNA stand-in (89 donors)
+#   "hodge3"  = original 3-cohort sn meta (ROSMAP_Green + PsychAD_HBCC + PsychAD_MSSM)
+ANALYSIS_TAG <- "hodge5u"
 CONC_FILE <- file.path(
   "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
-  "sn_bulk_meta_similarity_hodge3/top_hits/cell_type_concordance_summary.tsv"
+  paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
+         "/top_hits/cell_type_concordance_summary.tsv")
 )
 HITS_FILE <- file.path(
   "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
-  "sn_bulk_meta_similarity_hodge3/top_hits/bulk_suggestive_hits_sn_direction.tsv"
+  paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
+         "/top_hits/bulk_suggestive_hits_sn_direction.tsv")
 )
 
+# Panel A palette — cnsplots 'Nature' scheme (navy / red)
 CLR_SAME <- "#3C5488"
 CLR_OPP  <- "#E64B35"
 CLR_BULK <- "#2166AC"
 CLR_SN   <- "#D95F02"
+
+# Panel B palette — cnsplots 'Cell' scheme (teal / amber), deliberately
+# distinct from Panel A so the two panels don't share colours.
+CLR_B_SAME <- "#2F7E8F"   # cnsplots Cell teal
+CLR_B_OPP  <- "#E1A22E"   # cnsplots Cell amber
+
 FIG_DPI  <- 200
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -89,96 +109,88 @@ pA <- ggplot(bar_dt, aes(x = n, y = bulk_cell_type, fill = category)) +
 cat("Panel A built.\n")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Panel B — Bulk vs sn beta at top lead found in sn, all 19 cell types
+# Panel B — Bulk β vs sn β scatter across all bulk-suggestive loci found in sn.
+#   x = bulk CTP-GWAS β, y = sn CTP-GWAS β, dot size ∝ -log10(bulk P),
+#   coloured by effect-direction concordance. Annotated with overall Spearman r,
+#   n loci, and % same-direction.
 # ─────────────────────────────────────────────────────────────────────────────
-cat("--- Building Panel B (all cell types) ---\n")
+cat("--- Building Panel B (bulk vs sn beta scatter) ---\n")
 hits_dt <- fread(HITS_FILE)
 
-# Nearest-gene labels (topr); fallback to chr:pos
-nearest_gene_labels <- function(chr, pos, p) {
-  ch <- sub("^chr", "", as.character(chr))
-  fallback <- paste0(ch, ":", format(as.integer(pos), scientific = FALSE, trim = TRUE))
-  out <- tryCatch({
-    ann <- topr::annotate_with_nearest_gene(
-      data.frame(CHROM = ch, POS = as.integer(pos), P = as.numeric(p))
-    )
-    g <- if ("Gene_Symbol" %in% names(ann)) as.character(ann$Gene_Symbol) else NULL
-    if (is.null(g) || length(g) != length(fallback)) fallback else g
-  }, error = function(e) fallback)
-  out[is.na(out) | out == ""] <- fallback[is.na(out) | out == ""]
-  out
-}
-
-# Strongest bulk lead that is also present in sn, per cell type
-focus_loci <- hits_dt[sn_found == TRUE][
-  order(bulk_p), .SD[1], by = bulk_cell_type
-]
-if (!nrow(focus_loci)) stop("No sn-found loci in ", HITS_FILE)
-
-# Keep panel A cell-type order
-focus_loci <- focus_loci[match(ct_order, bulk_cell_type)]
-focus_loci <- focus_loci[!is.na(bulk_cell_type)]
-
-focus_loci[, `:=`(
-  cell_type = bulk_cell_type,
-  gene      = nearest_gene_labels(chrom, pos, bulk_p),
+scat <- hits_dt[sn_found == TRUE]
+scat[, `:=`(
   bulk_beta = as.numeric(bulk_effect),
-  bulk_se   = as.numeric(bulk_stderr),
   sn_beta   = as.numeric(sn_effect),
-  sn_se     = as.numeric(sn_stderr)
+  bulk_p    = as.numeric(bulk_p)
 )]
-focus_loci[, bulk_lo := bulk_beta - 1.96 * bulk_se]
-focus_loci[, bulk_hi := bulk_beta + 1.96 * bulk_se]
-focus_loci[, sn_lo   := sn_beta   - 1.96 * sn_se]
-focus_loci[, sn_hi   := sn_beta   + 1.96 * sn_se]
+scat <- scat[is.finite(bulk_beta) & is.finite(sn_beta) & is.finite(bulk_p)]
+scat[, neg_log10_bulk_p := -log10(bulk_p)]
+scat[, direction := ifelse(sign(bulk_beta) == sign(sn_beta),
+                           "Same direction", "Opposite")]
+scat[, direction := factor(direction, levels = c("Same direction", "Opposite"))]
 
-focus_loci[, row_label := paste0(cell_type, "  (", gene, ")")]
-focus_loci[, row_label := factor(row_label, levels = rev(row_label))]
+# Overall summary stats
+n_loci   <- nrow(scat)
+rho      <- suppressWarnings(cor(scat$bulk_beta, scat$sn_beta, method = "spearman"))
+rho_p    <- suppressWarnings(
+  cor.test(scat$bulk_beta, scat$sn_beta, method = "spearman")$p.value)
+pct_same <- 100 * mean(scat$direction == "Same direction")
 
-cat("Panel B loci (top bulk lead found in sn per CT):\n")
-print(focus_loci[, .(cell_type, gene, marker, bulk_p, sn_p, concordant)])
+cat(sprintf("Panel B: n=%d loci, Spearman rho=%.3f (p=%.2g), same-direction=%.1f%%\n",
+            n_loci, rho, rho_p, pct_same))
 
-long_B <- rbind(
-  focus_loci[, .(row_label, cell_type, gwas = "Bulk CTP GWAS",
-                 beta = bulk_beta, ci_lo = bulk_lo, ci_hi = bulk_hi)],
-  focus_loci[, .(row_label, cell_type, gwas = "sn CTP GWAS",
-                 beta = sn_beta, ci_lo = sn_lo, ci_hi = sn_hi)]
+rho_p_lbl <- if (rho_p < 2.2e-16) {
+  "P < 2.2e-16"
+} else {
+  paste0("P = ", formatC(rho_p, format = "g", digits = 2))
+}
+annot_lbl <- paste0(
+  "Spearman r = ", sprintf("%.2f", rho), "\n",
+  rho_p_lbl, "\n",
+  "n = ", n_loci, " loci\n",
+  "Same direction: ", sprintf("%.0f%%", pct_same)
 )
-long_B[, gwas := factor(gwas, levels = c("Bulk CTP GWAS", "sn CTP GWAS"))]
-long_B[, y_off := ifelse(gwas == "Bulk CTP GWAS", 0.18, -0.18)]
-long_B[, y_num := as.numeric(row_label) + y_off]
 
-pB <- ggplot(long_B, aes(x = beta, y = y_num, colour = gwas, shape = gwas)) +
-  geom_vline(xintercept = 0, linetype = "dashed",
-             colour = "grey40", linewidth = 0.5) +
-  geom_errorbarh(aes(xmin = ci_lo, xmax = ci_hi),
-                 height = 0.10, linewidth = 0.55) +
-  geom_point(size = 2.8) +
-  scale_colour_manual(
-    values = c("Bulk CTP GWAS" = CLR_BULK, "sn CTP GWAS" = CLR_SN),
-    name = NULL
+# Symmetric axis limits so the y = x diagonal is meaningful
+lim <- max(abs(c(scat$bulk_beta, scat$sn_beta)), na.rm = TRUE) * 1.05
+
+pB <- ggplot(scat, aes(x = bulk_beta, y = sn_beta)) +
+  # shade the two concordant (same-sign) quadrants
+  annotate("rect", xmin = 0, xmax = lim, ymin = 0, ymax = lim,
+           fill = CLR_B_SAME, alpha = 0.06) +
+  annotate("rect", xmin = -lim, xmax = 0, ymin = -lim, ymax = 0,
+           fill = CLR_B_SAME, alpha = 0.06) +
+  geom_hline(yintercept = 0, colour = "grey60", linewidth = 0.4) +
+  geom_vline(xintercept = 0, colour = "grey60", linewidth = 0.4) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed",
+              colour = "grey45", linewidth = 0.5) +
+  geom_point(aes(size = neg_log10_bulk_p, fill = direction),
+             shape = 21, colour = "white", stroke = 0.25, alpha = 0.85) +
+  scale_fill_manual(
+    values = c("Same direction" = CLR_B_SAME, "Opposite" = CLR_B_OPP),
+    name = NULL,
+    guide = guide_legend(order = 1, override.aes = list(size = 4))
   ) +
-  scale_shape_manual(
-    values = c("Bulk CTP GWAS" = 16, "sn CTP GWAS" = 17),
-    name = NULL
+  scale_size_continuous(
+    name = expression(-log[10] * "(" * P[bulk] * ")"),
+    range = c(1.4, 7), guide = guide_legend(order = 2)
   ) +
-  scale_x_continuous(expand = expansion(mult = c(0.05, 0.05))) +
-  scale_y_continuous(
-    breaks = as.numeric(focus_loci$row_label),
-    labels = levels(focus_loci$row_label)
-  ) +
-  labs(x = expression(beta ~ "(95% CI)"), y = NULL) +
+  coord_equal(xlim = c(-lim, lim), ylim = c(-lim, lim)) +
+  annotate("text", x = -lim * 0.97, y = lim * 0.97,
+           label = annot_lbl, hjust = 0, vjust = 1,
+           size = 3.5, colour = "grey15", lineheight = 0.95) +
+  labs(x = expression("Bulk CTP GWAS " * beta),
+       y = expression("sn CTP GWAS " * beta)) +
   theme_classic(base_size = 11) +
   theme(
     plot.title         = element_blank(),
-    axis.text.y        = element_text(size = 8.5, colour = "black"),
-    axis.text.x        = element_text(size = 9),
-    axis.title.x       = element_text(size = 10),
-    legend.position    = "bottom",
-    legend.text        = element_text(size = 10),
-    legend.key.size    = unit(1.0, "lines"),
-    legend.margin      = margin(t = -2),
-    panel.grid.major.x = element_line(colour = "grey92", linewidth = 0.3),
+    axis.text          = element_text(size = 9, colour = "black"),
+    axis.title         = element_text(size = 10),
+    legend.position    = "right",
+    legend.text        = element_text(size = 9),
+    legend.title       = element_text(size = 9),
+    legend.key.size    = unit(0.9, "lines"),
+    panel.grid.major   = element_line(colour = "grey94", linewidth = 0.3),
     plot.margin        = margin(6, 10, 6, 6)
   )
 
@@ -191,7 +203,7 @@ cat("--- Assembling Figure 5 ---\n")
 fig5 <- plot_grid(
   pA, pB,
   ncol        = 1,
-  rel_heights = c(1.0, 1.35),
+  rel_heights = c(1.0, 1.15),
   labels      = c("A", "B"),
   label_size  = 14,
   label_fontface = "bold"
@@ -201,10 +213,10 @@ out_png <- file.path(OUT_DIR, "figure5_sn_concordance.png")
 out_pdf <- file.path(OUT_DIR, "figure5_sn_concordance.pdf")
 
 cowplot::save_plot(out_png, fig5,
-                   base_width = 12, base_height = 16,
+                   base_width = 10, base_height = 13,
                    dpi = FIG_DPI, bg = "white")
 cowplot::save_plot(out_pdf, fig5,
-                   base_width = 12, base_height = 16,
+                   base_width = 10, base_height = 13,
                    bg = "white")
 
 cat("\n=== Figure 5 outputs ===\n")

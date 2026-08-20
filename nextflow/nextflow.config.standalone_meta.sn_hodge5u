@@ -1,0 +1,75 @@
+/*
+ * Standalone meta-analysis: snRNA-seq Hodge label-transfer CTP GWAS
+ *   (5-cohort, Mathys de-duplicated vs Green)
+ *
+ *   - ROSMAP_Green_Hodge    (N~385)  hg19/b37
+ *   - PsychAD_HBCC_Hodge     (N~258)  hg19/b37
+ *   - PsychAD_MSSM_Hodge     (N~203)  hg19/b37
+ *   - Ruz_MSSM               (N~92)   hg19/b37
+ *   - ROSMAP_Mathys_unique   (N~128)  b37   <-- Mathys donors NOT shared with Green
+ *
+ * De-duplicated counterpart of nextflow.config.standalone_meta.sn_hodge5m.
+ * hodge5m added the full ROSMAP_Mathys_Hodge (323 donors), of which 194 are the
+ * SAME individuals/genotypes already contributed by ROSMAP_Green_Hodge -> METAL
+ * would double-count those donors. Here the Mathys cohort is restricted to the
+ * 128 donors that share NO individual with any ROSMAP_Green snRNA donor, so the
+ * two ROSMAP sn cohorts are disjoint at the individual level.
+ *
+ *   Green analyzed: 385 | Mathys analyzed: 323 | shared: 194 | Mathys-unique: 128
+ *
+ * ALL cohorts are hg19/b37 -> NO liftover (cohort_genome_builds empty).
+ *
+ * Cell-type coverage (Hodge subclasses):
+ *   - ROSMAP_Green/PsychAD_HBCC/PsychAD_MSSM : 19 (incl. L4.IT, L5.ET, VLMC)
+ *   - Ruz_MSSM             : 18 (no VLMC)
+ *   - ROSMAP_Mathys_unique : 16 (no L5.ET, no Pericyte, no VLMC)
+ * With min_present_cohorts = 2, every Hodge cell type remains meta-analysable.
+ *
+ * Inputs staged under results/meta_sn_hodge5u_inputs/ (dir names = study prefix).
+ *
+ * Run:
+ *   nextflow run standalone_meta_analysis.nf \
+ *       -c nextflow.config.standalone_meta.sn_hodge5u \
+ *       -w work/meta_sn_hodge5u -resume
+ */
+
+includeConfig 'nextflow.config.standalone_meta'
+
+params {
+    base_dir = "${projectDir}"
+    meta_input_results_dir = "${projectDir}/results/meta_sn_hodge5u_inputs"
+
+    cohorts = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "Ruz_MSSM",
+        "ROSMAP_Mathys_unique"
+    ]
+    cohort_include = [
+        "ROSMAP_Green_Hodge",
+        "PsychAD_HBCC_Hodge",
+        "PsychAD_MSSM_Hodge",
+        "Ruz_MSSM",
+        "ROSMAP_Mathys_unique"
+    ]
+
+    // All cohorts are hg19/b37 -> no liftover.
+    cohort_genome_builds = [:]
+
+    // Keep variants present in at least 2 of 5 cohorts
+    min_present_cohorts = 2
+
+    output_dir = "${projectDir}/results/meta_analysis_sn_hodge5u"
+    harmonized_output_dir = "${output_dir}/harmonized"
+    audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
+
+    run_plot_meta = false
+}
+
+process {
+    clusterOptions = '--partition=mediumtmp'
+    errorStrategy = 'retry'
+    maxRetries = 3
+}
