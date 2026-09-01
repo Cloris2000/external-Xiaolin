@@ -355,6 +355,122 @@ panel_B[, cell_type_f := factor(cell_type, levels = ct_levels_plot)]
 panel_B[, cell_label_f := factor(ct_display(cell_type), levels = ct_label_levels)]
 panel_B[, strong := PP.H4 >= PP_STRONG]
 
+# ── Effect-direction harmonization for Panel B events ────────────────────────
+# For each significant coloc event, pick the representative shared variant
+# (smallest CTP meta p among allele-matched, strand-unambiguous SNPs in the
+# locus window) and record whether the CTP-increasing allele increases or
+# decreases disease risk.
+#
+# Allele conventions (verified against the pipeline scripts):
+#   CTP locus data : `beta` is the effect of METAL `Allele1` (NOT always the
+#                    ALT of the snp ID) -> effect allele = toupper(Allele1).
+#   Disease files  : 02_download_disease_gwas.sh writes effect_allele into the
+#                    `ref` column and other_allele into `alt`, so `beta` is
+#                    the effect of the `ref` column allele.
+cat("Computing effect directions (CTP-increasing allele vs disease risk)...\n")
+
+.dir_events <- unique(panel_B[, .(cell_type, locus_id, disease, disease_clean,
+                                  chr, lead_pos)])
+
+# Locus windows from the per-cell-type lead tables
+.lead_windows <- rbindlist(lapply(unique(.dir_events$cell_type), function(ct) {
+  f <- file.path(LOCI_DIR, paste0(ct, "_loci.tsv"))
+  if (!file.exists(f)) return(NULL)
+  fread(f)[, .(cell_type, locus_id, window_start, window_end)]
+}), use.names = TRUE)
+.dir_events <- merge(.dir_events, .lead_windows,
+                     by = c("cell_type", "locus_id"), all.x = TRUE)
+
+# CTP meta sumstats within each event window
+.ct_window_dat <- rbindlist(lapply(unique(.dir_events$cell_type), function(ct) {
+  f <- file.path(LOCI_DIR, paste0(ct, "_locus_data.tsv.gz"))
+  d <- fread(f)
+  evs <- .dir_events[cell_type == ct]
+  rbindlist(lapply(seq_len(nrow(evs)), function(i) {
+    e <- evs[i]
+    sub <- d[as.character(chr) == as.character(e$chr) &
+             pos >= e$window_start & pos <= e$window_end,
+             .(snp, pos, ref = toupper(ref), alt = toupper(alt),
+               ea_ct = toupper(Allele1), oa_ct = toupper(Allele2),
+               beta_ct = beta, p_ct = p)]
+    if (nrow(sub) == 0) return(NULL)
+    cbind(cell_type = ct, locus_id = e$locus_id, sub)
+  }), use.names = TRUE)
+}), use.names = TRUE)
+
+# Disease sumstats: one awk pass per disease over all its event windows
+.dis_window_dat <- rbindlist(lapply(unique(.dir_events$disease), function(dk) {
+  f <- file.path(DISEASE_DIR, dk, paste0(dk, "_hg19.tsv"))
+  if (!file.exists(f)) return(NULL)
+  wins <- unique(.dir_events[disease == dk,
+                             .(chr, window_start, window_end)])
+  cond <- paste(sprintf('($2=="%s" && $3>=%d && $3<=%d)',
+                        wins$chr, wins$window_start, wins$window_end),
+                collapse = " || ")
+  hdr <- names(fread(f, nrows = 0L))
+  d <- tryCatch(
+    fread(cmd = sprintf("awk -F'\t' 'NR>1 && (%s)' %s", cond, shQuote(f)),
+          header = FALSE, col.names = hdr),
+    error = function(e) NULL)
+  if (is.null(d) || nrow(d) == 0) return(NULL)
+  # `ref` column holds the disease effect allele (see header comment above)
+  d[, .(disease = dk, chr = as.character(chr), pos = as.integer(pos),
+        ea_dis = toupper(ref), oa_dis = toupper(alt),
+        beta_dis = as.numeric(beta), p_dis = as.numeric(p))]
+}), use.names = TRUE)
+
+.compute_direction <- function(ev) {
+  ctd <- .ct_window_dat[cell_type == ev$cell_type & locus_id == ev$locus_id]
+  dsd <- .dis_window_dat[disease == ev$disease &
+                         chr == as.character(ev$chr) &
+                         pos >= ev$window_start & pos <= ev$window_end]
+  if (nrow(ctd) == 0 || nrow(dsd) == 0) return(NULL)
+  m <- merge(ctd, dsd, by = "pos", allow.cartesian = TRUE)
+  if (nrow(m) == 0) return(NULL)
+  # allele-set match + drop strand-ambiguous pairs
+  m <- m[((ea_ct == ea_dis & oa_ct == oa_dis) |
+          (ea_ct == oa_dis & oa_ct == ea_dis))]
+  m <- m[!(paste(ea_ct, oa_ct) %in% c("A T", "T A", "C G", "G C"))]
+  if (nrow(m) == 0) return(NULL)
+  m[, beta_dis_aligned := fifelse(ea_dis == ea_ct, beta_dis, -beta_dis)]
+  m <- m[is.finite(beta_ct) & is.finite(beta_dis_aligned)]
+  if (nrow(m) == 0) return(NULL)
+  best <- m[which.min(p_ct)]
+  # orient to the CTP-increasing allele
+  flip <- best$beta_ct < 0
+  data.table(
+    cell_type    = ev$cell_type,
+    locus_id     = ev$locus_id,
+    disease      = ev$disease,
+    rep_snp      = best$snp,
+    ctp_inc_allele = if (flip) best$oa_ct else best$ea_ct,
+    beta_ctp_inc = abs(best$beta_ct),
+    beta_disease_per_ctp_inc = if (flip) -best$beta_dis_aligned
+                               else best$beta_dis_aligned,
+    p_ct  = best$p_ct,
+    p_dis = best$p_dis
+  )
+}
+
+dir_tbl <- rbindlist(lapply(seq_len(nrow(.dir_events)), function(i)
+  .compute_direction(.dir_events[i])), use.names = TRUE)
+dir_tbl[, risk_up := beta_disease_per_ctp_inc > 0]
+
+panel_B <- merge(panel_B,
+                 dir_tbl[, .(cell_type, locus_id, disease, rep_snp,
+                             ctp_inc_allele, beta_ctp_inc,
+                             beta_disease_per_ctp_inc, p_dis, risk_up)],
+                 by = c("cell_type", "locus_id", "disease"), all.x = TRUE)
+panel_B[, dir_glyph := fifelse(is.na(risk_up), "",
+                        fifelse(risk_up, "\u25B2", "\u25BC"))]
+
+cat("Direction annotation coverage:",
+    sum(!is.na(panel_B$risk_up)), "/", nrow(panel_B), "events\n")
+print(panel_B[!is.na(risk_up),
+              .(cell_type, disease_clean, locus_label, rep_snp,
+                ctp_inc_allele, beta_ctp_inc,
+                beta_disease_per_ctp_inc, p_dis, risk_up)])
+
 # Export tables
 panel_A_export <- grid_A[, .(
   cell_type, cell_label = as.character(cell_label), ct_class,
@@ -366,7 +482,9 @@ fwrite(panel_A_export, file.path(OUT_DIR, "panel_A_landscape.tsv"), sep = "\t")
 panel_B_export <- panel_B[, .(
   cell_type, cell_label, ct_class, disease = as.character(disease_clean),
   locus_id, indep_locus_id, locus_label, chr, lead_pos,
-  PP.H4, n_snps, strong, col_key = as.character(col_key)
+  PP.H4, n_snps, strong, col_key = as.character(col_key),
+  rep_snp, ctp_inc_allele, beta_ctp_inc, beta_disease_per_ctp_inc,
+  p_disease_rep_snp = p_dis, risk_up
 )][order(match(disease, DISEASE_ORDER), -PP.H4, cell_type)]
 fwrite(panel_B_export, file.path(OUT_DIR, "panel_B_locus_disease_events.tsv"),
        sep = "\t")
@@ -569,6 +687,11 @@ p_arch <- ggplot(panel_B, aes(x = col_key, y = cell_label_f)) +
   geom_point(data = panel_B[strong == TRUE],
              aes(fill = PP.H4),
              shape = 21, size = 2.6, colour = "grey10", stroke = 0.8) +
+  geom_text(data = panel_B[dir_glyph != ""],
+            aes(label = dir_glyph,
+                colour = fifelse(PP.H4 >= 0.75, "white", "grey15")),
+            size = 1.4, vjust = 0.42, show.legend = FALSE) +
+  scale_colour_identity() +
   pp_h4_fill_scale("PP.H4") +
   geom_vline(xintercept = sep_x, colour = "grey50", linewidth = 0.4) +
   geom_hline(yintercept = sep_y, colour = "grey55", linewidth = 0.35) +
@@ -577,7 +700,9 @@ p_arch <- ggplot(panel_B, aes(x = col_key, y = cell_label_f)) +
     expand = expansion(add = 0.55)
   ) +
   scale_y_discrete(drop = FALSE, expand = y_expand_B) +
-  labs(x = NULL, y = NULL) +
+  labs(x = NULL, y = NULL,
+       caption = paste0("\u25B2 / \u25BC  CTP-increasing allele increases / ",
+                        "decreases disease risk (representative shared variant)")) +
   coord_cartesian(clip = "off") +
   theme_pub(8) +
   theme(
@@ -587,6 +712,8 @@ p_arch <- ggplot(panel_B, aes(x = col_key, y = cell_label_f)) +
     axis.ticks = element_blank(),
     axis.line = element_blank(),
     legend.position = "none",
+    plot.caption = element_text(size = 6, colour = "grey30", hjust = 0,
+                                margin = margin(t = 4)),
     plot.margin = margin(10, 8, 8, 4)
   )
 

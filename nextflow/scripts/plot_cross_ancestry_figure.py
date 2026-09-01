@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-Cross-ANCESTRY heterogeneity figure (split from the old combined Figure 5).
+SUPPLEMENTARY cross-ANCESTRY heterogeneity figure — the complete 19-locus
+version. The compact main-paper version now lives in
+plot_main_heterogeneity_figure.py (Panels A–C).
 
   A (top)    : across-ancestry I² bar chart per lead SNP (shared x with B).
   B (bottom) : per-lead forest — Meta / EUR / AFR / LAT-AMR shown as points with
                vertical 95% CI whiskers (y = effect size β).
 
-Outputs: results/.../figures/figure5_cross_ancestry.{png,svg,pdf}
+Outputs: results/.../figures/supp_cross_ancestry_forest.{png,svg,pdf}
 """
 import csv
 from pathlib import Path
@@ -152,7 +154,7 @@ ax_b.legend(handles=[Line2D([0],[0], marker='D' if s == 'Pooled' else 'o',
             title='Ancestry', title_fontsize=8)
 
 for ext in ['png', 'svg', 'pdf']:
-    out = OUTD / f"figure5_cross_ancestry.{ext}"
+    out = OUTD / f"supp_cross_ancestry_forest.{ext}"
     fig.savefig(out, dpi=300 if ext == 'png' else 150,
                 bbox_inches='tight', facecolor='white')
     print(f"Saved {out}")

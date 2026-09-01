@@ -1907,6 +1907,37 @@ cowplot::save_plot(out_v2, fig_v2,
                   bg          = "white")
 cat("  Wrote V2 PNG:", out_v2, "\n")
 
+# V3 (main-figure candidate): overview + specificity heatmap + Miami stack.
+# The heatmap makes the shared-vs-cell-type-specific claim visible at a glance
+# (Panel B), so the Miami exemplars shift to C, D, E ...
+miami_tags_v3  <- LETTERS[seq(3L, length.out = n_focus)]  # C, D, E, ...
+miami_list_v3  <- lapply(seq_len(n_focus), function(i)
+  miami_list[[i]] + labs(tag = miami_tags_v3[i]))
+miami_stack_v3 <- cowplot::plot_grid(
+  plotlist    = miami_list_v3,
+  ncol        = 1,
+  rel_heights = rep(1.20, n_focus)
+)
+fig_v3 <- cowplot::plot_grid(
+  pA, panel_heat, miami_stack_v3, miami_legend,
+  ncol        = 1,
+  rel_heights = c(1.55, 1.05, 1.117 * n_focus, 0.42)
+)
+out_v3 <- file.path(OUT_DIR, "figure3_v3_overview_heatmap_miami.png")
+cowplot::save_plot(out_v3, fig_v3,
+                  base_width  = FIG_WIDTH,
+                  base_height = FIG_HEIGHT + 5.5,
+                  dpi         = FIG_DPI,
+                  bg          = "white")
+cat("  Wrote V3 PNG:", out_v3, "\n")
+out_v3_pdf <- file.path(OUT_DIR, "figure3_v3_overview_heatmap_miami.pdf")
+cowplot::save_plot(out_v3_pdf, fig_v3,
+                  base_width  = FIG_WIDTH,
+                  base_height = FIG_HEIGHT + 5.5,
+                  device      = grDevices::cairo_pdf,
+                  bg          = "white")
+cat("  Wrote V3 PDF:", out_v3_pdf, "\n")
+
 # --- Supplementary diagnostics figure (PNG only) ---
 supp_png <- file.path(OUT_DIR, "figure3_supp_gwas_diagnostics.png")
 cowplot::save_plot(supp_png, fig3_supp,

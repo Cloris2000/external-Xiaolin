@@ -15,8 +15,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/trillium_rsync_lib.sh"
 
 DEST_ROOT="${DEST_ROOT:-/project/rrg-shreejoy/Mayo}"
-META_PCA="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data"
-WGS_BASE="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS"
+META_PCA="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/metabrain_PCA/data"
+WGS_BASE="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/WGS"
 
 trillium_usage() {
   cat <<EOF

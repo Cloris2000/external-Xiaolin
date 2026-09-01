@@ -16,8 +16,8 @@ source "${SCRIPT_DIR}/trillium_rsync_lib.sh"
 
 DEST_ROOT="${DEST_ROOT:-/project/rrg-shreejoy/pipeline_refs}"
 STAGE_SHARED="${STAGE_ROOT}/shared"
-REF_DATA="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/reference_data"
-METAL="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+REF_DATA="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/reference_data"
+METAL="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/WGS/METAL/generic-metal/executables"
 
 trillium_usage() {
   cat <<EOF

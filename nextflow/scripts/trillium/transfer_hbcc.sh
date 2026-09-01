@@ -15,9 +15,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/trillium_rsync_lib.sh"
 
 DEST_ROOT="${DEST_ROOT:-/project/rrg-shreejoy/NIMH_HBCC}"
-HBCC_RNA="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/nimh_hbcc"
-HBCC_VCF_BASE="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed"
-CMC_SNP_META="/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv"
+HBCC_RNA="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/data_input/nimh_hbcc"
+HBCC_VCF_BASE="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/WGS/QC/CMC_HBCC_reimputed"
+CMC_SNP_META="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv"
 
 trillium_usage() {
   cat <<EOF

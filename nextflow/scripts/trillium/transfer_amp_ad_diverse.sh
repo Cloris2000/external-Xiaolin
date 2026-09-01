@@ -16,8 +16,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/trillium_rsync_lib.sh"
 
 DEST_ROOT="${DEST_ROOT:-/project/rrg-shreejoy/AMP_AD_Diverse}"
-AMP_BASE="/external/rprshnas01/netdata_kcni/stlab/AMP_AD_Diverse"
-DATA_INPUT="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/amp_ad_diverse"
+AMP_BASE="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/AMP_AD_Diverse"
+DATA_INPUT="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/data_input/amp_ad_diverse"
 SKIP_NORMALIZED="${SKIP_NORMALIZED:-0}"
 
 trillium_usage() {

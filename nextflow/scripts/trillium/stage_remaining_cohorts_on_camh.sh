@@ -10,14 +10,17 @@
 
 set -euo pipefail
 
-STAGE_ROOT="${STAGE_ROOT:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/trillium_staging}"
+STAGE_ROOT="${STAGE_ROOT:-/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/data_input/trillium_staging}"
 COHORT="all"
 
 usage() {
   cat <<EOF
 Usage: $(basename "$0") [--cohort NAME]
 
-  NAME: all (default) | shared | MSBB | CMC | NABEC | GVEX
+  NAME: all (default) | shared | MSBB | CMC | NABEC | GVEX | GVEX_RAW
+
+  GVEX_RAW stages the ~469G raw BrainGVEX dose VCFs (needs ~469G free on
+  netdata); it is NOT included in 'all' or 'GVEX' — run it explicitly.
 EOF
 }
 
@@ -34,7 +37,7 @@ stage_shared() {
   mkdir -p "${STAGE_ROOT}/shared/tools"
   cp -v /external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt \
         "${STAGE_ROOT}/shared/"
-  cp -v /external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv \
+  cp -v /external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv \
         "${STAGE_ROOT}/shared/"
   # Tools under /kcni may not be visible to the Trillium rsync gateway
   cp -v /external/rprshnas01/kcni/mwainberg/software/plink2 \
@@ -60,7 +63,7 @@ stage_cmc() {
         /nethome/kcni/xzhou/GWAS_tut/CMC_reimputed/CMC_PITT_count_matrix.csv \
         /nethome/kcni/xzhou/GWAS_tut/CMC_reimputed/CMC_PITT_metadata.csv \
         "${STAGE_ROOT}/CMC/RNA/"
-  cp -v /external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv \
+  cp -v /external/rprshnas01/netdata_kcni/stlab/DELETE_ME/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv \
         "${STAGE_ROOT}/CMC/Metadata/"
 }
 
@@ -71,11 +74,15 @@ stage_nabec() {
         /nethome/kcni/xzhou/GWAS_tut/NABEC/NABEC_metadata_combined.csv \
         /nethome/kcni/xzhou/GWAS_tut/NABEC/combined_metrics.csv \
         "${STAGE_ROOT}/NABEC/RNA/"
-  # Biospecimen mapping expected at nextflow/data/NABEC_biospecimen_mapping.txt
-  # — may be missing; copy if present.
-  local biospec="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data/NABEC_biospecimen_mapping.txt"
+  # Biospecimen mapping (individualID -> specimenID / RNA subject -> WGS sample).
+  # Actual location is nextflow/data/metadata/ (config reads it from data/).
+  # Copy the sibling NABEC_RNA_to_WGS_mapping.txt too (same content, source file).
+  local meta_dir="/external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/data/metadata"
+  local biospec="${meta_dir}/NABEC_biospecimen_mapping.txt"
   if [[ -f "${biospec}" ]]; then
     cp -v "${biospec}" "${STAGE_ROOT}/NABEC/Metadata/"
+    [[ -f "${meta_dir}/NABEC_RNA_to_WGS_mapping.txt" ]] && \
+      cp -v "${meta_dir}/NABEC_RNA_to_WGS_mapping.txt" "${STAGE_ROOT}/NABEC/Metadata/"
   else
     echo "WARNING: ${biospec} not found — locate/regenerate before NABEC GWAS on Trillium"
   fi
@@ -88,8 +95,21 @@ stage_gvex() {
         "${STAGE_ROOT}/GVEX/RNA/"
   cp -v /external/rprshnas01/external_data/psychencode/PsychENCODE/BrainGVEX/RNAseq/SYNAPSE_METADATA_MANIFEST.tsv \
         /external/rprshnas01/external_data/psychencode/PsychENCODE/Metadata/CapstoneCollection_Metadata_Clinical.csv \
-        /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/gvex/gvex_rna_wgs_id_mapping.tsv \
+        /external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/nextflow/data_input/gvex/gvex_rna_wgs_id_mapping.tsv \
         "${STAGE_ROOT}/GVEX/Metadata/"
+}
+
+stage_gvex_raw() {
+  # Raw BrainGVEX imputed dose VCFs (~469G) live under external_data, which the
+  # Trillium rsync gateway cannot see — stage onto netdata first. Uses rsync
+  # (resumable) rather than cp. WARNING: needs ~469G free on netdata.
+  local src="/external/rprshnas01/external_data/psychencode/PsychENCODE/genotypes_BrainGVEX/DNA"
+  local dst="${STAGE_ROOT}/GVEX/Genotype_raw"
+  echo "[$(date '+%F %T')] Staging GVEX RAW genotypes (~469G) from external_data..."
+  echo "  src: ${src}"
+  echo "  dst: ${dst}"
+  mkdir -p "${dst}"
+  rsync -a --info=progress2 "${src}/" "${dst}/"
 }
 
 case "${COHORT}" in
@@ -101,6 +121,7 @@ case "${COHORT}" in
   CMC|cmc) stage_cmc ;;
   NABEC|nabec) stage_nabec ;;
   GVEX|gvex) stage_gvex ;;
+  GVEX_RAW|gvex_raw) stage_gvex_raw ;;
   *) echo "Unknown cohort: ${COHORT}" >&2; usage; exit 1 ;;
 esac
 
