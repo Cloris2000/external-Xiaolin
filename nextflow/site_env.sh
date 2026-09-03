@@ -24,9 +24,27 @@ SCC_ROOT="${SCC_ROOT:-/project/rrg-shreejoy/zhoux156/Xiaolin/SCC}"
 REFS_ROOT="${REFS_ROOT:-/project/rrg-shreejoy/pipeline_refs}"
 DATA_ROOT="${DATA_ROOT:-/project/rrg-shreejoy}"
 
-# Nextflow work dirs and other scratch output.  /scratch is purged periodically,
-# so nothing here may be treated as a durable result.
-WORK_ROOT="${WORK_ROOT:-/scratch/${USER}/nf_work}"
+# Trillium compute nodes mount /project AND $HOME read-only; only /scratch is
+# writable (verified on tri0849).  So every path a running job writes to - job
+# logs, Nextflow's work and home dirs, R/tmp scratch and all pipeline results -
+# has to live under SCRATCH_ROOT.  Durable results are synced back to /project
+# from a login node afterwards; see scripts/sync_results_to_project.sh.
+#
+# /scratch is also purged periodically, so nothing under it is a durable result
+# until it has been synced.
+SCRATCH_ROOT="${SCRATCH_ROOT:-/scratch/${USER}}"
+WORK_ROOT="${WORK_ROOT:-${SCRATCH_ROOT}/nf_work}"
+RESULTS_ROOT="${RESULTS_ROOT:-${SCRATCH_ROOT}/results}"
+LOG_ROOT="${LOG_ROOT:-${SCRATCH_ROOT}/logs}"
+
+# Durable copy of the results, on read-only-at-runtime /project.
+PROJECT_RESULTS="${PROJECT_RESULTS:-${NF_DIR}/results}"
+
+# Nextflow defaults NXF_HOME to $HOME/.nextflow and writes plugins and caches
+# there, which fails on a compute node.
+export NXF_HOME="${NXF_HOME:-${SCRATCH_ROOT}/.nextflow}"
+export TMPDIR="${TMPDIR:-${SCRATCH_ROOT}/tmp}"
+mkdir -p "${WORK_ROOT}" "${RESULTS_ROOT}" "${LOG_ROOT}" "${NXF_HOME}" "${TMPDIR}" 2>/dev/null || true
 
 # SLURM.  Trillium is SelectType=select/linear, so every job is allocated a whole
 # 192-core / 767 GB node on the `compute` partition (24 h max).  The SCC partition
@@ -63,6 +81,7 @@ PYTHON="${PYTHON:-${CONDA_PREFIX}/bin/python}"
 # use (e.g. output_dir = "${base_dir}/..."), so the version is pinned.
 NEXTFLOW_MODULE="${NEXTFLOW_MODULE:-nextflow/25.10.2}"
 
-export NF_DIR SCC_DIR SCC_ROOT REFS_ROOT DATA_ROOT WORK_ROOT
+export NF_DIR SCC_DIR SCC_ROOT REFS_ROOT DATA_ROOT
+export SCRATCH_ROOT WORK_ROOT RESULTS_ROOT LOG_ROOT PROJECT_RESULTS
 export SBATCH_ACCOUNT SBATCH_PARTITION NODE_CPUS
 export CONDA_ENV CONDA_ROOT RSCRIPT PYTHON NEXTFLOW_MODULE

@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --array=0-11
-#SBATCH --output=logs/ancestry_gwas_%A_%a.out
-#SBATCH --error=logs/ancestry_gwas_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/ancestry_gwas_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/ancestry_gwas_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # Ancestry-subset GWAS array.

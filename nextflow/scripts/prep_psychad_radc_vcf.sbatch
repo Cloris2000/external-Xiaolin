@@ -4,8 +4,8 @@
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_prep_%j.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_prep_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/psychad_radc_prep_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/psychad_radc_prep_%j.err
 #SBATCH --account=rrg-shreejoy
 #
 # Resume PsychAD RADC VCF prep AFTER download is complete.

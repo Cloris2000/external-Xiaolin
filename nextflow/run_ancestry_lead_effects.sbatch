@@ -4,8 +4,8 @@
 #SBATCH --time=6:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
-#SBATCH --output=logs/meta_sensitivity/ancestry_lead_effects_%j.out
-#SBATCH --error=logs/meta_sensitivity/ancestry_lead_effects_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/ancestry_lead_effects_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/ancestry_lead_effects_%j.err
 #SBATCH --account=rrg-shreejoy
 
 # Extract pooled GW leads + ancestry effects, then forest plots.

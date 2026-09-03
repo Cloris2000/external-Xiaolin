@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
-#SBATCH --output=logs/compare_meta_%j.out
-#SBATCH --error=logs/compare_meta_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/compare_meta_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/compare_meta_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

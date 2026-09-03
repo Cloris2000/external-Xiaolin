@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
-#SBATCH --output=logs/meta_sensitivity/stratified_hbcc_%j.out
-#SBATCH --error=logs/meta_sensitivity/stratified_hbcc_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/stratified_hbcc_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/stratified_hbcc_%j.err
 #SBATCH --account=rrg-shreejoy
 
 # AFR-enriched stratum: NIMH HBCC 3 platforms only.

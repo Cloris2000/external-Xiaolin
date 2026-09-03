@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=rosmap_manhattan_comp
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/comparison_%j.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/comparison_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/comparison_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/comparison_%j.err
 #SBATCH --time=2:00:00
 #SBATCH --partition=compute
 #SBATCH --cpus-per-task=4

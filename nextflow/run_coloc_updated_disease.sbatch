@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=1
-#SBATCH --output=logs/coloc/coloc_upd_%A_%a.out
-#SBATCH --error=logs/coloc/coloc_upd_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_upd_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_upd_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # Re-run coloc.abf for updated BD (bip2024) and MDD (MDD2025) only,

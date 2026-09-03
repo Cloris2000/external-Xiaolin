@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=192
 #SBATCH --time=12:00:00
-#SBATCH --output=logs/meta_15cohorts/meta_15cohorts_%j.out
-#SBATCH --error=logs/meta_15cohorts/meta_15cohorts_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_%j.err
 
 # Trillium allocates whole nodes (SelectType=select/linear), so this job owns all
 # 192 cores and 767 GB and Nextflow schedules tasks locally inside the allocation.
@@ -14,17 +14,22 @@
 
 set -euo pipefail
 
-# NF_DIR, SCC_DIR, WORK_ROOT, the `test` conda env (R + python for the plot
-# stages) and NEXTFLOW_MODULE all come from here.
+# NF_DIR, SCC_DIR, WORK_ROOT, RESULTS_ROOT, NXF_HOME, the `test` conda env
+# (R + python for the plot stages) and NEXTFLOW_MODULE all come from here.
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 WORK_DIR="${WORK_ROOT}/meta_15cohorts"
+
+# Compute nodes mount NF_DIR read-only, so Nextflow's run directory (.nextflow,
+# .nextflow.log, reports) and all published output have to live on scratch.
+RUN_DIR="${SCRATCH_ROOT}/run_dirs/meta_15cohorts"
+OUT_DIR="${RESULTS_ROOT}/meta_analysis_15cohorts"
 
 # Pinned to 25.10.2: Nextflow 26's config parser is stricter and rejects the
 # cross-reference style these configs rely on (e.g. output_dir = "${base_dir}/...").
 module load "${NEXTFLOW_MODULE}"
 
-mkdir -p "${NF_DIR}/run_dirs/meta_15cohorts/logs/meta_15cohorts" "${WORK_DIR}"
-cd "${NF_DIR}/run_dirs/meta_15cohorts"
+mkdir -p "${RUN_DIR}" "${WORK_DIR}" "${OUT_DIR}"
+cd "${RUN_DIR}"
 
 # Stage 0 (cohort audit) reads the per-cohort REGENIE output from the SCC tree.
 echo "Checking GWAS results for all 15 cohorts..."
@@ -65,4 +70,6 @@ nextflow run ${NF_DIR}/standalone_meta_analysis.nf \
 
 echo ""
 echo "15-cohort meta-analysis complete."
-echo "Results written to: ${NF_DIR}/results/meta_analysis_15cohorts/"
+echo "Results written to: ${OUT_DIR}/"
+echo "Sync them to ${PROJECT_RESULTS}/ from a login node with:"
+echo "  ${NF_DIR}/scripts/sync_results_to_project.sh meta_analysis_15cohorts"

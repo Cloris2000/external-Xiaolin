@@ -5,8 +5,8 @@
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=1
 #SBATCH --array=1-15%15
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

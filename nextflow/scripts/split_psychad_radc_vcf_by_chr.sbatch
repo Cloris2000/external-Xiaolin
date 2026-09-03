@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --array=1-22
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/psychad_radc_split_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/psychad_radc_split_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 #
 # Split PsychAD combined.vcf.gz (GRCh38, chr*-prefixed contigs) into

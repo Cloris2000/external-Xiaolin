@@ -12,8 +12,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
-#SBATCH --output=logs/concordance_hodge5u_%j.out
-#SBATCH --error=logs/concordance_hodge5u_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/concordance_hodge5u_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/concordance_hodge5u_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

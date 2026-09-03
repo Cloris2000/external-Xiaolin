@@ -4,8 +4,8 @@
 #SBATCH --time=0:15:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
-#SBATCH --output=logs/meta_sensitivity/ancestry_tier1_merge_%j.out
-#SBATCH --error=logs/meta_sensitivity/ancestry_tier1_merge_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/ancestry_tier1_merge_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/ancestry_tier1_merge_%j.err
 #SBATCH --account=rrg-shreejoy
 
 # Merge 19 per-cell-type outputs from run_ancestry_tier1_array.sbatch

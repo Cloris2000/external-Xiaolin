@@ -4,8 +4,8 @@
 #SBATCH --time=0:15:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
-#SBATCH --output=logs/het_breakdown/het_breakdown_merge_%j.out
-#SBATCH --error=logs/het_breakdown/het_breakdown_merge_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/het_breakdown/het_breakdown_merge_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/het_breakdown/het_breakdown_merge_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

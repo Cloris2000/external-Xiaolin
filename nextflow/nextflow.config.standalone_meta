@@ -35,8 +35,10 @@ params {
     
     // Software paths: metal_path comes from nextflow.config.trillium
 
-    // Output directory
-    output_dir = "${base_dir}/results/meta_analysis"
+    // Output directory.  base_dir is on /project, which compute nodes mount
+    // read-only, so anything written has to sit under results_root on scratch
+    // (nextflow.config.trillium) and be synced back afterwards.
+    output_dir = "${results_root}/meta_analysis"
 
     // Primary analysis design
     primary_meta_method = "METAL_SCHEME_STDERR_FIXED"
@@ -57,7 +59,7 @@ params {
     heterogeneity_output_dir = "${output_dir}/heterogeneity"
 
     // Sensitivity suite defaults
-    sensitivity_output_dir = "${base_dir}/results/meta_sensitivity"
+    sensitivity_output_dir = "${results_root}/meta_sensitivity"
 
     // Visualization thresholds
     plot_p_thresh  = "1e-5"

@@ -11,8 +11,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=32G
 #SBATCH --array=0-18          # 19 cell types (indices 0..18)
-#SBATCH --output=logs/meta_15cohorts/plot_annotated_%A_%a.out
-#SBATCH --error=logs/meta_15cohorts/plot_annotated_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/plot_annotated_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/plot_annotated_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # ---- cell type list (must match exactly the .tbl file prefixes) -------------

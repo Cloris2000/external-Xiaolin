@@ -4,8 +4,8 @@
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_download_%j.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_download_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/psychad_radc_download_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/psychad_radc_download_%j.err
 #SBATCH --account=rrg-shreejoy
 #
 # Download PsychAD combined VCF (syn60552875) for RADC cohort,

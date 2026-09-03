@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=rosmap_array_vcfs
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/rosmap_array_vcfs_%j.out
+#SBATCH --output=/scratch/zhoux156/logs/rosmap_array_vcfs_%j.out
 #SBATCH --time=4:00:00
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=8

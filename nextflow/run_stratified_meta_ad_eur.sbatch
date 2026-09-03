@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
-#SBATCH --output=logs/meta_sensitivity/stratified_ad_eur_%j.out
-#SBATCH --error=logs/meta_sensitivity/stratified_ad_eur_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/stratified_ad_eur_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/stratified_ad_eur_%j.err
 #SBATCH --account=rrg-shreejoy
 # Legacy single-job launcher (superseded by run_stratified_meta_ad_eur_array.sbatch).
 # Use: bash run_diagnosis_eur_analysis.sbatch

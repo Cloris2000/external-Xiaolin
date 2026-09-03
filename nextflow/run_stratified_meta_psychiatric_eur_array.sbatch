@@ -5,8 +5,8 @@
 #SBATCH --time=0:45:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
-#SBATCH --output=logs/meta_sensitivity/stratified_psychiatric_eur_array_%A_%a.out
-#SBATCH --error=logs/meta_sensitivity/stratified_psychiatric_eur_array_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/stratified_psychiatric_eur_array_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/stratified_psychiatric_eur_array_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # METAL-only: reuse pre-harmonized files from EUR_homogeneous meta (no Nextflow).

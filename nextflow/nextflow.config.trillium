@@ -13,6 +13,12 @@
  * allocated a whole 192-core / 767 GB node.  Submitting per-task jobs through the
  * slurm executor would consume one node per task, so the pipeline runs with the
  * local executor inside a single whole-node allocation instead (see executor block).
+ *
+ * Filesystem note: compute nodes mount /project and $HOME READ-ONLY; only /scratch
+ * is writable.  Every publishDir and work dir therefore has to sit under
+ * scratch_root, and results are synced back to /project from a login node with
+ * scripts/sync_results_to_project.sh.  Reading references and inputs from /project
+ * at runtime is fine.
  */
 
 params {
@@ -21,6 +27,10 @@ params {
     refs_root    = '/project/rrg-shreejoy/pipeline_refs'
     nf_root      = '/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow'
     scratch_root = '/scratch/zhoux156'
+
+    // Job-writable output root.  Analysis configs must derive their output_dir
+    // from this, never from projectDir, which is read-only on compute nodes.
+    results_root = "${scratch_root}/results"
 
     // Legacy SCC tree copied to Trillium: holds per-cohort regenie_step2 outputs
     scc_root     = '/project/rrg-shreejoy/zhoux156/Xiaolin/SCC'

@@ -4,8 +4,8 @@
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=96G
-#SBATCH --output=logs/plot_meta_%j.out
-#SBATCH --error=logs/plot_meta_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/plot_meta_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/plot_meta_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --output=logs/plot_meta_13cohorts_%j.out
-#SBATCH --error=logs/plot_meta_13cohorts_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/plot_meta_13cohorts_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/plot_meta_13cohorts_%j.err
 #SBATCH --account=rrg-shreejoy
 
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"

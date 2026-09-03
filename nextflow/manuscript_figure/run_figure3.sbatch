@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=figure3_gwas_discovery
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/figure3_%j.log
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/figure3_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/manuscript_figure/figure3_%j.log
+#SBATCH --error=/scratch/zhoux156/logs/manuscript_figure/figure3_%j.err
 #SBATCH --time=03:00:00
 #SBATCH --mem=64G
 #SBATCH --cpus-per-task=2

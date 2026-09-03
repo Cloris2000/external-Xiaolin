@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=192
 #SBATCH --time=4:00:00
-#SBATCH --output=logs/meta_15cohorts/plot_meta_15cohorts_%j.out
-#SBATCH --error=logs/meta_15cohorts/plot_meta_15cohorts_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/plot_meta_15cohorts_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/plot_meta_15cohorts_%j.err
 
 # Standalone re-plotting of an existing 15-cohort meta-analysis.
 # Normally plots are produced in-pipeline by PLOT_META_RESULTS / PLOT_META_HEATMAP;

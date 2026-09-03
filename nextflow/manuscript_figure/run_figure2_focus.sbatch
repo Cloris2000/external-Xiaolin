@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=figure2_focus
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/fig2focus_%j.log
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/fig2focus_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/manuscript_figure/fig2focus_%j.log
+#SBATCH --error=/scratch/zhoux156/logs/manuscript_figure/fig2focus_%j.err
 #SBATCH --time=01:00:00
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=2

@@ -82,6 +82,26 @@ DROP_LINE_PATTERNS = [
     re.compile(r'^\s*export\s+JAVA_HOME=.*anaconda3.*$'),
 ]
 
+SCRATCH_ROOT = "/scratch/zhoux156"
+
+# Compute nodes mount /project and $HOME read-only, so SLURM cannot create job
+# log files anywhere except /scratch.  #SBATCH lines are parsed before the script
+# runs, so these have to be literal paths rather than $LOG_ROOT.
+LOG_RE = re.compile(r'^(#SBATCH\s+--(?:output|error)=)(\S+)\s*$')
+
+
+def port_log_path(path: str) -> str:
+    for prefix, repl in (
+        (f"{NF_DIR}/logs/", f"{SCRATCH_ROOT}/logs/"),
+        (f"{NF_DIR}/results/", f"{SCRATCH_ROOT}/results/"),
+        (f"{NF_DIR}/manuscript_figure/", f"{SCRATCH_ROOT}/logs/manuscript_figure/"),
+        ("logs/", f"{SCRATCH_ROOT}/logs/"),
+    ):
+        if path.startswith(prefix):
+            return repl + path[len(prefix):]
+    return path
+
+
 # SCC partitions do not exist on Trillium.
 PARTITION_RE = re.compile(r'^(#SBATCH\s+--partition=)(short|medium|mediumtmp|long)\s*$')
 ACCOUNT_RE = re.compile(r'^#SBATCH\s+--account=')
@@ -123,6 +143,11 @@ def port_shell(lines: list[str], rel: str) -> list[str]:
         m = PARTITION_RE.match(stripped)
         if m:
             out.append(f"{m.group(1)}compute\n")
+            continue
+
+        m = LOG_RE.match(stripped)
+        if m:
+            out.append(f"{m.group(1)}{port_log_path(m.group(2))}\n")
             continue
 
         m = ASSIGN_RE.match(stripped)

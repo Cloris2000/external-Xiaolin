@@ -4,8 +4,8 @@
 #SBATCH --time=0:30:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
-#SBATCH --output=logs/meta_sensitivity/stratified_ad_eur_merge_%j.out
-#SBATCH --error=logs/meta_sensitivity/stratified_ad_eur_merge_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/stratified_ad_eur_merge_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/stratified_ad_eur_merge_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

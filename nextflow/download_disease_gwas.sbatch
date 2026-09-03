@@ -4,8 +4,8 @@
 #SBATCH --time=2:00:00
 #SBATCH --mem=8G
 #SBATCH --cpus-per-task=1
-#SBATCH --output=logs/coloc/dl_gwas_%A_%a.out
-#SBATCH --error=logs/coloc/dl_gwas_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/coloc/dl_gwas_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/coloc/dl_gwas_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # Download all disease GWAS in parallel (one SLURM task per dataset).

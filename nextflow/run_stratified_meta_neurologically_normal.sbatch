@@ -4,8 +4,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
-#SBATCH --output=logs/meta_sensitivity/stratified_neurologically_normal_%j.out
-#SBATCH --error=logs/meta_sensitivity/stratified_neurologically_normal_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/stratified_neurologically_normal_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/stratified_neurologically_normal_%j.err
 #SBATCH --account=rrg-shreejoy
 
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"

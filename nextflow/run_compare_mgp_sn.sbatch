@@ -4,8 +4,8 @@
 #SBATCH --time=2:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
-#SBATCH --output=logs/compare_mgp_sn_%j.out
-#SBATCH --error=logs/compare_mgp_sn_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/compare_mgp_sn_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/compare_mgp_sn_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

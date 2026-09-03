@@ -8,8 +8,8 @@
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
-#SBATCH --output=logs/fix_raw_p_%j.out
-#SBATCH --error=logs/fix_raw_p_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/fix_raw_p_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/fix_raw_p_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

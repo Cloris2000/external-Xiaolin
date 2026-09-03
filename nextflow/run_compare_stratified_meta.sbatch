@@ -4,8 +4,8 @@
 #SBATCH --time=1:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
-#SBATCH --output=logs/meta_sensitivity/compare_stratified_meta_%j.out
-#SBATCH --error=logs/meta_sensitivity/compare_stratified_meta_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/compare_stratified_meta_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/compare_stratified_meta_%j.err
 #SBATCH --account=rrg-shreejoy
 
 # Compare pooled 15-cohort meta vs stratified meta runs.

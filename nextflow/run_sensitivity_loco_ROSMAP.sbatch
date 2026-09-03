@@ -4,8 +4,8 @@
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/meta_sensitivity/loco_ROSMAP_%j.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/meta_sensitivity/loco_ROSMAP_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_sensitivity/loco_ROSMAP_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_sensitivity/loco_ROSMAP_%j.err
 #SBATCH --account=rrg-shreejoy
 
 cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow

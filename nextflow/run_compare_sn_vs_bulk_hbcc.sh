@@ -4,8 +4,8 @@
 #SBATCH --time=2:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=16G
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/sn_vs_bulk_hbcc_%j.out
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/sn_vs_bulk_hbcc_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/sn_vs_bulk_hbcc_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/sn_vs_bulk_hbcc_%j.err
 #SBATCH --account=rrg-shreejoy
 
 set -euo pipefail

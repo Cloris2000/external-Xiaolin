@@ -5,8 +5,8 @@
 #SBATCH --mem=16G
 #SBATCH --partition=compute
 #SBATCH --time=4:00:00
-#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.log
-#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/gtex_vcf_split_chr%a_%j.log
+#SBATCH --error=/scratch/zhoux156/logs/gtex_vcf_split_chr%a_%j.err
 #SBATCH --account=rrg-shreejoy
 
 CHR=${SLURM_ARRAY_TASK_ID}

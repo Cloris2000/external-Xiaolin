@@ -71,16 +71,18 @@ params {
         "AMP_AD_Rush", "AMP_AD_Mayo"
     ]
 
-    output_dir = "${projectDir}/results/meta_analysis_15cohorts"
-    // Nextflow's implicit projectDir is the repo, so outputs land alongside the pipeline.
+    // Compute nodes mount projectDir read-only, so output must go to scratch and
+    // be synced to ${nf_root}/results afterwards (scripts/sync_results_to_project.sh).
+    // results_root comes from nextflow.config.trillium.
+    output_dir = "${results_root}/meta_analysis_15cohorts"
 
     // These are derived from output_dir in nextflow.config.standalone_meta, but that
     // interpolation resolves against the base default (results/meta_analysis) before
     // the override above is applied — so they have to be restated here, otherwise
     // 15-cohort audit/heterogeneity output lands in the 8-cohort results tree.
-    harmonized_output_dir    = "${projectDir}/results/meta_analysis_15cohorts/harmonized"
-    audit_output_dir         = "${projectDir}/results/meta_analysis_15cohorts/audit"
-    heterogeneity_output_dir = "${projectDir}/results/meta_analysis_15cohorts/heterogeneity"
+    harmonized_output_dir    = "${results_root}/meta_analysis_15cohorts/harmonized"
+    audit_output_dir         = "${results_root}/meta_analysis_15cohorts/audit"
+    heterogeneity_output_dir = "${results_root}/meta_analysis_15cohorts/heterogeneity"
 
     // GTEx_v10 uses GTEx v9 WGS (GRCh38); AMP-AD Diverse WGS is also GRCh38.
     // All other cohorts in this meta are hg19/b37.

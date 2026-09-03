@@ -4,8 +4,8 @@
 #SBATCH --time=6:00:00
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=1
-#SBATCH --output=logs/coloc/coloc_full_%A_%a.out
-#SBATCH --error=logs/coloc/coloc_full_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_full_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_full_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 # Colocalize ALL suggestive loci (p < 1e-5) using full 500 kb windows.

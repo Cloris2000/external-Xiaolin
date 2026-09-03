@@ -5,8 +5,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=192
 #SBATCH --time=12:00:00
-#SBATCH --output=logs/meta_15cohorts/meta_15cohorts_ldsc_%j.out
-#SBATCH --error=logs/meta_15cohorts/meta_15cohorts_ldsc_%j.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_ldsc_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_ldsc_%j.err
 
 # LDSC h2 follow-up for the 15-cohort meta-analysis.
 # Runs in the same run/work dirs as run_meta_15cohorts.sbatch so that -resume

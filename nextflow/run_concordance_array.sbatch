@@ -13,8 +13,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --array=0-18
-#SBATCH --output=logs/meta_15cohorts/concordance_%A_%a.out
-#SBATCH --error=logs/meta_15cohorts/concordance_%A_%a.err
+#SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/concordance_%A_%a.out
+#SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/concordance_%A_%a.err
 #SBATCH --account=rrg-shreejoy
 
 CELL_TYPES=(
