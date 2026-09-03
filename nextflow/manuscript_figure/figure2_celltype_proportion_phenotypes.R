@@ -17,8 +17,8 @@
 # SECTION 1 — File paths (edit here)
 # =============================================================================
 
-RESULTS_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results"
-OUT_DIR     <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+RESULTS_DIR <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow/results"
+OUT_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 # 15 canonical cohorts used in meta-analysis
 COHORT_LIST <- c(

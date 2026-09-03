@@ -1,0 +1,61 @@
+/*
+ * Trillium site configuration
+ *
+ * Single source of truth for cluster-specific locations and execution model.
+ * Included at the top of nextflow.config.combined and nextflow.config.standalone_meta,
+ * so cohort/analysis configs can interpolate params.data_root etc.
+ *
+ * Layout on Trillium:
+ *   /project/rrg-shreejoy/{COHORT}/{Genotype,Metadata,RNA}   per-cohort datasets
+ *   /project/rrg-shreejoy/pipeline_refs/{tools,markers,reference_data}
+ *
+ * Scheduler note: Trillium uses SelectType=select/linear, so every SLURM job is
+ * allocated a whole 192-core / 767 GB node.  Submitting per-task jobs through the
+ * slurm executor would consume one node per task, so the pipeline runs with the
+ * local executor inside a single whole-node allocation instead (see executor block).
+ */
+
+params {
+    // Filesystem roots
+    data_root    = '/project/rrg-shreejoy'
+    refs_root    = '/project/rrg-shreejoy/pipeline_refs'
+    nf_root      = '/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow'
+    scratch_root = '/scratch/zhoux156'
+
+    // Legacy SCC tree copied to Trillium: holds per-cohort regenie_step2 outputs
+    scc_root     = '/project/rrg-shreejoy/zhoux156/Xiaolin/SCC'
+
+    // Software
+    plink_path    = "${refs_root}/tools/plink2"
+    regenie_path  = "${refs_root}/tools/regenie"
+    metal_path    = "${refs_root}/tools/metal"
+    // No bcftools module under the default StdEnv, so use the conda env copy (1.9).
+    // Only the per-cohort GWAS stages call this; the meta-analysis never does.
+    bcftools_path = "${System.getenv('HOME')}/miniforge3/envs/bcftools_env/bin/bcftools"
+
+    // Shared reference data
+    marker_file                 = "${refs_root}/markers/new_MTGnCgG_lfct2.5_Publication.csv"
+    hgnc_mapping_file           = "${refs_root}/markers/hgnc_complete_set.txt"
+    liftover_chain_hg38_to_hg19 = "${refs_root}/reference_data/hg38ToHg19.over.chain.gz"
+
+    // LDSC European reference bundle
+    ldsc_ref_root = "${scc_root}/ref_data/LDSC_Euro_ref"
+}
+
+// One whole node, tasks scheduled locally against its cores/memory.
+// 767 GB physical; 700 GB leaves headroom for the JVM and page cache.
+executor {
+    name   = 'local'
+    cpus   = 192
+    memory = '700 GB'
+}
+
+process {
+    executor = 'local'
+
+    // clusterOptions carried SCC partition names (-p short/medium); meaningless
+    // to the local executor and rejected as an unknown directive by some versions.
+    // maxForks is raised in nextflow.config.standalone_meta, whose process block
+    // is evaluated after this include and would otherwise reset it.
+    clusterOptions = null
+}

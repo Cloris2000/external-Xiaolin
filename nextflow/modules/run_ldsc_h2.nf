@@ -36,8 +36,8 @@ process RUN_LDSC_H2 {
         set +u
         if [ -f "$HOME/.anaconda3/etc/profile.d/conda.sh" ]; then
             source "$HOME/.anaconda3/etc/profile.d/conda.sh" 2>/dev/null || true
-        elif [ -f "/nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh" ]; then
-            source "/nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh" 2>/dev/null || true
+        elif [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniforge3/etc/profile.d/conda.sh" 2>/dev/null || true
         elif [ -f "$(conda info --base 2>/dev/null)/etc/profile.d/conda.sh" ]; then
             source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || true
         fi
@@ -51,19 +51,31 @@ process RUN_LDSC_H2 {
         fi
         set -u
     """ : ""
+    // ldsc.py and munge_sumstats.py ship as a git checkout, not as conda-installed
+    // entry points, so they are only on PATH if the env was pip-installed from that
+    // checkout.  params.ldsc_bin_dir lets the repo directory be prepended instead.
+    def ldsc_bin_dir = params.get('ldsc_bin_dir', '')
+    def ldsc_path_prepend = ldsc_bin_dir ? """
+        export PATH="${ldsc_bin_dir}:\$PATH"
+    """ : ""
     def merge_alleles_arg = merge_alleles ? "--merge-alleles \"${merge_alleles}\"" : ""
     def ref_ld_chr_arg = ref_ld_chr?.endsWith('/') ? ref_ld_chr : "${ref_ld_chr}/"
     def w_ld_chr_arg = w_ld_chr?.endsWith('/') ? w_ld_chr : "${w_ld_chr}/"
     """
     ${conda_init}
     ${conda_activate}
+    ${ldsc_path_prepend}
 
     if ! command -v munge_sumstats.py >/dev/null 2>&1; then
         echo "ERROR: munge_sumstats.py not found on PATH" >&2
+        echo "  Set params.ldsc_bin_dir to the ldsc git checkout, or pip-install it" >&2
+        echo "  into the '${ldsc_conda_env}' env so the scripts land in its bin/." >&2
         exit 1
     fi
     if ! command -v ldsc.py >/dev/null 2>&1; then
         echo "ERROR: ldsc.py not found on PATH" >&2
+        echo "  Set params.ldsc_bin_dir to the ldsc git checkout, or pip-install it" >&2
+        echo "  into the '${ldsc_conda_env}' env so the scripts land in its bin/." >&2
         exit 1
     fi
 

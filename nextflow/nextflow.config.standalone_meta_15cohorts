@@ -37,7 +37,19 @@ process {
 }
 
 params {
-    base_dir = "${projectDir}"
+    // base_dir feeds Stage 0 (META_COHORT_AUDIT), which globs
+    // {base_dir}/results/{cohort}/regenie_step2/*.regenie.raw_p and does not honour
+    // meta_input_results_dir.  The per-cohort REGENIE outputs live in the SCC tree
+    // copied over from CAMH, so point at that; inherited from nextflow.config.trillium.
+    // Cohort metadata stays on the canonical repo copy.
+    cohort_metadata_file = "${projectDir}/docs/meta_cohort_metadata.tsv"
+
+    // Reuse the harmonized per-cohort sumstats from the CAMH run: skips both
+    // LIFTOVER_SUMSTATS and HARMONIZE_META_SUMSTATS and goes straight to METAL.
+    // Layout is {cell_type}/harmonized/{cohort}_{cell_type}_harmonized.raw_p
+    // (relative symlinks into _payload/); 285 files = 19 cell types x 15 cohorts.
+    // The hg38 cohorts (GTEx_v10, AMP_AD_Rush, AMP_AD_Mayo) are already lifted to hg19.
+    pre_harmonized_input_dir = "/project/rrg-shreejoy/zhoux156/harmonized_15cohorts"
 
     cohorts = [
         "ROSMAP", "ROSMAP_array",
@@ -60,13 +72,24 @@ params {
     ]
 
     output_dir = "${projectDir}/results/meta_analysis_15cohorts"
+    // Nextflow's implicit projectDir is the repo, so outputs land alongside the pipeline.
+
+    // These are derived from output_dir in nextflow.config.standalone_meta, but that
+    // interpolation resolves against the base default (results/meta_analysis) before
+    // the override above is applied — so they have to be restated here, otherwise
+    // 15-cohort audit/heterogeneity output lands in the 8-cohort results tree.
+    harmonized_output_dir    = "${projectDir}/results/meta_analysis_15cohorts/harmonized"
+    audit_output_dir         = "${projectDir}/results/meta_analysis_15cohorts/audit"
+    heterogeneity_output_dir = "${projectDir}/results/meta_analysis_15cohorts/heterogeneity"
 
     // GTEx_v10 uses GTEx v9 WGS (GRCh38); AMP-AD Diverse WGS is also GRCh38.
     // All other cohorts in this meta are hg19/b37.
+    // Only consulted when harmonizing from raw REGENIE output; inert while
+    // pre_harmonized_input_dir is set, since those files are already lifted.
+    // liftover_chain_hg38_to_hg19 comes from nextflow.config.trillium.
     cohort_genome_builds = [
         "GTEx_v10":    "hg38",
         "AMP_AD_Rush": "hg38",
         "AMP_AD_Mayo": "hg38"
     ]
-    liftover_chain_hg38_to_hg19 = "${projectDir}/reference_data/hg38ToHg19.over.chain.gz"
 }

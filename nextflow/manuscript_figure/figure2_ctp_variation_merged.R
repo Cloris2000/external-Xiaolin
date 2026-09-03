@@ -26,8 +26,8 @@
 #   figure2_ctp_variation_merged.png / .pdf / .svg
 # =============================================================================
 
-NF_DIR  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
-OUT_DIR <- file.path(NF_DIR, "manuscript_figure")
+NF_DIR  <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow"
+OUT_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 ACC_FILE    <- file.path(OUT_DIR, "figure2_celltype_accuracy.tsv")
 PAIRED_FILE <- file.path(OUT_DIR, "combined_bulk_snrna_paired.tsv")
@@ -93,7 +93,13 @@ CLASS_COLORS <- c("Excitatory"   = "#D55E00",
                   "Inhibitory"   = "#009E73",
                   "Non-neuronal" = "#7570B3")
 
-COHORT_COLORS <- c(ROSMAP = "#0072B2", HBCC = "#E69F00", MSBB = "#CC79A7")
+COHORT_COLORS <- c(
+  ROSMAP  = "#0072B2",   # blue
+  HBCC    = "#E69F00",   # orange
+  MSBB    = "#CC79A7",   # mauve/pink
+  Mathys  = "#56B4E9",   # sky blue
+  Ruzicka = "#009E73"    # bluish green
+)
 
 pal_g <- colorRampPalette(brewer.pal(9, "Blues")[4:9])(7)
 pal_e <- colorRampPalette(brewer.pal(9, "Oranges")[4:9])(7)

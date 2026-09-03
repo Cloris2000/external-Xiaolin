@@ -2,9 +2,15 @@
  * Configuration for Standalone Meta-Analysis Pipeline
  */
 
+// Cluster-specific roots, tool paths and execution model.
+includeConfig 'nextflow.config.trillium'
+
 params {
-    // Base directory containing cohort results
-    base_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+    // Base directory containing cohort results.
+    // Stage 0 (META_COHORT_AUDIT) globs {base_dir}/results/{cohort}/regenie_step2/
+    // and does NOT honour meta_input_results_dir, so this must point at whichever
+    // tree actually holds the per-cohort regenie outputs.
+    base_dir = "${scc_root}/nextflow"
     
     // Cohorts to include in meta-analysis (used for output naming)
     cohorts = ["ROSMAP", "Mayo", "MSBB", "CMC_MSSM", "CMC_PENN", "CMC_PITT", "GTEx", "NABEC"]
@@ -19,13 +25,16 @@ params {
     // Layout: {pre_harmonized_input_dir}/{cell_type}/harmonized/{cohort}_{cell_type}_harmonized.raw_p
     pre_harmonized_input_dir = null
 
+    // Optional: override the results tree scanned for {cohort}/regenie_step2/*.regenie.raw_p
+    // (null = "${base_dir}/results"). Referenced by standalone_meta_analysis.nf.
+    meta_input_results_dir = null
+
     // Stage toggles (array workers set audit/summary false; merge job runs both once)
     run_cohort_audit = true
     run_heterogeneity_summary = true
     
-    // Software paths
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
-    
+    // Software paths: metal_path comes from nextflow.config.trillium
+
     // Output directory
     output_dir = "${base_dir}/results/meta_analysis"
 
@@ -45,6 +54,7 @@ params {
     af_delta_filter_threshold = ""
     harmonized_output_dir = "${output_dir}/harmonized"
     audit_output_dir = "${output_dir}/audit"
+    heterogeneity_output_dir = "${output_dir}/heterogeneity"
 
     // Sensitivity suite defaults
     sensitivity_output_dir = "${base_dir}/results/meta_sensitivity"
@@ -59,16 +69,11 @@ params {
     //   from this map (or whose value is not "hg38") are treated as hg19
     //   and pass through without liftover.  Default empty map = no liftover
     //   for any cohort, preserving behaviour of all pre-existing configs.
+    // liftover_chain_hg38_to_hg19 comes from nextflow.config.trillium.
     cohort_genome_builds     = [:]
-    liftover_chain_hg38_to_hg19 = null
 }
 
-// Executor configuration
-executor {
-    name = 'slurm'
-    queueSize = 20
-    submitRateLimit = '10 sec'
-}
+// Executor configuration comes from nextflow.config.trillium (local, whole-node).
 
 // Process configuration
 process {
@@ -79,7 +84,13 @@ process {
     
     errorStrategy = 'retry'
     maxRetries = 2
-    maxForks = 10
+
+    // Was 10, sized for the SCC per-task slurm queue.  On Trillium the pipeline runs
+    // with the local executor inside one whole-node allocation, where the binding
+    // constraint is the executor memory pool (Nextflow won't start a task whose
+    // `memory` doesn't fit in 700 GB).  24 lets all 19 cell types run in a single
+    // wave (19 x 16 GB = 304 GB) and lets memory throttle the heavier stages.
+    maxForks = 24
     
     // CONVERT_LOGP_TO_P settings
     withName: 'CONVERT_LOGP_TO_P' {

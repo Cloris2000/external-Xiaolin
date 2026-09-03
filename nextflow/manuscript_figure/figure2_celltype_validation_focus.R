@@ -19,9 +19,9 @@
 # SECTION 1 — File paths and parameters (edit here)
 # =============================================================================
 
-RESULTS_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results"
-OUT_DIR     <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
-DATA_DIR    <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+DATA_DIR    <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow"
+RESULTS_DIR <- file.path(DATA_DIR, "results")
+OUT_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 COHORT_LIST <- c(
   "ROSMAP", "ROSMAP_array",
@@ -53,13 +53,13 @@ HODGE_SN_DIR <- file.path(DATA_DIR, "data/snRNAseq_hodge_label_cell_prop")
 ROSMAP_BULK_FILE  <- file.path(RESULTS_DIR, "ROSMAP", "cell_proportions.csv")
 ROSMAP_SN_FILE    <- file.path(HODGE_SN_DIR, "rosmap_green_cell_proportions_qc.csv")
 ROSMAP_META_FILE  <- paste0(
-  "/external/rprshnas01/external_data/rosmap/gene_expression/",
-  "RNAseq_Harmonization/Gene Expression (Raw Gene Counts)/Metadata/",
+  "/project/rrg-shreejoy/zhoux156/HBCC_ROSMAP_MSBB_bulkRNAseq/rosmap/metadata/",
   "RNAseq_Harmonization_ROSMAP_combined_metadata.csv")
-ROSMAP_PROV_DIR   <- paste0(
-  "/external/rprshnas01/external_data/rosmap/gene_expression/",
-  "RNAseq_Harmonization/Gene Expression (Raw Gene Counts)/",
-  "Rosmap_Gene_Quantification/")
+# Provenance tables (syn* barcode → specimenID) — transferred with the nextflow
+# working directory; expected under DATA_DIR/data/rosmap_provenance/ or the
+# Synapse download location below. Update if your copy lives elsewhere.
+ROSMAP_PROV_DIR   <- file.path(DATA_DIR,
+  "data/rosmap_provenance/Rosmap_Gene_Quantification")
 ROSMAP_PROV_FILES <- c(
   file.path(ROSMAP_PROV_DIR, "Rosmap_Batch1_Stranded/ROSMAP_batch1_provenance.csv"),
   file.path(ROSMAP_PROV_DIR, "Rosmap_Batch2_Stranded/ROSMAP_batch2_provenance.csv"),
@@ -79,16 +79,32 @@ HBCC_CROSSWALK_FILE <- file.path(DATA_DIR, "data_input/sn_hbcc/ampad_to_cmc_cros
 MSBB_BULK_FILE   <- file.path(RESULTS_DIR, "MSBB", "cell_proportions.csv")
 MSBB_SN_FILE     <- file.path(HODGE_SN_DIR, "psychad_mssm_cell_proportions_qc.csv")
 MSBB_RNA_META    <- paste0(
-  "/external/rprshnas01/external_data/rosmap/gene_expression/",
-  "RNAseq_Harmonization/Gene Expression (Raw Gene Counts)/Metadata/",
+  "/project/rrg-shreejoy/zhoux156/HBCC_ROSMAP_MSBB_bulkRNAseq/msbb/metadata/",
   "RNAseq_Harmonization_MSBB_combined_metadata.csv")
 MSBB_BRIDGE_FILE <- file.path(RESULTS_DIR, "MSBB_sn/msbb_sn_wgs_bridge_224.tsv")
 
+# --- MATHYS (ROSMAP Mathys Hodge label-transferred) ---
+# Join: same ROSMAP bulk + provenance as the ROSMAP section; only the snRNA file differs.
+# Mathys snRNA was built from mathys_hodge_subclass_fine_hodge19_labels.csv by
+# build_mathys_proportions.py; individual IDs are R* (same ROSMAP namespace).
+MATHYS_SN_FILE <- file.path(DATA_DIR,
+  "data_input/sn_rosmap_mathys_hodge_wgs/cell_proportions.csv")
+# ROSMAP_BULK_FILE, ROSMAP_PROV_FILES, ROSMAP_META_FILE reused from the ROSMAP block above.
+
+# --- RUZICKA (CMC MSSM / Ruzicka et al. 2024) ---
+# Join: direct individual_id match — Ruzicka snRNA uses CMC_MSSM_NNN IDs that
+# coincide with the individualID column in the CMC_MSSM bulk pipeline output.
+RUZ_BULK_FILE <- file.path(RESULTS_DIR, "CMC_MSSM", "cell_proportions.csv")
+RUZ_SN_FILE   <- file.path(DATA_DIR,
+  "data_input/sn_ruz_mssm/cell_proportions.csv")
+
 # Cohort colours — Okabe-Ito colorblind-safe palette (no red or green)
 COHORT_COLORS <- c(
-  ROSMAP = "#0072B2",   # blue
-  HBCC   = "#E69F00",   # orange
-  MSBB   = "#CC79A7"    # mauve/pink
+  ROSMAP  = "#0072B2",   # blue
+  HBCC    = "#E69F00",   # orange
+  MSBB    = "#CC79A7",   # mauve/pink
+  Mathys  = "#56B4E9",   # sky blue
+  Ruzicka = "#009E73"    # bluish green
 )
 
 # Figure dimensions
@@ -474,6 +490,88 @@ tryCatch({
   cat("    MSBB merged:", nrow(merged_m), "donors\n")
   all_paired[["MSBB"]] <- make_paired_long(merged_m, pref$sn_to_bulk, "MSBB")
 }, error = function(e) message("  MSBB failed: ", conditionMessage(e)))
+
+# --- MATHYS ---
+# Re-uses the ROSMAP bulk + provenance tables (same ROSMAP donors, different snRNA).
+cat("  Auto-generating Mathys...\n")
+tryCatch({
+  if (!file.exists(MATHYS_SN_FILE)) stop("Mathys snRNA file not found: ", MATHYS_SN_FILE)
+  prov_exist_m2 <- file.exists(ROSMAP_PROV_FILES)
+  if (!any(prov_exist_m2)) stop("No ROSMAP provenance files found.")
+  prov_m2 <- dplyr::bind_rows(lapply(ROSMAP_PROV_FILES[prov_exist_m2],
+    function(f) readr::read_csv(f, show_col_types = FALSE)))
+  prov_link_m2 <- prov_m2 %>%
+    dplyr::select(synapse_id = id, specimen_id = specimenID) %>%
+    dplyr::distinct(synapse_id, .keep_all = TRUE)
+  meta_m2 <- readr::read_csv(ROSMAP_META_FILE, show_col_types = FALSE) %>%
+    dplyr::filter(!is.na(individualID), nchar(as.character(individualID)) > 0) %>%
+    dplyr::select(specimen_id = specimenID, individualID) %>%
+    dplyr::mutate(individualID = as.character(individualID)) %>%
+    dplyr::distinct(specimen_id, .keep_all = TRUE)
+  synid_ind_m2 <- dplyr::inner_join(prov_link_m2, meta_m2, by = "specimen_id") %>%
+    dplyr::select(synapse_id, individual_id = individualID) %>%
+    dplyr::mutate(individual_id = as.character(individual_id)) %>%
+    dplyr::distinct(synapse_id, .keep_all = TRUE)
+
+  sn_mathys <- clean_names_fn(readr::read_csv(MATHYS_SN_FILE, show_col_types = FALSE))
+  ind_col_m2 <- grep("^individual_?id$", names(sn_mathys), value = TRUE)[1]
+  if (is.na(ind_col_m2)) ind_col_m2 <- names(sn_mathys)[1]
+  sn_mathys <- dplyr::rename(sn_mathys, individual_id = !!ind_col_m2) %>%
+    dplyr::mutate(individual_id = as.character(individual_id))
+
+  bulk_m2 <- readr::read_csv(ROSMAP_BULK_FILE, show_col_types = FALSE)
+  bulk_c2  <- clean_names_fn(bulk_m2)
+  sid_m2   <- grep("^specimen_?id$|^sample_?id$", names(bulk_c2), value = TRUE)[1]
+  bulk_c2  <- dplyr::rename(bulk_c2, specimen_id = !!sid_m2)
+
+  pref_m2 <- prefix_sn_cts(sn_mathys, bulk_c2, id_cols_sn = "individual_id")
+  sn_mathys <- pref_m2$sn_df
+  cat("    Shared cell types:", pref_m2$n_cts, "\n")
+
+  merged_m2 <- bulk_c2 %>%
+    dplyr::inner_join(
+      dplyr::rename(synid_ind_m2, specimen_id = synapse_id),
+      by = "specimen_id"
+    ) %>%
+    dplyr::inner_join(sn_mathys, by = "individual_id") %>%
+    dplyr::rename(join_id = specimen_id)
+  cat("    Mathys merged:", nrow(merged_m2), "donors\n")
+  all_paired[["Mathys"]] <- make_paired_long(merged_m2, pref_m2$sn_to_bulk, "Mathys")
+}, error = function(e) message("  Mathys failed: ", conditionMessage(e)))
+
+# --- RUZICKA ---
+# Direct join: Ruzicka snRNA uses CMC_MSSM_NNN individual IDs that match the
+# individualID column in the CMC_MSSM bulk cell_proportions.csv.
+cat("  Auto-generating Ruzicka...\n")
+tryCatch({
+  if (!file.exists(RUZ_BULK_FILE)) stop("CMC_MSSM bulk file not found: ", RUZ_BULK_FILE)
+  if (!file.exists(RUZ_SN_FILE))   stop("Ruzicka snRNA file not found: ", RUZ_SN_FILE)
+
+  bulk_ruz <- clean_names_fn(readr::read_csv(RUZ_BULK_FILE, show_col_types = FALSE))
+  sn_ruz   <- clean_names_fn(readr::read_csv(RUZ_SN_FILE,   show_col_types = FALSE))
+
+  # CMC_MSSM bulk: ID column may be named individual_id, specimen_id, or sample_id
+  sid_ruz <- grep("^specimen_?id$|^sample_?id$|^individual_?id$",
+                  names(bulk_ruz), value = TRUE, ignore.case = TRUE)[1]
+  if (is.na(sid_ruz)) sid_ruz <- names(bulk_ruz)[1]
+  bulk_ruz <- dplyr::rename(bulk_ruz, individual_id = !!sid_ruz) %>%
+    dplyr::mutate(individual_id = as.character(individual_id))
+
+  ind_col_ruz <- grep("^individual_?id$", names(sn_ruz), value = TRUE)[1]
+  if (is.na(ind_col_ruz)) ind_col_ruz <- names(sn_ruz)[1]
+  sn_ruz <- dplyr::rename(sn_ruz, individual_id = !!ind_col_ruz) %>%
+    dplyr::mutate(individual_id = as.character(individual_id))
+
+  pref_ruz <- prefix_sn_cts(sn_ruz, bulk_ruz, id_cols_sn = "individual_id")
+  sn_ruz   <- pref_ruz$sn_df
+  cat("    Shared cell types:", pref_ruz$n_cts, "\n")
+
+  merged_ruz <- bulk_ruz %>%
+    dplyr::inner_join(sn_ruz, by = "individual_id") %>%
+    dplyr::rename(join_id = individual_id)
+  cat("    Ruzicka merged:", nrow(merged_ruz), "donors\n")
+  all_paired[["Ruzicka"]] <- make_paired_long(merged_ruz, pref_ruz$sn_to_bulk, "Ruzicka")
+}, error = function(e) message("  Ruzicka failed: ", conditionMessage(e)))
 
 # --- Combine all cohorts ---
 paired_val <- dplyr::bind_rows(all_paired)
