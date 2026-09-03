@@ -24,7 +24,7 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--results_dir", type="character",
-              default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
+              default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
               help="Base results directory [default: %default]"),
   make_option("--cohorts", type="character", default=NULL,
               help="Comma-separated list of cohorts to process (default: all 13)"),

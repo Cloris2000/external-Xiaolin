@@ -3,15 +3,16 @@
 # Bulk: 15-cohort meta; sn: ROSMAP_Green + PsychAD_HBCC + PsychAD_MSSM Hodge meta.
 #
 #SBATCH --job-name=conc_hodge3
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
 #SBATCH --output=logs/concordance_hodge3_%j.out
 #SBATCH --error=logs/concordance_hodge3_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd "$NF_DIR"
 mkdir -p logs
 

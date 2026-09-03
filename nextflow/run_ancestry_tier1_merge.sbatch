@@ -1,17 +1,18 @@
 #!/bin/bash
 #SBATCH --job-name=ancestry_merge
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=0:15:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
 #SBATCH --output=logs/meta_sensitivity/ancestry_tier1_merge_%j.out
 #SBATCH --error=logs/meta_sensitivity/ancestry_tier1_merge_%j.err
+#SBATCH --account=rrg-shreejoy
 
 # Merge 19 per-cell-type outputs from run_ancestry_tier1_array.sbatch
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 mkdir -p "${NF_DIR}/logs/meta_sensitivity"
 cd "${NF_DIR}"
 

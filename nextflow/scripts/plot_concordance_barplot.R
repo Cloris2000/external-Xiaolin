@@ -10,8 +10,8 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-CONC_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/concordance"
-OUT_DIR  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots"
+CONC_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts/concordance"
+OUT_DIR  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts/plots"
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 # ---------- load all TSVs ----------------------------------------------

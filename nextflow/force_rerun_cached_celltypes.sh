@@ -2,7 +2,7 @@
 # Force rerun of the 9 cached cell types from December run
 # This script removes the cached results to force Nextflow to regenerate them
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 echo "================================================"
 echo "Force Rerun of 9 Cached Cell Types"

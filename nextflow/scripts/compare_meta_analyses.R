@@ -25,11 +25,11 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--dir_design", type="character",
-    default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
+    default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
   make_option("--dir_notech", type="character",
-    default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_no_tech_except_rosmap_libprep"),
+    default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_no_tech_except_rosmap_libprep"),
   make_option("--outdir", type="character",
-    default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_comparison"),
+    default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_comparison"),
   make_option("--gw_thresh",   type="double",  default=5e-8),
   make_option("--sugg_thresh", type="double",  default=1e-5)
 )

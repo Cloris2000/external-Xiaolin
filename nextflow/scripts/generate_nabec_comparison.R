@@ -10,9 +10,9 @@ suppressPackageStartupMessages({
   library(cowplot)
 })
 
-PIPELINE_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/NABEC/regenie_step2"
+PIPELINE_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/NABEC/regenie_step2"
 IND_DIR      <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/NABEC_wgs_step2"
-OUT_DIR      <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manhattan_plots/NABEC_pipeline_vs_ind"
+OUT_DIR      <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manhattan_plots/NABEC_pipeline_vs_ind"
 DOWNSAMPLE_N <- 100000
 SUGGESTIVE   <- 1e-5
 

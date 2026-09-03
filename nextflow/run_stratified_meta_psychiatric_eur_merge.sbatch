@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=meta_psych_EUR_merge
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=0:30:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
 #SBATCH --output=logs/meta_sensitivity/stratified_psychiatric_eur_merge_%j.out
 #SBATCH --error=logs/meta_sensitivity/stratified_psychiatric_eur_merge_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 OUTPUT_DIR="${NF_DIR}/results/meta_sensitivity/stratified_psychiatric_eur_15cohorts"
 HET_DIR="${OUTPUT_DIR}/heterogeneity"
 AUDIT_DIR="${OUTPUT_DIR}/audit"

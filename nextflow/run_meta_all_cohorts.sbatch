@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=meta_all_cohorts
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
 #SBATCH --output=logs/meta_all_cohorts_%j.out
 #SBATCH --error=logs/meta_all_cohorts_%j.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd ${NF_DIR}
 
 # Verify all 12 cohorts have complete raw_p files (19 cell types each)
@@ -48,7 +49,7 @@ python3 ${NF_DIR}/scripts/run_sensitivity_meta.py \
     --metadata ${NF_DIR}/docs/meta_cohort_metadata.tsv \
     --cohorts ROSMAP Mayo MSBB CMC_MSSM CMC_PENN CMC_PITT GTEx NABEC \
               NIMH_HBCC_1M NIMH_HBCC_h650 NIMH_HBCC_Omni5M GVEX \
-    --metal-path /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables \
+    --metal-path /project/rrg-shreejoy/pipeline_refs/tools/metal \
     --dry-run
 
 echo ""

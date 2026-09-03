@@ -18,11 +18,11 @@
 
 set -euo pipefail
 
-PLINK=/external/rprshnas01/kcni/mwainberg/software/plink2
-BCFTOOLS=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools
+PLINK=/project/rrg-shreejoy/pipeline_refs/tools/plink2
+BCFTOOLS=/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools
 
 BED=/external/rprshnas01/external_data/rosmap/genotype/TOPmed_imputed/vcf/merged/merged_overlap_rs
-RESULTS_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP_array
+RESULTS_DIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP_array
 OUTDIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_array_vcf_normalized
 STUDY=ROSMAP_array
 

@@ -8,13 +8,14 @@
 # After completion, run:  conda run -n test Rscript scripts/plot_concordance_barplot.R
 #
 #SBATCH --job-name=concordance
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=1:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --array=0-18
 #SBATCH --output=logs/meta_15cohorts/concordance_%A_%a.out
 #SBATCH --error=logs/meta_15cohorts/concordance_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 CELL_TYPES=(
     Astrocyte
@@ -39,7 +40,7 @@ CELL_TYPES=(
 )
 
 CT=${CELL_TYPES[$SLURM_ARRAY_TASK_ID]}
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 
 echo "Array task ${SLURM_ARRAY_TASK_ID}: cell type = ${CT}"
 echo "Started: $(date)"

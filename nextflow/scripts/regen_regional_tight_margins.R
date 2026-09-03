@@ -18,7 +18,7 @@ suppressPackageStartupMessages({
   library(topr)
 })
 
-ROOT     <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 LOCI_DIR <- file.path(ROOT, "results/coloc/loci_full")
 DIS_DIR  <- file.path(ROOT, "results/coloc/disease_gwas")
 OUT_DIR  <- file.path(ROOT, "results/coloc/full/plots/regional")

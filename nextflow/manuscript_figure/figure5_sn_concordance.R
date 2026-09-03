@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
   library(cowplot)
 })
 
-OUT_DIR   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+OUT_DIR   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 # Which sn-vs-bulk concordance analysis to plot.
 #   "hodge5u" = 5-cohort sn meta, de-duplicated (ROSMAP_Green + PsychAD_HBCC
@@ -26,12 +26,12 @@ OUT_DIR   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscrip
 #   "hodge3"  = original 3-cohort sn meta (ROSMAP_Green + PsychAD_HBCC + PsychAD_MSSM)
 ANALYSIS_TAG <- "hodge5u"
 CONC_FILE <- file.path(
-  "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
   paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
          "/top_hits/cell_type_concordance_summary.tsv")
 )
 HITS_FILE <- file.path(
-  "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
   paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
          "/top_hits/bulk_suggestive_hits_sn_direction.tsv")
 )

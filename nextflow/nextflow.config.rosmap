@@ -31,8 +31,8 @@ params {
     // Cell type deconvolution parameters - FLEXIBLE
     deconv_tool = 'MGP'  // Options: 'MGP', 'dtangle', 'CIBERSORT', 'MuSiC', 'Bisque', 'DWLS', etc.
     reference_taxonomy = 'sonny_markers'  // Options: 'sonny_markers', 'aging_paper', 'custom'
-    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
-    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    marker_file = '/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt'
     
     // GWAS preparation parameters
     wgs_psam_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_maf5/ROSMAP.QC.merged.psam'

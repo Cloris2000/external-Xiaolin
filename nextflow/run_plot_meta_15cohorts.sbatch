@@ -16,13 +16,10 @@
 
 set -euo pipefail
 
-NF_DIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 RESULTS_DIR=${NF_DIR}/results/meta_analysis_15cohorts
 PLOTS_DIR=${RESULTS_DIR}/plots
 INTERMEDIATE_DIR=${PLOTS_DIR}/intermediate
-
-source "$HOME/miniforge3/etc/profile.d/conda.sh"
-conda activate test
 
 echo "Checking meta-analysis results..."
 tbl_count=$(ls ${RESULTS_DIR}/*.tbl 2>/dev/null | wc -l)

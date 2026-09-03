@@ -9,10 +9,10 @@ suppressPackageStartupMessages({
 })
 
 # Paths (adjust if not run from nextflow project root)
-project_dir <- Sys.getenv("PROJECT_DIR", "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+project_dir <- Sys.getenv("PROJECT_DIR", "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 manifest_path <- "/external/rprshnas01/external_data/psychencode/PsychENCODE/BrainGVEX/RNAseq/SYNAPSE_METADATA_MANIFEST.tsv"
 vcf_path <- "/external/rprshnas01/external_data/psychencode/PsychENCODE/genotypes_BrainGVEX/DNA/BrainGVEX.psy.chr1.dose.vcf.gz"
-bcftools_path <- "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+bcftools_path <- "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 out_dir <- file.path(project_dir, "data_input", "gvex")
 out_file <- file.path(out_dir, "gvex_rna_wgs_id_mapping.tsv")
 

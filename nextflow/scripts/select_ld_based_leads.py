@@ -39,7 +39,7 @@ from pathlib import Path
 # ────────────────────────────────────────────────────────────────────────────
 # Static configuration (detected, real paths only)
 # ────────────────────────────────────────────────────────────────────────────
-PROJECT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+PROJECT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 
 CELL_TYPES = [
     "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.6.IT.Car3", "L5.6.NP",
@@ -81,7 +81,7 @@ AFR_DIR = PROJECT / "results/meta_sensitivity/ancestry_specific_AFR"
 AMR_REGENIE = PROJECT / "results/AMP_AD_Mayo_AMR/regenie_step2/AMP_AD_Mayo_AMR_{ct}_step2_{ct}.regenie"
 
 # LD panels
-EUR_1000G_PREFIX = "/external/rprshnas01/kcni/mwainberg/ldsc/1000G_Phase3_plinkfiles/1000G.EUR.QC.{chrom}"
+EUR_1000G_PREFIX = "/project/rrg-shreejoy/pipeline_refs/tools/ldsc/1000G_Phase3_plinkfiles/1000G.EUR.QC.{chrom}"
 AFR_PGEN_DIRS = [
     PROJECT / "results/NIMH_HBCC_1M_AFR/CMC_HBCC.QC.final",
     PROJECT / "results/NIMH_HBCC_h650_AFR/CMC_HBCC.QC.final",
@@ -92,9 +92,9 @@ DBSNP_BUILD = "dbSNP151_GRCh37"
 LEAD_RSIDS_FALLBACK = PROJECT / "results/meta_sensitivity/ancestry_lead_effects/lead_rsids.tsv"
 
 # Tools
-PLINK2 = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-PLINK1 = shutil.which("plink") or "/nethome/kcni/xzhou/.anaconda3/bin/plink"
-CONDA_BCFTOOLS_BIN = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin"
+PLINK2 = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+PLINK1 = shutil.which("plink") or "/home/zhoux156/miniforge3/bin/plink"
+CONDA_BCFTOOLS_BIN = "/home/zhoux156/miniforge3/envs/bcftools_env/bin"
 BCFTOOLS = f"{CONDA_BCFTOOLS_BIN}/bcftools"
 TABIX = f"{CONDA_BCFTOOLS_BIN}/tabix"
 BGZIP = f"{CONDA_BCFTOOLS_BIN}/bgzip"

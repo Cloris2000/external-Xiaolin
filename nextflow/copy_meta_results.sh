@@ -2,7 +2,7 @@
 # Copy METAL meta-analysis .tbl files from work dirs to results/meta_analysis/
 # for NABEC and NIMH HBCC cohorts
 set -e
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 
 for cohort in NABEC NIMH_HBCC_1M NIMH_HBCC_Omni5M NIMH_HBCC_h650; do
   meta_dir=${NF_DIR}/results/${cohort}/meta_analysis

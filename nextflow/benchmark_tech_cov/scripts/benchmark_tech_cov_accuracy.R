@@ -41,7 +41,7 @@ if (!opt$cohort %in% c("CMC_MSSM", "ROSMAP")) {
 
 if (is.null(opt$results_root)) {
   opt$results_root <- file.path(
-    "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/benchmark_tech_cov",
+    "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/benchmark_tech_cov",
     opt$cohort
   )
 }
@@ -137,7 +137,7 @@ load_ground_truth_rosmap <- function(metadata_df, path = NULL) {
     missing_cols <- setdiff(required_cols, colnames(metadata_df))
     stop("ERROR: ROSMAP metadata must include ", paste(missing_cols, collapse = ", "), " for ground-truth matching")
   }
-  path <- path %||% "/external/rprshnas01/netdata_kcni/stlab/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"
+  path <- path %||% "/project/rrg-shreejoy/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"
   sn_raw <- read_csv(path, show_col_types = FALSE)
   
   matcher <- metadata_df %>%

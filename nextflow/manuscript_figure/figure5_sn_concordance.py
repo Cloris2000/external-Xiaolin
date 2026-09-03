@@ -22,7 +22,7 @@ from scipy import stats
 
 import cnsplots as cns
 
-ROOT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+ROOT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 OUT_DIR = ROOT / "manuscript_figure"
 HITS = ROOT / "results/sn_bulk_meta_similarity_hodge3/top_hits/bulk_suggestive_hits_sn_direction.tsv"
 CONC = ROOT / "results/sn_bulk_meta_similarity_hodge3/top_hits/cell_type_concordance_summary.tsv"

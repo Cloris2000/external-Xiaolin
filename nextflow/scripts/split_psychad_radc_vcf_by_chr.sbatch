@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=psychad_radc_split
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --array=1-22
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_split_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 #
 # Split PsychAD combined.vcf.gz (GRCh38, chr*-prefixed contigs) into
 # per-chromosome VCFs with numeric contig names (1..22) for the
@@ -17,13 +18,13 @@
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 GENO=${NF_DIR}/data_input/sn_psychad_radc_hodge/genotype
 OUT_DIR=${GENO}/by_chr
 VCF=${GENO}/combined.vcf.gz
 RENAME=${GENO}/chr_rename_hg38_to_numeric.txt
-BCFTOOLS=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools
-TABIX=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/tabix
+BCFTOOLS=/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools
+TABIX=/home/zhoux156/miniforge3/envs/bcftools_env/bin/tabix
 
 CHROM=${SLURM_ARRAY_TASK_ID}
 OUT=${OUT_DIR}/PsychAD_RADC.chr${CHROM}.vcf.gz

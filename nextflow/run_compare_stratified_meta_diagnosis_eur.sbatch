@@ -1,18 +1,19 @@
 #!/bin/bash
 #SBATCH --job-name=cmp_diag_eur
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=1:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
 #SBATCH --output=logs/meta_sensitivity/compare_diagnosis_eur_%j.out
 #SBATCH --error=logs/meta_sensitivity/compare_diagnosis_eur_%j.err
+#SBATCH --account=rrg-shreejoy
 
 # Compare pooled vs AD_EUR / psychiatric_EUR / EUR_homogeneous (parallel by cell type).
 # Plots run in a separate quick job after tables are written.
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 OUT_DIR="${NF_DIR}/results/meta_sensitivity/stratified_comparison_diagnosis_eur"
 mkdir -p "${NF_DIR}/logs/meta_sensitivity" "${OUT_DIR}/figures"
 cd "${NF_DIR}"

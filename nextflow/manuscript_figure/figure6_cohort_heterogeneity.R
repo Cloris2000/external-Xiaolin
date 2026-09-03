@@ -14,7 +14,7 @@ suppressPackageStartupMessages({
   library(cowplot)
 })
 
-OUT_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+OUT_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 # Colours (consistent with other figures)
 CLR_EUR  <- "#2166AC"   # European

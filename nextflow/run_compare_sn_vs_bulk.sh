@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=sn_vs_bulk
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=48G
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/sn_vs_bulk_%j.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/sn_vs_bulk_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/sn_vs_bulk_%j.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/sn_vs_bulk_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 SN_DIR="results/sn_ROSMAP/regenie_step2"
 

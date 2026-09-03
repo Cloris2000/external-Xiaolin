@@ -1,11 +1,12 @@
 #!/bin/bash
 #SBATCH --job-name=rosmap_manhattan_comp
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/comparison_%j.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/comparison_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/comparison_%j.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/comparison_%j.err
 #SBATCH --time=2:00:00
-#SBATCH --partition=short
+#SBATCH --partition=compute
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
+#SBATCH --account=rrg-shreejoy
 
 echo "================================================="
 echo "Comparing GWAS Results (SLURM Job)"
@@ -13,25 +14,25 @@ echo "Job ID: $SLURM_JOB_ID"
 echo "Start time: $(date)"
 echo "================================================="
 echo "Previous analysis: /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_wgs_step2"
-echo "Nextflow pipeline: /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/regenie_step2"
-echo "Output directory: /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/comparison"
+echo "Nextflow pipeline: /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/regenie_step2"
+echo "Output directory: /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/comparison"
 echo "================================================="
 echo ""
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 # Create logs directory if it doesn't exist
-mkdir -p /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs
+mkdir -p /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs
 
 # Activate conda environment if needed
-# source ~/.anaconda3/etc/profile.d/conda.sh
+# source ~/miniforge3/etc/profile.d/conda.sh
 # conda activate test
 
 # Run comparison
 Rscript compare_gwas_results.R \
     --old_dir /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_wgs_step2 \
-    --new_dir /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/regenie_step2 \
-    --output_dir /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/comparison \
+    --new_dir /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/regenie_step2 \
+    --output_dir /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/comparison \
     --maf_threshold 0.05 \
     --cell_types "Astrocyte,Microglia,Oligodendrocyte,OPC,Endothelial,Pericyte,VLMC,IT,L4.IT,L5.ET,L5.6.IT.Car3,L5.6.NP,L6.CT,L6b,LAMP5,PAX6,PVALB,SST,VIP"
 
@@ -46,7 +47,7 @@ else
 fi
 echo "End time: $(date)"
 echo "================================================="
-echo "Results saved to: /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/comparison/"
+echo "Results saved to: /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/comparison/"
 echo ""
 echo "Files generated:"
 echo "  - *_manhattan_comparison.pdf : Side-by-side Manhattan plots"

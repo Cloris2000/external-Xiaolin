@@ -20,11 +20,11 @@ suppressPackageStartupMessages({
 # ---- options ----------------------------------------------------------------
 option_list <- list(
   make_option("--bulk_dir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
   make_option("--sn_dir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
   make_option("--outdir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits"),
   make_option("--sugg_thresh", type = "double", default = 1e-5),
   make_option("--clump_window_kb", type = "integer", default = 500,
     help = "Distance window (kb) for greedy LD pruning [default %default]"),

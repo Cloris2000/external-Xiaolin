@@ -8,13 +8,13 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--base_dir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity",
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity",
               help = "Directory for sn vs bulk comparison"),
   make_option("--design_dir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix",
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix",
               help = "Directory for sn vs bulk (design matrix) comparison"),
   make_option("--out_png", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/plots/z_correlation_combined_two_bulk_models.png",
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/plots/z_correlation_combined_two_bulk_models.png",
               help = "Output PNG path")
 )
 opt <- parse_args(OptionParser(option_list = option_list))

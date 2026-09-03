@@ -44,8 +44,8 @@ params {
 
     deconv_tool                = 'MGP'
     reference_taxonomy         = 'sonny_markers'
-    marker_file                = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
-    hgnc_mapping_file          = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    marker_file                = '/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file          = '/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt'
 
     // FID method: study_projid (Study+projid = FID in genotype data)
     // samples_to_keep.txt uses Study+projid FIDs for all 170 samples (incl. remapped 11AD IDs)
@@ -67,8 +67,8 @@ params {
     normalized_vcf_dir         = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_array_vcf_normalized'
     normalize_vcf              = false   // already overlap-restricted upstream
 
-    plink_path                 = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path              = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path                 = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path              = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 
     qc_version                 = 'v1'
     maf_threshold              = 0.05
@@ -102,8 +102,8 @@ params {
     // GWAS PIPELINE
     // =========================================================================
 
-    regenie_path               = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path                 = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path               = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path                 = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     regenie_threads            = 12
     regenie_bsize              = 1000
 

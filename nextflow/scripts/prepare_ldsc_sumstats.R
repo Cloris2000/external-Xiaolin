@@ -8,7 +8,7 @@
 #   Rscript prepare_ldsc_sumstats.R \
 #     --input  path/to/cohort_celltype_step2.regenie.raw_p \
 #     --output path/to/output/cohort_celltype.ldsc_input.txt \
-#     --ld_dir /external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr \
+#     --ld_dir /project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr \
 #     [--rsid_cache path/to/rsid_lookup.rds]
 #
 # Output columns: SNP A1 A2 BETA SE N P
@@ -30,7 +30,7 @@ option_list <- list(
   make_option("--input",      type="character", help="Input .regenie.raw_p file"),
   make_option("--output",     type="character", help="Output LDSC-ready .txt file"),
   make_option("--ld_dir",     type="character",
-              default="/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr",
+              default="/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr",
               help="Directory containing {chr}.l2.ldscore.gz LD score files"),
   make_option("--rsid_cache", type="character", default=NULL,
               help="Optional: path to cached rsID lookup RDS (speeds up repeated runs)")

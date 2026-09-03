@@ -13,8 +13,8 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
-TSV <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/cell_type_concordance_summary.tsv"
-OUT <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/bulk_top_hits_direction_bar.png"
+TSV <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/cell_type_concordance_summary.tsv"
+OUT <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/bulk_top_hits_direction_bar.png"
 
 # Nature NPG-inspired palette (colorblind-safe, widely used in Nature journals)
 clr_same <- "#3C5488"   # deep navy-blue  (same direction)

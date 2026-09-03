@@ -45,7 +45,7 @@ EXAMPLE_CELLTYPES <- c("Microglia",          "L6b",                "L5.ET")
 EXAMPLE_VARIANTS  <- c("chr16:31298939:T:G",  "chr3:142612091:C:T", "chr2:10862188:G:A")
 EXAMPLE_QUALITY   <- c("stable",             "intermediate",       "heterogeneous")
 
-ROOT    <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT    <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 GEN_DIR <- file.path(ROOT, "results/meta_sensitivity/generalizability")
 OUT_DIR <- file.path(GEN_DIR, "figures")
 TAB_DIR <- file.path(GEN_DIR, "figure_tables")

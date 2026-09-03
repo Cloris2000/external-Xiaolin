@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=plot_meta_13cohorts
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=96G
 #SBATCH --output=logs/plot_meta_13cohorts_%j.out
 #SBATCH --error=logs/plot_meta_13cohorts_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-NF_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 RESULTS_DIR="${NF_DIR}/results/meta_analysis_13cohorts_design_matrix"
 PLOTS_DIR="${NF_DIR}/results/meta_analysis_13cohorts_design_matrix/plots"
 SCRIPT="${NF_DIR}/scripts/plot_meta_results.R"

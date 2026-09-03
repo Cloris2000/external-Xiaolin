@@ -22,11 +22,11 @@ option_list <- list(
   make_option("--sn_cell_type", type = "character", default = "",
     help = "sn cell type name (auto-inferred if empty)"),
   make_option("--bulk_dir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_13cohorts_design_matrix"),
   make_option("--sn_dir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
   make_option("--outdir", type = "character",
-    default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/regional_plots"),
+    default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity_design_matrix/top_hits/regional_plots"),
   make_option("--window_kb", type = "integer", default = 500)
 )
 opt <- parse_args(OptionParser(option_list = option_list))

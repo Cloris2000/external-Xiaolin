@@ -2,7 +2,7 @@
 # Run Meta-Analysis ONLY for all 8 cohorts
 # This script uses existing GWAS results and runs only the meta-analysis step
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 echo "================================================"
 echo "Running Meta-Analysis for All 8 Cohorts"

@@ -7,15 +7,16 @@
 # 3-cohort hodge3 outputs untouched and writes to sn_bulk_meta_similarity_hodge5.
 #
 #SBATCH --job-name=conc_hodge5
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
 #SBATCH --output=logs/concordance_hodge5_%j.out
 #SBATCH --error=logs/concordance_hodge5_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd "$NF_DIR"
 mkdir -p logs
 

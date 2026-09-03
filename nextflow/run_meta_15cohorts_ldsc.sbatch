@@ -17,14 +17,11 @@
 
 set -euo pipefail
 
-NF_DIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
-WORK_DIR=/scratch/zhoux156/nf_work/meta_15cohorts
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+WORK_DIR="${WORK_ROOT}/meta_15cohorts"
 
 # Must match run_meta_15cohorts.sbatch for -resume to hit the cache.
-module load nextflow/25.10.2
-
-source "$HOME/miniforge3/etc/profile.d/conda.sh"
-conda activate test
+module load "${NEXTFLOW_MODULE}"
 
 cd "${NF_DIR}/run_dirs/meta_15cohorts"
 

@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=anc_gwas
-#SBATCH --partition=long
+#SBATCH --partition=compute
 #SBATCH --time=24:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --array=0-11
 #SBATCH --output=logs/ancestry_gwas_%A_%a.out
 #SBATCH --error=logs/ancestry_gwas_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # Ancestry-subset GWAS array.
 # Tasks come from docs/ancestry_specific/ancestry_gwas_array_tasks.tsv (re_gwas only).
@@ -19,7 +20,7 @@
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd "${NF_DIR}"
 mkdir -p logs
 

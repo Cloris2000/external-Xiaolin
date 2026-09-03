@@ -2,7 +2,7 @@
 # Run NABEC Combined Pipeline in background
 # This script ensures NABEC runs completely in the background
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 echo "================================================"
 echo "Starting NABEC Combined Pipeline"

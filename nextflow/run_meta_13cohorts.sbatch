@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=meta_13cohorts
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
 #SBATCH --output=logs/meta_13cohorts_%j.out
 #SBATCH --error=logs/meta_13cohorts_%j.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd ${NF_DIR}/run_dirs/meta_13cohorts
 
 # Verify all 13 cohorts have complete raw_p files (19 cell types each)

@@ -35,13 +35,13 @@ done
 stage_shared() {
   echo "[$(date '+%F %T')] Staging shared refs..."
   mkdir -p "${STAGE_ROOT}/shared/tools"
-  cp -v /external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt \
+  cp -v /project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt \
         "${STAGE_ROOT}/shared/"
   cp -v /external/rprshnas01/netdata_kcni/stlab/DELETE_ME/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv \
         "${STAGE_ROOT}/shared/"
   # Tools under /kcni may not be visible to the Trillium rsync gateway
-  cp -v /external/rprshnas01/kcni/mwainberg/software/plink2 \
-        /external/rprshnas01/kcni/mwainberg/software/regenie \
+  cp -v /project/rrg-shreejoy/pipeline_refs/tools/plink2 \
+        /project/rrg-shreejoy/pipeline_refs/tools/regenie \
         "${STAGE_ROOT}/shared/tools/"
   # liftover chain + METAL already under netdata-visible paths
 }

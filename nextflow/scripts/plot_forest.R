@@ -115,6 +115,6 @@ p <- ggplot(df, aes(y = label, x = beta)) +
   )
 
 # ---------- save -------------------------------------------------------
-out <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest/Oligo_TMEM106B_top_SNP_forest.png"
+out <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest/Oligo_TMEM106B_top_SNP_forest.png"
 ggsave(out, plot = p, width = 12, height = 5, dpi = 200, bg = "white")
 message("Saved: ", out)

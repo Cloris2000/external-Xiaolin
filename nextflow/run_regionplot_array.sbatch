@@ -6,15 +6,16 @@
 # Submit:  sbatch run_regionplot_array.sbatch
 #
 #SBATCH --job-name=regionplot
-#SBATCH --partition=short
+#SBATCH --partition=compute
 #SBATCH --time=1:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=32G
 #SBATCH --array=0-1          # 2 tasks: Oligodendrocyte + VIP
 #SBATCH --output=logs/meta_15cohorts/regionplot_%A_%a.out
 #SBATCH --error=logs/meta_15cohorts/regionplot_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 RESULTS_DIR=${NF_DIR}/results/meta_analysis_15cohorts
 OUTPUT_DIR=${RESULTS_DIR}/plots/regionplot
 

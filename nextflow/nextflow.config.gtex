@@ -20,8 +20,8 @@ params {
     // Cell type deconvolution parameters
     deconv_tool = 'MGP'
     reference_taxonomy = 'sonny_markers'
-    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
-    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'
+    marker_file = '/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt'
     
     // GWAS preparation parameters
     wgs_psam_file = "${projectDir}/results/GTEx/GTEx.QC.final.psam"

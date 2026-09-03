@@ -13,7 +13,7 @@ cat("ROOT CAUSE DIAGNOSTIC: REGENIE INPUT COMPARISON\n")
 cat("=================================================\n\n")
 
 cell_type <- "Astrocyte"
-output_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/diagnostics"
+output_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/diagnostics"
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 # =================================================
@@ -29,9 +29,9 @@ cat("  Looking for covariate file...\n")
 cat("  Looking for genotype files...\n\n")
 
 # Nextflow pipeline paths
-nf_pheno_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_pheno_Astrocyte.txt"
-nf_covar_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_covar_Astrocyte.txt"
-nf_psam_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/genotyping_qc/ROSMAP.psam"
+nf_pheno_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_pheno_Astrocyte.txt"
+nf_covar_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_covar_Astrocyte.txt"
+nf_psam_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/genotyping_qc/ROSMAP.psam"
 
 cat("Nextflow pipeline inputs:\n")
 cat("  Phenotype:", nf_pheno_file, "\n")
@@ -220,7 +220,7 @@ cat("\n[STEP 6] Searching for Regenie Command History\n")
 cat("-------------------------------------------------\n")
 
 # Look for .command.sh files in Nextflow work directory
-nf_work_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/work_combined_ROSMAP"
+nf_work_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/work_combined_ROSMAP"
 if (dir.exists(nf_work_dir)) {
   cat("Searching Nextflow work directory for Regenie commands...\n")
   system(paste0("find ", nf_work_dir, 

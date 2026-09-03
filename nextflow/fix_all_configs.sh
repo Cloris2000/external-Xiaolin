@@ -4,7 +4,7 @@
 # Only bcftools path needs to be changed (user's location)
 # Also reduce CPU requirements from 24 to 12
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 echo "Fixing all cohort configs..."
 echo ""
@@ -39,10 +39,10 @@ done
 echo "All configs updated!"
 echo ""
 echo "Summary of software paths:"
-echo "  plink2:   /external/rprshnas01/kcni/mwainberg/software/plink2"
+echo "  plink2:   /project/rrg-shreejoy/pipeline_refs/tools/plink2"
 echo "  bcftools: /nethome/kcni/xzhou/software/bcftools"
-echo "  regenie:  /external/rprshnas01/kcni/mwainberg/software/regenie"
-echo "  METAL:    /external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+echo "  regenie:  /project/rrg-shreejoy/pipeline_refs/tools/regenie"
+echo "  METAL:    /project/rrg-shreejoy/pipeline_refs/tools/metal"
 echo ""
 echo "Verification:"
 grep "bcftools_path" nextflow.config.combined.* | head -8

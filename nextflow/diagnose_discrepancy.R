@@ -12,8 +12,8 @@ suppressPackageStartupMessages({
 
 # Setup
 old_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_wgs_step2"
-new_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/regenie_step2"
-output_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/diagnostics"
+new_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/regenie_step2"
+output_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/diagnostics"
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 cell_type <- "Astrocyte"

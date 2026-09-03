@@ -6,13 +6,14 @@
 # Submit:  sbatch run_plot_annotated_array.sbatch
 #
 #SBATCH --job-name=plot_annotated
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=2:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=32G
 #SBATCH --array=0-18          # 19 cell types (indices 0..18)
 #SBATCH --output=logs/meta_15cohorts/plot_annotated_%A_%a.out
 #SBATCH --error=logs/meta_15cohorts/plot_annotated_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # ---- cell type list (must match exactly the .tbl file prefixes) -------------
 CELL_TYPES=(
@@ -39,7 +40,7 @@ CELL_TYPES=(
 
 CT=${CELL_TYPES[$SLURM_ARRAY_TASK_ID]}
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 RESULTS_DIR=${NF_DIR}/results/meta_analysis_15cohorts
 OUTPUT_DIR=${RESULTS_DIR}/plots/annotated
 

@@ -10,7 +10,7 @@ echo "=========================================="
 echo ""
 
 echo "Step 1: Creating merged metadata file with specific ages..."
-Rscript /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/scripts/prepare_gtex_metadata_with_ages.R
+Rscript /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/scripts/prepare_gtex_metadata_with_ages.R
 
 if [ ! -f "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/data/GTEx_FC_sample_metadata_with_ages.csv" ]; then
     echo "❌ ERROR: Failed to create merged metadata file"

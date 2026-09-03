@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=sn_bulk_ldsc_rg
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --mem=32G
 #SBATCH --cpus-per-task=1
 #SBATCH --array=1-15%15
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity/ldsc/slurm_logs/sn_bulk_ldsc_rg_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-NF_DIR="${NF_DIR:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow}"
+NF_DIR="${NF_DIR:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow}"
 OUTDIR="${OUTDIR:-${NF_DIR}/results/sn_bulk_meta_similarity}"
 MANIFEST="${MANIFEST:-${OUTDIR}/ldsc/ldsc_input_manifest.tsv}"
 SUMSTATS_DIR="${OUTDIR}/ldsc/sumstats"
@@ -19,12 +20,12 @@ RG_DIR="${OUTDIR}/ldsc/rg_results"
 LOG_DIR="${OUTDIR}/ldsc/logs"
 SLURM_LOG_DIR="${OUTDIR}/ldsc/slurm_logs"
 
-PYTHON27="${PYTHON27:-/nethome/kcni/xzhou/.anaconda3/envs/ldsc_py2/bin/python}"
-MUNGE_PY="${MUNGE_PY:-/external/rprshnas01/kcni/mwainberg/ldsc/munge_sumstats.py}"
-LDSC_PY="${LDSC_PY:-/external/rprshnas01/kcni/mwainberg/ldsc/ldsc.py}"
-REF_LD_CHR="${REF_LD_CHR:-/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr/}"
-W_LD_CHR="${W_LD_CHR:-/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr/}"
-MERGE_ALLELES="${MERGE_ALLELES:-/external/rprshnas01/kcni/mwainberg/ldsc/w_hm3.snplist}"
+PYTHON27="${PYTHON27:-/home/zhoux156/miniforge3/envs/ldsc_py2/bin/python}"
+MUNGE_PY="${MUNGE_PY:-/project/rrg-shreejoy/pipeline_refs/tools/ldsc/munge_sumstats.py}"
+LDSC_PY="${LDSC_PY:-/project/rrg-shreejoy/pipeline_refs/tools/ldsc/ldsc.py}"
+REF_LD_CHR="${REF_LD_CHR:-/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr/}"
+W_LD_CHR="${W_LD_CHR:-/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr/}"
+MERGE_ALLELES="${MERGE_ALLELES:-/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr/w_hm3.snplist}"
 
 mkdir -p "${SUMSTATS_DIR}" "${SNP_INPUT_DIR}" "${RG_DIR}" "${LOG_DIR}" "${SLURM_LOG_DIR}"
 

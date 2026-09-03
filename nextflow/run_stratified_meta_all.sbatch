@@ -7,7 +7,7 @@
 # After all jobs finish, compare against pooled meta:
 #   sbatch run_compare_stratified_meta.sbatch
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd "${NF_DIR}"
 
 for script in \

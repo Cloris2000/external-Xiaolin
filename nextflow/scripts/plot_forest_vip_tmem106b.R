@@ -138,6 +138,6 @@ p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
   )
 
 # ---------- save -------------------------------------------------------
-out <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest/VIP_TMEM106B_chr7_12284378_forest.png"
+out <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest/VIP_TMEM106B_chr7_12284378_forest.png"
 ggsave(out, plot = p, width = 6, height = 8, dpi = 200, bg = "white")
 message("Saved: ", out)

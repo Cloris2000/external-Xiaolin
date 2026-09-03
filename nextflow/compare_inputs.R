@@ -12,7 +12,7 @@ cat("\n=======================================================\n")
 cat("INPUT COMPARISON: Original Analysis vs Nextflow Pipeline\n")
 cat("=======================================================\n\n")
 
-output_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/diagnostics"
+output_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/diagnostics"
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 # =================================================
@@ -120,7 +120,7 @@ cat("-------------------------------------------------------\n")
 
 # Check if files exist
 orig_sample_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/ROSMAP_joint_WGS_update_maf5/ROSMAP.QC.final.psam"
-nf_psam_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.final.psam"
+nf_psam_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.final.psam"
 
 if (file.exists(orig_sample_file) && file.exists(nf_psam_file)) {
   orig_samples <- fread(orig_sample_file, data.table = FALSE)
@@ -178,7 +178,7 @@ if (length(pheno_search) > 0) {
 }
 
 # Check Nextflow phenotype
-nf_pheno_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_pheno_Astrocyte.txt"
+nf_pheno_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_pheno_Astrocyte.txt"
 if (file.exists(nf_pheno_file)) {
   nf_pheno <- fread(nf_pheno_file, data.table = FALSE)
   cat("\n  Nextflow phenotype file:\n")
@@ -210,7 +210,7 @@ if (length(covar_search) > 0) {
 }
 
 # Check Nextflow covariate
-nf_covar_file <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_covar_Astrocyte.txt"
+nf_covar_file <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotype_files/ROSMAP_covar_Astrocyte.txt"
 if (file.exists(nf_covar_file)) {
   nf_covar <- fread(nf_covar_file, data.table = FALSE)
   cat("\n  Nextflow covariate file:\n")

@@ -6,7 +6,8 @@
 # Usage: ./monitor_meta_analysis.sh
 #
 
-BASE_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+BASE_DIR="$NF_DIR"
 META_DIR="${BASE_DIR}/results/meta_analysis"
 WORK_DIR="${BASE_DIR}/work"
 SUFFIX="CMC_MSSM_CMC_PENN_CMC_PITT_GTEx_MSBB_Mayo_NABEC_ROSMAP"

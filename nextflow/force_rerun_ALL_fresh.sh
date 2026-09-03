@@ -3,7 +3,7 @@
 # This script removes ALL cached work and results to ensure a completely fresh run
 # Use this if you want to guarantee no caching at all
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 echo "================================================"
 echo "COMPLETE FRESH RERUN - All 19 Cell Types"

@@ -2,7 +2,7 @@
 # Monitor script for SynapseID test run
 # Run ID: test_synapseid_20260130_163359
 
-LOG_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/test_synapseid_20260130_163359"
+LOG_DIR="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/test_synapseid_20260130_163359"
 
 echo "╔════════════════════════════════════════════════════════════════╗"
 echo "║         SynapseID Test Run - Monitoring Dashboard              ║"

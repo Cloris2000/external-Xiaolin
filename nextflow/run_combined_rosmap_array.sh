@@ -5,7 +5,7 @@
 export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
 export PATH="$HOME/.local/bin:$JAVA_HOME/bin:$PATH"
 
-WORK_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/work_combined_ROSMAP_array"
+WORK_DIR="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/work_combined_ROSMAP_array"
 
 echo "================================================"
 echo "Running ROSMAP_array Combined Pipeline"
@@ -15,9 +15,9 @@ echo "Output directory (permanent): results/ROSMAP_array/"
 echo "================================================"
 echo ""
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
-/nethome/kcni/xzhou/.local/bin/nextflow run combined_pipeline_v2.nf \
+nextflow run combined_pipeline_v2.nf \
     -c nextflow.config.combined.rosmap_array \
     -w "$WORK_DIR" \
     -resume \

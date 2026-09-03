@@ -24,7 +24,7 @@ params {
     conda_env = null  // e.g., "test", null means no conda activation
     
     // Project directory
-    projectDir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+    projectDir = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
     
     // ============================================================================
     // PHENOTYPE PIPELINE PARAMETERS
@@ -87,7 +87,7 @@ params {
     normalized_vcf_dir = "" // Directory for normalized VCFs (if normalize_vcf=true)
     
     // Software paths
-    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
+    plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
     bcftools_path = "/external/rprshnas01/kcni/mwainberg/software/bcftools"
     
     // QC thresholds
@@ -128,8 +128,8 @@ params {
     // ============================================================================
     
     // Software paths
-    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     
     // Regenie parameters
     regenie_threads = 24    // Number of threads for Regenie

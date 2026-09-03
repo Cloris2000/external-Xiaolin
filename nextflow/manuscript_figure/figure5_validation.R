@@ -21,7 +21,7 @@ suppressPackageStartupMessages({
 })
 
 # ── paths ─────────────────────────────────────────────────────────────────────
-ROOT       <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT       <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 SN_DIR     <- file.path(ROOT, "results/sn_bulk_meta_similarity_design_matrix/top_hits")
 FOREST_DIR <- file.path(ROOT, "results/meta_analysis_15cohorts/plots/forest")
 OUT_DIR    <- file.path(ROOT, "manuscript_figure")

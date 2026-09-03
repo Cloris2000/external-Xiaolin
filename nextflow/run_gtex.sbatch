@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=gtex
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --output=logs/gtex_%j.out
 #SBATCH --error=logs/gtex_%j.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd ${NF_DIR}/run_dirs/GTEx
 
 nextflow run ${NF_DIR}/combined_pipeline_v2.nf \

@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=hbcc_merge_vcf
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=6:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/hbcc_merge_vcf_%j.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/hbcc_merge_vcf_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/hbcc_merge_vcf_%j.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/hbcc_merge_vcf_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-source ~/.anaconda3/etc/profile.d/conda.sh && conda activate bcftools_env
+source ~/miniforge3/etc/profile.d/conda.sh && conda activate bcftools_env
 
 DIR_1M="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized_1M"
 DIR_OMNI="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized_Omni5M"

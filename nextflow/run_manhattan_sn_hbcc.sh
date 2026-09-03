@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 RESULTS_DIR="results/sn_NIMH_HBCC/regenie_step2"
 OUT_DIR="results/sn_NIMH_HBCC/manhattan_plots"

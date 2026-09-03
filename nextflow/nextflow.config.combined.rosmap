@@ -43,8 +43,8 @@ params {
     // Cell type deconvolution parameters
     deconv_tool = 'MGP'
     reference_taxonomy = 'sonny_markers'
-    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
-    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'  // From original config
+    marker_file = '/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt'  // From original config
     
     // FID creation parameters
     // Use biospec_specimen so phenotype file IDs match the SM-* IDs in the WGS VCF/pgen.
@@ -72,8 +72,8 @@ params {
     normalize_vcf = true  // From original config
     
     // Software paths
-    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
     
     // Sample filtering
     samples_to_keep = "${projectDir}/results/ROSMAP/samples_to_keep.txt"  // From original config
@@ -115,8 +115,8 @@ params {
     // ============================================================================
     
     // Software paths
-    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     
     // Regenie parameters (from original config)
     regenie_threads = 12  // Adjusted to available CPUs (was 24 in original)

@@ -16,7 +16,7 @@ suppressPackageStartupMessages({
   library(tidyr)
 })
 
-project_dir <- Sys.getenv("PROJECT_DIR", "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+project_dir <- Sys.getenv("PROJECT_DIR", "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 out_dir <- file.path(project_dir, "data_input", "nimh_hbcc")
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 

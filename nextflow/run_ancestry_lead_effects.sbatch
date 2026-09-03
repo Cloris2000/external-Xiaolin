@@ -1,17 +1,18 @@
 #!/bin/bash
 #SBATCH --job-name=anc_lead_fx
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=6:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
 #SBATCH --output=logs/meta_sensitivity/ancestry_lead_effects_%j.out
 #SBATCH --error=logs/meta_sensitivity/ancestry_lead_effects_%j.err
+#SBATCH --account=rrg-shreejoy
 
 # Extract pooled GW leads + ancestry effects, then forest plots.
 # Run after ancestry EUR/AFR metas finish (19 *.tbl each).
 
 set -euo pipefail
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 cd "${NF_DIR}"
 mkdir -p logs/meta_sensitivity
 
@@ -22,7 +23,7 @@ if [[ "${EUR_N}" -lt 19 || "${AFR_N}" -lt 19 ]]; then
   echo "WARNING: ancestry metas incomplete; proceeding with available cell types."
 fi
 
-RSCRIPT="${RSCRIPT:-/nethome/kcni/xzhou/.anaconda3/bin/Rscript}"
+RSCRIPT="${RSCRIPT:-Rscript}"
 
 python3 scripts/extract_ancestry_lead_effects.py \
   --project-dir "${NF_DIR}" \

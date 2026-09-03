@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--outdir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity")
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity")
 )
 opt <- parse_args(OptionParser(option_list = option_list))
 

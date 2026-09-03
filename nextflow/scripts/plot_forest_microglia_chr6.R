@@ -134,7 +134,7 @@ p <- ggplot(df, aes(y = label, x = beta, colour = anc_label)) +
   )
 
 # ── save ──────────────────────────────────────────────────────────────────────
-out_dir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest"
+out_dir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts/plots/forest"
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 out <- file.path(out_dir, "Microglia_PRKN_chr6_164862615_forest.png")
 ggsave(out, plot = p, width = 6, height = 8, dpi = 200, bg = "white")

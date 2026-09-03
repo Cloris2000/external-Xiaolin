@@ -13,7 +13,7 @@ params {
     output_dir = "${projectDir}/results/${study}"
     
     // Tool paths
-    plink_path = '/external/rprshnas01/kcni/mwainberg/software/plink2'
+    plink_path = '/project/rrg-shreejoy/pipeline_refs/tools/plink2'
     bcftools_path = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/software/bcftools-1.12/bcftools'
     
     // VCF input paths

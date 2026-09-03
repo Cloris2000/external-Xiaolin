@@ -17,7 +17,7 @@ params {
     run_ldsc = true
     run_plot_meta = false
 
-    // LDSC references: originally /nethome/kcni/xzhou/GWAS_tut/LDSC_Euro_ref, then
+    // LDSC references: originally /project/rrg-shreejoy/zhoux156/Xiaolin/SCC/ref_data/LDSC_Euro_ref, then
     // stlab ref_data on CAMH, now the SCC tree copied to Trillium.  Same contents as
     // used for the 13-cohort h2 run.  ldsc_ref_root comes from nextflow.config.trillium.
     ldsc_conda_env             = "ldsc"

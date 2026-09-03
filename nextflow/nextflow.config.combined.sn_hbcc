@@ -48,8 +48,8 @@ params {
     // Merged VCF directory — produced by: ./prep_hbcc_vcf.sh merged slurm
     normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized'
 
-    plink_path         = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path      = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path         = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path      = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
     qc_version         = 'v4'          // same as per-platform HBCC runs
     maf_threshold      = 0.05
     mach_r2_filter     = 0.8           // imputation quality filter (R2)
@@ -69,8 +69,8 @@ params {
     autosome_only      = true
     samples_to_keep    = ""
 
-    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path    = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path      = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     regenie_threads = 12
     regenie_bsize   = 1000
 

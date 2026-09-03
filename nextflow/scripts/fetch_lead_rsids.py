@@ -4,7 +4,7 @@ Writes a cache TSV: marker<TAB>rsid  (rsid = '.' if none matched)."""
 import csv, json, time, urllib.request
 from pathlib import Path
 
-ROOT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+ROOT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 LEADS = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_leads.tsv"
 OUT   = ROOT / "results/meta_sensitivity/ancestry_lead_effects/lead_rsids.tsv"
 

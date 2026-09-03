@@ -14,8 +14,8 @@ suppressPackageStartupMessages({
   library(topr)
 })
 
-META_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_sn_hodge3"
-OUT_DIR  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+META_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_sn_hodge3"
+OUT_DIR  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 PLOT_DIR <- file.path(OUT_DIR, "sn_hodge3_meta_manhattan")
 dir.create(PLOT_DIR, recursive = TRUE, showWarnings = FALSE)
 

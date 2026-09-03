@@ -54,12 +54,12 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
         "--results-dir",
-        default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results",
+        default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
         help="Results directory containing one subdirectory per cohort",
     )
     p.add_argument(
         "--output-dir",
-        default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/gwas_sample_counts",
+        default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/gwas_sample_counts",
         help="Directory for the generated reports",
     )
     return p.parse_args()

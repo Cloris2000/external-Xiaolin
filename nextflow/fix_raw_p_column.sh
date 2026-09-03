@@ -4,16 +4,17 @@
 # Fix: recompute P = 10^(-LOG10P) using the correct column 13.
 #
 #SBATCH --job-name=fix_raw_p
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
 #SBATCH --output=logs/fix_raw_p_%j.out
 #SBATCH --error=logs/fix_raw_p_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-RESULTS=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results
+RESULTS=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results
 
 # Find all raw_p files
 mapfile -t files < <(find "$RESULTS" -name "*.raw_p")

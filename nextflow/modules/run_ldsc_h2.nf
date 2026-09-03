@@ -34,8 +34,8 @@ process RUN_LDSC_H2 {
     def conda_init = '''
         export xml_catalog_files_libxml2="${xml_catalog_files_libxml2:-}"
         set +u
-        if [ -f "$HOME/.anaconda3/etc/profile.d/conda.sh" ]; then
-            source "$HOME/.anaconda3/etc/profile.d/conda.sh" 2>/dev/null || true
+        if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniforge3/etc/profile.d/conda.sh" 2>/dev/null || true
         elif [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
             source "$HOME/miniforge3/etc/profile.d/conda.sh" 2>/dev/null || true
         elif [ -f "$(conda info --base 2>/dev/null)/etc/profile.d/conda.sh" ]; then

@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.lines import Line2D
 
-ROOT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+ROOT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 TSV  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/lead_meta_sensitivity.tsv"
 OUTD = ROOT / "results/meta_sensitivity/ancestry_lead_effects/figures"
 OUTD.mkdir(parents=True, exist_ok=True)

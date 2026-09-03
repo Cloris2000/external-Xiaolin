@@ -55,8 +55,8 @@ if (length(args) >= 1 && tolower(args[1]) == "combine") {
   # Try common locations
   possible_paths <- c(
     Sys.which("convert"),  # In PATH
-    "/nethome/kcni/xzhou/.anaconda3/envs/test/bin/convert",  # test env
-    "/nethome/kcni/xzhou/.anaconda3/bin/convert",  # base env
+    "/home/zhoux156/miniforge3/envs/test/bin/convert",  # test env
+    "/home/zhoux156/miniforge3/bin/convert",  # base env
     "/usr/bin/convert"  # system
   )
   

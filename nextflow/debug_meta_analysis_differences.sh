@@ -14,16 +14,16 @@ echo ""
 
 # Define paths
 ORIGINAL_PHENO="/nethome/kcni/xzhou/GWAS_tut/AMP-AD2/1438_AMP-AD_MGP_estimations_techAdj_sexAge_RINT.txt"
-NEXTFLOW_PHENO="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotypes_RINT.txt"
+NEXTFLOW_PHENO="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotypes_RINT.txt"
 ORIGINAL_COV="/nethome/kcni/xzhou/GWAS_tut/ROSMAP/rosmap_wgs_cov.txt"
-NEXTFLOW_COV="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/covariates.txt"
+NEXTFLOW_COV="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/covariates.txt"
 ORIGINAL_GWAS="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_wgs_step2/ROSMAP_WGS_step2_update_SST.regenie.raw_p"
-NEXTFLOW_GWAS="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/step2/ROSMAP_SST_step2.regenie.raw_p"
+NEXTFLOW_GWAS="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/step2/ROSMAP_SST_step2.regenie.raw_p"
 ORIGINAL_META="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/Joint_AMP_AD_meta_with_CMC_NABEC_GTEx/SST_meta_analysis1.tbl"
-NEXTFLOW_META="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis/SST_meta_analysis_CMC_MSSM_CMC_PENN_CMC_PITT_GTEx_MSBB_Mayo_NABEC_ROSMAP.tbl"
+NEXTFLOW_META="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis/SST_meta_analysis_CMC_MSSM_CMC_PENN_CMC_PITT_GTEx_MSBB_Mayo_NABEC_ROSMAP.tbl"
 
 # Create output directory
-OUTPUT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/debugging_outputs"
+OUTPUT_DIR="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/debugging_outputs"
 mkdir -p ${OUTPUT_DIR}
 
 echo "1. Comparing Sample Counts"
@@ -136,7 +136,7 @@ if [ -f "${NEXTFLOW_GWAS}" ]; then
 else
     echo "WARNING: Nextflow GWAS file not found at ${NEXTFLOW_GWAS}"
     echo "Searching for alternative locations..."
-    find /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow -name "ROSMAP_SST_step2.regenie.raw_p" -type f 2>/dev/null | head -5
+    find /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow -name "ROSMAP_SST_step2.regenie.raw_p" -type f 2>/dev/null | head -5
     echo ""
 fi
 

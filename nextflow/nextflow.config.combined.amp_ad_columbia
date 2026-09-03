@@ -74,8 +74,8 @@ params {
     // Cell type deconvolution
     deconv_tool        = "MGP"
     reference_taxonomy = "sonny_markers"
-    marker_file        = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv"
-    hgnc_mapping_file  = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
+    marker_file        = "/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv"
+    hgnc_mapping_file  = "/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt"
 
     // Phenotype / covariate preparation
     // fid_method = "biospec_specimen" + biospec_assay_filter = "wholeGenomeSeq":
@@ -98,8 +98,8 @@ params {
     vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/AMP_AD_Diverse/Genotype/normalized/AMP_AD_Diverse.chr{chrom}.normalized.vcf.gz'
     normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/AMP_AD_Diverse/Genotype/normalized'
 
-    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path    = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 
     qc_version     = 'v4'  // v4: removed vcf_min_gq/dp/qual; het filter skipped for N<50 (bad_ld=true)
     maf_threshold  = 0.05
@@ -136,8 +136,8 @@ params {
     // GWAS PIPELINE PARAMETERS
     // ============================================================================
 
-    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path    = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path      = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     regenie_threads = 12
     regenie_bsize   = 1000
 

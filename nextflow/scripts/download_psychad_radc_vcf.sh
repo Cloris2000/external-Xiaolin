@@ -31,12 +31,12 @@
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 WGS_DIR=${NF_DIR}/data_input/sn_psychad_radc_hodge/genotype
 PROP_FILE=${NF_DIR}/data/snRNAseq_hodge_label_cell_prop/psychad_radc_cell_proportions_qc.csv
-SYNAPSE=/nethome/kcni/xzhou/.anaconda3/bin/synapse
-BCFTOOLS=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools
-TABIX=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/tabix
+SYNAPSE=/home/zhoux156/miniforge3/bin/synapse
+BCFTOOLS=/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools
+TABIX=/home/zhoux156/miniforge3/envs/bcftools_env/bin/tabix
 
 mkdir -p "${WGS_DIR}"
 

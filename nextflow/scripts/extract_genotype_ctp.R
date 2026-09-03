@@ -19,11 +19,11 @@
 
 suppressPackageStartupMessages({ library(data.table) })
 
-ROOT   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 GEN    <- file.path(ROOT, "results/meta_sensitivity/generalizability")
 WORK   <- file.path(GEN, "genotype_ctp")
 TAB    <- file.path(GEN, "figure_tables")
-PLINK  <- "/external/rprshnas01/kcni/mwainberg/software/plink2"
+PLINK  <- "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
 dir.create(WORK, showWarnings = FALSE, recursive = TRUE)
 dir.create(TAB,  showWarnings = FALSE, recursive = TRUE)
 

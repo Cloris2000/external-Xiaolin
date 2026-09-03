@@ -63,7 +63,7 @@ PIPE_DIR <- get_arg("--pipe_dir",
 META_DIR <- get_arg("--meta_dir",
   "/external/rprshnas01/netdata_kcni/stlab/AMP_AD_Diverse/Metadata")
 OUT_DIR  <- get_arg("--out_dir",
-  "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/scripts/results")
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/scripts/results")
 
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 

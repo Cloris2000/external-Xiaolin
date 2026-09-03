@@ -29,7 +29,7 @@ suppressPackageStartupMessages({
   library(ggrepel)
 })
 
-OUT_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+OUT_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 DATA_CHECKPOINT <- file.path(OUT_DIR, "figure3_data_checkpoint.rds")
 SUGG_CACHE <- file.path(OUT_DIR, "test_multict_suggestive_leads.tsv")
 

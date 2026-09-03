@@ -45,8 +45,8 @@ params {
     // Cell type deconvolution
     deconv_tool = "MGP"
     reference_taxonomy = 'sonny_markers'  // Options: 'sonny_markers', 'aging_paper', 'custom'
-    marker_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv'
-    hgnc_mapping_file = '/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt'  // FIXED: from original config
+    marker_file = '/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv'
+    hgnc_mapping_file = '/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt'  // FIXED: from original config
     
     // Phenotype/covariate preparation (from original config)
     fid_method = 'study_projid'  // FIXED: was 'match', original is 'study_projid'
@@ -65,8 +65,8 @@ params {
     normalized_vcf_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized"
     
     // Software paths
-    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
     
     // QC parameters (from original config)
     maf_threshold = 0.05
@@ -106,8 +106,8 @@ params {
     // ============================================================================
     
     // Software paths
-    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     
     // Regenie parameters
     regenie_threads = 12  // Reduced to match available CPUs

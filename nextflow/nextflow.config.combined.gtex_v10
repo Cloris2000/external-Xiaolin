@@ -34,7 +34,7 @@ params {
 
     cohorts = ["GTEx_v10"]
     study   = "GTEx_v10"
-    outdir  = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results"
+    outdir  = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results"
 
     // ============================================================================
     // PHENOTYPE PIPELINE PARAMETERS
@@ -67,8 +67,8 @@ params {
     // Cell type deconvolution (same markers as original GTEx run)
     deconv_tool        = "MGP"
     reference_taxonomy = "sonny_markers"
-    marker_file        = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv"
-    hgnc_mapping_file  = "/external/rprshnas01/kcni/dkiss/cell_prop_psychiatry/data/hgnc_complete_set.txt"
+    marker_file        = "/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv"
+    hgnc_mapping_file  = "/project/rrg-shreejoy/pipeline_refs/markers/hgnc_complete_set.txt"
 
     // Phenotype / covariate preparation
     // v10 SubjectPhenotypes has direct SEX and AGE columns (no .y suffix needed)
@@ -92,8 +92,8 @@ params {
     normalized_vcf_dir = ""
 
     // Software paths
-    plink_path    = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path    = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 
     // QC parameters
     // v3: removed vcf_min_gq/vcf_min_dp — the GTEx v9 WGS VCF is already hard-filtered
@@ -136,8 +136,8 @@ params {
     // GWAS PIPELINE PARAMETERS
     // ============================================================================
 
-    regenie_path    = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path      = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path    = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path      = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     regenie_threads = 24
     regenie_bsize   = 2000
 

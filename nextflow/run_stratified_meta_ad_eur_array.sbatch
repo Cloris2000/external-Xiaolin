@@ -1,20 +1,21 @@
 #!/bin/bash
 #SBATCH --job-name=meta_AD_EUR_ct
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --array=0-18
 #SBATCH --time=0:45:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
 #SBATCH --output=logs/meta_sensitivity/stratified_ad_eur_array_%A_%a.out
 #SBATCH --error=logs/meta_sensitivity/stratified_ad_eur_array_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # METAL-only: reuse pre-harmonized files from AD_neurological meta (no Nextflow).
 # After all 19 tasks complete, run: sbatch run_stratified_meta_ad_eur_merge.sbatch
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
-METAL_PATH=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+METAL_PATH=/project/rrg-shreejoy/pipeline_refs/tools/metal
 mkdir -p "${NF_DIR}/logs/meta_sensitivity"
 cd "${NF_DIR}"
 

@@ -22,13 +22,13 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--results_dir", type="character",
-              default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP"),
+              default="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP"),
   make_option("--sn_proportions", type="character",
-              default="/external/rprshnas01/netdata_kcni/stlab/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"),
+              default="/project/rrg-shreejoy/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"),
   make_option("--meta_file", type="character",
               default="/external/rprshnas01/external_data/rosmap/gene_expression/RNAseq_Harmonization/Gene Expression (Raw Gene Counts)/Metadata/RNAseq_Harmonization_ROSMAP_combined_metadata.csv"),
   make_option("--marker_file", type="character",
-              default="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/new_MTGnCgG_lfct2.5_Publication.csv"),
+              default="/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv"),
   make_option("--batch_covariates", type="character", default="sequencingBatch,libraryPrep")
 )
 opt <- parse_args(OptionParser(option_list=option_list))

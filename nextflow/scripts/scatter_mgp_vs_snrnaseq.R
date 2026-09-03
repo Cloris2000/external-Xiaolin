@@ -17,8 +17,8 @@ suppressPackageStartupMessages({
 })
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-mgp_file  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/cell_proportions.csv"
-sn_file   <- "/external/rprshnas01/netdata_kcni/stlab/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"
+mgp_file  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/cell_proportions.csv"
+sn_file   <- "/project/rrg-shreejoy/cross_cohort_MGPs/rosmap_single_nuc_proportions.csv"
 meta_file <- paste0(
   "/external/rprshnas01/external_data/rosmap/gene_expression/",
   "RNAseq_Harmonization/Gene Expression (Raw Gene Counts)/Metadata/",
@@ -35,7 +35,7 @@ prov_files <- c(
   file.path(prov_dir, "Rosmap_Batch3_Stranded/ROSMAP_batch3_provenance.csv"),
   file.path(prov_dir, "Rosmap_Batch4_Stranded/ROSMAP_batch4_provenance.csv")
 )
-outdir <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/scatter_mgp_vs_snrnaseq"
+outdir <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/scatter_mgp_vs_snrnaseq"
 dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
 
 # ── Cell-type mapping: pipeline MGP name → snRNA-seq column name ─────────────

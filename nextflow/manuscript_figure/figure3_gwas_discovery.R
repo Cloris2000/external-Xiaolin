@@ -39,7 +39,7 @@
 # SECTION 1 — File paths and parameters  (edit here)
 # =============================================================================
 
-OUT_DIR  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure"
+OUT_DIR  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 
 # --- Primary combined GWAS file ---
 # Set to NULL (or a non-existent path) to fall back to per-cell-type directory.
@@ -49,7 +49,7 @@ GWAS_META_FILE <- file.path(OUT_DIR, "gwas_meta_all_celltypes.tsv")
 # --- Per-cell-type METAL output directory ---
 # Files are named  {CellType}_meta_analysis_..._array.tbl  (METAL format).
 # The script reads all *.tbl files that do NOT end in "1.tbl".
-GWAS_META_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts"
+GWAS_META_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts"
 
 # --- Pre-processed cache directory (OPTIONAL — strongly recommended) ---
 # Run preprocess_gwas_to_cache.R once to create Parquet or compressed-TSV
@@ -57,7 +57,7 @@ GWAS_META_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/resul
 # read path; leave NULL to fall back to reading the raw METAL .tbl files.
 # Expected files: {CellType}.parquet  OR  {CellType}.tsv.gz
 GWAS_CACHE_DIR <- file.path(
-  "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure",
   "gwas_cache"
 )
 

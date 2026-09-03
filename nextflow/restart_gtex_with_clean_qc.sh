@@ -29,7 +29,7 @@ echo ""
 
 # 2. Delete Nextflow work and cache (to force PHENO_PREP regeneration with new wgs_psam_file)
 echo "Step 2: Cleaning Nextflow work and cache directories..."
-ISOLATED_BASE="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/isolated_runs/gtex"
+ISOLATED_BASE="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/isolated_runs/gtex"
 if [ -d "$ISOLATED_BASE/work" ]; then
     echo "  Removing work directory..."
     rm -rf "$ISOLATED_BASE/work"
@@ -45,8 +45,8 @@ echo ""
 
 # 3. Delete old genotype QC outputs (so they get regenerated with sample filtering)
 echo "Step 3: Removing old genotype QC outputs..."
-GTX_QC_WORK="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/isolated_runs/gtex/launch/work/GTEx"
-GTX_QC_RESULTS="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/isolated_runs/gtex/launch/results/GTEx"
+GTX_QC_WORK="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/isolated_runs/gtex/launch/work/GTEx"
+GTX_QC_RESULTS="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/isolated_runs/gtex/launch/results/GTEx"
 
 if [ -d "$GTX_QC_WORK" ]; then
     echo "  Removing per-chromosome pgen files in work dir..."

@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-BCFTOOLS="${BCFTOOLS:-/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools}"
+BCFTOOLS="${BCFTOOLS:-/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools}"
 GVEX_BASE="/external/rprshnas01/external_data/psychencode/PsychENCODE/genotypes_BrainGVEX/DNA"
 OUT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/BrainGVEX_combined_vcf_normalized"
 LOG_DIR="${OUT_DIR}/logs"

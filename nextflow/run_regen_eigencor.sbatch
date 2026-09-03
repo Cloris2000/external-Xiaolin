@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=regen_eigencor
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
 #SBATCH --output=logs/regen_eigencor_%j.out
 #SBATCH --error=logs/regen_eigencor_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-NF_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 mkdir -p "${NF_DIR}/logs"
 
 echo "============================================"
@@ -18,7 +19,6 @@ echo "Job ID : ${SLURM_JOB_ID}"
 echo "Started: $(date)"
 echo "============================================"
 
-source /nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh
 conda activate test
 
 Rscript "${NF_DIR}/scripts/regen_eigencor_plots.R" \

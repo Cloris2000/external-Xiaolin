@@ -53,7 +53,7 @@ MAIN_QUALITY   <- c("Stable association", "Heterogeneous association")
 SUPP_CELLTYPE  <- "L6b"
 SUPP_VARIANT   <- "chr3:142612091:C:T"
 
-ROOT    <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT    <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 GEN_DIR <- file.path(ROOT, "results/meta_sensitivity/generalizability")
 OUT_DIR <- file.path(GEN_DIR, "figures")
 TAB_DIR <- file.path(GEN_DIR, "figure_tables")

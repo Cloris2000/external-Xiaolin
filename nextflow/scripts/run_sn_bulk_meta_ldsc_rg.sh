@@ -3,18 +3,18 @@
 
 set -euo pipefail
 
-NF_DIR="${NF_DIR:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow}"
+NF_DIR="${NF_DIR:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow}"
 OUTDIR="${OUTDIR:-${NF_DIR}/results/sn_bulk_meta_similarity}"
 MANIFEST="${MANIFEST:-${OUTDIR}/ldsc/ldsc_input_manifest.tsv}"
 SUMSTATS_DIR="${OUTDIR}/ldsc/sumstats"
 RG_DIR="${OUTDIR}/ldsc/rg_results"
 LOG_DIR="${OUTDIR}/ldsc/logs"
 
-PYTHON27="${PYTHON27:-/nethome/kcni/xzhou/.anaconda3/envs/ldsc_py2/bin/python}"
-MUNGE_PY="${MUNGE_PY:-/external/rprshnas01/kcni/mwainberg/ldsc/munge_sumstats.py}"
-LDSC_PY="${LDSC_PY:-/external/rprshnas01/kcni/mwainberg/ldsc/ldsc.py}"
-REF_LD_CHR="${REF_LD_CHR:-/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr/}"
-W_LD_CHR="${W_LD_CHR:-/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr/}"
+PYTHON27="${PYTHON27:-/home/zhoux156/miniforge3/envs/ldsc_py2/bin/python}"
+MUNGE_PY="${MUNGE_PY:-/project/rrg-shreejoy/pipeline_refs/tools/ldsc/munge_sumstats.py}"
+LDSC_PY="${LDSC_PY:-/project/rrg-shreejoy/pipeline_refs/tools/ldsc/ldsc.py}"
+REF_LD_CHR="${REF_LD_CHR:-/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr/}"
+W_LD_CHR="${W_LD_CHR:-/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr/}"
 
 mkdir -p "${SUMSTATS_DIR}" "${RG_DIR}" "${LOG_DIR}"
 

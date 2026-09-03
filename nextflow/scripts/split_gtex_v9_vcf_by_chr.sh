@@ -37,7 +37,7 @@ VCF_BASENAME="GTEx_Analysis_2021-02-11_v9_WholeGenomeSeq_953Indiv.vcf.gz"
 EXTRACT_DIR="${GENOTYPE_DIR}/extracted/phg001796.v1.GTEx_v9_WGS_953.genotype-calls-vcf.c1"
 SPLIT_DIR="${GENOTYPE_DIR}/split_by_chr"
 
-BCFTOOLS="${BCFTOOLS:-/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools}"
+BCFTOOLS="${BCFTOOLS:-/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools}"
 
 CHROMOSOMES=$(seq 1 22)
 THREADS=8   # bcftools view threads per chromosome; adjust to available CPUs

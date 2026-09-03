@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --output=logs/coloc/coloc_%A_%a.out
 #SBATCH --error=logs/coloc/coloc_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # ============================================================================
 # Colocalization pipeline: 15-cohort cell-type GWAS × disease GWAS
@@ -28,13 +29,12 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 # R library path — point to the conda env where coloc/susieR are installed
 # ---------------------------------------------------------------------------
-export R_LIBS="/external/rprshnas01/kcni/xzhou/.anaconda3/lib/R/library"
-export PATH="/nethome/kcni/xzhou/.anaconda3/bin:$PATH"
 
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-PROJECT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+PROJECT_DIR="$NF_DIR"
 RESULTS_DIR="$PROJECT_DIR/results/meta_analysis_15cohorts"
 COLOC_LOCI_DIR="$PROJECT_DIR/results/coloc/loci"
 COLOC_RES_DIR="$PROJECT_DIR/results/coloc/coloc_results"

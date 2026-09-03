@@ -72,7 +72,7 @@ process GENOTYPING_QC_STEP {
     """
     # QC Version: ${qc_version} (increment when QC parameters change to force re-run)
     # Use the python_env conda environment which has pandas installed.
-    PYTHON_BIN="/nethome/kcni/xzhou/.anaconda3/envs/python_env/bin/python"
+    PYTHON_BIN="/home/zhoux156/miniforge3/envs/python_env/bin/python"
     echo "Using Python: \$PYTHON_BIN"
     "\$PYTHON_BIN" "${script_file}" \\
         --step ${step} \\

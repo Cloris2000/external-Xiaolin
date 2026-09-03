@@ -21,10 +21,10 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-DLPFC_FILE       <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/topmed_not_in_pipeline_rnaseq_dlpfc.txt"
+DLPFC_FILE       <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/topmed_not_in_pipeline_rnaseq_dlpfc.txt"
 CLINICAL_FILE    <- "/external/rprshnas01/external_data/rosmap/metadata/ROSMAP_clinical.csv"
 BIOSPECIMEN_FILE <- "/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv"
-OUTPUT_DIR       <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP_array"
+OUTPUT_DIR       <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP_array"
 
 dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 

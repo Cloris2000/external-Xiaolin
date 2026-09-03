@@ -1,15 +1,16 @@
 #!/bin/bash
 #SBATCH --job-name=plot_anc_t1
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=0:30:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
 #SBATCH --output=logs/meta_sensitivity/plot_ancestry_tier1_%j.out
 #SBATCH --error=logs/meta_sensitivity/plot_ancestry_tier1_%j.err
+#SBATCH --account=rrg-shreejoy
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 mkdir -p "${NF_DIR}/logs/meta_sensitivity"
 cd "${NF_DIR}"
 

@@ -70,8 +70,8 @@ params {
     vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.MSSM.vcf.gz"'
     normalized_vcf_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf_normalized"
 
-    plink_path = "/external/rprshnas01/kcni/mwainberg/software/plink2"
-    bcftools_path = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+    plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
+    bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 
     qc_version = "v2_sn224"
     maf_threshold = 0.05
@@ -103,8 +103,8 @@ params {
     // ============================================================================
     // GWAS PIPELINE PARAMETERS
     // ============================================================================
-    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"
+    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
     skip_metal = true
     regenie_threads = 12
     regenie_bsize = 1000

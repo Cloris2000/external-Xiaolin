@@ -3,16 +3,17 @@
 #SBATCH --array=1-22
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.log
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.log
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/gtex_vcf_split_chr%a_%j.err
+#SBATCH --account=rrg-shreejoy
 
 CHR=${SLURM_ARRAY_TASK_ID}
 
 EXTRACTED_VCF="/external/rprshnas01/netdata_kcni/stlab/GTEx_v10/Genotype/extracted/phg001796.v1.GTEx_v9_WGS_953.genotype-calls-vcf.c1/GTEx_Analysis_2021-02-11_v9_WholeGenomeSeq_953Indiv.vcf.gz"
 SPLIT_DIR="/external/rprshnas01/netdata_kcni/stlab/GTEx_v10/Genotype/split_by_chr"
-BCFTOOLS="/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+BCFTOOLS="/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 THREADS=8
 
 OUT_VCF="${SPLIT_DIR}/GTEx_Analysis_2021-02-11_v9_WholeGenomeSeq_953Indiv_chr${CHR}.vcf.gz"

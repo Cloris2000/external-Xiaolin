@@ -21,12 +21,12 @@ import os
 import subprocess
 
 # ── paths ─────────────────────────────────────────────────────────────────────
-BCFTOOLS       = "/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools"
+BCFTOOLS       = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"
 INPUT_VCF_DIR  = "/external/rprshnas01/netdata_kcni/stlab/AMP_AD_Diverse/Genotype"
 INPUT_PATTERN  = "DivCo_GRCh38_743Samples_JointCalls_Recalibrated_Annotated_05-25-2025.chr{chrom}.vcf.gz"
 OUTPUT_DIR     = os.path.join(INPUT_VCF_DIR, "normalized")
 OUTPUT_PATTERN = "AMP_AD_Diverse.chr{chrom}.normalized.vcf.gz"
-LOG_DIR        = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/normalize_amp_ad"
+LOG_DIR        = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/normalize_amp_ad"
 
 # ── SLURM settings ─────────────────────────────────────────────────────────────
 PARTITION      = "long"       # 1-day limit; chr1/2 at 25GB can take 6-10h

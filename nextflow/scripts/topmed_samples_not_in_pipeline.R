@@ -30,13 +30,13 @@ suppressPackageStartupMessages({
 # =============================================================================
 
 TOPMED_FAM        <- "/external/rprshnas01/external_data/rosmap/genotype/TOPmed_imputed/vcf/merged/merged_overlap.fam"
-PIPELINE_PSAM     <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.1.psam"
+PIPELINE_PSAM     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.1.psam"
 BIOSPECIMEN_FILE  <- "/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv"
 CLINICAL_FILE     <- "/external/rprshnas01/external_data/rosmap/metadata/ROSMAP_clinical.csv"
 COMBINED_METRICS  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_combined_metrics.csv"
 COUNT_MATRIX      <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_DLPFC_batch_all.csv"
 
-OUTPUT_DIR        <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP"
+OUTPUT_DIR        <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP"
 
 # =============================================================================
 # 1. Load ID mapping tables

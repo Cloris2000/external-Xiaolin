@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=psychad_radc_download
-#SBATCH --partition=long
+#SBATCH --partition=compute
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_download_%j.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_download_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_download_%j.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_download_%j.err
+#SBATCH --account=rrg-shreejoy
 #
 # Download PsychAD combined VCF (syn60552875) for RADC cohort,
 # verify sample overlap with the 101-donor RADC proportion file,
@@ -33,12 +34,12 @@
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 WGS_DIR=${NF_DIR}/data_input/sn_psychad_radc_hodge/genotype
 PROP_FILE=${NF_DIR}/data/snRNAseq_hodge_label_cell_prop/psychad_radc_cell_proportions_qc.csv
-SYNAPSE=/nethome/kcni/xzhou/.anaconda3/bin/synapse
-BCFTOOLS=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools
-TABIX=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/tabix
+SYNAPSE=/home/zhoux156/miniforge3/bin/synapse
+BCFTOOLS=/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools
+TABIX=/home/zhoux156/miniforge3/envs/bcftools_env/bin/tabix
 
 mkdir -p "${WGS_DIR}" "${NF_DIR}/logs"
 

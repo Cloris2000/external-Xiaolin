@@ -16,8 +16,8 @@
 # SECTION 1 — Paths
 # =============================================================================
 
-GWAS_META_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts"
-CACHE_DIR     <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/manuscript_figure/gwas_cache"
+GWAS_META_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts"
+CACHE_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/gwas_cache"
 
 # Columns to keep in cache (chr/pos parsed; only what figure3 needs)
 KEEP_COLS_BASE  <- c("chr", "pos", "beta", "se", "p", "eaf")  # non-focus CTs

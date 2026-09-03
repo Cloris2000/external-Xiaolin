@@ -7,7 +7,7 @@ export PATH="$HOME/.local/bin:$JAVA_HOME/bin:$PATH"
 
 # Use shared NFS directory for work (accessible from all compute nodes)
 # With concurrency limits (maxForks=10, queueSize=20) to avoid NFS overload
-WORK_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/work_combined_Mayo"
+WORK_DIR="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/work_combined_Mayo"
 
 # Clean up old work directory if it exists
 # rm -rf "$WORK_DIR" 2>/dev/null
@@ -20,9 +20,9 @@ echo "Output directory (permanent): results/Mayo/"
 echo "================================================"
 echo ""
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
-/nethome/kcni/xzhou/.local/bin/nextflow run combined_pipeline.nf \
+nextflow run combined_pipeline.nf \
     -c nextflow.config.combined.mayo \
     -w "$WORK_DIR" \
     -resume \

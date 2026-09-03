@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-meta <- read.csv("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/nimh_hbcc/HBCC_metadata.csv")
+meta <- read.csv("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/data_input/nimh_hbcc/HBCC_metadata.csv")
 # Step 1: drop cols with any NA
 cols_without_na <- complete.cases(t(meta))
 dropped_na <- setdiff(colnames(meta), colnames(meta)[cols_without_na])

@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=psychad_radc_prep
-#SBATCH --partition=mediumtmp
+#SBATCH --partition=compute
 #SBATCH --time=8:00:00
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --output=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_prep_%j.out
-#SBATCH --error=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/psychad_radc_prep_%j.err
+#SBATCH --output=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_prep_%j.out
+#SBATCH --error=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/psychad_radc_prep_%j.err
+#SBATCH --account=rrg-shreejoy
 #
 # Resume PsychAD RADC VCF prep AFTER download is complete.
 # Skips indexing if combined.vcf.gz.tbi already exists.
@@ -23,11 +24,11 @@
 
 set -euo pipefail
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 WGS_DIR=${NF_DIR}/data_input/sn_psychad_radc_hodge/genotype
 PROP_FILE=${NF_DIR}/data/snRNAseq_hodge_label_cell_prop/psychad_radc_cell_proportions_qc.csv
-BCFTOOLS=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools
-TABIX=/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/tabix
+BCFTOOLS=/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools
+TABIX=/home/zhoux156/miniforge3/envs/bcftools_env/bin/tabix
 
 VCF="${WGS_DIR}/combined.vcf.gz"
 mkdir -p "${NF_DIR}/logs"

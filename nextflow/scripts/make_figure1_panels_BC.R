@@ -21,7 +21,7 @@
 # Set to FALSE to remove panel letters B/C from saved individual panels.
 INCLUDE_PANEL_LETTERS <- TRUE
 
-ROOT    <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT    <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 MS_DIR  <- file.path(ROOT, "manuscript_figure")
 dir.create(MS_DIR, showWarnings = FALSE, recursive = TRUE)
 

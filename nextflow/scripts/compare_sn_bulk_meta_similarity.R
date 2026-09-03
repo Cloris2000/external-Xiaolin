@@ -9,13 +9,13 @@ suppressPackageStartupMessages({
 
 option_list <- list(
   make_option("--sn_dir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"),
   make_option("--bulk_dir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_13cohorts"),
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_13cohorts"),
   make_option("--outdir", type = "character",
-              default = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/sn_bulk_meta_similarity"),
+              default = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/sn_bulk_meta_similarity"),
   make_option("--ld_dir", type = "character",
-              default = "/external/rprshnas01/kcni/mwainberg/ldsc/eur_w_ld_chr"),
+              default = "/project/rrg-shreejoy/pipeline_refs/ldsc/eur_w_ld_chr"),
   make_option("--gw_thresh", type = "double", default = 5e-8),
   make_option("--sugg_thresh", type = "double", default = 1e-5),
   make_option("--locus_window", type = "integer", default = 1000000),

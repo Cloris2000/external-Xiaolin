@@ -13,8 +13,8 @@ params {
     cohorts = ["ROSMAP", "GTEx"]
     
     // Software paths
-    regenie_path = "/external/rprshnas01/kcni/mwainberg/software/regenie"
-    metal_path = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/METAL/generic-metal/executables"  // METAL executable directory
+    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
+    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"  // METAL executable directory
     
     // Regenie parameters
     regenie_threads = 24

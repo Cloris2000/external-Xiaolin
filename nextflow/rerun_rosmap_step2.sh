@@ -5,15 +5,15 @@
 
 set -euo pipefail
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
-REGENIE=/external/rprshnas01/kcni/mwainberg/software/regenie
-PGEN=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.final
-PHENO=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/phenotypes_RINT.txt
-COVAR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/covariates.txt
-STEP1=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/regenie_step1
-OUTDIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP/regenie_step2
-LOGDIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/logs/ROSMAP_step2_rerun
+REGENIE=/project/rrg-shreejoy/pipeline_refs/tools/regenie
+PGEN=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/ROSMAP.QC.final
+PHENO=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/phenotypes_RINT.txt
+COVAR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/covariates.txt
+STEP1=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/regenie_step1
+OUTDIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP/regenie_step2
+LOGDIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/logs/ROSMAP_step2_rerun
 THREADS=12
 BSIZE=1000
 

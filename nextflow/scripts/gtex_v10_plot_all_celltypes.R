@@ -21,9 +21,9 @@ suppressPackageStartupMessages({
 })
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-script_dir  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/scripts"
-input_dir   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/GTEx_v10/regenie_step2"
-output_dir  <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/GTEx_v10/GWAS_plots"
+script_dir  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/scripts"
+input_dir   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/GTEx_v10/regenie_step2"
+output_dir  <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/GTEx_v10/GWAS_plots"
 cohort_script <- file.path(script_dir, "generate_cohort_manhattan.R")
 
 dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)

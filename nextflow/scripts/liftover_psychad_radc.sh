@@ -20,7 +20,7 @@
 # ============================================================================
 set -euo pipefail
 
-PROJECT="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+PROJECT="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 COHORT="PsychAD_RADC_snRNA"
 IN_DIR="${PROJECT}/results/sn_psychad_radc_hodge/regenie_step2"
 OUT_DIR="${PROJECT}/results/sn_psychad_radc_hodge/regenie_step2_hg19"
@@ -29,7 +29,6 @@ CHAIN="${PROJECT}/reference_data/hg38ToHg19.over.chain.gz"
 SCRIPT="${PROJECT}/scripts/liftover_sumstats.py"
 
 # Activate env with pyliftover
-source /nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh
 conda activate test
 
 mkdir -p "${OUT_DIR}" "${LOG_DIR}"

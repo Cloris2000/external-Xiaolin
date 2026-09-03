@@ -18,7 +18,7 @@
 
 set -euo pipefail
 
-BCFTOOLS="${BCFTOOLS:-/nethome/kcni/xzhou/.anaconda3/envs/bcftools_env/bin/bcftools}"
+BCFTOOLS="${BCFTOOLS:-/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools}"
 HBCC_BASE="/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Imputed/HBCC"
 BASE_OUT="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed"
 CHROMS=$(seq 1 22)

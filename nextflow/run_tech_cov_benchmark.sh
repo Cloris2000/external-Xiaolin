@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Override PROJECT_DIR or NEXTFLOW_BIN via env for portability (e.g. when cloning repo elsewhere).
-PROJECT_DIR="${NEXTFLOW_BENCHMARK_PROJECT_DIR:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow}"
-NEXTFLOW_BIN="${NEXTFLOW_BIN:-/nethome/kcni/xzhou/.local/bin/nextflow}"
+PROJECT_DIR="${NEXTFLOW_BENCHMARK_PROJECT_DIR:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow}"
+NEXTFLOW_BIN="${NEXTFLOW_BIN:-nextflow}"
 WORK_ROOT="${PROJECT_DIR}/work_benchmark_tech_cov"
 
 export JAVA_HOME="$HOME/.sdkman/candidates/java/current"

@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=plot_meta_13cohorts
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --output=logs/plot_meta_13cohorts_%j.out
 #SBATCH --error=logs/plot_meta_13cohorts_%j.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 
 echo "================================================"
 echo "Generating Plots for 13-Cohort Meta-Analysis"
@@ -17,7 +18,7 @@ echo "Output dir: ${NF_DIR}/results/meta_analysis_13cohorts/plots"
 echo "================================================"
 echo ""
 
-/nethome/kcni/xzhou/.anaconda3/envs/test/bin/Rscript \
+/home/zhoux156/miniforge3/envs/test/bin/Rscript \
     ${NF_DIR}/scripts/plot_meta_results.R \
     --results_dir ${NF_DIR}/results/meta_analysis_13cohorts \
     --output_dir ${NF_DIR}/results/meta_analysis_13cohorts/plots \

@@ -837,7 +837,7 @@ def main():
                        help='QC step to execute')
     parser.add_argument('--study', required=True, help='Study name')
     parser.add_argument('--chromosome', type=str, help='Chromosome number (for create_pgen_single_chr)')
-    parser.add_argument('--plink_path', default='/external/rprshnas01/kcni/mwainberg/software/plink2',
+    parser.add_argument('--plink_path', default='/project/rrg-shreejoy/pipeline_refs/tools/plink2',
                        help='Path to plink2')
     parser.add_argument('--bcftools_path', default='/external/rprshnas01/netdata_kcni/stlab/Xiaolin/software/bcftools-1.12/bcftools',
                        help='Path to bcftools')

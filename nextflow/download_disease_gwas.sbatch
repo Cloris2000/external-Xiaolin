@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --output=logs/coloc/dl_gwas_%A_%a.out
 #SBATCH --error=logs/coloc/dl_gwas_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # Download all disease GWAS in parallel (one SLURM task per dataset).
 # Usage: sbatch download_disease_gwas.sbatch
@@ -13,11 +14,11 @@
 
 set -euo pipefail
 
-PROJECT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+PROJECT_DIR="$NF_DIR"
 OUTDIR="$PROJECT_DIR/results/coloc/disease_gwas"
 mkdir -p logs/coloc "$OUTDIR"
 
-export PATH="/nethome/kcni/xzhou/.anaconda3/bin:$PATH"
 
 # ---------------------------------------------------------------------------
 # Dataset definitions: NAME | RAW_FILE | URL | N | Ncase | Ncont | FORMAT

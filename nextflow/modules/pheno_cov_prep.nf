@@ -32,10 +32,10 @@ process PHENO_COV_PREP {
         export xml_catalog_files_libxml2="${xml_catalog_files_libxml2:-}"
         # Initialize conda with error suppression
         set +u
-        if [ -f "$HOME/.anaconda3/etc/profile.d/conda.sh" ]; then
-            source "$HOME/.anaconda3/etc/profile.d/conda.sh" 2>/dev/null || true
-        elif [ -f "/nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh" ]; then
-            source "/nethome/kcni/xzhou/.anaconda3/etc/profile.d/conda.sh" 2>/dev/null || true
+        if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+            source "$HOME/miniforge3/etc/profile.d/conda.sh" 2>/dev/null || true
+        elif [ -f "/home/zhoux156/miniforge3/etc/profile.d/conda.sh" ]; then
+            source "/home/zhoux156/miniforge3/etc/profile.d/conda.sh" 2>/dev/null || true
         elif [ -f "$(conda info --base 2>/dev/null)/etc/profile.d/conda.sh" ]; then
             source "$(conda info --base)/etc/profile.d/conda.sh" 2>/dev/null || true
         fi

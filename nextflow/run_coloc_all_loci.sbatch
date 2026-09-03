@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --output=logs/coloc/coloc_full_%A_%a.out
 #SBATCH --error=logs/coloc/coloc_full_%A_%a.err
+#SBATCH --account=rrg-shreejoy
 
 # Colocalize ALL suggestive loci (p < 1e-5) using full 500 kb windows.
 # Differences from run_coloc.sbatch:
@@ -23,10 +24,9 @@
 
 set -euo pipefail
 
-export R_LIBS="/external/rprshnas01/kcni/xzhou/.anaconda3/lib/R/library"
-export PATH="/nethome/kcni/xzhou/.anaconda3/bin:$PATH"
 
-PROJECT_DIR="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+PROJECT_DIR="$NF_DIR"
 RESULTS_DIR="$PROJECT_DIR/results/meta_analysis_15cohorts"
 COLOC_LOCI_DIR="$PROJECT_DIR/results/coloc/loci_full"
 COLOC_RES_DIR="$PROJECT_DIR/results/coloc/coloc_results_full"

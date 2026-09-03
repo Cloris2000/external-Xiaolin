@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-cd /external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+cd /project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
 
 RESULTS_DIR="results/tech_cov_policy/no_tech_except_rosmap_libprep/ROSMAP/regenie_step2"
 OUT_DIR="results/tech_cov_policy/no_tech_except_rosmap_libprep/ROSMAP/manhattan_plots"

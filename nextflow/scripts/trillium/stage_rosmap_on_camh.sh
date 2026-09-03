@@ -10,11 +10,11 @@
 
 set -euo pipefail
 
-STAGE="${STAGE:-/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/data_input/trillium_staging/ROSMAP}"
+STAGE="${STAGE:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/data_input/trillium_staging/ROSMAP}"
 EXT_META="/external/rprshnas01/external_data/rosmap/metadata"
 TOPMED_VCF="/external/rprshnas01/external_data/rosmap/genotype/TOPmed_imputed/vcf"
 BIOSPEC="/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv"
-ARRAY_RESULTS="/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/ROSMAP_array"
+ARRAY_RESULTS="/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/ROSMAP_array"
 
 STAGE_META=1
 STAGE_TOPMED=1

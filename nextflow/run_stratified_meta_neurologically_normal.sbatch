@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=meta_strat_ctrl
-#SBATCH --partition=medium
+#SBATCH --partition=compute
 #SBATCH --time=4:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
 #SBATCH --output=logs/meta_sensitivity/stratified_neurologically_normal_%j.out
 #SBATCH --error=logs/meta_sensitivity/stratified_neurologically_normal_%j.err
+#SBATCH --account=rrg-shreejoy
 
-NF_DIR=/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
 mkdir -p "${NF_DIR}/logs/meta_sensitivity"
 cd "${NF_DIR}"
 

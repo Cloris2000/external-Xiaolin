@@ -32,7 +32,7 @@ suppressPackageStartupMessages({
 })
 
 # ── paths ────────────────────────────────────────────────────────────────────
-ROOT        <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow"
+ROOT        <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
 COLOC_FILE  <- file.path(ROOT, "results/coloc/full/coloc_all_results.tsv")
 LOCI_DIR    <- file.path(ROOT, "results/coloc/loci_full")
 DISEASE_DIR <- file.path(ROOT, "results/coloc/disease_gwas")

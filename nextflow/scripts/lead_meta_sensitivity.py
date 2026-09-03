@@ -18,7 +18,7 @@ import math
 from pathlib import Path
 from collections import defaultdict
 
-ROOT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+ROOT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 COH  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_lead_cohort_effects.tsv"
 HET  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_lead_het_stats.tsv"
 OUT  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/lead_meta_sensitivity.tsv"

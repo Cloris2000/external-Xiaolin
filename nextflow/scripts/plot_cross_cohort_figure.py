@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.lines import Line2D
 
-ROOT = Path("/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow")
+ROOT = Path("/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow")
 EFF  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_lead_effects.tsv"
 HET  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_lead_het_stats.tsv"
 COH  = ROOT / "results/meta_sensitivity/ancestry_lead_effects/ancestry_lead_cohort_effects.tsv"

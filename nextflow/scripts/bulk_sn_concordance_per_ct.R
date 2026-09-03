@@ -35,8 +35,8 @@ ct_map <- c(
   # IT, L4.IT, L5.6.IT.Car3, Microglia, PAX6, Pericyte have no sn match
 )
 
-BULK_DIR <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_15cohorts"
-SN_DIR   <- "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"
+BULK_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts"
+SN_DIR   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_sn_rosmap_msbb_hbcc_alias15"
 OUT_DIR  <- file.path(BULK_DIR, "concordance")
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 

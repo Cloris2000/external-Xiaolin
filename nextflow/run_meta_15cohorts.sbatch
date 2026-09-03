@@ -14,18 +14,14 @@
 
 set -euo pipefail
 
-NF_DIR=/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow
-SCC_DIR=/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow
-WORK_DIR=/scratch/zhoux156/nf_work/meta_15cohorts
+# NF_DIR, SCC_DIR, WORK_ROOT, the `test` conda env (R + python for the plot
+# stages) and NEXTFLOW_MODULE all come from here.
+source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+WORK_DIR="${WORK_ROOT}/meta_15cohorts"
 
-# Pin 25.10.2 to match the 25.10.0 used for the original run: Nextflow 26's config
-# parser is stricter and rejects the cross-reference style these configs rely on
-# (e.g. output_dir = "${base_dir}/...").
-module load nextflow/25.10.2
-
-# R (plot stages call `Rscript` bare) and python live in the imported `test` env.
-source "$HOME/miniforge3/etc/profile.d/conda.sh"
-conda activate test
+# Pinned to 25.10.2: Nextflow 26's config parser is stricter and rejects the
+# cross-reference style these configs rely on (e.g. output_dir = "${base_dir}/...").
+module load "${NEXTFLOW_MODULE}"
 
 mkdir -p "${NF_DIR}/run_dirs/meta_15cohorts/logs/meta_15cohorts" "${WORK_DIR}"
 cd "${NF_DIR}/run_dirs/meta_15cohorts"
