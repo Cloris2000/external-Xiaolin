@@ -26,8 +26,6 @@ process METAL_META_ANALYSIS {
     }.join('\n')
     
     """
-    mkdir -p ${output_dir}
-    
     # Add METAL to PATH
     export PATH="${metal_path}:\$PATH"
     
@@ -43,31 +41,34 @@ EFFECT BETA
 STDERR SE
 PVAL P
 ${process_commands}
-OUTFILE ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix} .tbl
+OUTFILE metal_out .tbl
 ANALYZE HETEROGENEITY
 QUIT
 EOF
 
     metal ${cell_type}_metal_script.txt
-    
-    # METAL OUTFILE + ANALYZE HETEROGENEITY writes prefix1.tbl (real data).
-    # A bare prefix.tbl can be empty; never pick size-0 or lexicographic head -1.
-    meta_output=\$(ls -S ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*1.tbl ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}.tbl 2>/dev/null | while read f; do [ -s "\$f" ] && echo "\$f" && break; done)
-    meta_info=\$(ls ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}*1.tbl.info ${output_dir}/${cell_type}_meta_analysis_${cohort_suffix}.tbl.info 2>/dev/null | head -1)
-    
-    if [ -z "\$meta_output" ]; then
-        echo "ERROR: METAL output file not found (or all empty) in ${output_dir}/" >&2
-        ls -la ${output_dir}/${cell_type}_meta_analysis* 2>/dev/null || echo "No files found matching pattern"
+
+    # METAL must write inside the task work directory, never straight into the
+    # publishDir: OUTFILE + ANALYZE HETEROGENEITY emits <prefix>1.tbl, so pointing
+    # it at the shared results dir left both <name>1.tbl and the published
+    # <name>.tbl there, and the old `ls -S` pick then resolved to whichever was
+    # biggest across ALL previous runs rather than the one just written. That is
+    # how the pre-liftover May 21 tables kept being re-published over later runs.
+    # Here the glob can only ever match this task's own output.
+    meta_output=\$(ls metal_out*.tbl 2>/dev/null | head -1)
+
+    if [ -z "\$meta_output" ] || [ ! -s "\$meta_output" ]; then
+        echo "ERROR: METAL produced no non-empty output for ${cell_type}" >&2
+        ls -la metal_out* 2>/dev/null || echo "No metal_out* files written"
         exit 1
     fi
     echo "Using METAL output: \$meta_output (\$(wc -c < "\$meta_output") bytes)"
-    
-    # Copy output files to work directory for Nextflow
-    cp "\$meta_output" ${cell_type}_meta_analysis_${cohort_suffix}.tbl
-    if [ -n "\$meta_info" ]; then
-        cp "\$meta_info" ${cell_type}_meta_analysis_${cohort_suffix}.tbl.info
+
+    mv "\$meta_output" ${cell_type}_meta_analysis_${cohort_suffix}.tbl
+    if [ -s "\$meta_output.info" ]; then
+        mv "\$meta_output.info" ${cell_type}_meta_analysis_${cohort_suffix}.tbl.info
     fi
-    
+
     touch ${cell_type}_meta.done
     """
 }
