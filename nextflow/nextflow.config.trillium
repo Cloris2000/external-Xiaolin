@@ -54,10 +54,17 @@ params {
 
 // One whole node, tasks scheduled locally against its cores/memory.
 // 767 GB physical; 700 GB leaves headroom for the JVM and page cache.
+//
+// queueSize must be set explicitly.  It defaults to Runtime.availableProcessors(),
+// which reports 1 inside a Trillium allocation even when the cgroup grants all 192
+// cores (verified: nproc=192, affinity 0-191, but Nextflow logs "CPUs: 1" and
+// "capacity=1").  Leaving it at the default makes the local executor run every task
+// sequentially, which turned the 19 METAL jobs into a ~80 minute serial chain.
 executor {
-    name   = 'local'
-    cpus   = 192
-    memory = '700 GB'
+    name      = 'local'
+    cpus      = 192
+    memory    = '700 GB'
+    queueSize = 24
 }
 
 process {

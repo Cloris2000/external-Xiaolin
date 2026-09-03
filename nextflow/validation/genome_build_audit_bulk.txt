@@ -1,0 +1,22 @@
+# Genome build audit of raw REGENIE output, 15 bulk cohorts (Astrocyte)
+# Generated 2026-09-02T21:57:44-04:00 by scripts/audit_genome_build.py
+#
+# hg38 cohorts must be listed in cohort_genome_builds so LIFTOVER_SUMSTATS runs.
+# ROSMAP_array was missing from that map, so harmonization treated its hg38
+# coordinates as hg19 and kept only 32,436 of 5,606,856 variants (99.4% loss).
+
+ROSMAP_Astrocyte_step2.regenie.raw_p            hg19      n=7,407,024  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+ROSMAP_array_Astrocyte_step2.regenie.raw_p      hg38      n=5,606,856  landmarks hg19=0/5 hg38=5/5  chroms_over_hg38_len=0
+Mayo_Astrocyte_step2.regenie.raw_p              hg19      n=7,388,554  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+MSBB_Astrocyte_step2.regenie.raw_p              hg19      n=7,766,246  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+CMC_MSSM_Astrocyte_step2.regenie.raw_p          hg19      n=5,449,104  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+CMC_PENN_Astrocyte_step2.regenie.raw_p          hg19      n=5,569,613  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+CMC_PITT_Astrocyte_step2.regenie.raw_p          hg19      n=5,684,085  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+GTEx_v10_Astrocyte_step2.regenie.raw_p          hg38      n=6,889,394  landmarks hg19=0/5 hg38=5/5  chroms_over_hg38_len=0
+NABEC_Astrocyte_step2.regenie.raw_p             hg19      n=5,515,224  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=4
+NIMH_HBCC_1M_Astrocyte_step2.regenie.raw_p      hg19      n=6,296,066  landmarks hg19=4/5 hg38=0/5  chroms_over_hg38_len=5
+NIMH_HBCC_h650_Astrocyte_step2.regenie.raw_p    hg19      n=6,000,036  landmarks hg19=4/5 hg38=0/5  chroms_over_hg38_len=5
+NIMH_HBCC_Omni5M_Astrocyte_step2.regenie.raw_p  hg19      n=6,182,605  landmarks hg19=5/5 hg38=0/5  chroms_over_hg38_len=5
+GVEX_Astrocyte_step2.regenie.raw_p              hg19      n=4,678,017  landmarks hg19=2/5 hg38=0/5  chroms_over_hg38_len=5
+AMP_AD_Rush_Astrocyte_step2.regenie.raw_p       hg38      n=9,172,633  landmarks hg19=0/5 hg38=5/5  chroms_over_hg38_len=0
+AMP_AD_Mayo_Astrocyte_step2.regenie.raw_p       hg38      n=8,491,071  landmarks hg19=0/5 hg38=5/5  chroms_over_hg38_len=0

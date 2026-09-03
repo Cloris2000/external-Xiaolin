@@ -1,0 +1,53 @@
+/*
+ * 15-cohort meta-analysis, corrected genome builds (Track B).
+ *
+ * Same 15 cohorts as nextflow.config.standalone_meta_15cohorts, with one fix:
+ * ROSMAP_array is declared hg38.
+ *
+ * Why: scripts/audit_genome_build.py over the raw REGENIE output shows four
+ * cohorts on hg38 (see validation/genome_build_audit_bulk.txt):
+ *
+ *     ROSMAP_array   landmarks hg19=0/5 hg38=5/5   n=5,606,856
+ *     GTEx_v10       landmarks hg19=0/5 hg38=5/5   n=6,889,394
+ *     AMP_AD_Rush    landmarks hg19=0/5 hg38=5/5   n=9,172,633
+ *     AMP_AD_Mayo    landmarks hg19=0/5 hg38=5/5   n=8,491,071
+ *
+ * but cohort_genome_builds declared only the last three.  ROSMAP_array's hg38
+ * coordinates were therefore harmonized as if they were hg19; because variant
+ * IDs are chr:pos:ref:alt, almost nothing matched the other cohorts and only
+ * 32,436 of 5,606,856 variants survived (99.4% loss).  ROSMAP_array contributed
+ * essentially nothing to the published meta-analysis.
+ *
+ * Liftover is verified: rs429358 moves from hg38 chr19:44,908,684 to hg19
+ * chr19:45,411,941, yielding chr19:45411941:T:C, which is exactly the ID ROSMAP
+ * WGS carries for that variant.
+ *
+ * This config re-harmonizes from raw REGENIE output rather than reusing the
+ * pre-harmonized CAMH files, which were built with the wrong build map.
+ *
+ * Run:
+ *   sbatch run_meta_15cohorts_hg38fix.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta_15cohorts'
+
+params {
+    // The pre-harmonized tree bakes in the ROSMAP_array mistake, so LIFTOVER_SUMSTATS
+    // and HARMONIZE_META_SUMSTATS have to run again from the raw REGENIE output under
+    // ${base_dir}/results (the SCC tree copied to Trillium).
+    pre_harmonized_input_dir = null
+
+    cohort_genome_builds = [
+        "GTEx_v10":     "hg38",
+        "AMP_AD_Rush":  "hg38",
+        "AMP_AD_Mayo":  "hg38",
+        "ROSMAP_array": "hg38"
+    ]
+
+    // Separate output tree so the replication (Track A) and corrected (Track B)
+    // results sit side by side and stay directly comparable.
+    output_dir               = "${results_root}/meta_analysis_15cohorts_hg38fix"
+    harmonized_output_dir    = "${results_root}/meta_analysis_15cohorts_hg38fix/harmonized"
+    audit_output_dir         = "${results_root}/meta_analysis_15cohorts_hg38fix/audit"
+    heterogeneity_output_dir = "${results_root}/meta_analysis_15cohorts_hg38fix/heterogeneity"
+}

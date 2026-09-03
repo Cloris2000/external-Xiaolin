@@ -3,7 +3,8 @@
 #SBATCH --account=rrg-shreejoy
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=192
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=192
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_ldsc_%j.out
 #SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_ldsc_%j.err

@@ -3,7 +3,8 @@
 #SBATCH --account=rrg-shreejoy
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=192
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=192
 #SBATCH --time=12:00:00
 #SBATCH --output=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_%j.out
 #SBATCH --error=/scratch/zhoux156/logs/meta_15cohorts/meta_15cohorts_%j.err
@@ -11,6 +12,11 @@
 # Trillium allocates whole nodes (SelectType=select/linear), so this job owns all
 # 192 cores and 767 GB and Nextflow schedules tasks locally inside the allocation.
 # Do not add --mem; node memory is allocated in full.
+#
+# The geometry has to be 1 task x 192 cpus, not 192 tasks: the batch step is
+# cgroup-limited to its own task's cores, so --ntasks-per-node=192 leaves this
+# script (and therefore Nextflow's local executor) pinned to a single core.
+# Nextflow then reports "capacity=1" and runs every cell type sequentially.
 
 set -euo pipefail
 
@@ -66,7 +72,8 @@ echo "All inputs present. Starting 15-cohort meta-analysis..."
 
 nextflow run ${NF_DIR}/standalone_meta_analysis.nf \
     -c ${NF_DIR}/nextflow.config.standalone_meta_15cohorts \
-    -work-dir ${WORK_DIR}
+    -work-dir ${WORK_DIR} \
+    -resume
 
 echo ""
 echo "15-cohort meta-analysis complete."

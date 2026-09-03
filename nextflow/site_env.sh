@@ -81,6 +81,11 @@ PYTHON="${PYTHON:-${CONDA_PREFIX}/bin/python}"
 # use (e.g. output_dir = "${base_dir}/..."), so the version is pinned.
 NEXTFLOW_MODULE="${NEXTFLOW_MODULE:-nextflow/25.10.2}"
 
+# Compute nodes have no outbound network, so Nextflow's "is there a newer
+# version?" check burns ~130 s on a curl timeout before every run.
+export NXF_DISABLE_CHECK_LATEST=true
+export CAPSULE_LOG=none
+
 export NF_DIR SCC_DIR SCC_ROOT REFS_ROOT DATA_ROOT
 export SCRATCH_ROOT WORK_ROOT RESULTS_ROOT LOG_ROOT PROJECT_RESULTS
 export SBATCH_ACCOUNT SBATCH_PARTITION NODE_CPUS
