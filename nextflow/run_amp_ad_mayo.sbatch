@@ -9,9 +9,9 @@
 #SBATCH --account=rrg-shreejoy
 
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+module load "${NEXTFLOW_MODULE}"
 cd ${NF_DIR}/run_dirs/AMP_AD_Mayo
 
 nextflow run ${NF_DIR}/combined_pipeline_v2.nf \
   -c ${NF_DIR}/nextflow.config.combined.amp_ad_mayo \
-  -work-dir ${NF_DIR}/work/AMP_AD_Mayo \
-  -resume d1057b0a-fa42-492b-a8c9-96aea00afedd
+  -work-dir ${WORK_ROOT}/AMP_AD_Mayo

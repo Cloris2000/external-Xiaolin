@@ -88,6 +88,122 @@ dir.create(file.path(opt$output_dir, "heatmap"),   showWarnings = FALSE, recursi
 GW   <- opt$gw_thresh
 SUGG <- opt$p_thresh
 
+# Heatmap helpers are defined here, above the aggregate-mode block below:
+# that block ends in quit(), so anything defined after it is never parsed when
+# --mode aggregate runs (PLOT_META_HEATMAP failed with "could not find function
+# make_cross_celltype_heatmap").  Definition order matters; do not move these down.
+
+# 3. CROSS-CELL-TYPE HEATMAP
+# ============================================================================
+# Collect top loci from all cell types, then plot -log10(P) matrix
+
+build_heatmap_matrix <- function(all_top, cell_types_used) {
+
+  # Cluster nearby variants into loci (1 Mb window)
+  all_top <- all_top %>%
+    arrange(CHROM, POS) %>%
+    mutate(locus = NA_character_)
+
+  loci   <- list()
+  prev_c <- -1L; prev_p <- -1L; locus_id <- 0L
+  for (i in seq_len(nrow(all_top))) {
+    c <- all_top$CHROM[i]; p <- all_top$POS[i]
+    if (c != prev_c || (p - prev_p) > 1e6) {
+      locus_id <- locus_id + 1L
+      all_top$locus[i] <- sprintf("chr%d:%d", c, round(p / 1e6))
+    } else {
+      all_top$locus[i] <- all_top$locus[i - 1]
+    }
+    prev_c <- c; prev_p <- p
+  }
+
+  # For each (locus, cell_type), take minimum P
+  mat_long <- all_top %>%
+    group_by(locus, cell_type) %>%
+    summarise(min_P = min(P, na.rm = TRUE), .groups = "drop")
+
+  # Pivot to wide matrix
+  mat <- mat_long %>%
+    pivot_wider(names_from = cell_type, values_from = min_P, values_fill = 1) %>%
+    column_to_rownames("locus")
+
+  # Keep columns in consistent order
+  mat <- mat[, intersect(cell_types_used, colnames(mat)), drop = FALSE]
+
+  # Convert to -log10(P)
+  log_mat <- -log10(as.matrix(mat))
+  log_mat[is.infinite(log_mat)] <- 0
+  log_mat
+}
+
+make_cross_celltype_heatmap <- function(all_data, out_dir) {
+
+  cat(sprintf("  Building cross-cell-type heatmap (p < %.0e)...\n", SUGG))
+
+  all_top <- all_data %>%
+    filter(P < SUGG, !is.na(CHROM))
+
+  if (nrow(all_top) == 0) {
+    cat("  No variants pass threshold — skipping heatmap\n")
+    return(invisible(NULL))
+  }
+
+  cat(sprintf("  %d variant×cell-type rows pass threshold\n", nrow(all_top)))
+
+  cell_types_used <- sort(unique(all_top$cell_type))
+  log_mat <- build_heatmap_matrix(all_top, cell_types_used)
+
+  n_loci <- nrow(log_mat)
+  cat(sprintf("  %d loci in heatmap\n", n_loci))
+
+  # Determine height: scale with number of loci, floor at 5 inches
+  h <- max(5, min(0.25 * n_loci + 3, 40))
+
+  breaks <- seq(0, max(log_mat, na.rm = TRUE) + 0.1, length.out = 101)
+  colors <- colorRampPalette(c("white", "#C6DBEF", "#2171B5", "#084594", "#08306B"))(100)
+
+  # Annotation: number of cell types with p < gw_thresh per locus
+  row_ann <- data.frame(
+    GW_sig_cell_types = rowSums(log_mat >= -log10(GW)),
+    row.names = rownames(log_mat)
+  )
+  ann_colors <- list(
+    GW_sig_cell_types = colorRampPalette(c("white", "#FD8D3C", "#D94701"))(
+      max(row_ann$GW_sig_cell_types) + 1)
+  )
+
+  out_file <- file.path(out_dir, "heatmap", "cross_celltype_heatmap.png")
+  png(out_file, width = max(2400, 200 * length(cell_types_used)),
+      height = max(1800, 40 * n_loci + 400), res = 200)
+  pheatmap(
+    log_mat,
+    color            = colors,
+    breaks           = breaks,
+    cluster_rows     = n_loci > 2,
+    cluster_cols     = TRUE,
+    annotation_row   = row_ann,
+    annotation_colors = ann_colors,
+    fontsize_row     = max(4, min(9, 200 / n_loci)),
+    fontsize_col     = 9,
+    border_color     = NA,
+    main             = sprintf(
+      "Cross-cell-type meta-analysis signal  (−log₁₀P, threshold p<%.0e)", SUGG),
+    legend_breaks    = c(0, 3, 5, 7.3, max(log_mat, na.rm = TRUE)),
+    legend_labels    = c("0", "p<1e-3", "p<1e-5", "p<5e-8",
+                         sprintf("%.1f", max(log_mat, na.rm = TRUE)))
+  )
+  dev.off()
+  cat(sprintf("  Saved heatmap: %s\n", out_file))
+
+  # Also save the underlying table
+  tbl_out <- as.data.frame(log_mat) %>%
+    tibble::rownames_to_column("locus") %>%
+    arrange(desc(rowMeans(across(where(is.numeric)))))
+  write.table(tbl_out,
+              file = file.path(out_dir, "heatmap", "cross_celltype_matrix.tsv"),
+              sep = "\t", quote = FALSE, row.names = FALSE)
+}
+
 # ---- Aggregate mode: read intermediate TSVs and produce cross-CT plots ------
 if (opt$mode == "aggregate") {
   cat("=== Aggregate mode: building cross-cell-type plots from intermediate files ===\n")
@@ -311,116 +427,6 @@ make_het_histogram <- function(df, cell_type, out_dir) {
 }
 
 # ============================================================================
-# 3. CROSS-CELL-TYPE HEATMAP
-# ============================================================================
-# Collect top loci from all cell types, then plot -log10(P) matrix
-
-build_heatmap_matrix <- function(all_top, cell_types_used) {
-
-  # Cluster nearby variants into loci (1 Mb window)
-  all_top <- all_top %>%
-    arrange(CHROM, POS) %>%
-    mutate(locus = NA_character_)
-
-  loci   <- list()
-  prev_c <- -1L; prev_p <- -1L; locus_id <- 0L
-  for (i in seq_len(nrow(all_top))) {
-    c <- all_top$CHROM[i]; p <- all_top$POS[i]
-    if (c != prev_c || (p - prev_p) > 1e6) {
-      locus_id <- locus_id + 1L
-      all_top$locus[i] <- sprintf("chr%d:%d", c, round(p / 1e6))
-    } else {
-      all_top$locus[i] <- all_top$locus[i - 1]
-    }
-    prev_c <- c; prev_p <- p
-  }
-
-  # For each (locus, cell_type), take minimum P
-  mat_long <- all_top %>%
-    group_by(locus, cell_type) %>%
-    summarise(min_P = min(P, na.rm = TRUE), .groups = "drop")
-
-  # Pivot to wide matrix
-  mat <- mat_long %>%
-    pivot_wider(names_from = cell_type, values_from = min_P, values_fill = 1) %>%
-    column_to_rownames("locus")
-
-  # Keep columns in consistent order
-  mat <- mat[, intersect(cell_types_used, colnames(mat)), drop = FALSE]
-
-  # Convert to -log10(P)
-  log_mat <- -log10(as.matrix(mat))
-  log_mat[is.infinite(log_mat)] <- 0
-  log_mat
-}
-
-make_cross_celltype_heatmap <- function(all_data, out_dir) {
-
-  cat(sprintf("  Building cross-cell-type heatmap (p < %.0e)...\n", SUGG))
-
-  all_top <- all_data %>%
-    filter(P < SUGG, !is.na(CHROM))
-
-  if (nrow(all_top) == 0) {
-    cat("  No variants pass threshold — skipping heatmap\n")
-    return(invisible(NULL))
-  }
-
-  cat(sprintf("  %d variant×cell-type rows pass threshold\n", nrow(all_top)))
-
-  cell_types_used <- sort(unique(all_top$cell_type))
-  log_mat <- build_heatmap_matrix(all_top, cell_types_used)
-
-  n_loci <- nrow(log_mat)
-  cat(sprintf("  %d loci in heatmap\n", n_loci))
-
-  # Determine height: scale with number of loci, floor at 5 inches
-  h <- max(5, min(0.25 * n_loci + 3, 40))
-
-  breaks <- seq(0, max(log_mat, na.rm = TRUE) + 0.1, length.out = 101)
-  colors <- colorRampPalette(c("white", "#C6DBEF", "#2171B5", "#084594", "#08306B"))(100)
-
-  # Annotation: number of cell types with p < gw_thresh per locus
-  row_ann <- data.frame(
-    GW_sig_cell_types = rowSums(log_mat >= -log10(GW)),
-    row.names = rownames(log_mat)
-  )
-  ann_colors <- list(
-    GW_sig_cell_types = colorRampPalette(c("white", "#FD8D3C", "#D94701"))(
-      max(row_ann$GW_sig_cell_types) + 1)
-  )
-
-  out_file <- file.path(out_dir, "heatmap", "cross_celltype_heatmap.png")
-  png(out_file, width = max(2400, 200 * length(cell_types_used)),
-      height = max(1800, 40 * n_loci + 400), res = 200)
-  pheatmap(
-    log_mat,
-    color            = colors,
-    breaks           = breaks,
-    cluster_rows     = n_loci > 2,
-    cluster_cols     = TRUE,
-    annotation_row   = row_ann,
-    annotation_colors = ann_colors,
-    fontsize_row     = max(4, min(9, 200 / n_loci)),
-    fontsize_col     = 9,
-    border_color     = NA,
-    main             = sprintf(
-      "Cross-cell-type meta-analysis signal  (−log₁₀P, threshold p<%.0e)", SUGG),
-    legend_breaks    = c(0, 3, 5, 7.3, max(log_mat, na.rm = TRUE)),
-    legend_labels    = c("0", "p<1e-3", "p<1e-5", "p<5e-8",
-                         sprintf("%.1f", max(log_mat, na.rm = TRUE)))
-  )
-  dev.off()
-  cat(sprintf("  Saved heatmap: %s\n", out_file))
-
-  # Also save the underlying table
-  tbl_out <- as.data.frame(log_mat) %>%
-    tibble::rownames_to_column("locus") %>%
-    arrange(desc(rowMeans(across(where(is.numeric)))))
-  write.table(tbl_out,
-              file = file.path(out_dir, "heatmap", "cross_celltype_matrix.tsv"),
-              sep = "\t", quote = FALSE, row.names = FALSE)
-}
 
 # ============================================================================
 # MAIN — iterate over cell types
@@ -450,10 +456,23 @@ for (ct in cell_types) {
   het_info <- make_het_histogram(df, ct, opt$output_dir)
   if (!is.null(het_info)) het_stats_list[[ct]] <- het_info
 
-  # -- Collect top hits for heatmap (written to intermediate TSV below)
+  # -- Collect top hits for heatmap (written to intermediate TSV below).
+  #    Alleles are carried along: REF/ALT from the ID, and METAL's Allele1 is the
+  #    effect allele (REF or ALT depending on METAL's canonical sort), with the
+  #    effect re-expressed for ALT so all rows share one frame.
   all_data_list[[ct]] <- df %>%
     filter(P < SUGG) %>%
-    dplyr::select(cell_type, CHROM, POS, P)
+    mutate(
+      EFFECT_ALLELE    = toupper(Allele1),
+      EFFECT_ALLELE_IS = dplyr::case_when(EFFECT_ALLELE == toupper(ALT) ~ "ALT",
+                                          EFFECT_ALLELE == toupper(REF) ~ "REF",
+                                          TRUE ~ "UNMATCHED"),
+      BETA_ALT = dplyr::case_when(EFFECT_ALLELE_IS == "ALT" ~ as.numeric(Effect),
+                                  EFFECT_ALLELE_IS == "REF" ~ -as.numeric(Effect),
+                                  TRUE ~ NA_real_)
+    ) %>%
+    dplyr::select(cell_type, CHROM, POS, P, ID, REF, ALT, EFFECT_ALLELE, EFFECT_ALLELE_IS,
+                  Effect, BETA_ALT, Freq1)
 
   # Explicit cleanup for very large tables
   rm(df)
@@ -481,7 +500,10 @@ if (length(all_data_list) > 0) {
   } else {
     # Write empty file with correct header so aggregate job doesn't fail
     write.table(data.frame(cell_type = character(), CHROM = integer(),
-                           POS = numeric(), P = numeric()),
+                           POS = numeric(), P = numeric(), ID = character(),
+                           REF = character(), ALT = character(),
+                           EFFECT_ALLELE = character(), EFFECT_ALLELE_IS = character(),
+                           Effect = numeric(), BETA_ALT = numeric(), Freq1 = numeric()),
                 file.path(opt$output_dir, paste0(cell_types[1], "_top_hits.tsv")),
                 sep = "\t", quote = FALSE, row.names = FALSE)
   }

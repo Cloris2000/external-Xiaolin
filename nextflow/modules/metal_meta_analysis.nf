@@ -19,6 +19,36 @@ process METAL_META_ANALYSIS {
     publishDir "${output_dir}", mode: 'copy', overwrite: true
     
     script:
+    // METAL allele/frequency orientation -- do not "restore" the old lines.
+    //
+    // REGENIE's effect allele is ALLELE1 (ALT): BETA is per-copy of ALLELE1 and
+    // A1FREQ is ALLELE1's frequency.  METAL's directive is
+    //     ALLELE <allele the EFFECT/FREQ columns describe> <other allele>
+    // so ALLELE1 must come first.
+    //
+    // This block previously read "ALLELE ALLELE0 ALLELE1" plus "FLIP OFF".  Two
+    // bugs, verified against this METAL build (2011-03-25) on toy and real data:
+    //
+    //   1. The allele order was reversed.
+    //   2. This build has no OFF argument for FLIP; it matches the FLIP keyword
+    //      and prints "## All effects will be flipped".  "FLIP OFF" turned
+    //      flipping ON.
+    //
+    // The two cancelled for EFFECT (reversed order, then flipped back) but not
+    // for FREQ, which FLIP does not touch.  So past runs carried correct effect
+    // sizes, p-values and heterogeneity, but Freq1/MinFreq/MaxFreq were reported
+    // as 1-AF.  Single-cohort identity test on real chr1 data under the settings
+    // below: 162,728/162,728 variants exact on both frequency and effect.
+    // Re-running a 3-cohort meta with this fix leaves Allele1, P-value and Effect
+    // byte-identical for all 230,464 variants and complements Freq1 for 230,437.
+    //
+    // Note that METAL also applies an internal canonical allele sort before
+    // writing (statgen/METAL issue #9): output pairs are only ever A/C, A/G, A/T,
+    // C/G, T/C, T/G, and Allele1 is NOT necessarily the allele named first here.
+    // When it reorders, it flips Effect and Freq1 to match, so the table stays
+    // self-consistent -- but any downstream code must read the effect allele from
+    // the Allele1 column rather than assuming it is the ALT of MarkerName.
+    //
     // Create METAL script - raw_p_files is a tuple, need to convert to list
     def file_list = raw_p_files instanceof List ? raw_p_files : [raw_p_files]
     def process_commands = file_list.collect { file ->
@@ -33,9 +63,8 @@ process METAL_META_ANALYSIS {
 SCHEME STDERR
 AVERAGEFREQ ON
 MINMAXFREQ ON
-FLIP OFF
 MARKER ID
-ALLELE ALLELE0 ALLELE1
+ALLELE ALLELE1 ALLELE0
 FREQ A1FREQ
 EFFECT BETA
 STDERR SE

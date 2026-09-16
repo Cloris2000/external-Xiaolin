@@ -627,6 +627,17 @@ def standard_qc(args):
     # eliminates those variant-level missing sites, then --mind correctly
     # reflects true per-sample call rates.
 
+    # --rm-dup exclude-all: plink2 refuses --write-snplist when the merged pgen
+    # carries duplicate variant IDs ("--write-snplist normally shouldn't be used
+    # with duplicate variant IDs"), which aborts standard QC.  Duplicates arise
+    # when the source VCF holds repeated POS:REF:ALT records: NABEC's recovered
+    # chr1 has 27 (the truncated chr1 hid them; the old pgen had 7 genome-wide),
+    # giving 50 duplicated IDs across the genome.  exclude-all drops every copy
+    # rather than keeping an arbitrary one, so no genotype is taken from the
+    # wrong record; it matches what ld_pruning() below already does, and the
+    # variants dropped are <0.001% of the cohort.
+    dedup = ' --rm-dup exclude-all'
+
     # Pass 1: variant-level QC (--geno, --maf, --hwe) — produces a snplist
     pass1_prefix = f'{qc_prefix}.pass1'
     plink_cmd_pass1 = plink_cmd  # already has --keep if needed
@@ -635,7 +646,7 @@ def standard_qc(args):
     plink_cmd_pass1 += f' --geno {args.geno_threshold}'
     if args.mach_r2_filter:
         pass  # already added above
-    plink_cmd_pass1 += f' --write-snplist --make-just-fam --out {pass1_prefix}'
+    plink_cmd_pass1 += f'{dedup} --write-snplist --make-just-fam --out {pass1_prefix}'
     run(plink_cmd_pass1)
 
     # Pass 2: sample-level QC (--mind) using the pass-1 snplist
@@ -648,7 +659,7 @@ def standard_qc(args):
         pass2_base += f' --keep {keep_file_p2}'
     pass2_base += f' --extract {pass1_snplist}'
     pass2_base += f' --mind {args.mind_threshold}'
-    pass2_base += f' --write-snplist --make-just-fam --out {qc_prefix}'
+    pass2_base += f'{dedup} --write-snplist --make-just-fam --out {qc_prefix}'
     run(pass2_base)
     
     # Copy QC files to output directory if specified (useful for debugging)

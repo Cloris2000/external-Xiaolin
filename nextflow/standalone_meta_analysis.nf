@@ -25,6 +25,7 @@ include { META_COHORT_AUDIT }            from './modules/meta_cohort_audit.nf'
 include { LIFTOVER_SUMSTATS }            from './modules/liftover_sumstats.nf'
 include { HARMONIZE_META_SUMSTATS }      from './modules/harmonize_meta_sumstats.nf'
 include { METAL_META_ANALYSIS }          from './modules/metal_meta_analysis.nf'
+include { ANNOTATE_META_ALLELES }        from './modules/annotate_meta_alleles.nf'
 include { PLOT_META_RESULTS }            from './modules/plot_meta_results.nf'
 include { PLOT_META_HEATMAP }            from './modules/plot_meta_heatmap.nf'
 include { SUMMARIZE_META_HETEROGENEITY } from './modules/summarize_meta_heterogeneity.nf'
@@ -170,6 +171,20 @@ workflow {
             tuple(cell_type, file_list, params.metal_path, params.output_dir, cohort_suffix)
         }
     METAL_META_ANALYSIS(metal_input)
+
+    // ------------------------------------------------------------------ //
+    // Stage 3a: explicit REF/ALT + effect-allele columns next to each .tbl
+    // (<name>.annotated.tsv; the .tbl itself is unchanged).  On by default;
+    // set annotate_alleles = false to skip.
+    // ------------------------------------------------------------------ //
+    if (params.annotate_alleles == null || params.annotate_alleles) {
+        METAL_META_ANALYSIS.out.meta_result_keyed
+            .map { cell_type, tbl ->
+                tuple(cell_type, tbl,
+                      file("${projectDir}/scripts/annotate_meta_alleles.py"),
+                      params.output_dir)
+            } | ANNOTATE_META_ALLELES
+    }
 
     // ------------------------------------------------------------------ //
     // Stage 3b: Post-meta heterogeneity summary for MR-MEGA triage

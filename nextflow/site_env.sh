@@ -56,6 +56,7 @@ NODE_CPUS="${NODE_CPUS:-192}"
 # Conda environment imported from the SCC.  Supplies R 4.4.3 (data.table, dplyr,
 # tidyr, optparse, ggplot2, cowplot, qqman, coloc, susieR, topr) and Python 3.11.
 # Do not switch this to r_env, which is a separate, less complete environment.
+# Adding packages: use mamba, never conda (scripts/install_test_env_r_packages.sh).
 CONDA_ENV="${CONDA_ENV:-test}"
 CONDA_ROOT="${CONDA_ROOT:-$HOME/miniforge3}"
 

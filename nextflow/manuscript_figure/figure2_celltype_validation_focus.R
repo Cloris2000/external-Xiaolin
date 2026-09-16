@@ -5,8 +5,9 @@
 #   A — Validation scatter plots for VIP, L5.6.IT.Car3, Microglia  (top row)
 #   B — All-cell-type Pearson r bar plot, mean ± SD across cohorts  (bottom row)
 #
-# Validation cohorts: ROSMAP, HBCC, MSBB — paired to Hodge label-transferred
-# snRNA-seq proportions (unified 19-subclass taxonomy matching bulk MGP).
+# Validation cohorts: ROSMAP, HBCC, MSBB, Mathys, Ruzicka — paired to Hodge
+# label-transferred snRNA-seq proportions (unified 19-subclass taxonomy
+# matching bulk MGP).
 # Layout: A on top (accuracy) / B on bottom (scatter grid)
 #
 # Output:
@@ -20,8 +21,16 @@
 # =============================================================================
 
 DATA_DIR    <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow"
-RESULTS_DIR <- file.path(DATA_DIR, "results")
-OUT_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+# SCC results: snRNA bridge/crosswalk tables that only exist there.
+SCC_RESULTS_DIR <- file.path(DATA_DIR, "results")
+# Bulk cohort outputs (cell_proportions.csv, metadata_cleaned.csv).  Default = SCC;
+# MF_BULK_RESULTS_DIR points the v2 figures at the re-run cohorts on scratch.
+RESULTS_DIR <- Sys.getenv("MF_BULK_RESULTS_DIR", SCC_RESULTS_DIR)
+OUT_DIR     <- Sys.getenv(
+  "FIG2_OUT_DIR",
+  unset = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+)
+dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 COHORT_LIST <- c(
   "ROSMAP", "ROSMAP_array",
@@ -49,29 +58,20 @@ VALID_PAIRED_FILE <- NULL
 HODGE_SN_DIR <- file.path(DATA_DIR, "data/snRNAseq_hodge_label_cell_prop")
 
 # --- ROSMAP ---
-# Join: bulk syn* → provenance specimenID → meta individualID (R#######) → sn
+# Join: bulk syn* → metadata_cleaned specimenID → RNA meta individualID (R#######) → sn
 ROSMAP_BULK_FILE  <- file.path(RESULTS_DIR, "ROSMAP", "cell_proportions.csv")
 ROSMAP_SN_FILE    <- file.path(HODGE_SN_DIR, "rosmap_green_cell_proportions_qc.csv")
 ROSMAP_META_FILE  <- paste0(
   "/project/rrg-shreejoy/zhoux156/HBCC_ROSMAP_MSBB_bulkRNAseq/rosmap/metadata/",
   "RNAseq_Harmonization_ROSMAP_combined_metadata.csv")
-# Provenance tables (syn* barcode → specimenID) — transferred with the nextflow
-# working directory; expected under DATA_DIR/data/rosmap_provenance/ or the
-# Synapse download location below. Update if your copy lives elsewhere.
-ROSMAP_PROV_DIR   <- file.path(DATA_DIR,
-  "data/rosmap_provenance/Rosmap_Gene_Quantification")
-ROSMAP_PROV_FILES <- c(
-  file.path(ROSMAP_PROV_DIR, "Rosmap_Batch1_Stranded/ROSMAP_batch1_provenance.csv"),
-  file.path(ROSMAP_PROV_DIR, "Rosmap_Batch2_Stranded/ROSMAP_batch2_provenance.csv"),
-  file.path(ROSMAP_PROV_DIR, "Rosmap_Batch3_Stranded/ROSMAP_batch3_provenance.csv"),
-  file.path(ROSMAP_PROV_DIR, "Rosmap_Batch4_Stranded/ROSMAP_batch4_provenance.csv")
-)
+# Pipeline-cleaned ROSMAP metadata: synapseID (syn*) ↔ specimenID
+ROSMAP_CLEANED_META <- file.path(RESULTS_DIR, "ROSMAP", "metadata_cleaned.csv")
 
 # --- HBCC ---
 # Join: sn AMPAD_HBCC → CMC_HBCC (crosswalk) → RNA map → bulk
 HBCC_BULK_FILE      <- file.path(RESULTS_DIR, "NIMH_HBCC_1M", "cell_proportions.csv")
 HBCC_SN_FILE        <- file.path(HODGE_SN_DIR, "psychad_hbcc_cell_proportions_qc.csv")
-HBCC_MAP_FILE       <- file.path(DATA_DIR, "data_input/nimh_hbcc/HBCC_rna_wgs_id_mapping.csv")
+HBCC_MAP_FILE       <- "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_rna_wgs_id_mapping.csv"
 HBCC_CROSSWALK_FILE <- file.path(DATA_DIR, "data_input/sn_hbcc/ampad_to_cmc_crosswalk.csv")
 
 # --- MSBB ---
@@ -81,7 +81,7 @@ MSBB_SN_FILE     <- file.path(HODGE_SN_DIR, "psychad_mssm_cell_proportions_qc.cs
 MSBB_RNA_META    <- paste0(
   "/project/rrg-shreejoy/zhoux156/HBCC_ROSMAP_MSBB_bulkRNAseq/msbb/metadata/",
   "RNAseq_Harmonization_MSBB_combined_metadata.csv")
-MSBB_BRIDGE_FILE <- file.path(RESULTS_DIR, "MSBB_sn/msbb_sn_wgs_bridge_224.tsv")
+MSBB_BRIDGE_FILE <- file.path(SCC_RESULTS_DIR, "MSBB_sn/msbb_sn_wgs_bridge_224.tsv")
 
 # --- MATHYS (ROSMAP Mathys Hodge label-transferred) ---
 # Join: same ROSMAP bulk + provenance as the ROSMAP section; only the snRNA file differs.
@@ -89,7 +89,7 @@ MSBB_BRIDGE_FILE <- file.path(RESULTS_DIR, "MSBB_sn/msbb_sn_wgs_bridge_224.tsv")
 # build_mathys_proportions.py; individual IDs are R* (same ROSMAP namespace).
 MATHYS_SN_FILE <- file.path(DATA_DIR,
   "data_input/sn_rosmap_mathys_hodge_wgs/cell_proportions.csv")
-# ROSMAP_BULK_FILE, ROSMAP_PROV_FILES, ROSMAP_META_FILE reused from the ROSMAP block above.
+# ROSMAP_BULK_FILE, ROSMAP_CLEANED_META, ROSMAP_META_FILE reused from the ROSMAP block above.
 
 # --- RUZICKA (CMC MSSM / Ruzicka et al. 2024) ---
 # Join: direct individual_id match — Ruzicka snRNA uses CMC_MSSM_NNN IDs that
@@ -370,12 +370,10 @@ if (!is.null(VALID_PAIRED_FILE) && file.exists(VALID_PAIRED_FILE)) {
 # --- ROSMAP ---
 cat("  Auto-generating ROSMAP...\n")
 tryCatch({
-  prov_exist <- file.exists(ROSMAP_PROV_FILES)
-  if (!any(prov_exist)) stop("No ROSMAP provenance files found.")
-  prov <- dplyr::bind_rows(lapply(ROSMAP_PROV_FILES[prov_exist],
-    function(f) readr::read_csv(f, show_col_types = FALSE)))
-  prov_link <- prov %>%
-    dplyr::select(synapse_id = id, specimen_id = specimenID) %>%
+  if (!file.exists(ROSMAP_CLEANED_META))
+    stop("ROSMAP metadata_cleaned.csv not found: ", ROSMAP_CLEANED_META)
+  prov_link <- readr::read_csv(ROSMAP_CLEANED_META, show_col_types = FALSE) %>%
+    dplyr::select(synapse_id = synapseID, specimen_id = specimenID) %>%
     dplyr::distinct(synapse_id, .keep_all = TRUE)
   # Hodge rosmap_green uses meta individualID (R#######), not projid
   meta_r <- readr::read_csv(ROSMAP_META_FILE, show_col_types = FALSE) %>%
@@ -492,16 +490,14 @@ tryCatch({
 }, error = function(e) message("  MSBB failed: ", conditionMessage(e)))
 
 # --- MATHYS ---
-# Re-uses the ROSMAP bulk + provenance tables (same ROSMAP donors, different snRNA).
+# Re-uses the ROSMAP bulk + cleaned metadata join (same ROSMAP donors, different snRNA).
 cat("  Auto-generating Mathys...\n")
 tryCatch({
   if (!file.exists(MATHYS_SN_FILE)) stop("Mathys snRNA file not found: ", MATHYS_SN_FILE)
-  prov_exist_m2 <- file.exists(ROSMAP_PROV_FILES)
-  if (!any(prov_exist_m2)) stop("No ROSMAP provenance files found.")
-  prov_m2 <- dplyr::bind_rows(lapply(ROSMAP_PROV_FILES[prov_exist_m2],
-    function(f) readr::read_csv(f, show_col_types = FALSE)))
-  prov_link_m2 <- prov_m2 %>%
-    dplyr::select(synapse_id = id, specimen_id = specimenID) %>%
+  if (!file.exists(ROSMAP_CLEANED_META))
+    stop("ROSMAP metadata_cleaned.csv not found: ", ROSMAP_CLEANED_META)
+  prov_link_m2 <- readr::read_csv(ROSMAP_CLEANED_META, show_col_types = FALSE) %>%
+    dplyr::select(synapse_id = synapseID, specimen_id = specimenID) %>%
     dplyr::distinct(synapse_id, .keep_all = TRUE)
   meta_m2 <- readr::read_csv(ROSMAP_META_FILE, show_col_types = FALSE) %>%
     dplyr::filter(!is.na(individualID), nchar(as.character(individualID)) > 0) %>%

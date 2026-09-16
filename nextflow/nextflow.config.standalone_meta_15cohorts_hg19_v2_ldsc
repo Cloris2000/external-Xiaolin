@@ -1,0 +1,47 @@
+/*
+ * LDSC h2 follow-up for the corrected 15-cohort meta (v2).
+ *
+ * Same params as nextflow.config.standalone_meta_15cohorts_ldsc, layered on the v2
+ * config so a -resume in the v2 run/work dirs reuses the cached METAL and
+ * harmonized outputs and only PREPARE_LDSC_SUMSTATS -> RUN_LDSC_H2 ->
+ * SUMMARIZE_LDSC_RESULTS run.  Output lands under the v2 meta tree on scratch.
+ *
+ * Run:  sbatch run_meta_15cohorts_hg19_v2_ldsc.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta_15cohorts_hg19_v2'
+
+params {
+    run_ldsc      = true
+    run_plot_meta = false   // plots already exist from the main v2 run
+
+    ldsc_conda_env                    = "ldsc"
+    ldsc_bin_dir                      = "${refs_root}/tools/ldsc"
+    ldsc_variant_map                  = "${ldsc_ref_root}/ROSMAP_WGS_joint_SNPs_rsID/id_snp_matcher.txt"
+    ldsc_max_missing_variant_map_frac = 0.2
+    ldsc_merge_alleles                = "${ldsc_ref_root}/eur_w_ld_chr/w_hm3.snplist"
+    ldsc_hm3_snplist                  = "${ldsc_ref_root}/eur_w_ld_chr/w_hm3.snplist"
+    ldsc_ref_ld_chr                   = "${ldsc_ref_root}/eur_w_ld_chr"
+    ldsc_w_ld_chr                     = "${ldsc_ref_root}/eur_w_ld_chr"
+
+    // Spelled out rather than "${output_dir}/ldsc/..." : that interpolation resolves
+    // against the base default before the v2 output_dir override is applied.
+    ldsc_sumstats_outdir = "${results_root}/meta_analysis_15cohorts_hg19_v2/ldsc/sumstats"
+    ldsc_results_outdir  = "${results_root}/meta_analysis_15cohorts_hg19_v2/ldsc/results"
+    ldsc_summary_outdir  = "${results_root}/meta_analysis_15cohorts_hg19_v2/ldsc/summary"
+}
+
+process {
+    withName: 'PREPARE_LDSC_SUMSTATS' {
+        cpus          = 2
+        memory        = { 32.GB * task.attempt }
+        time          = { 2.h * task.attempt }
+        maxRetries    = 5
+        errorStrategy = { task.exitStatus == 137 ? 'retry' : 'terminate' }
+        maxForks      = 3
+    }
+    withName: 'RUN_LDSC_H2' {
+        time     = '8h'
+        maxForks = 14
+    }
+}

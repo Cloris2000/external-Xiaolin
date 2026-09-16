@@ -37,13 +37,19 @@ module load "${NEXTFLOW_MODULE}"
 mkdir -p "${RUN_DIR}" "${WORK_DIR}" "${OUT_DIR}"
 cd "${RUN_DIR}"
 
-# Stage 0 (cohort audit) reads the per-cohort REGENIE output from the SCC tree.
-echo "Checking GWAS results for all 15 cohorts..."
+# Stage 0 reads {base_dir}/results/{cohort}/regenie_step2 from the new GWAS run.
+# Prefer scratch (where compute-node jobs publish); fall back to the repo copy.
+echo "Checking new GWAS results for all 15 cohorts..."
 all_good=true
 for cohort in ROSMAP ROSMAP_array Mayo MSBB CMC_MSSM CMC_PENN CMC_PITT GTEx_v10 NABEC NIMH_HBCC_1M NIMH_HBCC_h650 NIMH_HBCC_Omni5M GVEX AMP_AD_Rush AMP_AD_Mayo; do
-    count=$(ls ${SCC_DIR}/results/${cohort}/regenie_step2/*.regenie.raw_p 2>/dev/null | wc -l)
+    count=$(ls ${RESULTS_ROOT}/${cohort}/regenie_step2/*.regenie.raw_p 2>/dev/null | wc -l)
+    src="scratch"
+    if [ "$count" -ne 19 ]; then
+        count=$(ls ${NF_DIR}/results/${cohort}/regenie_step2/*.regenie.raw_p 2>/dev/null | wc -l)
+        src="project"
+    fi
     if [ "$count" -eq 19 ]; then
-        echo "  OK  ${cohort}: ${count}/19"
+        echo "  OK  ${cohort}: ${count}/19 (${src})"
     else
         echo "  FAIL ${cohort}: ${count}/19 (INCOMPLETE)"
         all_good=false
@@ -53,17 +59,7 @@ done
 if [ "$all_good" = false ]; then
     echo ""
     echo "ERROR: Some cohorts have incomplete GWAS results. Aborting."
-    exit 1
-fi
-
-# Liftover + harmonization are skipped: pre_harmonized_input_dir points at the
-# already-harmonized, already-lifted sumstats from the CAMH run.
-PRE_HARM=/project/rrg-shreejoy/zhoux156/harmonized_15cohorts
-harm_count=$(ls ${PRE_HARM}/*/harmonized/*_harmonized.raw_p 2>/dev/null | wc -l)
-echo ""
-echo "Pre-harmonized inputs: ${harm_count}/285"
-if [ "$harm_count" -ne 285 ]; then
-    echo "ERROR: expected 285 pre-harmonized files (19 cell types x 15 cohorts). Aborting."
+    echo "Run each cohort GWAS first; do not reuse the old SCC/pre-harmonized inputs."
     exit 1
 fi
 
@@ -73,7 +69,8 @@ echo "All inputs present. Starting 15-cohort meta-analysis..."
 nextflow run ${NF_DIR}/standalone_meta_analysis.nf \
     -c ${NF_DIR}/nextflow.config.standalone_meta_15cohorts \
     -work-dir ${WORK_DIR} \
-    -resume
+    --output_dir ${OUT_DIR} \
+    --base_dir ${NF_DIR}
 
 echo ""
 echo "15-cohort meta-analysis complete."

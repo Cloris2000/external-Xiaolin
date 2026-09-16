@@ -1,0 +1,22 @@
+---
+description: Nextflow pipeline changes must stay backward compatible with existing cohorts
+alwaysApply: true
+---
+
+# Pipeline changes must be backward compatible
+
+Edits to Nextflow pipelines, modules, configs, and shared analysis/plot scripts must not change results for cohorts that already ran.
+
+- If a new cohort needs a special case (ID join, filters, covariates, cell-type list, file layout), **add it as an opt-in branch** (new param, explicit cohort list, or new config). Do not change the default path used by previously processed cohorts.
+- Re-running the updated code on an old cohort must reproduce the **same outputs** (same samples, phenotypes, and association/figure results, aside from timestamps or non-deterministic log text).
+- Do not silently change defaults, QC thresholds, column names, sample filters, or join keys that old cohorts already used.
+- Prefer `if (cohort %in% ...)` / `params.foo` overrides over rewriting a shared function’s default behavior.
+- When in doubt, keep the old behavior as the default and gate the new behavior behind a cohort-specific option.
+
+```text
+# BAD — new cohort forces a global filter that old cohorts never used
+dt <- dt[n_cells >= 200]
+
+# GOOD — default unchanged; new rule only for the cohort that needs it
+if (isTRUE(params$min_cells_filter)) dt <- dt[n_cells >= 200]
+```

@@ -67,8 +67,8 @@ params {
     // GENOTYPING QC PIPELINE PARAMETERS
     // ============================================================================
     vcf_dir = ""
-    vcf_pattern = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.MSSM.vcf.gz"'
-    normalized_vcf_dir = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/MSBB_joint_WGS_vcf_normalized"
+    vcf_pattern = '"/project/rrg-shreejoy/MSBB/Genotype/MSBB_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.MSSM.vcf.gz"'
+    normalized_vcf_dir = "/project/rrg-shreejoy/MSBB/Genotype/MSBB_joint_WGS_vcf_normalized"
 
     plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
     bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"

@@ -45,6 +45,8 @@ option_list <- list(
               help="Optional column name for sex in metadata — combined with col_diagnosis in design= to also preserve sex differences during batch correction (e.g. 'msex', 'reportedGender', 'sex')"),
   make_option(c("--batch_recode"), type="character", default=NULL,
               help="Optional batch recoding spec to collapse fine-grained batch values into coarser clusters before correction. Format: 'source_col:val1,val2=new_label;val3,val4=new_label2'. A new column named '<source_col>_recoded' is created and should be referenced in --batch_covariates. Example for MSBB: 'sequencingBatch:B18C014,E007C014=cluster1;B82C014,H154B394=cluster2'"),
+  make_option(c("--exclude_bio_from_tech_cov"), action="store_true", default=FALSE,
+              help="Opt-in: drop sex, diagnosis, Braak, age, and other clinical/demographic columns from auto_top_n (default: FALSE, prior-run behavior)"),
   make_option(c("--output_dir"), type="character", default=".",
               help="Output directory"),
   make_option(c("--corrected_output"), type="character", default="corrected_data.RData",
@@ -282,6 +284,34 @@ non_tech_patterns <- c("^MH", "^DTH", "^LB", "^TRISCH", "^TRCL", "^TRORG",
                        "^DTHSEASON", "^DTHTIME", "^DTHPLCE",
                        "^executed\\.")
 
+# Clinical / demographic aliases missing from the legacy denylist above
+# (that list has reportedGender / primaryDiagnosis / SEX.x but not sex /
+# diagnosis / SEX). Opt-in so re-runs of finished cohorts stay identical.
+bio_clinical_cols <- c(
+  "sex", "msex", "SEX", "Sex", "Biological_Sex",
+  "AGE", "age", "age_death", "age_at_visit_max", "age_first_ad_dx",
+  "diagnosis", "cogdx", "dcfdx", "dcfdx_lv", "CDR", "CERAD", "ceradsc",
+  "Braak", "braak", "braaksc", "thal", "amyThal", "amyAny", "amyA",
+  "ADoutcome", "apoeGenotype", "apoe", "apoe_genotype", "Study", "cohort",
+  "isHispanic", "hispanic", "bScore", "plaqueMean", "cts_mmse30_lv",
+  "educ", "education", "isSampleExchange",
+  "exclude", "excludeReason", "Exclusion_Category", "barcode", "...1",
+  "sampleExchangeOrigin", "specimenIdSource", "flowcell"
+)
+bio_clinical_patterns <- c("^amy[A-Z]", "^cts_", "plaque", "[Hh]ispanic", "^isSample", "[Aa]poe")
+
+if (isTRUE(opt$exclude_bio_from_tech_cov)) {
+  extra_named <- c(opt$col_diagnosis, opt$col_msex)
+  extra_named <- extra_named[!is.null(extra_named) & nzchar(as.character(extra_named))]
+  non_tech_metadata_cols <- unique(c(non_tech_metadata_cols, bio_clinical_cols, extra_named))
+  non_tech_patterns <- unique(c(non_tech_patterns, bio_clinical_patterns))
+  present_bio <- intersect(unique(c(bio_clinical_cols, extra_named)),
+                           colnames(rosmap_meta_cleaned_rmVar))
+  cat("exclude_bio_from_tech_cov: dropping clinical/demographic candidates:",
+      ifelse(length(present_bio) == 0, "none present", paste(present_bio, collapse = ", ")),
+      "\n")
+}
+
 all_cols <- colnames(rosmap_meta_cleaned_rmVar)
 pattern_flagged <- sapply(all_cols, function(col) {
   any(sapply(non_tech_patterns, function(pat) grepl(pat, col)))
@@ -459,6 +489,21 @@ if (length(batch_covariates) > 0 && length(top_tech_cov) > 0) {
     cat("Removing batch covariates from technical covariate list:",
         paste(overlapping_batch_covariates, collapse = ", "), "\n")
     top_tech_cov <- setdiff(top_tech_cov, overlapping_batch_covariates)
+  }
+}
+
+if (isTRUE(opt$exclude_bio_from_tech_cov) && length(top_tech_cov) > 0) {
+  extra_named <- c(opt$col_diagnosis, opt$col_msex)
+  extra_named <- extra_named[!is.null(extra_named) & nzchar(as.character(extra_named))]
+  bio_drop <- unique(c(bio_clinical_cols, extra_named))
+  leaked <- intersect(top_tech_cov, bio_drop)
+  for (pat in bio_clinical_patterns) {
+    leaked <- unique(c(leaked, top_tech_cov[grepl(pat, top_tech_cov)]))
+  }
+  if (length(leaked) > 0) {
+    cat("exclude_bio_from_tech_cov: stripping leftover clinical names from selected list:",
+        paste(leaked, collapse = ", "), "\n")
+    top_tech_cov <- setdiff(top_tech_cov, leaked)
   }
 }
 

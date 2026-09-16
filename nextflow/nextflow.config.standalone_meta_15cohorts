@@ -37,19 +37,19 @@ process {
 }
 
 params {
-    // base_dir feeds Stage 0 (META_COHORT_AUDIT), which globs
-    // {base_dir}/results/{cohort}/regenie_step2/*.regenie.raw_p and does not honour
-    // meta_input_results_dir.  The per-cohort REGENIE outputs live in the SCC tree
-    // copied over from CAMH, so point at that; inherited from nextflow.config.trillium.
-    // Cohort metadata stays on the canonical repo copy.
+    // Stage 0 (META_COHORT_AUDIT) globs {base_dir}/results/{cohort}/regenie_step2/
+    // and does not honour meta_input_results_dir.  A from-raw re-run writes new
+    // raw_p files under this repo's results/, so point here (not the old SCC tree).
+    base_dir = "${projectDir}"
     cohort_metadata_file = "${projectDir}/docs/meta_cohort_metadata.tsv"
 
-    // Reuse the harmonized per-cohort sumstats from the CAMH run: skips both
-    // LIFTOVER_SUMSTATS and HARMONIZE_META_SUMSTATS and goes straight to METAL.
-    // Layout is {cell_type}/harmonized/{cohort}_{cell_type}_harmonized.raw_p
-    // (relative symlinks into _payload/); 285 files = 19 cell types x 15 cohorts.
-    // The hg38 cohorts (GTEx_v10, AMP_AD_Rush, AMP_AD_Mayo) are already lifted to hg19.
-    pre_harmonized_input_dir = "/project/rrg-shreejoy/zhoux156/harmonized_15cohorts"
+    // Re-harmonize from the new per-cohort GWAS.  The CAMH pre-harmonized
+    // directory is still at /project/rrg-shreejoy/zhoux156/harmonized_15cohorts
+    // if you ever want to skip this again.
+    pre_harmonized_input_dir = null
+
+    // Track A only needs the .tbl files for comparison and downstream analyses.
+    run_plot_meta = false
 
     cohorts = [
         "ROSMAP", "ROSMAP_array",

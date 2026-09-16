@@ -161,6 +161,9 @@ workflow COMBINED_PIPELINE {
         ? file(params.biospecimen_file) 
         : file("${projectDir}/.empty_biospecimen")
     
+    if ((params.stop_after ?: '') == 'deconv') {
+        println "INFO: stop_after=deconv — skipping phenotype prep, genotype QC and GWAS"
+    } else {
     PHENO_PREP (
         cell_proportions_ch,
         metadata_ch,
@@ -177,9 +180,15 @@ workflow COMBINED_PIPELINE {
         params.biospec_col_individual ?: '',
         params.biospec_col_specimen ?: '',
         params.biospec_assay_filter ?: '',
-        params.samples_to_keep ?: ''
+        params.samples_to_keep ?: '',
+        (params.pheno_tissue_filter ?: (params.june9_replay ? (params.tissue_filter ?: '') : '')),
+        params.pheno_fid_specimen_map ?: ''
     )
-    
+    }
+
+    if ((params.stop_after ?: '') in ['deconv', 'pheno']) {
+        println "INFO: stop_after=${params.stop_after} — skipping genotype QC and GWAS"
+    } else {
     // ============================================================================
     // STAGE 3: Genotyping QC Pipeline (FILTERED to phenotyped samples)
     // ============================================================================
@@ -250,30 +259,10 @@ workflow COMBINED_PIPELINE {
         prune_in_file_ch,
         COV_PREP.out.covariate_file
     )
+    } // end skip-QC/GWAS (stop_after)
     
     emit:
-    // Genotyping QC pipeline outputs
-    final_pgen = GENOTYPING_QC_PIPELINE.out.final_pgen
-    final_psam = GENOTYPING_QC_PIPELINE.out.final_psam
-    final_pvar = GENOTYPING_QC_PIPELINE.out.final_pvar
-    pca_file = GENOTYPING_QC_PIPELINE.out.pca_file
-    
-    // Phenotype outputs
-    phenotype_file = PHENO_PREP.out.phenotype_file
-    samples_file = PHENO_PREP.out.samples_file
-    clinical_cov_file = PHENO_PREP.out.clinical_cov_file
-    
-    // Covariate outputs
-    covariate_file = COV_PREP.out.covariate_file
-    
-    // RNA-seq processing / pre-computed outputs
     cell_proportions = cell_proportions_ch
-    
-    // GWAS pipeline outputs
-    regenie_step1_pred = GWAS_PIPELINE.out.regenie_step1_pred
-    regenie_step2_results = GWAS_PIPELINE.out.regenie_step2_results
-    raw_p_files = GWAS_PIPELINE.out.raw_p_files
-    meta_analysis_results = GWAS_PIPELINE.out.meta_analysis_results
 }
 
 // Main workflow entry point

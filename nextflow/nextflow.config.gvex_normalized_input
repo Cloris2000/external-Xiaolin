@@ -1,0 +1,21 @@
+/*
+ * GVEX genotype input override for the cohort_gwas_v2 re-run.
+ *
+ * nextflow.config.combined.gvex reads the raw, uncompressed dosage VCFs
+ * (BrainGVEX_raw_dose_vcf/BrainGVEX_chr{N}.vcf, ~196 GB).  This run uses the
+ * bcftools `norm -m-` copies of the same files (prep_gvex_vcf.sh): same 400
+ * samples and GT/DS/GP fields, multiallelics split, bgzipped, 9 GB - the form
+ * every other cohort's input already has.  Approved 2026-09-12.
+ *
+ * Loaded with -c AFTER the cohort config by run_cohort_gwas_v2.sbatch (via
+ * scripts/cohort_gwas_v2_lib.sh), so the cohort config itself is not edited.
+ * A config file is used rather than `--vcf_pattern ''` because Nextflow turns an
+ * empty CLI value into Boolean true.
+ *
+ * With vcf_pattern empty, genotyping_qc.py reads
+ *   ${normalized_vcf_dir}/${study}.QC.${chrom}.normalized.vcf.gz  (study = GVEX).
+ */
+params {
+    vcf_pattern        = ''
+    normalized_vcf_dir = '/project/rrg-shreejoy/GVEX/Genotype/BrainGVEX_combined_vcf_normalized'
+}

@@ -1,0 +1,16 @@
+cohort_id	display_name	study_family	n_gwas	brain_region	ancestry	genotype	genome_build	fig2_ctp_validation	fig3_meta_gwas	fig4_heterogeneity	fig5_sn_ctp	fig6_disease_coloc	notes
+ROSMAP	ROSMAP (WGS)	ROSMAP	756	DLPFC	EUR-majority	WGS	hg19	yes	yes	yes	bulk_meta_and_snRNA	yes	Bulk paired to ROSMAP Green (Fig 2) and Mathys (Fig 2). snRNA GWAS: ROSMAP Green + Mathys unique (Fig 5).
+ROSMAP_array	ROSMAP (array)	ROSMAP	162	DLPFC	EUR-majority	Array (TOPMed)	hg38	no	yes	yes_if_snp_present	bulk_meta_only	yes	170 TOPMed-imputed array samples not in the WGS pipeline. Absent from some lead-SNP forests (e.g. TMEM106B, microglia chr6).
+Mayo	Mayo	AMP-AD	243	TCX	EUR-majority	WGS	hg19	no	yes	yes	bulk_meta_only	yes	Temporal cortex (not DLPFC).
+MSBB	MSBB	AMP-AD	233	STG	EUR-majority	WGS	hg19	yes	yes	yes	bulk_meta_and_snRNA	yes	Bulk paired to PsychAD MSSM snRNA (Fig 2). snRNA GWAS: PsychAD MSSM (Fig 5). Superior temporal gyrus.
+CMC_MSSM	CMC MSSM	CMC	242	DLPFC	EUR-majority	Array	hg19	yes	yes	yes	bulk_meta_and_snRNA	yes	Bulk paired to Ruzicka et al. 2024 snRNA (Fig 2). snRNA GWAS: Ruz_MSSM (Fig 5).
+CMC_PENN	CMC PENN	CMC	92	DLPFC	EUR-majority	Array	hg19	no	yes	yes	bulk_meta_only	yes	
+CMC_PITT	CMC PITT	CMC	161	DLPFC	EUR-majority	Array	hg19	no	yes	yes	bulk_meta_only	yes	
+GTEx_v10	GTEx v10	GTEx	283	FCX	EUR-majority	WGS	hg38	no	yes	yes_if_snp_present	bulk_meta_only	yes	Frontal cortex BA9. Replaces GTEx v8 from the 13-cohort meta. Absent from some lead-SNP forests.
+NABEC	NABEC	NABEC	210	FCX	EUR-majority	WGS	hg19	no	yes	yes	bulk_meta_only	yes	Cerebral frontal cortex.
+GVEX	BrainGVEX	BrainGVEX	394	DLPFC	EUR-majority	WGS	hg19	no	yes	yes	bulk_meta_only	yes	Documented mixed-ancestry cohort kept pooled with PCA adjustment; classified EUR-majority by keep-list fraction.
+NIMH_HBCC_1M	HBCC (1M)	HBCC	202	DLPFC	Mixed/diverse	Array (1M)	hg19	yes	yes	yes	bulk_meta_and_snRNA	yes	Only HBCC platform used for bulk–sn pairing in Fig 2 (PsychAD HBCC). All three HBCC platforms enter the bulk meta (Fig 3/6) and heterogeneity (Fig 4).
+NIMH_HBCC_h650	HBCC (h650)	HBCC	97	DLPFC	AFR-enriched	Array (h650)	hg19	no	yes	yes	bulk_meta_and_snRNA	yes	No separate Fig 2 pairing (Fig 2 HBCC bulk file is NIMH_HBCC_1M). Fig 5 snRNA uses PsychAD HBCC with HBCC genotypes from the same study.
+NIMH_HBCC_Omni5M	HBCC (Omni5M)	HBCC	79	DLPFC	EUR-majority	Array (Omni5M)	hg19	no	yes	yes	bulk_meta_and_snRNA	yes	No separate Fig 2 pairing. Fig 5 as for other HBCC platforms.
+AMP_AD_Rush	AMP-AD Rush	AMP-AD Diverse	120	DLPFC	AFR-enriched	WGS	hg38	no	yes	yes_if_snp_present	bulk_meta_only	yes	Added in the 15-cohort meta. Absent from some lead-SNP forests.
+AMP_AD_Mayo	AMP-AD Mayo	AMP-AD Diverse	227	DLPFC	Mixed/diverse	WGS	hg38	no	yes	yes_if_snp_present	bulk_meta_only	yes	Added in the 15-cohort meta. Absent from some lead-SNP forests.

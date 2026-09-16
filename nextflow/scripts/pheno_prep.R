@@ -69,7 +69,11 @@ option_list <- list(
   make_option(c("--biospec_assay_filter"), type="character", default=NULL,
               help="Optional: filter biospecimen file to rows where the 'assay' column equals this value before building the individualID->specimenID map (e.g. 'wholeGenomeSeq' for ROSMAP WGS). Useful when one individual has SM-* entries for multiple assays."),
   make_option(c("--samples_to_keep"), type="character", default=NULL,
-              help="Optional: path to a tab-delimited file (FID IID header) listing samples to retain. When provided, only these samples are included in phenotypes_RINT.txt and samples_with_phenotypes.txt, restricting both pheno prep and downstream genotype QC to this subset.")
+              help="Optional: path to a tab-delimited file (FID IID header) listing samples to retain. When provided, only these samples are included in phenotypes_RINT.txt and samples_with_phenotypes.txt, restricting both pheno prep and downstream genotype QC to this subset."),
+  make_option(c("--tissue_filter"), type="character", default=NULL,
+              help="Optional: keep only metadata rows whose tissue column equals this value before FID collapse (e.g. 'dorsolateral prefrontal cortex'). Default: no extra filter (backward compatible)."),
+  make_option(c("--fid_specimen_map"), type="character", default=NULL,
+              help="Optional: tab-delimited FID,specimenID table pinning which RNA library to keep when several map to one GWAS FID. Default: first row after merge (backward compatible).")
 )
 
 opt_parser <- OptionParser(option_list=option_list)
@@ -90,6 +94,8 @@ opt$col_individualID <- empty_to_null(opt$col_individualID)
 opt$col_study <- empty_to_null(opt$col_study)
 opt$col_projid <- empty_to_null(opt$col_projid)
 opt$col_specimenID <- empty_to_null(opt$col_specimenID)
+opt$tissue_filter <- empty_to_null(opt$tissue_filter)
+opt$fid_specimen_map <- empty_to_null(opt$fid_specimen_map)
 
 cat("\n=============================================================================\n")
 cat("PHENOTYPE PREPARATION (Step 1 of Pipeline)\n")
@@ -167,6 +173,17 @@ col_study <- if (!is.null(opt$col_study)) opt$col_study else find_column(ROSMAP_
 col_projid <- if (!is.null(opt$col_projid)) opt$col_projid else find_column(ROSMAP_meta_temp_cleaned, c("projid", "proj_id", "project_id"))
 col_specimenID <- if (!is.null(opt$col_specimenID)) opt$col_specimenID else find_column(ROSMAP_meta_temp_cleaned, c("specimenID", "specimen_id", "sampleID", "sample_id", "SAMPID"))
 col_synapseID <- find_column(ROSMAP_meta_temp_cleaned, c("synapseID", "synapse_id", "SynapseID", "SYNAPSE_ID"), required = FALSE)
+col_tissue <- find_column(ROSMAP_meta_temp_cleaned, c("tissue", "Tissue", "SMTSD", "organ"), required = FALSE)
+
+if (!is.null(opt$tissue_filter) && !is.null(col_tissue) && col_tissue %in% colnames(ROSMAP_meta_temp_cleaned)) {
+  n_before_tissue <- nrow(ROSMAP_meta_temp_cleaned)
+  ROSMAP_meta_temp_cleaned <- ROSMAP_meta_temp_cleaned[
+    ROSMAP_meta_temp_cleaned[[col_tissue]] == opt$tissue_filter, , drop = FALSE]
+  cat("  - tissue_filter '", opt$tissue_filter, "': kept ", nrow(ROSMAP_meta_temp_cleaned),
+      " of ", n_before_tissue, " metadata rows\n", sep = "")
+} else if (!is.null(opt$tissue_filter) && is.null(col_tissue)) {
+  cat("  - tissue_filter set but no tissue column in metadata; leaving rows unchanged\n")
+}
 
 cat("Using columns:\n")
 cat("  Sex:", col_msex, "\n")
@@ -352,14 +369,38 @@ if (opt$fid_method == "study_projid" && "Study" %in% colnames(ROSMAP_estimations
 }
 ROSMAP_estimations_combined$IID <- ROSMAP_estimations_combined$FID
 
-# Select cell type columns
+# Select cell type columns. Keep specimenID through FID collapse so a
+# specimen map can pick a specific RNA library; drop it before RINT.
 exclude_cols <- c("specimenID", "individualID", "Study", "projid", "FID", "IID")
 cell_cols <- setdiff(colnames(ROSMAP_estimations_combined), exclude_cols)
-ROSMAP_estimations_named <- ROSMAP_estimations_combined[, c("FID", "IID", cell_cols)]
+keep_id_cols <- c("FID", "IID", intersect("specimenID", colnames(ROSMAP_estimations_combined)))
+ROSMAP_estimations_named <- ROSMAP_estimations_combined[, c(keep_id_cols, cell_cols)]
 
 # Merge with metadata for RINT transformation
 combined_df <- merge(ROSMAP_meta_sub_unique, ROSMAP_estimations_named, by.x = "FID", by.y = "FID")
+
+# Optional: prefer a pinned RNA library per FID (June 9 replay). Default
+# remains first-row-after-merge.
+if (!is.null(opt$fid_specimen_map) && file.exists(opt$fid_specimen_map) &&
+    "specimenID" %in% colnames(combined_df)) {
+  spec_map <- read.table(opt$fid_specimen_map, header = TRUE, sep = "\t",
+                         stringsAsFactors = FALSE, comment.char = "")
+  if (!all(c("FID", "specimenID") %in% colnames(spec_map))) {
+    stop("--fid_specimen_map must have columns FID and specimenID")
+  }
+  spec_lookup <- setNames(as.character(spec_map$specimenID), as.character(spec_map$FID))
+  prefer <- spec_lookup[as.character(combined_df$FID)]
+  combined_df$._prefer <- ifelse(!is.na(prefer) & as.character(combined_df$specimenID) == prefer, 0L, 1L)
+  combined_df <- combined_df[order(combined_df$FID, combined_df$._prefer), ]
+  n_pref <- sum(combined_df$._prefer == 0L)
+  cat("  - fid_specimen_map: preferred library present for", n_pref, "rows\n")
+  combined_df$._prefer <- NULL
+}
+
 combined_df <- combined_df[!duplicated(combined_df$FID), ]
+if ("specimenID" %in% colnames(combined_df)) {
+  combined_df$specimenID <- NULL
+}
 
 cat("Samples with both phenotype and clinical data:", nrow(combined_df), "\n")
 

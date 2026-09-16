@@ -36,6 +36,7 @@ params {
     // and HARMONIZE_META_SUMSTATS have to run again from the raw REGENIE output under
     // ${base_dir}/results (the SCC tree copied to Trillium).
     pre_harmonized_input_dir = null
+    run_plot_meta            = false
 
     cohort_genome_builds = [
         "GTEx_v10":     "hg38",

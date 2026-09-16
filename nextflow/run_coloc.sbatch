@@ -1,141 +1,90 @@
 #!/bin/bash
 #SBATCH --job-name=coloc_15cohorts
-#SBATCH --array=1-19%5            # 19 cell types, max 5 concurrent
-#SBATCH --time=4:00:00
-#SBATCH --mem=32G
-#SBATCH --cpus-per-task=1
-#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_%A_%a.out
-#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_%A_%a.err
 #SBATCH --account=rrg-shreejoy
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=192
+#SBATCH --time=8:00:00
+#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_%j.err
 
-# ============================================================================
-# Colocalization pipeline: 15-cohort cell-type GWAS × disease GWAS
-# Runs 03_run_coloc.R for each of the 19 cell types as a SLURM array job.
-#
-# Prerequisites:
-#   1. Run 01_extract_loci.R for all cell types (or let this script do it)
-#   2. Run 02_download_disease_gwas.sh to download disease GWAS sumstats
-#   3. Install R packages: coloc, susieR, data.table, dplyr, tidyr, optparse
-#
-# Usage:
-#   sbatch run_coloc.sbatch
-#
-# After all array jobs complete, run the summarization:
-#   Rscript scripts/coloc/04_summarize_coloc.R
-# ============================================================================
+# Original coloc driver (suggestive-SNP windows, min_snps=50, susie on).
+# All 19 cell types run as parallel workers on one whole node.
+# Prefer run_coloc_all_loci.sbatch for the manuscript full-window analysis.
 
 set -euo pipefail
 
-# ---------------------------------------------------------------------------
-# R library path — point to the conda env where coloc/susieR are installed
-# ---------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
-PROJECT_DIR="$NF_DIR"
-RESULTS_DIR="$PROJECT_DIR/results/meta_analysis_15cohorts"
-COLOC_LOCI_DIR="$PROJECT_DIR/results/coloc/loci"
-COLOC_RES_DIR="$PROJECT_DIR/results/coloc/coloc_results"
-DISEASE_DIR="$PROJECT_DIR/results/coloc/disease_gwas"
-SCRIPTS_DIR="$PROJECT_DIR/scripts/coloc"
 
-# Total effective meta-analysis N (sum of final_gwas_n across 12 cohorts with data)
-CELL_TYPE_N=2812
+META_DIR="${META_DIR:-${RESULTS_ROOT}/meta_analysis_15cohorts}"
+COLOC_LOCI_DIR="${COLOC_LOCI_DIR:-${RESULTS_ROOT}/coloc/loci}"
+COLOC_RES_DIR="${COLOC_RES_DIR:-${RESULTS_ROOT}/coloc/coloc_results}"
+DISEASE_DIR="${DISEASE_DIR:-${SCC_DIR}/results/coloc/disease_gwas}"
+SCRIPTS_DIR="${NF_DIR}/scripts/coloc"
+CELL_TYPE_N="${CELL_TYPE_N:-2812}"
+WORKER_LOGS="${LOG_ROOT}/coloc/workers_${SLURM_JOB_ID:-manual}"
 
-mkdir -p logs/coloc "$COLOC_LOCI_DIR" "$COLOC_RES_DIR"
+mkdir -p "${COLOC_LOCI_DIR}" "${COLOC_RES_DIR}" "${WORKER_LOGS}"
 
-# ---------------------------------------------------------------------------
-# Cell type list (19 cell types, order matches SLURM array index 1-19)
-# ---------------------------------------------------------------------------
 CELL_TYPES=(
-  "Astrocyte"
-  "Endothelial"
-  "IT"
-  "L4.IT"
-  "L5.6.IT.Car3"
-  "L5.6.NP"
-  "L5.ET"
-  "L6.CT"
-  "L6b"
-  "LAMP5"
-  "Microglia"
-  "OPC"
-  "Oligodendrocyte"
-  "PAX6"
-  "PVALB"
-  "Pericyte"
-  "SST"
-  "VIP"
-  "VLMC"
+  Astrocyte Endothelial IT L4.IT L5.6.IT.Car3 L5.6.NP
+  L5.ET L6.CT L6b LAMP5 Microglia OPC Oligodendrocyte
+  PAX6 PVALB Pericyte SST VIP VLMC
 )
 
-# SLURM_ARRAY_TASK_ID is 1-based; array index is 0-based
-IDX=$(( SLURM_ARRAY_TASK_ID - 1 ))
-CELL_TYPE="${CELL_TYPES[$IDX]}"
+run_one() {
+    local ct="$1"
+    local tbl
+    tbl=$(ls "${META_DIR}/${ct}"_meta_analysis_*.tbl 2>/dev/null | grep -v '[0-9]\.tbl$' | head -1)
+    if [ -z "${tbl}" ]; then
+        echo "  FAIL ${ct}: no .tbl in ${META_DIR}" >&2
+        return 1
+    fi
 
-echo "============================================"
-echo "Job:       $SLURM_JOB_ID (array task $SLURM_ARRAY_TASK_ID)"
-echo "Cell type: $CELL_TYPE"
-echo "Node:      $(hostname)"
-echo "Started:   $(date)"
-echo "============================================"
+    local loci="${COLOC_LOCI_DIR}/${ct}_loci.tsv"
+    local ldata="${COLOC_LOCI_DIR}/${ct}_locus_data.tsv.gz"
+    if [ ! -f "${loci}" ] || [ ! -f "${ldata}" ]; then
+        "${RSCRIPT}" "${SCRIPTS_DIR}/01_extract_loci.R" \
+            --cell_type   "${ct}" \
+            --tbl_file    "${tbl}" \
+            --output_dir  "${COLOC_LOCI_DIR}" \
+            --p_threshold 1e-5 \
+            --window_kb   500 \
+            > "${WORKER_LOGS}/${ct}.log" 2>&1
+    fi
 
-# ---------------------------------------------------------------------------
-# Locate the .tbl file for this cell type
-# ---------------------------------------------------------------------------
-TBL_FILE=$(ls "$RESULTS_DIR"/"${CELL_TYPE}"_meta_analysis_*.tbl 2>/dev/null | \
-           grep -v "[0-9]\.tbl$" | head -1)
+    local out="${COLOC_RES_DIR}/${ct}_coloc_results.tsv"
+    if [ -f "${out}" ]; then
+        echo "  SKIP ${ct} (exists: ${out})"
+        return 0
+    fi
 
-if [ -z "$TBL_FILE" ]; then
-  echo "ERROR: No .tbl file found for cell type $CELL_TYPE in $RESULTS_DIR"
-  exit 1
+    "${RSCRIPT}" "${SCRIPTS_DIR}/03_run_coloc.R" \
+        --cell_type    "${ct}" \
+        --loci_file    "${loci}" \
+        --locus_data   "${ldata}" \
+        --disease_dir  "${DISEASE_DIR}" \
+        --output_dir   "${COLOC_RES_DIR}" \
+        --cell_type_N  "${CELL_TYPE_N}" \
+        --run_susie    TRUE \
+        --pp_h4_susie  0.5 \
+        --min_snps     50 \
+        >> "${WORKER_LOGS}/${ct}.log" 2>&1 \
+        && echo "  OK   ${ct}" \
+        || { echo "  FAIL ${ct} (see ${WORKER_LOGS}/${ct}.log)"; return 1; }
+}
+export -f run_one
+export META_DIR COLOC_LOCI_DIR COLOC_RES_DIR DISEASE_DIR SCRIPTS_DIR
+export CELL_TYPE_N RSCRIPT WORKER_LOGS
+
+printf '%s\n' "${CELL_TYPES[@]}" \
+  | xargs -P "${#CELL_TYPES[@]}" -I{} bash -c 'run_one "$@"' _ {} \
+  && rc=0 || rc=$?
+
+echo ""
+if [ "$rc" -ne 0 ]; then
+    echo "ERROR: at least one cell type failed. Logs: ${WORKER_LOGS}"
+    exit 1
 fi
-echo "TBL file: $TBL_FILE"
-
-# ---------------------------------------------------------------------------
-# Step 1: Extract loci (skip if already done)
-# ---------------------------------------------------------------------------
-LOCI_FILE="$COLOC_LOCI_DIR/${CELL_TYPE}_loci.tsv"
-LOCUS_DATA="$COLOC_LOCI_DIR/${CELL_TYPE}_locus_data.tsv.gz"
-
-if [ ! -f "$LOCI_FILE" ] || [ ! -f "$LOCUS_DATA" ]; then
-  echo "--- Step 1: Extracting loci ---"
-  Rscript "$SCRIPTS_DIR/01_extract_loci.R" \
-    --cell_type   "$CELL_TYPE" \
-    --tbl_file    "$TBL_FILE" \
-    --output_dir  "$COLOC_LOCI_DIR" \
-    --p_threshold 1e-5 \
-    --window_kb   500
-else
-  echo "--- Step 1: Loci already extracted, skipping ---"
-  NLOCI=$(tail -n +2 "$LOCI_FILE" | wc -l)
-  echo "  Found $NLOCI loci in $LOCI_FILE"
-fi
-
-# ---------------------------------------------------------------------------
-# Step 2: Run coloc (skip if already done)
-# ---------------------------------------------------------------------------
-COLOC_OUT="$COLOC_RES_DIR/${CELL_TYPE}_coloc_results.tsv"
-
-if [ -f "$COLOC_OUT" ]; then
-  echo "--- Step 2: Coloc results exist, skipping ($COLOC_OUT) ---"
-  echo "  (Delete to rerun: rm $COLOC_OUT)"
-else
-  echo "--- Step 2: Running coloc.abf + coloc.susie ---"
-  Rscript "$SCRIPTS_DIR/03_run_coloc.R" \
-    --cell_type    "$CELL_TYPE" \
-    --loci_file    "$LOCI_FILE" \
-    --locus_data   "$LOCUS_DATA" \
-    --disease_dir  "$DISEASE_DIR" \
-    --output_dir   "$COLOC_RES_DIR" \
-    --cell_type_N  "$CELL_TYPE_N" \
-    --run_susie    TRUE \
-    --pp_h4_susie  0.5 \
-    --min_snps     50
-fi
-
-echo "============================================"
-echo "Finished: $(date)"
-echo "============================================"
+echo "Coloc complete: ${COLOC_RES_DIR}"

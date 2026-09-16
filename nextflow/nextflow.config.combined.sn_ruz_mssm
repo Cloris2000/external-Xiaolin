@@ -55,7 +55,7 @@ params {
     // PHENOTYPE PREP — individualID = CMC_MSSM_NNN → biospecimen lookup → 0_MSSM_NNN
     // ============================================================================
 
-    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    biospecimen_file       = '/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv'
     fid_method             = 'biospec_specimen'
     fid_format             = '0_'
     biospec_col_individual = 'Individual_ID'
@@ -70,8 +70,8 @@ params {
     // ============================================================================
 
     vcf_dir            = ""
-    vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
-    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+    vcf_pattern        = '/project/rrg-shreejoy/CMC/Genotype/CMC_MSSM_imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/project/rrg-shreejoy/CMC/Genotype/CMC_MSSM_imputed_chr_normalized'
     normalize_vcf      = false
 
     plink_path    = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"

@@ -6,7 +6,7 @@
  *
  * Prerequisites — run once to generate inputs:
  *   Rscript scripts/compute_sn_proportions.R \
- *       --input_file    /external/rprshnas01/netdata_kcni/stlab/Xiaolin/data/psychAD_metadata.csv \
+ *       --input_file    psychAD_metadata.csv \  # not in the Trillium CMC tree; locate before re-running
  *       --subject_col   SubID_export_synapse \
  *       --celltype_col  subclass \
  *       --source_filter MSSM \
@@ -53,7 +53,7 @@ params {
     // PHENOTYPE PREP — same CMC biospecimen mapping as bulk MSSM
     // ============================================================================
 
-    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    biospecimen_file       = '/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv'
     fid_method             = 'biospec_specimen'
     fid_format             = '0_'
     biospec_col_individual = 'Individual_ID'
@@ -68,8 +68,8 @@ params {
     // ============================================================================
 
     vcf_dir            = ""
-    vcf_pattern        = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
-    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_MSSM_reimputed/imputed_chr_normalized'
+    vcf_pattern        = '/project/rrg-shreejoy/CMC/Genotype/CMC_MSSM_imputed_chr_normalized/MSSM.QC.{chrom}.normalized.vcf.gz'
+    normalized_vcf_dir = '/project/rrg-shreejoy/CMC/Genotype/CMC_MSSM_imputed_chr_normalized'
 
     plink_path    = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
     bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"

@@ -1,0 +1,24 @@
+---
+description: Never modify the transferred SCC nextflow tree; write all work here
+alwaysApply: true
+---
+
+# Do not modify the SCC directory
+
+`/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/` is a transferred, read-only copy of the original nextflow tree. **Leave it untouched.**
+
+- Do **not** edit, delete, overwrite, or generate files under `Xiaolin/SCC/` (including `Xiaolin/SCC/nextflow/` and `Xiaolin/SCC/nextflow/manuscript_figure/`).
+- **Reading** from SCC is fine (inputs such as `data_input/`, `results/`, and `data/`).
+- All script edits, figure outputs, logs, and intermediates belong under this workspace:
+
+  `/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/`
+
+  Figure 2 outputs go to `manuscript_figure/` in this repo, not the SCC copy.
+
+```text
+# BAD — writing into the transferred tree
+OUT_DIR <- ".../Xiaolin/SCC/nextflow/manuscript_figure"
+
+# GOOD — write here
+OUT_DIR <- ".../external-Xiaolin/nextflow/manuscript_figure"
+```

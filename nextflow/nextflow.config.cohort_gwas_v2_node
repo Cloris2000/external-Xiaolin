@@ -1,0 +1,55 @@
+/*
+ * Resource overlay for the cohort_gwas_v2 re-run: several full cohort pipelines
+ * (RNA -> pheno -> VCF QC -> PCA -> REGENIE) share one Trillium node.
+ *
+ * Loaded last (after the cohort config and nextflow.config.trillium) so it wins.
+ * It changes executor capacity and per-process resources only - no scientific
+ * parameters.  run_cohort_gwas_v2.sbatch sets NF_SHARE_CPUS / NF_SHARE_MEM_GB to
+ * 192 / n_cohorts and 700 / n_cohorts.
+ *
+ * Unlike nextflow.config.e2e_parallel_cohorts (12 CPU / 48 GB per instance,
+ * sized for REGENIE-only replays on precomputed pgens), this has to let the
+ * 22 per-chromosome VCF->pgen conversions of a 600 GB WGS cohort run in
+ * parallel, so the share is much larger and CREATE_PGEN_CHR is kept small so
+ * many fit at once.  plink2 memory is capped separately via --plink_memory.
+ *
+ * Cohort configs use fully-qualified withName (e.g. COMBINED_PIPELINE:...:REGENIE_STEP1),
+ * so selectors here are regexes.
+ */
+
+executor {
+    cpus      = (System.getenv('NF_SHARE_CPUS')   ?: '48')  as int
+    memory    = "${System.getenv('NF_SHARE_MEM_GB') ?: '160'} GB"
+    queueSize = Math.max(6, ((System.getenv('NF_SHARE_CPUS') ?: '48') as int).intdiv(4))
+}
+
+process {
+    withName: /.*CREATE_PGEN_CHR$/ {
+        cpus   = 4
+        memory = '24 GB'
+        time   = '12h'
+    }
+    withName: /.*:(MERGE_PGEN|STANDARD_QC|LD_PRUNING|HETEROZYGOSITY|FINAL_QC|CALCULATE_PCA)$/ {
+        cpus   = 8
+        memory = '64 GB'
+        time   = '12h'
+    }
+    withName: /.*:(PCA_TECH_COV|REMOVE_TECH_COVAR|CELL_TYPE_DECONV)$/ {
+        cpus   = 4
+        memory = '32 GB'
+    }
+    withName: /.*REGENIE_STEP1$/ {
+        cpus   = 12
+        memory = '48 GB'
+        time   = '12h'
+    }
+    withName: /.*REGENIE_STEP2$/ {
+        cpus   = 12
+        memory = '48 GB'
+        time   = '12h'
+    }
+    withName: /.*:(PHENO_PREP|COV_PREP|EXTRACT_PHENOTYPE_COLUMN|CONVERT_LOGP_TO_P)$/ {
+        cpus   = 1
+        memory = '8 GB'
+    }
+}

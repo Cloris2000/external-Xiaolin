@@ -17,8 +17,14 @@
 # SECTION 1 — File paths (edit here)
 # =============================================================================
 
-RESULTS_DIR <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow/results"
-OUT_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+# SCC results: the snRNA validation table only exists there.
+SCC_RESULTS_DIR <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow/results"
+# Bulk cohort cell_proportions.csv.  Default = SCC; MF_BULK_RESULTS_DIR points the v2
+# figures at the re-run cohorts on scratch.  FIG2_OUT_DIR / MF_OUT_DIR redirect output
+# (run_downstream_v2.sbatch writes to scratch; /project is read-only on compute nodes).
+RESULTS_DIR <- Sys.getenv("MF_BULK_RESULTS_DIR", SCC_RESULTS_DIR)
+OUT_DIR     <- Sys.getenv("FIG2_OUT_DIR", Sys.getenv("MF_OUT_DIR",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"))
 
 # 15 canonical cohorts used in meta-analysis
 COHORT_LIST <- c(
@@ -37,7 +43,7 @@ PROP_FILENAME <- "cell_proportions.csv"
 # Format A columns: validation_cohort [optional], cell_type, metric, value, n
 #          OR:      cell_type, [sn_cell_type], n, pearson_r, [spearman_r], [p_value]
 # Format B columns: sample_id, validation_cohort, cell_type, bulk_proportion, snrna_proportion
-VALID_FILE <- file.path(RESULTS_DIR,
+VALID_FILE <- file.path(SCC_RESULTS_DIR,
   "ROSMAP/scatter_mgp_vs_snrnaseq/scatter_mgp_vs_snrnaseq_correlations.tsv")
 # Label shown in Panel D if only one cohort's data is in the file
 VALID_DEFAULT_COHORT <- "ROSMAP"

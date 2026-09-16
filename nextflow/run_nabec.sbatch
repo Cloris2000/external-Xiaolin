@@ -9,8 +9,9 @@
 #SBATCH --account=rrg-shreejoy
 
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
+module load "${NEXTFLOW_MODULE}"
 cd ${NF_DIR}/run_dirs/NABEC
 
 nextflow run ${NF_DIR}/combined_pipeline_v2.nf \
   -c ${NF_DIR}/nextflow.config.combined.nabec \
-  -work-dir ${NF_DIR}/work/NABEC
+  -work-dir ${WORK_ROOT}/NABEC

@@ -1,94 +1,99 @@
 #!/bin/bash
 #SBATCH --job-name=coloc_all_loci
-#SBATCH --array=1-19%5
-#SBATCH --time=6:00:00
-#SBATCH --mem=32G
-#SBATCH --cpus-per-task=1
-#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_full_%A_%a.out
-#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_full_%A_%a.err
 #SBATCH --account=rrg-shreejoy
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=192
+#SBATCH --time=12:00:00
+#SBATCH --output=/scratch/zhoux156/logs/coloc/coloc_full_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/coloc/coloc_full_%j.err
 
 # Colocalize ALL suggestive loci (p < 1e-5) using full 500 kb windows.
-# Differences from run_coloc.sbatch:
-#   - All SNPs in each locus window (not just suggestive SNPs)
-#   - min_snps = 10 (coloc.abf practical minimum; 50 was overly conservative)
+# All 19 cell types run as parallel workers on one whole node.
 #
-# Usage:
-#   sbatch run_coloc_all_loci.sbatch
+#   META_DIR=... RESULTS_DIR=... sbatch run_coloc_all_loci.sbatch
 #
-# After all jobs finish:
+# After the job finishes, summarize from a login node:
 #   Rscript scripts/coloc/04_summarize_coloc.R \
-#     --results_dir results/coloc/coloc_results_full \
-#     --loci_dir    results/coloc/loci_full \
-#     --output_dir  results/coloc/full
+#     --results_dir $RESULTS_ROOT/coloc/coloc_results_full \
+#     --loci_dir    $RESULTS_ROOT/coloc/loci_full \
+#     --output_dir  $RESULTS_ROOT/coloc/full
 
 set -euo pipefail
 
-
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
-PROJECT_DIR="$NF_DIR"
-RESULTS_DIR="$PROJECT_DIR/results/meta_analysis_15cohorts"
-COLOC_LOCI_DIR="$PROJECT_DIR/results/coloc/loci_full"
-COLOC_RES_DIR="$PROJECT_DIR/results/coloc/coloc_results_full"
-DISEASE_DIR="$PROJECT_DIR/results/coloc/disease_gwas"
-SCRIPTS_DIR="$PROJECT_DIR/scripts/coloc"
-CELL_TYPE_N=2812
-MIN_SNPS=10
 
-mkdir -p logs/coloc "$COLOC_LOCI_DIR" "$COLOC_RES_DIR"
+META_DIR="${META_DIR:-${RESULTS_ROOT}/meta_analysis_15cohorts}"
+COLOC_LOCI_DIR="${COLOC_LOCI_DIR:-${RESULTS_ROOT}/coloc/loci_full}"
+COLOC_RES_DIR="${COLOC_RES_DIR:-${RESULTS_ROOT}/coloc/coloc_results_full}"
+DISEASE_DIR="${DISEASE_DIR:-${SCC_DIR}/results/coloc/disease_gwas}"
+SCRIPTS_DIR="${NF_DIR}/scripts/coloc"
+CELL_TYPE_N="${CELL_TYPE_N:-2812}"
+MIN_SNPS="${MIN_SNPS:-10}"
+WORKER_LOGS="${LOG_ROOT}/coloc/workers_full_${SLURM_JOB_ID:-manual}"
+
+mkdir -p "${COLOC_LOCI_DIR}" "${COLOC_RES_DIR}" "${WORKER_LOGS}"
 
 CELL_TYPES=(
-  "Astrocyte" "Endothelial" "IT" "L4.IT" "L5.6.IT.Car3" "L5.6.NP"
-  "L5.ET" "L6.CT" "L6b" "LAMP5" "Microglia" "OPC" "Oligodendrocyte"
-  "PAX6" "PVALB" "Pericyte" "SST" "VIP" "VLMC"
+  Astrocyte Endothelial IT L4.IT L5.6.IT.Car3 L5.6.NP
+  L5.ET L6.CT L6b LAMP5 Microglia OPC Oligodendrocyte
+  PAX6 PVALB Pericyte SST VIP VLMC
 )
 
-IDX=$(( SLURM_ARRAY_TASK_ID - 1 ))
-CELL_TYPE="${CELL_TYPES[$IDX]}"
+echo "Meta tables : ${META_DIR}"
+echo "Loci        : ${COLOC_LOCI_DIR}"
+echo "Results     : ${COLOC_RES_DIR}"
+echo "Disease GWAS: ${DISEASE_DIR}"
 
-echo "============================================"
-echo "Job:       $SLURM_JOB_ID (array task $SLURM_ARRAY_TASK_ID)"
-echo "Cell type: $CELL_TYPE"
-echo "Node:      $(hostname)"
-echo "Started:   $(date)"
-echo "============================================"
+run_one() {
+    local ct="$1"
+    local tbl
+    tbl=$(ls "${META_DIR}/${ct}"_meta_analysis_*.tbl 2>/dev/null | grep -v '[0-9]\.tbl$' | head -1)
+    if [ -z "${tbl}" ]; then
+        echo "  FAIL ${ct}: no .tbl in ${META_DIR}" >&2
+        return 1
+    fi
 
-TBL_FILE=$(ls "$RESULTS_DIR"/"${CELL_TYPE}"_meta_analysis_*.tbl 2>/dev/null | \
-           grep -v "[0-9]\.tbl$" | head -1)
-if [ -z "$TBL_FILE" ]; then
-  echo "ERROR: No .tbl file found for $CELL_TYPE"
-  exit 1
+    local loci="${COLOC_LOCI_DIR}/${ct}_loci.tsv"
+    local ldata="${COLOC_LOCI_DIR}/${ct}_locus_data.tsv.gz"
+    if [ -s "${loci}" ] && [ -s "${ldata}" ]; then
+        echo "  skip extract ${ct}" >> "${WORKER_LOGS}/${ct}.log"
+    else
+        "${RSCRIPT}" "${SCRIPTS_DIR}/01_extract_loci.R" \
+            --cell_type        "${ct}" \
+            --tbl_file         "${tbl}" \
+            --output_dir       "${COLOC_LOCI_DIR}" \
+            --p_threshold      1e-5 \
+            --window_kb        500 \
+            --full_window_snps TRUE \
+            > "${WORKER_LOGS}/${ct}.log" 2>&1
+    fi
+
+    "${RSCRIPT}" "${SCRIPTS_DIR}/03_run_coloc.R" \
+        --cell_type    "${ct}" \
+        --loci_file    "${COLOC_LOCI_DIR}/${ct}_loci.tsv" \
+        --locus_data   "${COLOC_LOCI_DIR}/${ct}_locus_data.tsv.gz" \
+        --disease_dir  "${DISEASE_DIR}" \
+        --output_dir   "${COLOC_RES_DIR}" \
+        --cell_type_N  "${CELL_TYPE_N}" \
+        --run_susie    FALSE \
+        --min_snps     "${MIN_SNPS}" \
+        >> "${WORKER_LOGS}/${ct}.log" 2>&1 \
+        && echo "  OK   ${ct}" \
+        || { echo "  FAIL ${ct} (see ${WORKER_LOGS}/${ct}.log)"; return 1; }
+}
+export -f run_one
+export META_DIR COLOC_LOCI_DIR COLOC_RES_DIR DISEASE_DIR SCRIPTS_DIR
+export CELL_TYPE_N MIN_SNPS RSCRIPT WORKER_LOGS
+
+printf '%s\n' "${CELL_TYPES[@]}" \
+  | xargs -P "${#CELL_TYPES[@]}" -I{} bash -c 'run_one "$@"' _ {} \
+  && rc=0 || rc=$?
+
+echo ""
+if [ "$rc" -ne 0 ]; then
+    echo "ERROR: at least one cell type failed. Logs: ${WORKER_LOGS}"
+    exit 1
 fi
-echo "TBL file: $TBL_FILE"
-
-LOCI_FILE="$COLOC_LOCI_DIR/${CELL_TYPE}_loci.tsv"
-LOCUS_DATA="$COLOC_LOCI_DIR/${CELL_TYPE}_locus_data.tsv.gz"
-COLOC_OUT="$COLOC_RES_DIR/${CELL_TYPE}_coloc_results.tsv"
-
-echo "--- Step 1: Extract loci (full-window SNPs for coloc) ---"
-Rscript "$SCRIPTS_DIR/01_extract_loci.R" \
-  --cell_type         "$CELL_TYPE" \
-  --tbl_file          "$TBL_FILE" \
-  --output_dir        "$COLOC_LOCI_DIR" \
-  --p_threshold       1e-5 \
-  --window_kb         500 \
-  --full_window_snps  TRUE
-
-NLOCI=$(tail -n +2 "$LOCI_FILE" | wc -l)
-echo "  $NLOCI loci; locus data: $LOCUS_DATA"
-
-echo "--- Step 2: coloc.abf (min_snps=$MIN_SNPS) ---"
-Rscript "$SCRIPTS_DIR/03_run_coloc.R" \
-  --cell_type    "$CELL_TYPE" \
-  --loci_file    "$LOCI_FILE" \
-  --locus_data   "$LOCUS_DATA" \
-  --disease_dir  "$DISEASE_DIR" \
-  --output_dir   "$COLOC_RES_DIR" \
-  --cell_type_N  "$CELL_TYPE_N" \
-  --run_susie    FALSE \
-  --min_snps     "$MIN_SNPS"
-
-echo "============================================"
-echo "Finished: $(date)"
-echo "Output:   $COLOC_OUT"
-echo "============================================"
+echo "Coloc complete: ${COLOC_RES_DIR}"

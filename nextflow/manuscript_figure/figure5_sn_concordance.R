@@ -14,7 +14,12 @@ suppressPackageStartupMessages({
   library(cowplot)
 })
 
-OUT_DIR   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+# MF_OUT_DIR / MF_RESULTS_DIR override the defaults (run_downstream_v2.sbatch writes
+# to scratch: /project is read-only on compute nodes).
+OUT_DIR   <- Sys.getenv("MF_OUT_DIR",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure")
+RES_BASE  <- Sys.getenv("MF_RESULTS_DIR",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results")
 
 # Which sn-vs-bulk concordance analysis to plot.
 #   "hodge5u" = 5-cohort sn meta, de-duplicated (ROSMAP_Green + PsychAD_HBCC
@@ -26,12 +31,12 @@ OUT_DIR   <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscrip
 #   "hodge3"  = original 3-cohort sn meta (ROSMAP_Green + PsychAD_HBCC + PsychAD_MSSM)
 ANALYSIS_TAG <- "hodge5u"
 CONC_FILE <- file.path(
-  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
+  RES_BASE,
   paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
          "/top_hits/cell_type_concordance_summary.tsv")
 )
 HITS_FILE <- file.path(
-  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results",
+  RES_BASE,
   paste0("sn_bulk_meta_similarity_", ANALYSIS_TAG,
          "/top_hits/bulk_suggestive_hits_sn_direction.tsv")
 )

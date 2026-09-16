@@ -31,14 +31,14 @@ params {
     conda_env        = "test"
 
     // Bulk RNA-seq inputs (same as per-platform HBCC runs)
-    count_matrix_file = "${projectDir}/data_input/nimh_hbcc/HBCC_count_matrix.csv"
-    metadata_file     = "${projectDir}/data_input/nimh_hbcc/HBCC_metadata.csv"
+    count_matrix_file = "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_count_matrix.csv"
+    metadata_file     = "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_metadata.csv"
 
     // Files produced by genotype QC (will be created by this pipeline run)
     wgs_psam_file = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched/CMC_HBCC.QC.final.psam"
     pca_file      = "${projectDir}/compare_sn_gwas_with_bulk_and_no_tech/NIMH_HBCC_bulk_matched/pca.csv"
 
-    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    biospecimen_file       = '/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv'
     tissue_filter          = "dorsolateral prefrontal cortex"
     col_sample_id_for_matching = "specimenID"
     top_n_tech_cov         = 10
@@ -64,7 +64,7 @@ params {
     vcf_dir            = ""
     vcf_pattern        = ''
     // Same merged VCF as sn_NIMH_HBCC
-    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized'
+    normalized_vcf_dir = '/project/rrg-shreejoy/NIMH_HBCC/Genotype/imputed_chr_normalized'
 
     plink_path         = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
     bcftools_path      = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"

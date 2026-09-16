@@ -26,6 +26,8 @@ process PHENO_PREP {
     val biospec_col_specimen
     val biospec_assay_filter
     val samples_to_keep
+    val pheno_tissue_filter
+    val pheno_fid_specimen_map
     
     output:
     path "phenotypes_RINT.txt", emit: phenotype_file
@@ -81,7 +83,9 @@ process PHENO_PREP {
         ${biospec_col_individual && biospec_col_individual != '' ? "--biospec_col_individual \"${biospec_col_individual}\"" : ""} \\
         ${biospec_col_specimen && biospec_col_specimen != '' ? "--biospec_col_specimen \"${biospec_col_specimen}\"" : ""} \\
         ${biospec_assay_filter && biospec_assay_filter != '' ? "--biospec_assay_filter \"${biospec_assay_filter}\"" : ""} \\
-        ${samples_to_keep && samples_to_keep != '' ? "--samples_to_keep \"${samples_to_keep}\"" : ""}
+        ${samples_to_keep && samples_to_keep != '' ? "--samples_to_keep \"${samples_to_keep}\"" : ""} \\
+        ${pheno_tissue_filter && pheno_tissue_filter != '' ? "--tissue_filter \"${pheno_tissue_filter}\"" : ""} \\
+        ${pheno_fid_specimen_map && pheno_fid_specimen_map != '' ? "--fid_specimen_map \"${pheno_fid_specimen_map}\"" : ""}
     """
 }
 

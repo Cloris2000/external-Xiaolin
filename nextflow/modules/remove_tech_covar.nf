@@ -63,6 +63,7 @@ process REMOVE_TECH_COVAR {
         ${params.col_diagnosis ? "--col_diagnosis \"${params.col_diagnosis}\"" : ""} \\
         ${params.col_msex ? "--col_msex \"${params.col_msex}\"" : ""} \\
         ${params.batch_recode ? "--batch_recode \"${params.batch_recode}\"" : ""} \\
+        ${params.getOrDefault('exclude_bio_from_tech_cov', false) ? "--exclude_bio_from_tech_cov" : ""} \\
         --output_dir "${output_dir}" \\
         --corrected_output "corrected_data.RData" \\
         --metadata_output "metadata_cleaned.csv" \\

@@ -1,0 +1,70 @@
+/*
+ * 15-cohort meta-analysis, corrected run (v2), over the cohort_gwas_v2 GWAS.
+ *
+ * Output is hg19, like every other meta in this project.  The four hg38 cohorts
+ * are lifted DOWN to hg19 by LIFTOVER_SUMSTATS before harmonization, so METAL
+ * only ever sees hg19 coordinates.
+ *
+ * (Supersedes nextflow.config.standalone_meta_15cohorts_hg38fix, whose name
+ * wrongly suggested hg38 output.  That config was never run.)
+ *
+ * Corrections vs nextflow.config.standalone_meta_15cohorts / the published run:
+ *
+ * 1. ROSMAP_array declared hg38 so it is actually lifted.
+ *    scripts/audit_genome_build.py over the raw REGENIE output shows four
+ *    cohorts on hg38 (validation/genome_build_audit_bulk.txt):
+ *        ROSMAP_array, GTEx_v10, AMP_AD_Rush, AMP_AD_Mayo  (landmarks hg38=5/5)
+ *    but cohort_genome_builds declared only the last three.  ROSMAP_array's
+ *    hg38 coordinates were harmonized as hg19; because variant IDs are
+ *    chr:pos:ref:alt almost nothing matched and only 32,436 of 5,606,856
+ *    variants survived (99.4% loss).  Liftover verified: rs429358 hg38
+ *    chr19:44,908,684 -> hg19 chr19:45,411,941 = the ID ROSMAP WGS carries.
+ *
+ * 2. METAL allele/frequency orientation fixed in modules/metal_meta_analysis.nf
+ *    (Freq1 was 1-AF; Effect/P/heterogeneity were already correct).
+ *
+ * 3. Inputs are the cohort_gwas_v2 GWAS: every cohort re-run from VCF on
+ *    Trillium (run_cohort_gwas_v2.sbatch) - NABEC with the recovered chr1,
+ *    REGENIE step-1 hom_alt filter, exclude_bio_from_tech_cov deconvolution.
+ *
+ * 4. ANNOTATE_META_ALLELES writes <name>.annotated.tsv with REF/ALT, the effect
+ *    allele, and ALT-oriented effect/frequency next to each .tbl.
+ *
+ * Run:
+ *   sbatch run_meta_15cohorts_hg19_v2.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta_15cohorts'
+
+params {
+    // Always harmonize from the raw REGENIE output (the pre-harmonized CAMH tree
+    // bakes in the ROSMAP_array build mistake and the old GWAS).
+    pre_harmonized_input_dir = null
+
+    // Per-cohort GWAS from run_cohort_gwas_v2.sbatch.  Stage 0 (META_COHORT_AUDIT)
+    // globs {base_dir}/results/{cohort}/regenie_step2 and ignores
+    // meta_input_results_dir; Stages 1-2 use meta_input_results_dir.  The parent
+    // config's base_dir = "${projectDir}" would match nothing (this checkout's
+    // results/ holds no raw_p files).
+    base_dir               = "${results_root}/cohort_gwas_v2"
+    meta_input_results_dir = "${results_root}/cohort_gwas_v2/results"
+    cohort_metadata_file   = "${projectDir}/docs/meta_cohort_metadata.tsv"
+
+    cohort_genome_builds = [
+        "GTEx_v10":     "hg38",
+        "AMP_AD_Rush":  "hg38",
+        "AMP_AD_Mayo":  "hg38",
+        "ROSMAP_array": "hg38"
+    ]
+
+    // Figures are wanted for this run (the parent disables them).
+    run_plot_meta    = true
+    annotate_alleles = true
+
+    // Separate output tree so the previous results and the corrected ones sit
+    // side by side and stay directly comparable.
+    output_dir               = "${results_root}/meta_analysis_15cohorts_hg19_v2"
+    harmonized_output_dir    = "${results_root}/meta_analysis_15cohorts_hg19_v2/harmonized"
+    audit_output_dir         = "${results_root}/meta_analysis_15cohorts_hg19_v2/audit"
+    heterogeneity_output_dir = "${results_root}/meta_analysis_15cohorts_hg19_v2/heterogeneity"
+}

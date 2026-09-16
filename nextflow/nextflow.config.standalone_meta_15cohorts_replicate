@@ -1,0 +1,30 @@
+/*
+ * 15-cohort meta-analysis, Track A: bit-for-bit replication of the May 21
+ * SCC run (no liftover).
+ *
+ * The published SCC tables (1.63 GB / 14.8M variants) were produced before
+ * cohort_genome_builds existed.  Reproducing them means:
+ *   - harmonize from raw REGENIE output (do not reuse the Jun 4 pre-harmonized
+ *     tree, which already lifts GTEx_v10 / AMP_AD_Rush / AMP_AD_Mayo)
+ *   - leave cohort_genome_builds empty so every cohort is treated as hg19
+ *
+ * Pass criterion: md5 of each published .tbl matches the SCC
+ *   <cell_type>_meta_analysis_<suffix>.tbl
+ * (the 1.63 GB file, not the later *1.tbl).
+ *
+ * Run:
+ *   sbatch run_meta_15cohorts_replicate.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta_15cohorts'
+
+params {
+    pre_harmonized_input_dir = null
+    cohort_genome_builds     = [:]
+    run_plot_meta            = false
+
+    output_dir               = "${results_root}/meta_replicate_15cohorts"
+    harmonized_output_dir    = "${results_root}/meta_replicate_15cohorts/harmonized"
+    audit_output_dir         = "${results_root}/meta_replicate_15cohorts/audit"
+    heterogeneity_output_dir = "${results_root}/meta_replicate_15cohorts/heterogeneity"
+}

@@ -7,6 +7,9 @@
  * 3. GWAS_PIPELINE
  */
 
+// Cluster-specific roots, tool paths and whole-node local executor.
+includeConfig 'nextflow.config.trillium'
+
 params {
     // ============================================================================
     // GENERAL PARAMETERS
@@ -47,6 +50,10 @@ params {
     top_n_tech_cov = 10     // Number of top technical covariates to remove
     tech_cov_mode = "auto_top_n"  // auto_top_n, fixed_list, or none
     tech_covariates_file = ""  // Optional newline-delimited list for fixed_list mode
+    // When true, drop sex / diagnosis / Braak / age / other clinical columns
+    // from auto_top_n candidates. Default false = prior runs unchanged
+    // (June 9 GTEx/Rush lists included SEX/sex and Braak).
+    exclude_bio_from_tech_cov = false
     batch_covariates = "sequencingBatch,libraryPrep"  // Comma-separated batch columns for removeBatchEffect
     disable_batch_correction = false  // Safe default preserves existing behavior
     extra_metrics_file = null  // Optional per-sample QC metrics CSV (e.g. Picard/STAR) to merge into metadata
@@ -55,9 +62,11 @@ params {
     
     // Cell type deconvolution parameters
     deconv_tool = "MGP"     // Deconvolution tool: "MGP", "MuSiC", etc.
-    reference_taxonomy = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/Reference_taxonomy/SEAAD_MTG_RNAseq_final-nuclei_Bakken2024.h5ad"
+    // Unused parent default. Cohort configs set this themselves (15-cohort
+    // bulk GWAS uses "sonny_markers" = the Sonny Chen marker CSV, not SEAAD).
+    reference_taxonomy = ""
     marker_file = ""        // Optional marker file for deconvolution
-    hgnc_mapping_file = "/external/rprshnas01/netdata_kcni/stlab/Xiaolin/snRNAseq_mapping/hgnc_ensg_mapping.txt"
+    // hgnc_mapping_file comes from nextflow.config.trillium (hgnc_complete_set.txt)
     
     // Pre-computed cell proportions (skip RNA-seq processing when set)
     precomputed_proportions = null   // Path to pre-computed cell_proportions.csv (bypasses PCA/batch/deconv)
@@ -65,6 +74,18 @@ params {
     precomputed_pgen        = null   // Prefix to pre-computed QC pgen (bypasses all genotyping QC steps)
     cell_type_list          = null   // Override GWAS cell type list (null = use default 19 types)
     skip_metal              = false  // Skip METAL meta-analysis step in GWAS pipeline
+    stop_after              = null   // 'deconv' | 'pheno' | null (run the full pipeline)
+
+    // June 9 / April 7 replay pins. Default is today's pipeline (hom-ALT step1,
+    // auto tech-cov, first-row FID collapse). Set june9_replay=true on the CLI
+    // only; do not flip this default.
+    june9_replay = false
+    // hom_alt = current default (TWO_ALT>=1 and MAC>=2). mac1 = April 7 plink --mac 1.
+    regenie_step1_snp_filter = null
+    // Optional PHENO_PREP tissue guard (unused unless set). Replay passes tissue_filter.
+    pheno_tissue_filter = null
+    // Optional TSV (FID, specimenID) pinning which RNA library to keep per GWAS FID.
+    pheno_fid_specimen_map = null
     
     // Phenotype/covariate preparation parameters
     fid_method = "match"    // FID matching method: "match" or "copy"
@@ -86,9 +107,7 @@ params {
     vcf_pattern = ""        // VCF file pattern (e.g., "*.vcf.gz")
     normalized_vcf_dir = "" // Directory for normalized VCFs (if normalize_vcf=true)
     
-    // Software paths
-    plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
-    bcftools_path = "/external/rprshnas01/kcni/mwainberg/software/bcftools"
+    // Software paths: plink_path / bcftools_path come from nextflow.config.trillium
     
     // QC thresholds
     maf_threshold = 0.01    // Minor allele frequency threshold
@@ -127,9 +146,7 @@ params {
     // GWAS PIPELINE PARAMETERS
     // ============================================================================
     
-    // Software paths
-    regenie_path = "/project/rrg-shreejoy/pipeline_refs/tools/regenie"
-    metal_path = "/project/rrg-shreejoy/pipeline_refs/tools/metal"
+    // Software paths: regenie_path / metal_path come from nextflow.config.trillium
     
     // Regenie parameters
     regenie_threads = 24    // Number of threads for Regenie
@@ -162,12 +179,7 @@ params {
     // ]
 }
 
-// Executor configuration - use SLURM for job submission
-executor {
-    name = 'slurm'
-    queueSize = 30  // Allow create_pgen (22 chr) + merge + downstream jobs
-    submitRateLimit = '2 sec'  // Faster submission for parallel create_pgen / REGENIE
-}
+// Executor configuration comes from nextflow.config.trillium (local, whole-node).
 
 // Process configuration
 process {
@@ -175,9 +187,7 @@ process {
     cpus = 1
     memory = '4 GB'
     time = '1h'
-    // Use mediumtmp partition (compute17,19-32) — the medium partition nodes (compute01-11)
-    // have broken SLURM prologs due to an expired RRG allocation.
-    clusterOptions = '--partition=medium'
+    // clusterOptions comes from nextflow.config.trillium (null; local executor).
 
     // Error handling
     errorStrategy = 'retry'
@@ -243,7 +253,6 @@ process {
         cpus = 1
         memory = '4 GB'
         time = '2h'
-        clusterOptions = '--partition=medium'
     }
 }
 

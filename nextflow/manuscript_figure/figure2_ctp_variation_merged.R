@@ -8,7 +8,7 @@
 #
 # Panels:
 #   A — Bulk-to-snRNA estimation accuracy per cell type (benchmark)
-#       (mean Pearson r across ROSMAP/HBCC/MSBB validation cohorts ± SD)
+#       (mean Pearson r across ROSMAP/HBCC/MSBB/Mathys/Ruzicka ± SD)
 #   B — Estimated cell-type composition across cohorts (dot-range:
 #       donor IQR thick bar, cohort-median range thin whisker)
 #   C — Cohort-level differences in cell-type estimates (z-score heatmap)
@@ -27,13 +27,19 @@
 # =============================================================================
 
 NF_DIR  <- "/project/rrg-shreejoy/zhoux156/Xiaolin/SCC/nextflow"
-OUT_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+OUT_DIR <- Sys.getenv(
+  "FIG2_OUT_DIR",
+  unset = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
+)
+dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 ACC_FILE    <- file.path(OUT_DIR, "figure2_celltype_accuracy.tsv")
 PAIRED_FILE <- file.path(OUT_DIR, "combined_bulk_snrna_paired.tsv")
 PROP_FILE   <- file.path(OUT_DIR, "bulk_celltype_proportions_long.tsv")
 
-H2_FILE_15  <- file.path(NF_DIR, "results/meta_analysis_15cohorts/ldsc/summary/ldsc_h2_summary.tsv")
+# MF_H2_FILE overrides with the v2 LDSC summary once run_meta_15cohorts_hg19_v2_ldsc.sbatch has run.
+H2_FILE_15  <- Sys.getenv("MF_H2_FILE",
+  file.path(NF_DIR, "results/meta_analysis_15cohorts/ldsc/summary/ldsc_h2_summary.tsv"))
 H2_FILE_13  <- file.path(NF_DIR, "results/meta_analysis_13cohorts/ldsc/summary/ldsc_h2_summary.tsv")
 
 # Benchmark panel drops L4 IT (kept consistent with the published benchmark)

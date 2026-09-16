@@ -1,0 +1,37 @@
+/*
+ * Astrocyte-only 15-cohort meta, June 9 lift map, from new per-cohort GWAS.
+ *
+ * Same genome-build map as the June 9 SCC run (lift GTEx_v10, AMP_AD_Rush,
+ * AMP_AD_Mayo only; ROSMAP_array stays hg19). Reads the validation Astrocyte
+ * .raw_p files, not the pre-harmonized tree.
+ *
+ * Pass criterion: md5 of Astrocyte .tbl vs SCC Astrocyte *1.tbl.
+ *
+ * Run:
+ *   sbatch run_meta_astrocyte_june9.sbatch
+ */
+
+includeConfig 'nextflow.config.standalone_meta_15cohorts'
+
+params {
+    pre_harmonized_input_dir = null
+    cell_type_include        = ['Astrocyte']
+    run_plot_meta            = false
+    run_cohort_audit         = false
+    run_heterogeneity_summary = false
+    run_heterogeneity_breakdown = false
+
+    meta_input_results_dir   = "${results_root}/validation/gwas_Astrocyte"
+
+    output_dir               = "${results_root}/validation/meta_astrocyte_june9"
+    harmonized_output_dir    = "${results_root}/validation/meta_astrocyte_june9/harmonized"
+    audit_output_dir         = "${results_root}/validation/meta_astrocyte_june9/audit"
+    heterogeneity_output_dir = "${results_root}/validation/meta_astrocyte_june9/heterogeneity"
+
+    // June 9 map: do not add ROSMAP_array here.
+    cohort_genome_builds = [
+        "GTEx_v10":    "hg38",
+        "AMP_AD_Rush": "hg38",
+        "AMP_AD_Mayo": "hg38"
+    ]
+}

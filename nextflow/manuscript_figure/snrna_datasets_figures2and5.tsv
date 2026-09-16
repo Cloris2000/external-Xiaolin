@@ -1,0 +1,6 @@
+snrna_dataset	display_name	matched_bulk_cohort	ctp_donors	gwas_donors	fig2_ctp_validation	fig5_sn_ctp	notes
+ROSMAP_Green_Hodge	ROSMAP Green	ROSMAP	420	366	yes	yes	Green et al. ROSMAP snRNA-seq, Hodge 19-subclass labels. Fig 5: 366 donors passed genotype QC.
+PsychAD_HBCC_Hodge	PsychAD HBCC	NIMH_HBCC (study; Fig 2 bulk file is NIMH_HBCC_1M)	259	258	yes	yes	PsychAD HBCC snRNA-seq. Fig 2 pairs to NIMH_HBCC_1M bulk proportions.
+PsychAD_MSSM_Hodge	PsychAD MSSM	MSBB	203	187	yes	yes	PsychAD MSSM snRNA-seq paired to MSBB bulk / WGS.
+Ruz_MSSM	Ruzicka MSSM	CMC_MSSM	53	53	yes	yes	Ruzicka et al. 2024; CMC_MSSM individual IDs.
+ROSMAP_Mathys_unique	ROSMAP Mathys (unique)	ROSMAP	128	121	yes	yes	Mathys et al. ROSMAP snRNA-seq. Fig 2 uses the full Mathys pairing to ROSMAP bulk; Fig 5 sn meta uses the 128 donors not shared with ROSMAP Green (hodge5u).

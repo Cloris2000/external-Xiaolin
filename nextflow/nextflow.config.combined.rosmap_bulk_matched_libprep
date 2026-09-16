@@ -30,14 +30,14 @@ params {
     conda_env = "test"
 
     // Bulk RNA-seq inputs (same as standard ROSMAP run)
-    count_matrix_file = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_DLPFC_batch_all.csv'
-    metadata_file     = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/metabrain_PCA/data/ROSMAP_combined_metrics.csv'
+    count_matrix_file = '/project/rrg-shreejoy/ROSMAP/RNA/ROSMAP_DLPFC_batch_all.csv'
+    metadata_file     = '/project/rrg-shreejoy/ROSMAP/RNA/ROSMAP_combined_metrics.csv'
 
     // Files produced by genotype QC (will be created by this pipeline run)
     wgs_psam_file = "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/ROSMAP.QC.merged.psam"
     pca_file      = "${projectDir}/compare_sn_gwas_rosmap/ROSMAP_bulk_matched_libprep/pca.csv"
 
-    biospecimen_file = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+    biospecimen_file = '/project/rrg-shreejoy/ROSMAP/Metadata/ROSMAP_biospecimen_metadata.csv'
 
     tissue_filter              = 'dorsolateral prefrontal cortex'
     top_n_tech_cov             = 0               // no expression PC correction
@@ -65,8 +65,8 @@ params {
     skip_metal     = true
 
     vcf_dir            = ""
-    vcf_pattern        = '"/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Broad_Rush.vcf.gz"'
-    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/ROSMAP_joint_WGS_vcf_normalized'
+    vcf_pattern        = '"/project/rrg-shreejoy/ROSMAP/Genotype/ROSMAP_joint_WGS_vcf/NIA_JG_1898_samples_GRM_WGS_b37_JointAnalysis01_2017-12-08_{chrom}.recalibrated_variants.Broad_Rush.vcf.gz"'
+    normalized_vcf_dir = '/project/rrg-shreejoy/ROSMAP/Genotype/ROSMAP_joint_WGS_vcf_normalized'
     normalize_vcf      = true
 
     plink_path    = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"

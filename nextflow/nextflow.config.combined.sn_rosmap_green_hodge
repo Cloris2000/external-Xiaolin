@@ -33,7 +33,7 @@ params {
     ]
     skip_metal = true
 
-    biospecimen_file       = '/nethome/kcni/xzhou/GWAS_tut/AMP-AD/ROSMAP_biospecimen_metadata.csv'
+    biospecimen_file       = '/project/rrg-shreejoy/ROSMAP/Metadata/ROSMAP_biospecimen_metadata.csv'
     fid_method             = 'biospec_specimen'
     fid_format             = ''
     biospec_assay_filter   = 'wholeGenomeSeq'

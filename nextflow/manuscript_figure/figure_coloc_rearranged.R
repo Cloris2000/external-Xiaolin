@@ -33,10 +33,14 @@ suppressPackageStartupMessages({
 
 # ── paths ────────────────────────────────────────────────────────────────────
 ROOT        <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
-COLOC_FILE  <- file.path(ROOT, "results/coloc/full/coloc_all_results.tsv")
-LOCI_DIR    <- file.path(ROOT, "results/coloc/loci_full")
-DISEASE_DIR <- file.path(ROOT, "results/coloc/disease_gwas")
-OUT_DIR     <- file.path(ROOT, "manuscript_figure")
+# MF_* overrides (run_downstream_v2.sbatch writes to scratch; /project is read-only
+# on compute nodes).  MF_AUTO_REGIONAL=1 picks panels C-E from the data instead of
+# the three hard-coded manuscript loci.
+COLOC_FILE  <- file.path(Sys.getenv("MF_COLOC_DIR", file.path(ROOT, "results/coloc/full")), "coloc_all_results.tsv")
+LOCI_DIR    <- Sys.getenv("MF_LOCI_DIR",    file.path(ROOT, "results/coloc/loci_full"))
+DISEASE_DIR <- Sys.getenv("MF_DISEASE_DIR", file.path(ROOT, "results/coloc/disease_gwas"))
+OUT_DIR     <- Sys.getenv("MF_OUT_DIR",     file.path(ROOT, "manuscript_figure"))
+AUTO_REGIONAL <- nzchar(Sys.getenv("MF_AUTO_REGIONAL", ""))
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 PP_HIT   <- 0.5
@@ -1137,6 +1141,34 @@ build_regional_panel <- function(cell_type, locus_id, disease_raw,
 
 # Regional examples — classic LocusZoom ±250 kb, gene track hg19 (build 37).
 # Panel E nearest gene on hg19: RP11-347L18.1 (~93 kb upstream of lead).
+if (AUTO_REGIONAL) {
+  # Top three events by PP.H4 among significant hits, one per genomic locus
+  # (1 Mb) and preferring distinct cell types.  Lead SNPs -- and therefore
+  # locus_ids -- change between runs, so the manuscript's hard-coded trio
+  # below is only used when MF_AUTO_REGIONAL is unset.
+  ev <- sig[order(-PP.H4)]
+  ev[, c("chr_", "pos_") := {
+    m <- regmatches(locus_id, regexec("_chr([0-9XY]+)_([0-9]+)$", locus_id))
+    list(sapply(m, `[`, 2), as.numeric(sapply(m, `[`, 3)))
+  }]
+  pick <- ev[0]
+  for (i in seq_len(nrow(ev))) {
+    e <- ev[i]
+    if (nrow(pick) && any(pick$chr_ == e$chr_ & abs(pick$pos_ - e$pos_) < 1e6)) next
+    if (nrow(pick) && e$cell_type %in% pick$cell_type && nrow(ev) > 6) next
+    pick <- rbind(pick, e); if (nrow(pick) == 3) break
+  }
+  if (nrow(pick) < 3) stop("AUTO_REGIONAL: fewer than 3 distinct significant loci")
+  pick[, label := assign_locus_label(chr_, pos_)]
+  cat("Regional panels (auto):\n"); print(pick[, .(cell_type, locus_id, disease, PP.H4 = round(PP.H4, 3), label)])
+  fwrite(pick[, .(panel = c("C", "D", "E"), cell_type, locus_id, disease, PP.H4, label)],
+         file.path(OUT_DIR, "figure_coloc_regional_panels.tsv"), sep = "\t")
+  panel_C <- build_regional_panel(pick$cell_type[1], pick$locus_id[1], pick$disease[1], "C")
+  panel_D <- build_regional_panel(pick$cell_type[2], pick$locus_id[2], pick$disease[2], "D")
+  panel_E <- build_regional_panel(pick$cell_type[3], pick$locus_id[3], pick$disease[3], "E")
+  panel_names <- sprintf("panel_%s_%s_%s.pdf", c("C", "D", "E"),
+                         gsub("[^A-Za-z0-9.-]+", "_", pick$label), sub("_.*$", "", pick$disease))
+} else {
 panel_C <- build_regional_panel(
   cell_type = "VIP",
   locus_id = "VIP_chr7_12284430",
@@ -1155,6 +1187,8 @@ panel_E <- build_regional_panel(
   disease_raw = "BD_bip2024",
   panel_letter = "E"
 )
+panel_names <- c("panel_C_TMEM106B_MDD.pdf", "panel_D_CACNA1C_BD.pdf", "panel_E_RP11-347L18.1_BD.pdf")
+}
 
 # ============================================================
 # ASSEMBLE + SAVE
@@ -1262,17 +1296,17 @@ panel_B_standalone <- plot_grid(
 )
 ggsave(file.path(OUT_DIR, "panel_B_architecture.pdf"), panel_B_standalone,
        width = FIG_W, height = FIG_W * 0.42, device = cairo_pdf)
-ggsave(file.path(OUT_DIR, "panel_C_TMEM106B_MDD.pdf"), panel_C,
+ggsave(file.path(OUT_DIR, panel_names[1]), panel_C,
        width = FIG_W / 3 * 1.15, height = 6.5, device = cairo_pdf)
-ggsave(file.path(OUT_DIR, "panel_D_CACNA1C_BD.pdf"), panel_D,
+ggsave(file.path(OUT_DIR, panel_names[2]), panel_D,
        width = FIG_W / 3 * 1.15, height = 6.5, device = cairo_pdf)
-ggsave(file.path(OUT_DIR, "panel_E_RP11-347L18.1_BD.pdf"), panel_E,
+ggsave(file.path(OUT_DIR, panel_names[3]), panel_E,
        width = FIG_W / 3 * 1.15, height = 6.5, device = cairo_pdf)
 
 cat("\nSaved:\n")
 cat("  ", out_pdf, "\n")
 cat("  ", out_png, "\n")
 cat("  panel_A_landscape.pdf / panel_B_architecture.pdf\n")
-cat("  panel_C_TMEM106B_MDD.pdf / panel_D_CACNA1C_BD.pdf / panel_E_RP11-347L18.1_BD.pdf\n")
+cat("  ", paste(panel_names, collapse = " / "), "\n")
 cat("  panel_A_landscape.tsv / panel_B_locus_disease_events.tsv / coloc_summary_by_cell_type.tsv\n")
 cat("\nDone.\n")

@@ -75,7 +75,7 @@ params {
     // PHENOTYPE PREP — crosswalked cmc_id, same CMC_HBCC biospecimen mapping
     // ============================================================================
 
-    biospecimen_file       = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    biospecimen_file       = '/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv'
     fid_method              = 'biospec_specimen'
     fid_format              = '0_'
     biospec_col_individual  = 'Individual_ID'

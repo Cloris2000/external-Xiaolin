@@ -32,11 +32,16 @@ workflow GWAS_PIPELINE {
     def cohort_suffix = params.cohorts.sort().join('_')
     
     // Define cell types (configurable via params.cell_type_list)
+    // CLI --cell_type_list Astrocyte arrives as a String; collectEntries/fromList need a List.
+    // Default (null) is unchanged: all 19 types.
     def cell_types = params.cell_type_list ?: [
         "Astrocyte", "Endothelial", "IT", "L4.IT", "L5.ET", "L5.6.IT.Car3", 
         "L5.6.NP", "L6.CT", "L6b", "LAMP5", "Microglia", "OPC", 
         "Oligodendrocyte", "PAX6", "PVALB", "Pericyte", "SST", "VIP", "VLMC"
     ]
+    if (cell_types instanceof CharSequence) {
+        cell_types = [cell_types.toString()]
+    }
     
     // Build cell type name mapping dynamically: dots -> underscores for filenames
     def cell_type_mapping = cell_types.collectEntries { ct ->
@@ -120,21 +125,21 @@ workflow GWAS_PIPELINE {
             [[cohort, cell_type], pred_list_file]
         }
     
-    // Join pred_list with extracted phenotype files and covariate file
+    // Join pred_list with extracted phenotype files, covariates, and the QC pgen.
+    // Step 2 used to read params.cohort_configs[cohort].pgen_file (${projectDir}/results/...),
+    // which is a login-node symlink and can be a different pgen than Stage 3 just produced.
     def regenie_step2_input = pred_list_keyed
         .join(extracted_pheno_keyed, by: 0)
         .combine(covar_file_ch)
-        .map { key, pred_list_file, extracted_pheno_file, covar_file ->
+        .combine(pgen_file_ch)
+        .map { key, pred_list_file, extracted_pheno_file, covar_file, pgen_file ->
             def (cohort, cell_type) = key
-            def cohort_params = params.cohort_configs[cohort]
-            // Get all three pgen companion files
-            def pgen_prefix = cohort_params.pgen_file.toString().replace('.pgen', '')
+            def pgen_prefix = pgen_file.toString().replace('.pgen', '')
             def pgen_files = [
                 file("${pgen_prefix}.pgen"),
                 file("${pgen_prefix}.pvar"),
                 file("${pgen_prefix}.psam")
             ]
-            // Create cohort-specific output directory (use params.output_dir to avoid cross-cohort overwrites)
             def step2_dir = "${params.output_dir}/regenie_step2"
             
             tuple(cohort, cell_type, pgen_files, extracted_pheno_file, covar_file, pred_list_file, params.regenie_path, params.regenie_threads, params.regenie_bsize, step2_dir)

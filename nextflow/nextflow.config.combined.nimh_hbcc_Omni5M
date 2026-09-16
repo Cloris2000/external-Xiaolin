@@ -13,12 +13,12 @@ params {
     outdir = "${projectDir}/results"
     conda_env = "test"
 
-    count_matrix_file = "${projectDir}/data_input/nimh_hbcc/HBCC_count_matrix.csv"
-    metadata_file = "${projectDir}/data_input/nimh_hbcc/HBCC_metadata.csv"
+    count_matrix_file = "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_count_matrix.csv"
+    metadata_file = "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_metadata.csv"
     wgs_psam_file = "${projectDir}/results/NIMH_HBCC_Omni5M/CMC_HBCC.QC.final.psam"
     pca_file = "${projectDir}/results/NIMH_HBCC_Omni5M/pca.csv"
 
-    biospecimen_file = '/external/rprshnas01/netdata_kcni/stlab/CMC_genotypes/SNPs/Release3/Metadata/CMC_Human_SNP_metadata.csv'
+    biospecimen_file = '/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv'
     tissue_filter = "dorsolateral prefrontal cortex"
     col_sample_id_for_matching = "specimenID"
     top_n_tech_cov = 10
@@ -36,7 +36,7 @@ params {
 
     vcf_dir = ""
     vcf_pattern = ''
-    normalized_vcf_dir = '/external/rprshnas01/netdata_kcni/stlab/Xiaolin/WGS/QC/CMC_HBCC_reimputed/imputed_chr_normalized_Omni5M'
+    normalized_vcf_dir = '/project/rrg-shreejoy/NIMH_HBCC/Genotype/imputed_chr_normalized_Omni5M'
 
     plink_path = "/project/rrg-shreejoy/pipeline_refs/tools/plink2"
     bcftools_path = "/home/zhoux156/miniforge3/envs/bcftools_env/bin/bcftools"

@@ -1,21 +1,34 @@
 #!/bin/bash
 #SBATCH --job-name=het_ct
-#SBATCH --partition=compute
-#SBATCH --array=0-18
-#SBATCH --time=2:00:00
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=4G
-#SBATCH --output=/scratch/zhoux156/logs/het_breakdown/het_breakdown_array_%A_%a.out
-#SBATCH --error=/scratch/zhoux156/logs/het_breakdown/het_breakdown_array_%A_%a.err
 #SBATCH --account=rrg-shreejoy
+#SBATCH --partition=compute
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=192
+#SBATCH --time=4:00:00
+#SBATCH --output=/scratch/zhoux156/logs/het_breakdown/het_breakdown_%j.out
+#SBATCH --error=/scratch/zhoux156/logs/het_breakdown/het_breakdown_%j.err
 
-# One cell type per array task — heterogeneity breakdown worker.
+# Heterogeneity breakdown for all 19 cell types.
+#
+# This was a 19-way SLURM array. Trillium allocates whole nodes, so an array
+# would have burned 19 nodes on single-threaded jobs and queued badly. All 19
+# now run as parallel workers inside one node, then the merge step runs once.
+#
+# Trillium allocates whole nodes; do not add --mem.
+#
+#   sbatch run_heterogeneity_breakdown_array.sbatch                     # Track A results
+#   META_DIR=... OUT_DIR=... sbatch run_heterogeneity_breakdown_array.sbatch
 
 set -euo pipefail
 
 source "${SITE_ENV:-/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/site_env.sh}"
-mkdir -p "${NF_DIR}/logs/het_breakdown"
-cd "${NF_DIR}"
+
+# Defaults to the replication meta; point META_DIR at the hg38fix tree for Track B.
+META_DIR="${META_DIR:-${RESULTS_ROOT}/meta_analysis_15cohorts}"
+OUT_DIR="${OUT_DIR:-${META_DIR}/heterogeneity_breakdown}"
+WORKER_LOGS="${LOG_ROOT}/het_breakdown/workers_${SLURM_JOB_ID:-manual}"
+mkdir -p "${OUT_DIR}" "${WORKER_LOGS}"
 
 CELL_TYPES=(
   Astrocyte Endothelial IT L4.IT L5.6.IT.Car3 L5.6.NP
@@ -31,18 +44,58 @@ COHORTS=(
   ROSMAP ROSMAP_array
 )
 
-CELL_TYPE="${CELL_TYPES[$SLURM_ARRAY_TASK_ID]}"
-OUT_DIR="${NF_DIR}/results/meta_analysis_15cohorts/heterogeneity_breakdown"
+# The per-cohort REGENIE output lives in the SCC tree copied to Trillium, not
+# under NF_DIR, which only holds meta-analysis results.
+# Per-cohort summary statistics.  Default: raw REGENIE output in the SCC tree.
+# SUMSTAT_PATTERN overrides the whole path template ({cohort}, {cell_type}
+# placeholders); the v2 run points it at the harmonized (hg19-lifted) files so
+# the four hg38 cohorts match the meta markers instead of silently dropping out.
+SUMSTAT_DIR="${SUMSTAT_DIR:-${SCC_DIR}/results}"
+SUMSTAT_PATTERN="${SUMSTAT_PATTERN:-${SUMSTAT_DIR}/{cohort}/regenie_step2/{cohort}_{cell_type}_step2.regenie.raw_p}"
 
-echo "Processing cell type: ${CELL_TYPE} (array task ${SLURM_ARRAY_TASK_ID})"
+echo "Meta tables : ${META_DIR}"
+echo "Output      : ${OUT_DIR}"
+echo "Cohort data : ${SUMSTAT_DIR}"
+echo "Running ${#CELL_TYPES[@]} cell types across ${#CELL_TYPES[@]} parallel workers"
 
+# Bash arrays do not survive `export -f` into the xargs subshells, so the cohort
+# list crosses as a space-separated string and is split back apart here.
+run_one() {
+    local ct="$1"
+    local -a cohorts
+    read -r -a cohorts <<< "${COHORTS_STR}"
+    python3 "${NF_DIR}/scripts/heterogeneity_breakdown.py" \
+        --cell-type "${ct}" \
+        --meta-tbl-dir "${META_DIR}" \
+        --cohort-sumstat-pattern "${SUMSTAT_PATTERN}" \
+        --cohort-metadata "${NF_DIR}/docs/meta_cohort_metadata.tsv" \
+        --output-dir "${OUT_DIR}" \
+        --cohorts "${cohorts[@]}" \
+        --sumstat-results-dir "${SUMSTAT_DIR}" \
+        > "${WORKER_LOGS}/${ct}.log" 2>&1 \
+        && echo "  OK   ${ct}" \
+        || { echo "  FAIL ${ct} (see ${WORKER_LOGS}/${ct}.log)"; return 1; }
+}
+export -f run_one
+export NF_DIR META_DIR OUT_DIR SUMSTAT_DIR WORKER_LOGS
+export COHORTS_STR="${COHORTS[*]}"
+
+# xargs returns 123 if any worker failed; keep going so one bad cell type does
+# not hide the rest, then report.
+printf '%s\n' "${CELL_TYPES[@]}" \
+  | xargs -P "${#CELL_TYPES[@]}" -I{} bash -c 'run_one "$@"' _ {} \
+  && rc=0 || rc=$?
+
+echo ""
+if [ "$rc" -ne 0 ]; then
+    echo "ERROR: at least one cell type failed; not merging. Logs: ${WORKER_LOGS}"
+    exit 1
+fi
+
+echo "All cell types done. Merging..."
 python3 "${NF_DIR}/scripts/heterogeneity_breakdown.py" \
-    --cell-type "${CELL_TYPE}" \
-    --meta-tbl-dir "${NF_DIR}/results/meta_analysis_15cohorts" \
-    --cohort-sumstat-pattern "${NF_DIR}/results/{cohort}/regenie_step2/{cohort}_{cell_type}_step2.regenie.raw_p" \
-    --cohort-metadata "${NF_DIR}/docs/meta_cohort_metadata.tsv" \
-    --output-dir "${OUT_DIR}" \
-    --cohorts "${COHORTS[@]}" \
-    --sumstat-results-dir "${NF_DIR}/results"
+    --merge-only \
+    --output-dir "${OUT_DIR}"
 
-echo "Done: ${CELL_TYPE}"
+echo ""
+echo "Heterogeneity breakdown complete: ${OUT_DIR}"

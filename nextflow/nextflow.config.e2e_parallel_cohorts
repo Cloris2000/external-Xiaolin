@@ -1,0 +1,38 @@
+/*
+ * Overlay for running many cohort pipelines on one Trillium node.
+ * Loaded last so it wins over nextflow.config.trillium / cohort configs.
+ * Does not change scientific defaults — only executor and process resources.
+ *
+ * Each Nextflow otherwise inherits executor.cpus=192 / memory=700 GB.
+ * Cohort configs use fully-qualified withName (e.g. COMBINED_PIPELINE:...:REGENIE_STEP1)
+ * at 48–64 GB; those must be matched by regex or the local executor rejects the task
+ * when executor.memory is capped.
+ */
+executor {
+    cpus      = 12
+    memory    = '48 GB'
+    queueSize = 2
+}
+
+process {
+    withName: /.*:PCA_TECH_COV$|PCA_TECH_COV/ {
+        cpus   = 2
+        memory = '16 GB'
+    }
+    withName: /.*:REMOVE_TECH_COVAR$|REMOVE_TECH_COVAR/ {
+        cpus   = 2
+        memory = '16 GB'
+    }
+    withName: /.*:CELL_TYPE_DECONV$|CELL_TYPE_DECONV/ {
+        cpus   = 4
+        memory = '32 GB'
+    }
+    withName: /.*REGENIE_STEP1$/ {
+        cpus   = 8
+        memory = '32 GB'
+    }
+    withName: /.*REGENIE_STEP2$/ {
+        cpus   = 8
+        memory = '32 GB'
+    }
+}

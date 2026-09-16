@@ -16,8 +16,12 @@
 # SECTION 1 — Paths
 # =============================================================================
 
-GWAS_META_DIR <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts"
-CACHE_DIR     <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/gwas_cache"
+# MF_META_DIR / MF_CACHE_DIR override the defaults (used by run_downstream_v2.sbatch,
+# which must write to scratch: /project is read-only on compute nodes).
+GWAS_META_DIR <- Sys.getenv("MF_META_DIR",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/results/meta_analysis_15cohorts")
+CACHE_DIR     <- Sys.getenv("MF_CACHE_DIR",
+  "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/gwas_cache")
 
 # Columns to keep in cache (chr/pos parsed; only what figure3 needs)
 KEEP_COLS_BASE  <- c("chr", "pos", "beta", "se", "p", "eaf")  # non-focus CTs

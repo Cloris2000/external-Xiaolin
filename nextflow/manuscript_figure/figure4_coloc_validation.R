@@ -23,9 +23,15 @@ suppressPackageStartupMessages({
 
 # ── paths ────────────────────────────────────────────────────────────────────
 ROOT       <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow"
-COLOC_FILE <- file.path(ROOT, "results/coloc/full/coloc_all_results.tsv")
-REG_DIR    <- file.path(ROOT, "results/coloc/full/plots/regional")
-OUT_DIR    <- file.path(ROOT, "manuscript_figure")
+# MF_COLOC_DIR (the 04_summarize output dir) / MF_OUT_DIR override the defaults;
+# MF_AUTO_REGIONAL=1 picks panels B-D from the data instead of the three
+# hard-coded manuscript loci (whose lead SNPs, and hence PNG names, change
+# between runs).  run_downstream_v2.sbatch sets all three.
+COLOC_DIR  <- Sys.getenv("MF_COLOC_DIR", file.path(ROOT, "results/coloc/full"))
+COLOC_FILE <- file.path(COLOC_DIR, "coloc_all_results.tsv")
+REG_DIR    <- file.path(COLOC_DIR, "plots/regional")
+OUT_DIR    <- Sys.getenv("MF_OUT_DIR", file.path(ROOT, "manuscript_figure"))
+AUTO_REGIONAL <- nzchar(Sys.getenv("MF_AUTO_REGIONAL", ""))
 
 REG_VIP    <- file.path(REG_DIR, "VIP_chr7_12284430_MDD_MDD2025_regional.png")
 REG_CAR3   <- file.path(REG_DIR, "L5.6.IT.Car3_chr12_2324042_BD_bip2024_regional.png")
@@ -154,6 +160,32 @@ cat("  Panel A done.\n")
 # ============================================================
 cat("Loading regional plot PNGs...\n")
 
+if (AUTO_REGIONAL) {
+  # Top three colocalisation events by PP.H4, one per genomic locus (1 Mb) and
+  # preferring distinct cell types, matched to the regional PNGs written by
+  # scripts/coloc/05_regional_coloc_plots.R:  <ct>_chr<c>_<pos>_<disease>_regional.png
+  ev <- coloc[coloc_method == "coloc.abf" & !is.na(PP.H4)][order(-PP.H4)]
+  ev[, c("chr_", "pos_") := {
+    m <- regmatches(locus_id, regexec("_chr([0-9XY]+)_([0-9]+)$", locus_id))
+    list(sapply(m, `[`, 2), as.numeric(sapply(m, `[`, 3)))
+  }]
+  ev[, png := file.path(REG_DIR, sprintf("%s_%s_%s_regional.png", cell_type,
+                                         sub("^[^_]+_", "", locus_id), disease))]
+  ev <- ev[file.exists(png)]
+  pick <- ev[0]
+  for (i in seq_len(nrow(ev))) {
+    e <- ev[i]
+    same_locus <- nrow(pick) && any(pick$chr_ == e$chr_ & abs(pick$pos_ - e$pos_) < 1e6)
+    if (same_locus) next
+    if (nrow(pick) && e$cell_type %in% pick$cell_type && nrow(ev) > 6) next
+    pick <- rbind(pick, e); if (nrow(pick) == 3) break
+  }
+  if (nrow(pick) < 3) stop("AUTO_REGIONAL: fewer than 3 distinct-locus regional PNGs found in ", REG_DIR)
+  REG_VIP <- pick$png[1]; REG_CAR3 <- pick$png[2]; REG_MICRO <- pick$png[3]
+  cat("Regional panels (auto):\n"); print(pick[, .(cell_type, locus_id, disease, PP.H4 = round(PP.H4, 3))])
+  fwrite(pick[, .(panel = c("B", "C", "D"), cell_type, locus_id, disease, PP.H4, png = basename(png))],
+         file.path(OUT_DIR, "figure4_regional_panels.tsv"), sep = "\t")
+}
 pB <- load_png_panel(REG_VIP,   "B")
 pC <- load_png_panel(REG_CAR3,  "C")
 pD <- load_png_panel(REG_MICRO, "D")

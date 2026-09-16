@@ -1,0 +1,17 @@
+/*
+ * Extra overlay when RUN_VCF_QC=1 (two PENN/PITT pipelines on one node).
+ * Loaded after nextflow.config.e2e_parallel_cohorts so chr QC can use more
+ * of the node than the 12 CPU / 48 GB per-instance cap.
+ */
+executor {
+    cpus      = 96
+    memory    = '350 GB'
+    queueSize = 12
+}
+
+process {
+    withName: /.*CREATE_PGEN.*/ {
+        cpus   = 8
+        memory = '32 GB'
+    }
+}
