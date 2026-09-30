@@ -40,19 +40,50 @@ ANC_COLORS = {
 }
 ANC_ORDER = ["EUR", "AFR", "AMR", "SAS", "EAS", "UNCERTAIN"]
 
+# Pipeline cohort id -> display name for the figure.
+#
+# Several ids collapse onto one display cohort:
+#   ROSMAP + ROSMAP_array                        -> AMP_AD_ROSMAP
+#   NIMH_HBCC_1M + _h650 + _Omni5M               -> NIMH_HBCC
+# (the HBCC ids differ only by genotyping platform, and ROSMAP_array is the
+#  TOPMed-imputed array arm of the same study, so both are one cohort here.)
+#
+# NOTE the deliberate swap: the bulk `Mayo`/`MSBB` cohorts become AMP_AD_Mayo /
+# AMP_AD_MSBB, while the existing AMP-AD Diverse cohorts of the same name become
+# AMP_AD_Diverse_*.  The mapping is applied in ONE pass, so `Mayo` -> AMP_AD_Mayo
+# and `AMP_AD_Mayo` -> AMP_AD_Diverse_Mayo do not collide; applying it in two
+# passes would silently merge the two Mayo cohorts.
+COHORT_DISPLAY = {
+    "ROSMAP":           "AMP_AD_ROSMAP",
+    "ROSMAP_array":     "AMP_AD_ROSMAP",
+    "Mayo":             "AMP_AD_Mayo",
+    "MSBB":             "AMP_AD_MSBB",
+    "CMC_MSSM":         "CMC_MSSM",
+    "CMC_PENN":         "CMC_PENN",
+    "CMC_PITT":         "CMC_PITT",
+    "GTEx_v10":         "GTEx",
+    "NABEC":            "NABEC",
+    "NIMH_HBCC_1M":     "NIMH_HBCC",
+    "NIMH_HBCC_h650":   "NIMH_HBCC",
+    "NIMH_HBCC_Omni5M": "NIMH_HBCC",
+    "GVEX":             "GVEX",
+    "AMP_AD_Rush":      "AMP_AD_Diverse_Rush",
+    "AMP_AD_Mayo":      "AMP_AD_Diverse_Mayo",
+}
+
+# Display order after the merges (11 cohorts instead of 15).
 COHORT_ORDER = [
-    "ROSMAP", "ROSMAP_array", "Mayo", "MSBB",
+    "AMP_AD_ROSMAP", "AMP_AD_Mayo", "AMP_AD_MSBB",
     "CMC_MSSM", "CMC_PENN", "CMC_PITT",
-    "GTEx_v10", "NABEC",
-    "NIMH_HBCC_1M", "NIMH_HBCC_h650", "NIMH_HBCC_Omni5M",
-    "GVEX", "AMP_AD_Rush", "AMP_AD_Mayo",
+    "GTEx", "NABEC", "NIMH_HBCC", "GVEX",
+    "AMP_AD_Diverse_Rush", "AMP_AD_Diverse_Mayo",
 ]
 
-# 15 distinguishable cohort colours (tab20 minus the near-greys).
+# Distinguishable cohort colours (tab20 minus the near-greys).
 COHORT_COLORS = [
-    "#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c",
+    "#1f77b4", "#ff7f0e", "#ffbb78", "#2ca02c",
     "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5",
-    "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#17becf",
+    "#8c564b", "#e377c2", "#17becf",
 ]
 
 
@@ -200,9 +231,21 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     df = pd.read_csv(args.samples, sep="\t")
+
+    # Map pipeline cohort ids to display names in ONE pass (see COHORT_DISPLAY:
+    # `Mayo` and `AMP_AD_Mayo` swap names, so a sequential rename would merge
+    # them).  The 1000G reference rows keep their own label.
+    is_coh = df.dataset == "cohort"
+    unknown = sorted(set(df.loc[is_coh, "cohort"]) - set(COHORT_DISPLAY))
+    if unknown:
+        raise SystemExit(f"ERROR: no display name for cohort(s): {unknown}")
+    df.loc[is_coh, "cohort"] = df.loc[is_coh, "cohort"].map(COHORT_DISPLAY)
+
     n_ref = (df.dataset == "reference").sum()
-    n_coh = (df.dataset == "cohort").sum()
+    n_coh = is_coh.sum()
     print(f"[panels] {n_coh:,} cohort samples, {n_ref:,} reference samples")
+    print(f"[panels] {len(set(df.loc[is_coh, 'cohort']))} display cohorts "
+          f"after merging")
 
     panel_a(df, out, args.point_size, args.ref_point_size)
     panel_b(df, out, args.point_size)

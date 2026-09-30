@@ -431,7 +431,11 @@ out_svg <- file.path(OUT_DIR, "test_multict_gws_manhattan.svg")
 # Slightly taller to give suggestive cloud room without crowding labels
 ggsave(out_png, p, width = 11.5, height = 6.2, dpi = 200, bg = "white")
 ggsave(out_pdf, p, width = 11.5, height = 6.2, bg = "white")
-ggsave(out_svg, p, width = 11.5, height = 6.2, bg = "white")
+if (requireNamespace("svglite", quietly = TRUE)) {
+  ggsave(out_svg, p, width = 11.5, height = 6.2, bg = "white")
+} else {
+  cat("NOTE: svglite not installed; skipping", out_svg, "\n")   # png + pdf are written above
+}
 
 fwrite(pts[order(sig_tier, chr, lead_pos, cell_type),
            .(sig_tier, cell_type, chr, lead_pos, lead_p, nlp,

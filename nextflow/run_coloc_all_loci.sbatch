@@ -31,6 +31,11 @@ DISEASE_DIR="${DISEASE_DIR:-${SCC_DIR}/results/coloc/disease_gwas}"
 SCRIPTS_DIR="${NF_DIR}/scripts/coloc"
 CELL_TYPE_N="${CELL_TYPE_N:-2812}"
 MIN_SNPS="${MIN_SNPS:-10}"
+# Optional comma-separated disease labels (basename without _hg19.tsv) passed to
+# 03_run_coloc.R --disease_include.  Unset = every *_hg19.tsv under DISEASE_DIR,
+# INCLUDING the superseded sets kept in DISEASE_DIR/archive/ (MDD_Wray2018,
+# BD_Mullins2021), which the manuscript run did not use.
+COLOC_DISEASES="${COLOC_DISEASES:-}"
 WORKER_LOGS="${LOG_ROOT}/coloc/workers_full_${SLURM_JOB_ID:-manual}"
 
 mkdir -p "${COLOC_LOCI_DIR}" "${COLOC_RES_DIR}" "${WORKER_LOGS}"
@@ -79,13 +84,14 @@ run_one() {
         --cell_type_N  "${CELL_TYPE_N}" \
         --run_susie    FALSE \
         --min_snps     "${MIN_SNPS}" \
+        ${COLOC_DISEASES:+--disease_include "${COLOC_DISEASES}"} \
         >> "${WORKER_LOGS}/${ct}.log" 2>&1 \
         && echo "  OK   ${ct}" \
         || { echo "  FAIL ${ct} (see ${WORKER_LOGS}/${ct}.log)"; return 1; }
 }
 export -f run_one
 export META_DIR COLOC_LOCI_DIR COLOC_RES_DIR DISEASE_DIR SCRIPTS_DIR
-export CELL_TYPE_N MIN_SNPS RSCRIPT WORKER_LOGS
+export CELL_TYPE_N MIN_SNPS RSCRIPT WORKER_LOGS COLOC_DISEASES
 
 printf '%s\n' "${CELL_TYPES[@]}" \
   | xargs -P "${#CELL_TYPES[@]}" -I{} bash -c 'run_one "$@"' _ {} \

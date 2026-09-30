@@ -253,6 +253,49 @@ derive_loci <- function(gwas_dt, p_thresh = PVAL_GWS, window = CLUMP_WINDOW) {
   result
 }
 
+# Deduplicated genome-wide-significant regions across cell types (1 Mb clumping of
+# the per-cell-type GWS leads).  Written as figure3_gws_loci_deduplicated.tsv; also
+# used by Panel A and by test_multict_gws_manhattan.R.  Defined here because Panel A
+# (Section ~9) needs it before Section 12, where it used to be computed inline --
+# on a fresh output directory the read in Panel A failed with "file does not exist".
+build_gws_dedup <- function(loci) {
+  if (is.null(loci) || nrow(loci) == 0L) return(NULL)
+  loci_export <- copy(loci)
+  setorder(loci_export, chr, lead_pos)
+  loci_export[, region_id := {
+    rid <- integer(.N); cur <- 0L; last_chr <- NA_integer_; last_pos <- -Inf
+    for (i in seq_len(.N)) {
+      if (is.na(loci_export$chr[i]) || loci_export$chr[i] != last_chr ||
+          loci_export$lead_pos[i] - last_pos > CLUMP_WINDOW) {
+        cur <- cur + 1L; last_chr <- loci_export$chr[i]
+      }
+      rid[i] <- cur; last_pos <- loci_export$lead_pos[i]
+    }
+    rid
+  }]
+  loci_dedup <- loci_export[, .(
+    lead_pos  = lead_pos[which.min(lead_p)],
+    lead_p    = min(lead_p),
+    lead_beta = lead_beta[which.min(lead_p)],
+    lead_snp  = lead_snp[which.min(lead_p)],
+    n_cell_types = .N,
+    cell_types   = paste(sort(unique(as.character(cell_type))), collapse = "; ")
+  ), by = .(chr, region_id)]
+  setorder(loci_dedup, chr, lead_pos)
+  loci_dedup[, locus_label := paste0("chr", chr, ":", lead_pos)]
+  loci_dedup
+}
+
+# Per-cell-type lead table in the layout Panel A expects from
+# figure3_panelE_top_loci_matrix.tsv (cell_type, lead_chr, lead_pos, p_min, is_gws).
+# No script in the repo writes that file any more; it survived on SCC from an
+# earlier version, so it is rebuilt here from the GWS leads.
+build_panelE_matrix <- function(loci) {
+  if (is.null(loci) || nrow(loci) == 0L) return(NULL)
+  loci[, .(cell_type, lead_chr = chr, lead_pos, lead_snp, p_min = lead_p,
+           is_gws = lead_p < PVAL_GWS)]
+}
+
 # Lambda GC from p-values
 compute_lambda <- function(p) {
   p  <- p[!is.na(p) & p > 0 & p < 1]
@@ -930,8 +973,18 @@ panelA_sugg <- panelA_sugg_all[lead_p >= PVAL_GWS & lead_p < PVAL_SUGG]
 panelA_sugg[, `:=`(source = "suggestive_clump", sig_tier = "Suggestive")]
 
 # ---- GWS leads: per-cell-type p from panel E; backfill from dedup ----
-panelA_dedup  <- data.table::fread(file.path(OUT_DIR, "figure3_gws_loci_deduplicated.tsv"))
-panelA_pE     <- data.table::fread(file.path(OUT_DIR, "figure3_panelE_top_loci_matrix.tsv"))
+# Build (and persist) the two lead tables from the in-memory GWS loci rather than
+# requiring files from a previous run to exist in OUT_DIR.
+panelA_dedup_path <- file.path(OUT_DIR, "figure3_gws_loci_deduplicated.tsv")
+panelA_pE_path    <- file.path(OUT_DIR, "figure3_panelE_top_loci_matrix.tsv")
+if (!is.null(loci) && nrow(loci) > 0L) {
+  data.table::fwrite(build_gws_dedup(loci),     panelA_dedup_path, sep = "\t")
+  data.table::fwrite(build_panelE_matrix(loci), panelA_pE_path,    sep = "\t")
+}
+if (!file.exists(panelA_dedup_path) || !file.exists(panelA_pE_path))
+  stop("Panel A: no genome-wide-significant loci and no cached lead tables in ", OUT_DIR)
+panelA_dedup  <- data.table::fread(panelA_dedup_path)
+panelA_pE     <- data.table::fread(panelA_pE_path)
 
 panelA_dedup_exp <- panelA_dedup[, {
   cts <- trimws(unlist(strsplit(cell_types, ";")))
@@ -1734,34 +1787,7 @@ miami_legend <- ggplot(miami_legend_df, aes(x = x, y = y)) +
 cat("--- Exporting deduplicated GWS loci table ---\n")
 
 if (!is.null(loci) && nrow(loci) > 0L) {
-  loci_export <- copy(loci)
-  setorder(loci_export, chr, lead_pos)
-  loci_export[, region_id := {
-    rid <- integer(.N)
-    cur <- 0L
-    last_chr <- NA_integer_
-    last_pos <- -Inf
-    for (i in seq_len(.N)) {
-      if (is.na(loci_export$chr[i]) || loci_export$chr[i] != last_chr ||
-          loci_export$lead_pos[i] - last_pos > CLUMP_WINDOW) {
-        cur <- cur + 1L
-        last_chr <- loci_export$chr[i]
-      }
-      rid[i] <- cur
-      last_pos <- loci_export$lead_pos[i]
-    }
-    rid
-  }]
-  loci_dedup <- loci_export[, .(
-    lead_pos  = lead_pos[which.min(lead_p)],
-    lead_p    = min(lead_p),
-    lead_beta = lead_beta[which.min(lead_p)],
-    lead_snp  = lead_snp[which.min(lead_p)],
-    n_cell_types = .N,
-    cell_types   = paste(sort(unique(as.character(cell_type))), collapse = "; ")
-  ), by = .(chr, region_id)]
-  setorder(loci_dedup, chr, lead_pos)
-  loci_dedup[, locus_label := paste0("chr", chr, ":", lead_pos)]
+  loci_dedup <- build_gws_dedup(loci)   # same table Panel A wrote earlier; re-written here
   data.table::fwrite(loci_dedup,
                      file.path(OUT_DIR, "figure3_gws_loci_deduplicated.tsv"),
                      sep = "\t")

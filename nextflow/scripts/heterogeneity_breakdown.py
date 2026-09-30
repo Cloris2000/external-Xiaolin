@@ -258,17 +258,32 @@ def batch_grep_markers(sumstat_path, markers):
     if proc.returncode not in (0, 1):
         return results
 
+    # Column positions come from the file's own header.  REGENIE output from the
+    # imputed cohorts (GVEX, NIMH_HBCC_*) carries an extra INFO column after A1FREQ,
+    # so fixed indices (BETA=8, SE=9, N=10) read "TEST"/"BETA"/... for them and those
+    # cohorts silently dropped out of every heterogeneity table.
+    with open(path) as fh:
+        header = fh.readline().split()
+    col = {name: i for i, name in enumerate(header)}
+    try:
+        i_id, i_a1, i_beta, i_se = col["ID"], col["ALLELE1"], col["BETA"], col["SE"]
+    except KeyError as e:
+        print(f"  [WARN] {path}: header lacks {e}; skipping", file=sys.stderr)
+        return results
+    i_n = col.get("N")
+
     for line in proc.stdout.splitlines():
         parts = line.split()
-        if len(parts) < 10 or parts[0] == "CHROM":
+        if len(parts) <= max(i_id, i_a1, i_beta, i_se) or parts[0] == "CHROM":
             continue
-        vid = parts[2]
+        vid = parts[i_id]
         if vid in markers and vid not in results:
+            n_val = to_float(parts[i_n]) if i_n is not None and len(parts) > i_n else None
             results[vid] = {
-                "beta": to_float(parts[8]),
-                "se": to_float(parts[9]),
-                "n": int(to_float(parts[10])) if len(parts) > 10 and to_float(parts[10]) else None,
-                "allele1": parts[4].upper(),
+                "beta": to_float(parts[i_beta]),
+                "se": to_float(parts[i_se]),
+                "n": int(n_val) if n_val else None,
+                "allele1": parts[i_a1].upper(),
             }
     return results
 

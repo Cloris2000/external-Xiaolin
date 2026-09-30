@@ -33,6 +33,11 @@ gcol <- grep("^Ensembl", names(markers), value = TRUE)[1]
 ccol <- grep("^Subclass$", names(markers), value = TRUE)[1]
 stopifnot(!is.na(gcol), !is.na(ccol))
 markers <- markers[!is.na(get(gcol)) & get(gcol) != ""]
+# Use the same marker set MGP used: cell_type_deconv.R filters on the "Used in MGP"
+# flag (1357 -> 913 markers).  Without this the gate counted every Ensembl-mapped
+# marker (e.g. 3 for L5 ET where MGP used 1: ATP6V1C2) and reported misleading n.
+ucol <- grep("^Used in MGP$", names(markers), value = TRUE)[1]
+if (!is.na(ucol)) markers <- markers[get(ucol) %in% c(TRUE, "TRUE", "True", 1)]
 markers[, ct := make.names(get(ccol))]
 
 common <- intersect(prop$id, colnames(expr))

@@ -14,6 +14,21 @@
 #   figure2_celltype_validation_focus.png / .pdf / .svg
 #   combined_bulk_snrna_paired.tsv
 #   figure2_celltype_accuracy.tsv
+#
+# Sensitivity mode (FIG2_SENSITIVITY=rint_adj):
+#   Compares the two sides on the scale actually used for the GWAS.
+#     Bulk  — the stored GWAS phenotypes, results/<cohort>/phenotypes_RINT.txt.
+#             NOT recomputed here: these are exactly the values REGENIE saw
+#             (scripts/pheno_cov_prep.R residualises scale(MGP) on
+#             msex + age + age*sex + age^2 + age^2*sex, then RINTs, using the
+#             whole bulk cohort). Donors are bridged from the paired sample_id
+#             to the phenotype FID via each cohort's biospecimen/ID map.
+#     snRNA — has no equivalent stored file, so it is residualised on the same
+#             design and RINT-transformed here, within each validation cohort
+#             x cell type, over the paired donors.
+#   The two sides therefore differ in the sample the regression was fit on
+#   (full bulk cohort vs paired donors). Outputs get the suffix "_rint_adj";
+#   the default figure/tables are not replaced.
 # =============================================================================
 
 # =============================================================================
@@ -31,6 +46,27 @@ OUT_DIR     <- Sys.getenv(
   unset = "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure"
 )
 dir.create(OUT_DIR, showWarnings = FALSE, recursive = TRUE)
+
+# Sensitivity mode: "none" (default; current figure) or "rint_adj" (see header).
+SENSITIVITY_MODE <- Sys.getenv("FIG2_SENSITIVITY", unset = "none")
+if (!SENSITIVITY_MODE %in% c("none", "rint_adj"))
+  stop("FIG2_SENSITIVITY must be 'none' or 'rint_adj', got: ", SENSITIVITY_MODE)
+RINT_ADJ   <- SENSITIVITY_MODE == "rint_adj"
+OUT_SUFFIX <- if (RINT_ADJ) "_rint_adj" else ""
+cat("Sensitivity mode:", SENSITIVITY_MODE, "| output suffix:", shQuote(OUT_SUFFIX), "\n")
+
+# --- Sensitivity mode: stored bulk GWAS phenotypes + ID bridges -------------
+# Bulk side = results/<cohort>/phenotypes_RINT.txt (FID = genotyping ID).
+# Each validation cohort needs a map from the paired sample_id to that FID.
+PHENO_FILENAME <- "phenotypes_RINT.txt"
+# Bulk pipeline cohort that produced each validation cohort's phenotypes.
+PHENO_COHORT <- c(ROSMAP = "ROSMAP", Mathys = "ROSMAP", HBCC = "NIMH_HBCC_1M",
+                  MSBB = "MSBB", Ruzicka = "CMC_MSSM")
+# Synapse biospecimen tables (individualID -> genotyping specimenID, assay == wholeGenomeSeq)
+ROSMAP_BIOSPEC_FILE <- "/project/rrg-shreejoy/ROSMAP/Metadata/ROSMAP_biospecimen_metadata.csv"
+MSBB_BIOSPEC_FILE   <- "/project/rrg-shreejoy/MSBB/Metadata/MSBB_biospecimen_metadata.csv"
+# CMC SNP metadata (Individual_ID -> Genotyping_Sample_ID; FIDs carry a "0_" prefix)
+CMC_BIOSPEC_FILE    <- "/project/rrg-shreejoy/CMC/Metadata/CMC_Human_SNP_metadata.csv"
 
 COHORT_LIST <- c(
   "ROSMAP", "ROSMAP_array",
@@ -73,6 +109,13 @@ HBCC_BULK_FILE      <- file.path(RESULTS_DIR, "NIMH_HBCC_1M", "cell_proportions.
 HBCC_SN_FILE        <- file.path(HODGE_SN_DIR, "psychad_hbcc_cell_proportions_qc.csv")
 HBCC_MAP_FILE       <- "/project/rrg-shreejoy/NIMH_HBCC/RNA/HBCC_rna_wgs_id_mapping.csv"
 HBCC_CROSSWALK_FILE <- file.path(DATA_DIR, "data_input/sn_hbcc/ampad_to_cmc_crosswalk.csv")
+# Sex/age for the sensitivity mode: pipeline-cleaned bulk metadata
+# (specimenID, reportedGender, ageDeath). Falls back to the SCC copy if the
+# bulk results dir being used has no metadata_cleaned.csv.
+HBCC_META_FILE <- {
+  f <- file.path(RESULTS_DIR, "NIMH_HBCC_1M", "metadata_cleaned.csv")
+  if (file.exists(f)) f else file.path(SCC_RESULTS_DIR, "NIMH_HBCC_1M", "metadata_cleaned.csv")
+}
 
 # --- MSBB ---
 # Join: bulk → RNA meta individualID → bridge SubID_export_synapse → sn AMPAD_MSSM
@@ -97,6 +140,11 @@ MATHYS_SN_FILE <- file.path(DATA_DIR,
 RUZ_BULK_FILE <- file.path(RESULTS_DIR, "CMC_MSSM", "cell_proportions.csv")
 RUZ_SN_FILE   <- file.path(DATA_DIR,
   "data_input/sn_ruz_mssm/cell_proportions.csv")
+# Sex/age for the sensitivity mode (individualID, reportedGender, ageDeath)
+RUZ_META_FILE <- {
+  f <- file.path(RESULTS_DIR, "CMC_MSSM", "metadata_cleaned.csv")
+  if (file.exists(f)) f else file.path(SCC_RESULTS_DIR, "CMC_MSSM", "metadata_cleaned.csv")
+}
 
 # Cohort colours — Okabe-Ito colorblind-safe palette (no red or green)
 COHORT_COLORS <- c(
@@ -188,6 +236,88 @@ pearson_stats <- function(x, y) {
 format_p <- function(p) {
   if (is.na(p)) return("")
   if (p < 0.001) "p < 0.001" else paste0("p = ", round(p, 3))
+}
+
+# --- Sensitivity-mode helpers (mirror scripts/pheno_cov_prep.R) -------------
+# Age: "90+" -> 90, then strip non-numeric characters.
+parse_age <- function(x) {
+  x <- gsub("90\\+", "90", as.character(x))
+  suppressWarnings(as.numeric(gsub("[^0-9.]", "", x)))
+}
+# Sex -> 0 = female, 1 = male (same code table as pheno_cov_prep.R).
+parse_sex <- function(x) {
+  u <- toupper(trimws(as.character(x)))
+  ifelse(u %in% c("M", "MALE", "1", "TRUE"), 1,
+         ifelse(u %in% c("F", "FEMALE", "0", "FALSE", "2"), 0, NA_real_))
+}
+# Rank-based inverse normal transform (Blom offset k = 0.375, as RNOmni::RankNorm).
+rint_fn <- function(x) {
+  if (requireNamespace("RNOmni", quietly = TRUE)) return(RNOmni::RankNorm(x))
+  k <- 0.375; n <- length(x)
+  qnorm((rank(x, ties.method = "average") - k) / (n - 2 * k + 1))
+}
+# scale() that returns zeros instead of NaN for a constant column (e.g. a
+# single-sex cohort). Residuals are invariant to predictor scaling, so this is
+# numerically equivalent to the pheno_cov_prep.R design where it is defined.
+safe_scale <- function(x) {
+  s <- stats::sd(x, na.rm = TRUE)
+  if (!is.finite(s) || s == 0) return(rep(0, length(x)))
+  as.numeric(scale(x))
+}
+# Synapse biospecimen table -> individualID -> WGS specimenID, which is the FID
+# used in phenotypes_RINT.txt for ROSMAP/MSBB (fid_method = biospec_specimen).
+wgs_specimen_map <- function(path) {
+  bio <- readr::read_csv(path, show_col_types = FALSE)
+  if ("assay" %in% names(bio)) bio <- dplyr::filter(bio, assay == "wholeGenomeSeq")
+  if ("exclude" %in% names(bio))
+    bio <- dplyr::filter(bio, is.na(exclude) | !as.logical(exclude))
+  bio %>%
+    dplyr::transmute(individualID = as.character(individualID),
+                     geno_id      = as.character(specimenID)) %>%
+    dplyr::filter(!is.na(individualID), !is.na(geno_id)) %>%
+    dplyr::distinct(individualID, .keep_all = TRUE)
+}
+# CMC SNP metadata -> individualID -> genotyping ID. pheno_cov_prep.R prefixes
+# CMC genotyping IDs with "0_" to match the PSAM, so do the same here.
+cmc_genotyping_map <- function(path) {
+  readr::read_csv(path, show_col_types = FALSE) %>%
+    dplyr::transmute(individualID = as.character(Individual_ID),
+                     geno_id      = paste0("0_", as.character(Genotyping_Sample_ID))) %>%
+    dplyr::filter(!is.na(individualID), geno_id != "0_NA") %>%
+    dplyr::distinct(individualID, .keep_all = TRUE)
+}
+# Stored bulk GWAS phenotypes for one pipeline cohort, long format.
+# Columns: FID, IID, then one column per cell type (Hodge names, e.g. "L5.6.NP").
+read_stored_phenotypes <- function(cohort) {
+  path <- file.path(RESULTS_DIR, cohort, PHENO_FILENAME)
+  if (!file.exists(path) && RESULTS_DIR != SCC_RESULTS_DIR)
+    path <- file.path(SCC_RESULTS_DIR, cohort, PHENO_FILENAME)
+  if (!file.exists(path)) stop("phenotypes_RINT.txt not found for ", cohort, ": ", path)
+  ph <- readr::read_tsv(path, show_col_types = FALSE)
+  ct_cols <- setdiff(names(ph), c("FID", "IID"))
+  ph %>%
+    dplyr::mutate(pheno_fid = as.character(FID)) %>%
+    tidyr::pivot_longer(dplyr::all_of(ct_cols),
+                        names_to = "cell_type", values_to = "bulk_pheno") %>%
+    dplyr::mutate(cell_type = make_clean_fn(cell_type)) %>%
+    dplyr::filter(!is.na(bulk_pheno)) %>%
+    dplyr::distinct(pheno_fid, cell_type, .keep_all = TRUE) %>%
+    dplyr::select(pheno_fid, cell_type, bulk_pheno)
+}
+# Residualise y on the GWAS covariate design, then RINT. Returns NA where any
+# input is missing. Minimum n guards tiny cohort x cell-type strata.
+residualize_rint <- function(y, msex, age, min_n = 10L) {
+  out <- rep(NA_real_, length(y))
+  ok  <- is.finite(y) & !is.na(msex) & !is.na(age)
+  if (sum(ok) < min_n) return(out)
+  d <- data.frame(y = safe_scale(y[ok]), msex = msex[ok], age = age[ok])
+  d$age_sex  <- d$age * d$msex
+  d$age2     <- d$age^2
+  d$age2_sex <- d$age2 * d$msex
+  fit <- stats::lm(y ~ msex + safe_scale(age) + safe_scale(age_sex) +
+                     safe_scale(age2) + safe_scale(age2_sex), data = d)
+  out[ok] <- rint_fn(stats::residuals(fit))
+  out
 }
 
 # =============================================================================
@@ -320,6 +450,12 @@ cat("Cell types:", length(ordered_ct), "\n")
 cat("\n--- Building paired validation data (Hodge-labelled snRNA) ---\n")
 
 all_paired <- list()
+# Sensitivity mode only: per-cohort sample_id -> msex / age_death tables,
+# keyed on the same join_id used in make_paired_long().
+all_cov <- list()
+# Sensitivity mode only: per-cohort sample_id -> pheno_fid bridges, mapping the
+# paired donor to its row in results/<cohort>/phenotypes_RINT.txt.
+all_fid <- list()
 
 # Helper: build paired long-format from a wide merged data frame
 make_paired_long <- function(merged_wide, sn_to_bulk, cohort_label) {
@@ -410,6 +546,24 @@ tryCatch({
     dplyr::rename(join_id = specimen_id)
   cat("    ROSMAP merged:", nrow(merged_r), "donors\n")
   all_paired[["ROSMAP"]] <- make_paired_long(merged_r, pref$sn_to_bulk, "ROSMAP")
+
+  if (RINT_ADJ) {
+    # sample_id is the bulk synapse ID; sex/age live in the harmonised RNA
+    # metadata keyed by specimenID (msex 0/1, age_death with "90+").
+    cov_r <- readr::read_csv(ROSMAP_META_FILE, show_col_types = FALSE) %>%
+      dplyr::select(specimen_id = specimenID, msex, age_death) %>%
+      dplyr::distinct(specimen_id, .keep_all = TRUE)
+    all_cov[["ROSMAP"]] <- prov_link %>%
+      dplyr::inner_join(cov_r, by = "specimen_id") %>%
+      dplyr::transmute(sample_id = synapse_id,
+                       msex      = parse_sex(msex),
+                       age_death = parse_age(age_death))
+    # synapseID -> RNA specimenID -> individualID -> WGS specimenID (= pheno FID)
+    all_fid[["ROSMAP"]] <- prov_link %>%
+      dplyr::inner_join(meta_r, by = "specimen_id") %>%
+      dplyr::inner_join(wgs_specimen_map(ROSMAP_BIOSPEC_FILE), by = "individualID") %>%
+      dplyr::transmute(sample_id = synapse_id, pheno_fid = geno_id)
+  }
 }, error = function(e) message("  ROSMAP failed: ", conditionMessage(e)))
 
 # --- HBCC ---
@@ -448,6 +602,21 @@ tryCatch({
     dplyr::rename(join_id = specimen_id)
   cat("    HBCC merged:", nrow(merged_h), "donors\n")
   all_paired[["HBCC"]] <- make_paired_long(merged_h, pref$sn_to_bulk, "HBCC")
+
+  if (RINT_ADJ) {
+    # sample_id is the bulk RNA specimenID.
+    all_cov[["HBCC"]] <- readr::read_csv(HBCC_META_FILE, show_col_types = FALSE) %>%
+      dplyr::transmute(sample_id = as.character(specimenID),
+                       msex      = parse_sex(reportedGender),
+                       age_death = parse_age(ageDeath)) %>%
+      dplyr::distinct(sample_id, .keep_all = TRUE)
+    # RNA specimenID -> individualID -> CMC genotyping ID; FIDs carry "0_".
+    all_fid[["HBCC"]] <- map_h %>%
+      dplyr::transmute(sample_id    = as.character(RNA_specimenID),
+                       individualID = as.character(individualID)) %>%
+      dplyr::inner_join(cmc_genotyping_map(CMC_BIOSPEC_FILE), by = "individualID") %>%
+      dplyr::transmute(sample_id, pheno_fid = geno_id)
+  }
 }, error = function(e) message("  HBCC failed: ", conditionMessage(e)))
 
 # --- MSBB ---
@@ -487,6 +656,21 @@ tryCatch({
     dplyr::rename(join_id = specimen_id)
   cat("    MSBB merged:", nrow(merged_m), "donors\n")
   all_paired[["MSBB"]] <- make_paired_long(merged_m, pref$sn_to_bulk, "MSBB")
+
+  if (RINT_ADJ) {
+    # sample_id is the bulk specimenID; harmonised RNA metadata has sex/ageDeath.
+    all_cov[["MSBB"]] <- meta_m %>%
+      dplyr::transmute(sample_id = as.character(specimenID),
+                       msex      = parse_sex(sex),
+                       age_death = parse_age(ageDeath)) %>%
+      dplyr::distinct(sample_id, .keep_all = TRUE)
+    # RNA specimenID -> individualID -> WGS specimenID (= pheno FID)
+    all_fid[["MSBB"]] <- rna_to_ind_m %>%
+      dplyr::transmute(sample_id    = as.character(specimen_id),
+                       individualID = as.character(individual_id)) %>%
+      dplyr::inner_join(wgs_specimen_map(MSBB_BIOSPEC_FILE), by = "individualID") %>%
+      dplyr::transmute(sample_id, pheno_fid = geno_id)
+  }
 }, error = function(e) message("  MSBB failed: ", conditionMessage(e)))
 
 # --- MATHYS ---
@@ -533,6 +717,22 @@ tryCatch({
     dplyr::rename(join_id = specimen_id)
   cat("    Mathys merged:", nrow(merged_m2), "donors\n")
   all_paired[["Mathys"]] <- make_paired_long(merged_m2, pref_m2$sn_to_bulk, "Mathys")
+
+  if (RINT_ADJ) {
+    # Same ROSMAP bulk donors/provenance as above; only the snRNA source differs.
+    cov_m2 <- readr::read_csv(ROSMAP_META_FILE, show_col_types = FALSE) %>%
+      dplyr::select(specimen_id = specimenID, msex, age_death) %>%
+      dplyr::distinct(specimen_id, .keep_all = TRUE)
+    all_cov[["Mathys"]] <- prov_link_m2 %>%
+      dplyr::inner_join(cov_m2, by = "specimen_id") %>%
+      dplyr::transmute(sample_id = synapse_id,
+                       msex      = parse_sex(msex),
+                       age_death = parse_age(age_death))
+    all_fid[["Mathys"]] <- prov_link_m2 %>%
+      dplyr::inner_join(meta_m2, by = "specimen_id") %>%
+      dplyr::inner_join(wgs_specimen_map(ROSMAP_BIOSPEC_FILE), by = "individualID") %>%
+      dplyr::transmute(sample_id = synapse_id, pheno_fid = geno_id)
+  }
 }, error = function(e) message("  Mathys failed: ", conditionMessage(e)))
 
 # --- RUZICKA ---
@@ -567,6 +767,19 @@ tryCatch({
     dplyr::rename(join_id = individual_id)
   cat("    Ruzicka merged:", nrow(merged_ruz), "donors\n")
   all_paired[["Ruzicka"]] <- make_paired_long(merged_ruz, pref_ruz$sn_to_bulk, "Ruzicka")
+
+  if (RINT_ADJ) {
+    # sample_id is the CMC_MSSM individualID.
+    all_cov[["Ruzicka"]] <- readr::read_csv(RUZ_META_FILE, show_col_types = FALSE) %>%
+      dplyr::transmute(sample_id = as.character(individualID),
+                       msex      = parse_sex(reportedGender),
+                       age_death = parse_age(ageDeath)) %>%
+      dplyr::filter(!is.na(sample_id)) %>%
+      dplyr::distinct(sample_id, .keep_all = TRUE)
+    # individualID -> CMC genotyping ID; FIDs carry "0_".
+    all_fid[["Ruzicka"]] <- cmc_genotyping_map(CMC_BIOSPEC_FILE) %>%
+      dplyr::transmute(sample_id = individualID, pheno_fid = geno_id)
+  }
 }, error = function(e) message("  Ruzicka failed: ", conditionMessage(e)))
 
 # --- Combine all cohorts ---
@@ -592,7 +805,85 @@ if (length(EXCLUDE_CELLTYPES) > 0L) {
         "(", .n_ex, "rows)\n")
 }
 
+# =============================================================================
+# SECTION 6b — Sensitivity mode: compare on the GWAS phenotype scale
+#   Bulk  — REPLACED by the stored GWAS phenotype from
+#           results/<cohort>/phenotypes_RINT.txt, matched per donor via the
+#           cohort's ID bridge (all_fid) and per cell type. Not recomputed.
+#   snRNA — residualised here on the same sex/age design and RINT-transformed,
+#           within each validation cohort x cell type over the paired donors.
+#   Applied after the degenerate-sample and cell-type exclusions above. Raw
+#   values are kept as bulk_raw / snrna_raw in the output table.
+# =============================================================================
+if (RINT_ADJ && nrow(paired_val) > 0) {
+  cat("\n--- Sensitivity: stored bulk GWAS phenotypes + snRNA sex/age + RINT ---\n")
+
+  cov_tbl <- dplyr::bind_rows(lapply(names(all_cov), function(coh)
+    dplyr::mutate(all_cov[[coh]], validation_cohort = coh,
+                  sample_id = as.character(sample_id))))
+  if (nrow(cov_tbl) == 0) stop("Sensitivity mode: no sex/age covariates were built.")
+  cov_tbl <- dplyr::distinct(cov_tbl, validation_cohort, sample_id, .keep_all = TRUE)
+
+  fid_tbl <- dplyr::bind_rows(lapply(names(all_fid), function(coh)
+    dplyr::mutate(all_fid[[coh]], validation_cohort = coh,
+                  sample_id = as.character(sample_id),
+                  pheno_fid = as.character(pheno_fid))))
+  if (nrow(fid_tbl) == 0) stop("Sensitivity mode: no phenotype ID bridges were built.")
+  fid_tbl <- fid_tbl %>%
+    dplyr::filter(!is.na(sample_id), !is.na(pheno_fid)) %>%
+    dplyr::distinct(validation_cohort, sample_id, .keep_all = TRUE)
+
+  # Stored bulk phenotypes, one table per pipeline cohort, re-labelled per
+  # validation cohort (ROSMAP and Mathys share the ROSMAP phenotype file).
+  pheno_tbl <- dplyr::bind_rows(lapply(names(all_fid), function(coh) {
+    src <- PHENO_COHORT[[coh]]
+    if (is.null(src)) stop("No phenotype cohort mapped for validation cohort: ", coh)
+    ph <- read_stored_phenotypes(src)
+    cat(sprintf("  %-8s stored phenotypes from %-14s %5d donors x %2d cell types\n",
+                coh, src, dplyr::n_distinct(ph$pheno_fid),
+                dplyr::n_distinct(ph$cell_type)))
+    dplyr::mutate(ph, validation_cohort = coh)
+  }))
+
+  before_tbl <- paired_val %>% dplyr::count(validation_cohort, name = "rows_before")
+
+  paired_val <- paired_val %>%
+    dplyr::mutate(sample_id = as.character(sample_id),
+                  bulk_raw  = bulk_proportion,
+                  snrna_raw = snrna_proportion) %>%
+    dplyr::inner_join(cov_tbl,   by = c("validation_cohort", "sample_id")) %>%
+    dplyr::filter(!is.na(msex), !is.na(age_death)) %>%
+    dplyr::inner_join(fid_tbl,   by = c("validation_cohort", "sample_id")) %>%
+    dplyr::inner_join(pheno_tbl, by = c("validation_cohort", "pheno_fid", "cell_type"))
+
+  after_tbl <- paired_val %>% dplyr::count(validation_cohort, name = "rows_after")
+  drop_tbl  <- dplyr::full_join(before_tbl, after_tbl, by = "validation_cohort") %>%
+    dplyr::mutate(rows_after = dplyr::coalesce(rows_after, 0L),
+                  dropped    = rows_before - rows_after)
+  for (i in seq_len(nrow(drop_tbl)))
+    cat(sprintf("  %-8s rows %5d -> %5d (dropped %d: no sex/age, no ID bridge, or no stored phenotype)\n",
+                drop_tbl$validation_cohort[i], drop_tbl$rows_before[i],
+                drop_tbl$rows_after[i], drop_tbl$dropped[i]))
+  if (nrow(paired_val) == 0)
+    stop("Sensitivity mode: no rows survived the phenotype join.")
+  if (any(drop_tbl$dropped / drop_tbl$rows_before > 0.25, na.rm = TRUE))
+    warning("Sensitivity mode: >25% of rows dropped in at least one cohort.")
+
+  # Bulk side: use the stored GWAS phenotype as-is.
+  # snRNA side: residualise + RINT within cohort x cell type.
+  paired_val <- paired_val %>%
+    dplyr::mutate(bulk_proportion = bulk_pheno) %>%
+    dplyr::group_by(validation_cohort, cell_type) %>%
+    dplyr::mutate(snrna_proportion = residualize_rint(snrna_raw, msex, age_death)) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(!is.na(bulk_proportion), !is.na(snrna_proportion))
+  cat("  Rows after transform:", nrow(paired_val), "\n")
+}
+
 HAS_PAIRED <- nrow(paired_val) > 0
+
+PAIRED_OUT_NAME <- paste0("combined_bulk_snrna_paired", OUT_SUFFIX, ".tsv")
+ACC_OUT_NAME    <- paste0("figure2_celltype_accuracy",   OUT_SUFFIX, ".tsv")
 
 if (HAS_PAIRED) {
   for (coh in names(all_paired)) {
@@ -600,8 +891,8 @@ if (HAS_PAIRED) {
     n_c <- length(unique(all_paired[[coh]]$cell_type))
     cat("  ", coh, ":", n_d, "donors,", n_c, "cell types\n")
   }
-  readr::write_tsv(paired_val, file.path(OUT_DIR, "combined_bulk_snrna_paired.tsv"))
-  cat("  Saved: combined_bulk_snrna_paired.tsv\n")
+  readr::write_tsv(paired_val, file.path(OUT_DIR, PAIRED_OUT_NAME))
+  cat("  Saved:", PAIRED_OUT_NAME, "\n")
 }
 cat("  Total paired rows:", nrow(paired_val), "\n")
 
@@ -645,8 +936,8 @@ if (HAS_PAIRED) {
     ) %>%
     dplyr::arrange(mean_r)
 
-  readr::write_tsv(acc_mean_df, file.path(OUT_DIR, "figure2_celltype_accuracy.tsv"))
-  cat("  Accuracy summary rows:", nrow(acc_mean_df), "\n")
+  readr::write_tsv(acc_mean_df, file.path(OUT_DIR, ACC_OUT_NAME))
+  cat("  Accuracy summary rows:", nrow(acc_mean_df), "(", ACC_OUT_NAME, ")\n")
 }
 
 # =============================================================================
@@ -723,10 +1014,12 @@ cat("--- Building Panel B (per-cell-type scatter grid) ---\n")
 panel_B <- tryCatch({
   if (!HAS_PAIRED) stop("No paired validation data available.")
 
+  # Default: snRNA fraction -> %; MGP score in AU. Sensitivity mode: both sides
+  # are RINT residuals (unitless), so no % rescaling.
   zdat <- paired_val %>%
     dplyr::mutate(ct_clean = make_clean_fn(cell_type),
-                  sn_pct   = snrna_proportion * 100,   # fraction -> %
-                  bulk_au  = bulk_proportion,          # MGP score (AU)
+                  sn_pct   = if (RINT_ADJ) snrna_proportion else snrna_proportion * 100,
+                  bulk_au  = bulk_proportion,
                   ct_lab   = CT_DISPLAY[ct_clean],
                   ct_lab   = ifelse(is.na(ct_lab), ct_clean, ct_lab)) %>%
     dplyr::filter(is.finite(sn_pct), is.finite(bulk_au))
@@ -766,8 +1059,10 @@ panel_B <- tryCatch({
     scale_color_manual(values = COHORT_COLORS, name = "Cohort",
                        breaks = names(COHORT_COLORS),
                        guide = guide_legend(override.aes = list(size = 3, alpha = 1))) +
-    labs(x = "snRNA-seq-derived proportion (%)",
-         y = "Bulk-derived proportion (AU)") +
+    labs(x = if (RINT_ADJ) "snRNA-seq proportion (sex/age-adjusted, RINT)"
+             else "snRNA-seq-derived proportion (%)",
+         y = if (RINT_ADJ) "Bulk GWAS phenotype (sex/age-adjusted, RINT)"
+             else "Bulk-derived proportion (AU)") +
     base_th +
     theme(strip.text       = element_text(size = 9.5, face = "bold"),
           strip.background = element_rect(fill = "grey94", color = NA),
@@ -800,9 +1095,10 @@ fig2 <- cowplot::plot_grid(
 ) +
   theme(plot.background = element_rect(fill = "white", color = NA))
 
-out_png <- file.path(OUT_DIR, "figure2_celltype_validation_focus.png")
-out_pdf <- file.path(OUT_DIR, "figure2_celltype_validation_focus.pdf")
-out_svg <- file.path(OUT_DIR, "figure2_celltype_validation_focus.svg")
+fig_base <- paste0("figure2_celltype_validation_focus", OUT_SUFFIX)
+out_png <- file.path(OUT_DIR, paste0(fig_base, ".png"))
+out_pdf <- file.path(OUT_DIR, paste0(fig_base, ".pdf"))
+out_svg <- file.path(OUT_DIR, paste0(fig_base, ".svg"))
 
 ggsave(out_png, fig2, width = FIG_WIDTH, height = FIG_HEIGHT,
        dpi = FIG_DPI, bg = "white")

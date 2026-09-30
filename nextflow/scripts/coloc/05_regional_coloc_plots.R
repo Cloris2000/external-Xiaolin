@@ -41,8 +41,22 @@ is_strand_ambiguous <- function(ref, alt) {
   paste(toupper(ref), toupper(alt)) %in% c("A T", "T A", "C G", "G C")
 }
 
+# Match on chr:pos + sorted alleles rather than the raw chr:pos:ref:alt ID, so a
+# disease file whose alleles are written in the opposite order (PD_Nalls2019) still
+# pairs with the cell-type SNPs; same logic as harmonize_datasets() in 03_run_coloc.R.
+# Returns the matched IDs from BOTH sides, so `snp %in% shared_snps` works for the
+# cell-type and the disease points alike.
+variant_key <- function(d) {
+  parts <- strsplit(as.character(d$snp), ":", fixed = TRUE)
+  chr <- sub("^chr", "", vapply(parts, `[`, "", 1))
+  pos <- vapply(parts, `[`, "", 2)
+  a <- toupper(d$ref); b <- toupper(d$alt)
+  paste(chr, pos, pmin(a, b), pmax(a, b), sep = ":")
+}
 harmonize_snps <- function(d1, d2) {
-  m <- merge(d1, d2, by = "snp", suffixes = c("_ct", "_dis"))
+  d1$vkey <- variant_key(d1); d2$vkey <- variant_key(d2)
+  d1 <- d1[!duplicated(d1$vkey), , drop = FALSE]; d2 <- d2[!duplicated(d2$vkey), , drop = FALSE]
+  m <- merge(d1, d2, by = "vkey", suffixes = c("_ct", "_dis"))
   if (nrow(m) == 0) return(character(0))
 
   strand_amb <- is_strand_ambiguous(m$ref_ct, m$alt_ct)
@@ -53,7 +67,7 @@ harmonize_snps <- function(d1, d2) {
              (toupper(m$alt_ct) == toupper(m$ref_dis))
   matched <- (toupper(m$ref_ct) == toupper(m$ref_dis) &
               toupper(m$alt_ct) == toupper(m$alt_dis)) | flipped
-  m$snp[matched]
+  unique(c(m$snp_ct[matched], m$snp_dis[matched]))
 }
 
 neglog10p <- function(p) {

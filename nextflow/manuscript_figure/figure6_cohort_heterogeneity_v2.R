@@ -13,7 +13,11 @@
 #
 # Loci: by default the three manuscript loci; for each, the lead (min P) variant of
 # the cell type within +/- window_kb in the v2 meta is used, so a lead that moved
-# within the locus is followed.  Override with --loci <tsv: panel,cell_type,chr,pos,label>.
+# within the locus is followed.  Override with --loci <tsv: panel,cell_type,chr,pos,label>,
+# --from_coloc (top PP.H4 events) or --from_gws (the CTP-GWAS's own GWS loci among
+# cell types with >= --min_markers MGP markers, then the top suggestive locus of a
+# further cell type; the manuscript's Figure 6 uses this so it does not repeat the
+# coloc-driven regional panels of Figure 4).
 # All effects are per copy of the ALT allele (REGENIE ALLELE1; METAL BETA_ALT).
 #
 #   Rscript figure6_cohort_heterogeneity_v2.R --meta_dir ... --metadata docs/meta_cohort_metadata.tsv --out_dir ...
@@ -29,6 +33,21 @@ opt <- parse_args(OptionParser(option_list = list(
   make_option("--metadata",  type = "character"),
   make_option("--out_dir",   type = "character"),
   make_option("--loci",      type = "character", default = NULL),
+  make_option("--from_coloc", type = "character", default = NULL,
+              help = "coloc_all_results.tsv (04_summarize_coloc.R): pick the --n_loci events with the highest PP.H4, one per 1 Mb locus, preferring distinct cell types; overrides --loci and the built-in trio"),
+  make_option("--n_loci",    type = "integer",   default = 3),
+  make_option("--loci_dir",  type = "character", default = NULL,
+              help = "coloc loci dir (<ct>_loci.tsv, from 01_extract_loci.R); its lead_p breaks PP.H4 ties in favour of the cell type with the strongest CTP-GWAS signal at the locus"),
+  make_option("--from_gws",  action = "store_true", default = FALSE,
+              help = "Pick loci from the CTP-GWAS itself (needs --loci_dir): genome-wide significant loci (P < --gws_p) of cell types with >= --min_markers MGP markers, one per 1 Mb locus (best cell type by lead P), then fill to --n_loci with the strongest suggestive locus (P < --sugg_p) of a cell type not yet shown. Overrides --from_coloc/--loci."),
+  make_option("--marker_file", type = "character",
+              default = "/project/rrg-shreejoy/pipeline_refs/markers/new_MTGnCgG_lfct2.5_Publication.csv",
+              help = "MGP marker CSV (Subclass, 'Used in MGP'); used by --from_gws to count markers per cell type"),
+  make_option("--min_markers", type = "integer", default = 5,
+              help = "--from_gws: minimum 'Used in MGP' markers for a cell type to be eligible. Proportions estimated from 1-2 genes (L4 IT, L5 ET, L6b; PAX6, L5/6 NP, L6 CT) are effectively that gene's expression, so their GWS hits are marker-gene cis-eQTLs. [default 5]"),
+  make_option("--gws_p",     type = "double", default = 5e-8),
+  make_option("--sugg_p",    type = "double", default = 1e-5),
+  make_option("--dry_run",   action = "store_true", default = FALSE, help = "print the selected loci and exit (no sumstat scans)"),
   make_option("--window_kb", type = "integer",   default = 500),
   make_option("--min_cohorts", type = "integer", default = 10,
               help = "Prefer the most significant window variant carried by at least this many cohorts (METAL Direction != '?'); falls back to the raw lead if none. 0 = raw lead. [default 10]")
@@ -38,15 +57,107 @@ dir.create(opt$out_dir, recursive = TRUE, showWarnings = FALSE)
 
 CLR_EUR <- "#2166AC"; CLR_AFR <- "#D95F02"; CLR_META <- "#B2182B"; FIG_DPI <- 200
 
-loci <- if (!is.null(opt$loci)) fread(opt$loci) else data.table(
-  panel = c("A", "B", "C"),
-  cell_type = c("VIP", "L5.6.IT.Car3", "Microglia"),
-  chr = c(7L, 12L, 6L),
-  pos = c(12284378L, 2324042L, 164862615L),
-  label = c("TMEM106B", "CACNA1C", "PRKN region"))
+# Curated hg19 gene labels for known coloc loci (same map as figure_coloc_rearranged.R)
+gene_label <- function(chr, pos) {
+  chr <- as.character(chr); pos <- as.numeric(pos)
+  dplyr::case_when(
+    chr == "7"  & pos >= 1.20e7 & pos <= 1.30e7 ~ "TMEM106B",
+    chr == "12" & pos >= 1.8e6  & pos <= 3.0e6  ~ "CACNA1C",
+    chr == "6"  & pos >= 1.64e8 & pos <= 1.66e8 ~ "RP11-347L18.1 region",
+    chr == "6"  & pos >= 1.61e8 & pos <  1.64e8 ~ "PRKN region",
+    TRUE ~ paste0("chr", chr, ":", round(pos / 1e6, 1), " Mb"))
+}
+disease_short <- function(d) sub("_.*$", "", d)
+
+loci_from_coloc <- function(path, n, loci_dir = NULL) {
+  co <- fread(path)
+  co <- co[coloc_method == "coloc.abf" & !is.na(PP.H4)]
+  m <- regmatches(co$locus_id, regexec("_chr([0-9XY]+)_([0-9]+)$", co$locus_id))
+  co[, chr := sapply(m, `[`, 2)][, pos := as.numeric(sapply(m, `[`, 3))]
+  co <- co[!is.na(pos)]
+  # Tie-break (PP.H4 saturates at 1.00 for several cell types at a strong locus):
+  # the cell type whose own CTP-GWAS lead is most significant there.
+  co[, lead_p := NA_real_]
+  if (!is.null(loci_dir) && dir.exists(loci_dir)) {
+    for (ct in unique(co$cell_type)) {
+      lf <- file.path(loci_dir, paste0(ct, "_loci.tsv"))
+      if (file.exists(lf)) { l <- fread(lf); co[cell_type == ct, lead_p := l$lead_p[match(locus_id, l$locus_id)]] }
+    }
+  }
+  co <- co[order(-round(PP.H4, 3), lead_p, na.last = TRUE)]
+  pick <- co[0]
+  for (i in seq_len(nrow(co))) {
+    e <- co[i]
+    if (nrow(pick) && any(pick$chr == e$chr & abs(pick$pos - e$pos) < 1e6)) next        # one event per locus
+    if (nrow(pick) && e$cell_type %in% pick$cell_type && nrow(co) > 2 * n) next          # prefer distinct cell types
+    pick <- rbind(pick, e); if (nrow(pick) == n) break
+  }
+  if (nrow(pick) < n) stop("from_coloc: only ", nrow(pick), " distinct coloc loci available")
+  cat("Loci from colocalisation (top PP.H4, one per locus, ties -> smallest CTP-GWAS lead_p):\n")
+  print(pick[, .(cell_type, locus_id, disease, PP.H4 = round(PP.H4, 3), lead_p)])
+  data.table(panel = LETTERS[seq_len(n)], cell_type = pick$cell_type, chr = pick$chr, pos = as.integer(pick$pos),
+             label = sprintf("%s — %s coloc, PP.H4 = %.2f", gene_label(pick$chr, pick$pos), disease_short(pick$disease), pick$PP.H4),
+             disease = pick$disease, PP.H4 = pick$PP.H4)
+}
+
+# Marker count per cell type exactly as MGP saw it: cell_type_deconv.R keeps only
+# rows flagged 'Used in MGP'; Subclass -> make.names() gives the pipeline names
+# (L5/6 IT Car3 -> L5.6.IT.Car3).
+mgp_marker_counts <- function(marker_file) {
+  mk <- fread(marker_file, check.names = FALSE)
+  ucol <- grep("^Used in MGP$", names(mk), value = TRUE)[1]
+  stopifnot(!is.na(ucol), "Subclass" %in% names(mk))
+  mk <- mk[get(ucol) %in% c(TRUE, "TRUE", "True", 1)]
+  mk[, .(n_markers = .N), by = .(cell_type = make.names(Subclass))]
+}
+
+loci_from_gws <- function(loci_dir, n, marker_file, min_markers, gws_p, sugg_p) {
+  stopifnot(!is.null(loci_dir), dir.exists(loci_dir))
+  all <- rbindlist(lapply(list.files(loci_dir, pattern = "_loci\\.tsv$", full.names = TRUE), fread))
+  all[, chr := as.character(chr)][, lead_pos := as.numeric(lead_pos)]
+  nm <- mgp_marker_counts(marker_file)
+  all <- merge(all, nm, by = "cell_type", all.x = TRUE)
+  if (any(is.na(all$n_markers))) stop("no MGP marker count for: ", paste(unique(all[is.na(n_markers), cell_type]), collapse = ", "))
+  excl <- nm[n_markers < min_markers][order(n_markers)]
+  cat(sprintf("Cell types excluded (< %d MGP markers): %s\n", min_markers,
+              paste(sprintf("%s (%d)", excl$cell_type, excl$n_markers), collapse = ", ")))
+  cand <- all[n_markers >= min_markers & lead_p < sugg_p][order(lead_p)]
+  cand[, tier := ifelse(lead_p < gws_p, "GWS", "suggestive")]
+  same_locus <- function(pick, e) nrow(pick) && any(pick$chr == e$chr & abs(pick$lead_pos - e$lead_pos) < 1e6)
+  pick <- cand[0]
+  # Tier 1: every GWS locus (best cell type per 1 Mb locus), most significant first.
+  for (i in which(cand$tier == "GWS")) { e <- cand[i]; if (same_locus(pick, e)) next; pick <- rbind(pick, e); if (nrow(pick) == n) break }
+  # Tier 2: strongest suggestive locus of a cell type not already shown, new locus.
+  for (i in which(cand$tier == "suggestive")) {
+    if (nrow(pick) >= n) break
+    e <- cand[i]; if (same_locus(pick, e) || e$cell_type %in% pick$cell_type) next
+    pick <- rbind(pick, e)
+  }
+  if (nrow(pick) < n) stop("from_gws: only ", nrow(pick), " loci available")
+  cat(sprintf("Loci from CTP-GWAS (cell types with >= %d MGP markers; GWS P < %g first, then top suggestive P < %g in a new cell type):\n",
+              min_markers, gws_p, sugg_p))
+  print(pick[, .(cell_type, n_markers, locus_id, lead_snp, lead_p, tier, n_sugg_snps)])
+  data.table(panel = LETTERS[seq_len(n)], cell_type = pick$cell_type, chr = pick$chr, pos = as.integer(pick$lead_pos),
+             label = sprintf("%s — %s", gene_label(pick$chr, pick$lead_pos),
+                             ifelse(pick$tier == "GWS", "genome-wide significant", "top suggestive locus")),
+             tier = pick$tier, n_markers = pick$n_markers)
+}
+
+loci <- if (opt$from_gws) loci_from_gws(opt$loci_dir, opt$n_loci, opt$marker_file, opt$min_markers, opt$gws_p, opt$sugg_p) else
+        if (!is.null(opt$from_coloc) && file.exists(opt$from_coloc)) loci_from_coloc(opt$from_coloc, opt$n_loci, opt$loci_dir) else {
+  if (!is.null(opt$from_coloc)) cat("WARNING: --from_coloc file not found; using default loci\n")
+  if (!is.null(opt$loci)) fread(opt$loci) else data.table(
+    panel = c("A", "B", "C"),
+    cell_type = c("VIP", "L5.6.IT.Car3", "Microglia"),
+    chr = c(7L, 12L, 6L),
+    pos = c(12284378L, 2324042L, 164862615L),
+    label = c("TMEM106B", "CACNA1C", "PRKN region"))
+}
+
+if (opt$dry_run) { cat("--dry_run: stopping after locus selection\n"); print(loci); quit(status = 0) }
 
 meta_cohorts <- fread(opt$metadata)
-anc_map <- setNames(ifelse(meta_cohorts$ancestry_class == "EUR_homogeneous", "EUR", "AFR"), meta_cohorts$cohort)
+anc_map <-setNames(ifelse(meta_cohorts$ancestry_class == "EUR_homogeneous", "EUR", "AFR"), meta_cohorts$cohort)
 
 annotated_for <- function(ct) {
   f <- list.files(opt$meta_dir, pattern = sprintf("^%s_meta_analysis_.*\\.annotated\\.tsv$", gsub("\\.", "\\\\.", ct)), full.names = TRUE)
@@ -76,10 +187,12 @@ find_lead <- function(ct, chr, pos, win) {
     if (lead$MarkerName != raw_lead$MarkerName)
       cat(sprintf("    raw lead %s (P=%.3g, %d cohorts) -> using %s (P=%.3g, %d cohorts) [--min_cohorts %d]\n",
                   raw_lead$MarkerName, raw_lead$p, raw_lead$n_coh, lead$MarkerName, lead$p, lead$n_coh, opt$min_cohorts))
-    lead[, raw_lead := raw_lead$MarkerName][, raw_lead_P := raw_lead$p]
+    # plain locals: inside `[`, `raw_lead` would resolve to the column being created
+    rl_id <- raw_lead$MarkerName; rl_p <- raw_lead$p
+    lead[, c("raw_lead", "raw_lead_P") := .(rl_id, rl_p)]
     return(lead)
   }
-  raw_lead[, raw_lead := MarkerName][, raw_lead_P := p]
+  raw_lead[, c("raw_lead", "raw_lead_P") := .(MarkerName, p)]
 }
 
 # Per-cohort effect at one marker from the harmonized (hg19) file METAL consumed.
@@ -147,7 +260,7 @@ make_forest <- function(cohorts_df, meta_df, panel_letter, title_str, x_label) {
 panels <- list(); lead_rows <- list(); effect_rows <- list()
 for (i in seq_len(nrow(loci))) {
   L <- loci[i]
-  lead <- find_lead(L$cell_type, L$chr, L$pos, opt$window_kb * 1000L)
+  lead <- find_lead(L$cell_type, as.character(L$chr), as.integer(L$pos), opt$window_kb * 1000L)
   marker <- lead$MarkerName
   cat(sprintf("Panel %s  %s x %s: lead %s  P=%.3g  (%s)\n", L$panel, L$cell_type, L$label, marker, lead$p,
               if (lead$p < 1e-5) "suggestive" else "NOT suggestive in v2"))
@@ -162,7 +275,9 @@ for (i in seq_len(nrow(loci))) {
                                label = L$label, lead = marker, lead_P = lead$p, ALT = lead$ALT, BETA_ALT = lead$BETA_ALT,
                                n_cohorts = nrow(eff), I2 = round(fp$het$I2, 1), Q = round(fp$het$Q, 2), Q_df = fp$het$df, Q_P = fp$het$Qp,
                                suggestive_v2 = lead$p < 1e-5,
-                               raw_window_lead = lead$raw_lead, raw_window_lead_P = lead$raw_lead_P)
+                               raw_window_lead = lead$raw_lead, raw_window_lead_P = lead$raw_lead_P,
+                               selection_tier = if ("tier" %in% names(L)) L$tier else NA_character_,
+                               n_mgp_markers = if ("n_markers" %in% names(L)) L$n_markers else NA_integer_)
   effect_rows[[i]] <- cbind(panel = L$panel, cell_type = L$cell_type, marker = marker, eff)
 }
 fwrite(rbindlist(lead_rows), file.path(opt$out_dir, "figure6_v2_loci.tsv"), sep = "\t")

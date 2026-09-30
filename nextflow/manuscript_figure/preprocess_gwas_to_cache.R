@@ -24,9 +24,11 @@ CACHE_DIR     <- Sys.getenv("MF_CACHE_DIR",
   "/project/rrg-shreejoy/zhoux156/external-Xiaolin/nextflow/manuscript_figure/gwas_cache")
 
 # Columns to keep in cache (chr/pos parsed; only what figure3 needs)
-KEEP_COLS_BASE  <- c("chr", "pos", "beta", "se", "p", "eaf")  # non-focus CTs
-KEEP_COLS_FOCUS <- c("chr", "pos", "beta", "se", "p", "eaf",
-                     "ea", "nea")                               # VIP, L5.6.IT.Car3
+# "snp" (MarkerName) is kept: figure3's derive_loci() reports lead_snp from it and
+# fails with "object 'snp' not found" on a cache without it (+~40% file size).
+KEEP_COLS_BASE  <- c("chr", "pos", "snp", "beta", "se", "p", "eaf")  # non-focus CTs
+KEEP_COLS_FOCUS <- c("chr", "pos", "snp", "beta", "se", "p", "eaf",
+                     "ea", "nea")                                      # VIP, L5.6.IT.Car3
 
 FOCUS_CTS <- c("VIP", "L5.6.IT.Car3", "Microglia")
 
@@ -126,8 +128,7 @@ convert_one_file <- function(f, cache_dir, cache_ext, cache_format,
   dt <- dt[chr %in% 1:22 & !is.na(pos) & !is.na(p) & !is.na(beta) & !is.na(se)
            & p > 0 & p <= 1 & !grepl(":\\*:", snp, fixed = FALSE)]
 
-  # Drop snp column (already split; saves ~40% file size)
-  dt[, snp := NULL]
+  # snp is retained (see KEEP_COLS_*): figure3 needs lead_snp labels.
 
   # Keep only needed columns
   keep <- if (is_focus) keep_focus else keep_base

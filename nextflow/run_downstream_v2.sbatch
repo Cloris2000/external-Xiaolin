@@ -88,7 +88,15 @@ echo ""; echo "Phase 1  $(date -Is)"
 ) &
 (
   export META_DIR="${V2META}" COLOC_LOCI_DIR="${DS}/coloc/loci_full" COLOC_RES_DIR="${DS}/coloc/coloc_results_full"
-  export DISEASE_DIR="${SCC_RES}/coloc/disease_gwas" CELL_TYPE_N=3554
+  # Disease GWAS on hg19.  The SCC copies of AD_Bellenguez2022 / LBD_Chia2021 / PD_Nalls2019
+  # are GRCh38 despite the _hg19 name (GWAS-Catalog harmonised coordinates); the lifted set
+  # is produced by run_downstream_v2_redo2.sbatch (scripts/coloc/liftover_disease_gwas.py).
+  export DISEASE_DIR="${DS}/disease_gwas_hg19" CELL_TYPE_N=3554
+  [ -s "${DISEASE_DIR}/AD_Bellenguez2022/AD_Bellenguez2022_hg19.tsv" ] || \
+      echo "  WARNING: ${DISEASE_DIR} missing - run run_downstream_v2_redo2.sbatch (Phase 0) first" >&2
+  # Primary, most-recent GWAS per disease only (the six the manuscript figures map);
+  # the SCC dir also holds superseded sets under archive/ which must not be scanned.
+  export COLOC_DISEASES="MDD_MDD2025,BD_bip2024,SCZ_Trubetskoy2022,AD_Bellenguez2022,LBD_Chia2021,PD_Nalls2019"
   step coloc_all_loci bash "${NF_DIR}/run_coloc_all_loci.sbatch"
 ) &
 wait
@@ -121,8 +129,7 @@ export MF_RESULTS_DIR="${DS}"                       # figure5: ${DS}/sn_bulk_met
 export MF_COLOC_DIR="${DS}/coloc/full" MF_LOCI_DIR="${DS}/coloc/loci_full" MF_DISEASE_DIR="${SCC_RES}/coloc/disease_gwas"
 export MF_AUTO_REGIONAL=1
 export MF_BULK_RESULTS_DIR="${V2COHORTS}"
-if [ -n "${H2_FILE}" ] && [ -s "${H2_FILE}" ]; then export MF_H2_FILE="${H2_FILE}"; echo "  h2 panel: ${H2_FILE}"
-else echo "  h2 panel: v2 LDSC summary not given/found -> figure2 merged uses the SCC (old) h2 summary"; fi
+[ -n "${H2_FILE}" ] && export MF_H2_FILE="${H2_FILE}"   # only consumed by the (skipped) h2 figure
 cd "${FIG}"
 
 step fig3_gwas_cache        "${RSCRIPT}" "${MF}/preprocess_gwas_to_cache.R"
@@ -131,11 +138,16 @@ step fig3_multict_manhattan "${RSCRIPT}" "${MF}/test_multict_gws_manhattan.R"
 step fig5_sn_concordance    "${RSCRIPT}" "${MF}/figure5_sn_concordance.R"
 step fig4_coloc_validation  "${RSCRIPT}" "${MF}/figure4_coloc_validation.R"
 step fig_coloc_rearranged   "${RSCRIPT}" "${MF}/figure_coloc_rearranged.R"
+# Figure 6 loci = the three colocalisation events with the highest PP.H4 (one per
+# locus); falls back to the manuscript trio if the coloc summary is missing.
 step fig6_heterogeneity_v2  "${RSCRIPT}" "${MF}/figure6_cohort_heterogeneity_v2.R" \
-    --meta_dir "${V2META}" --metadata "${NF_DIR}/docs/meta_cohort_metadata.tsv" --out_dir "${FIG}"
+    --meta_dir "${V2META}" --metadata "${NF_DIR}/docs/meta_cohort_metadata.tsv" --out_dir "${FIG}" \
+    --from_coloc "${DS}/coloc/full/coloc_all_results.tsv" --loci_dir "${DS}/coloc/loci_full" --n_loci 3
 step fig2_proportion_phenos "${RSCRIPT}" "${MF}/figure2_celltype_proportion_phenotypes.R"
 step fig2_validation_focus  "${RSCRIPT}" "${MF}/figure2_celltype_validation_focus.R"
-step fig2_ctp_merged        "${RSCRIPT}" "${MF}/figure2_ctp_variation_merged.R"
+# figure2_ctp_variation_merged.R (the "revised" Figure 2 with the LDSC h2 panel D) is
+# deliberately NOT run: that figure is not used (2026-09-16).  To produce it later:
+#   MF_H2_FILE=<ldsc_h2_summary.tsv> FIG2_OUT_DIR=<dir> Rscript figure2_ctp_variation_merged.R
 
 echo ""; echo "Done  $(date -Is)"
 echo "Figures ($(ls "${FIG}"/*.png 2>/dev/null | wc -l) png):"; ls "${FIG}"/*.png 2>/dev/null | sed 's/^/  /'

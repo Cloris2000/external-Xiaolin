@@ -75,7 +75,11 @@ PYEOF
 
 # ===========================================================================
 # 1. ALZHEIMER'S DISEASE — Bellenguez et al. 2022 (Nature Genetics)
-#    GWAS Catalog: GCST90027158  (harmonised hg38→hg37 by EBI)
+#    GWAS Catalog: GCST90027158  (harmonised by EBI -- NOTE: harmonised hm_pos is
+#    GRCh38, NOT hg19.  standardize_harmonised() copies it through, so the
+#    "_hg19.tsv" written here for AD / LBD / PD is on GRCh38 and must be lifted
+#    with scripts/coloc/liftover_disease_gwas.py before coloc against the hg19
+#    CTP meta.  Found 2026-09-16; the PGC daner sources (BD/MDD/SCZ) are hg19.)
 #    N=788,989 (111,326 cases, 677,663 controls), European
 #    PMID: 35379992
 # ===========================================================================

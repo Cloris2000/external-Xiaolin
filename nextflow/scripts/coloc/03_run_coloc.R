@@ -114,10 +114,27 @@ is_strand_ambiguous <- function(ref, alt) {
   paste(ref, alt) %in% c("A T", "T A", "C G", "G C")
 }
 
+# Allele-order-agnostic variant key: chr:pos plus the two alleles sorted.  The snp
+# IDs are chr:pos:ref:alt, and disease files write ref = effect allele, so a file
+# whose effect allele is the other allele (PD_Nalls2019: 0 exact-ID matches but
+# 2,375 allele-swapped matches at a test locus) never merged on the raw ID and the
+# flip logic below never got a chance to run.  Matching on this key and then
+# checking exact-or-swapped alleles handles both orientations.
+variant_key <- function(d) {
+  parts <- strsplit(as.character(d$snp), ":", fixed = TRUE)
+  chr <- sub("^chr", "", vapply(parts, `[`, "", 1))
+  pos <- vapply(parts, `[`, "", 2)
+  a <- toupper(d$ref); b <- toupper(d$alt)
+  paste(chr, pos, pmin(a, b), pmax(a, b), sep = ":")
+}
 harmonize_datasets <- function(d1, d2) {
   # d1, d2: data frames with columns snp, beta, se, ref, alt
   # Returns merged data frame with harmonized beta_d1, beta_d2, varbeta_d1, varbeta_d2
-  m <- merge(d1, d2, by = "snp", suffixes = c("_ct", "_dis"))
+  d1$vkey <- variant_key(d1); d2$vkey <- variant_key(d2)
+  d1 <- d1[!duplicated(d1$vkey), ]; d2 <- d2[!duplicated(d2$vkey), ]
+  m <- merge(d1, d2, by = "vkey", suffixes = c("_ct", "_dis"))
+  if (nrow(m) == 0) return(NULL)
+  m$snp <- m$snp_ct   # downstream (coloc.abf snp labels) keeps the cell-type ID
 
   # Remove strand-ambiguous SNPs from both sides
   strand_amb <- is_strand_ambiguous(m$ref_ct, m$alt_ct)

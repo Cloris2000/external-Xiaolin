@@ -51,7 +51,11 @@ COHORTS=(
 # placeholders); the v2 run points it at the harmonized (hg19-lifted) files so
 # the four hg38 cohorts match the meta markers instead of silently dropping out.
 SUMSTAT_DIR="${SUMSTAT_DIR:-${SCC_DIR}/results}"
-SUMSTAT_PATTERN="${SUMSTAT_PATTERN:-${SUMSTAT_DIR}/{cohort}/regenie_step2/{cohort}_{cell_type}_step2.regenie.raw_p}"
+# Built in two steps on purpose: inside ${VAR:-default} bash ends the expansion at
+# the first '}', so a default containing {cohort} would be truncated and the rest
+# (with its trailing '}') appended literally -> Python format error "Single '}'".
+DEFAULT_SUMSTAT_PATTERN="${SUMSTAT_DIR}/{cohort}/regenie_step2/{cohort}_{cell_type}_step2.regenie.raw_p"
+SUMSTAT_PATTERN="${SUMSTAT_PATTERN:-$DEFAULT_SUMSTAT_PATTERN}"
 
 echo "Meta tables : ${META_DIR}"
 echo "Output      : ${OUT_DIR}"
