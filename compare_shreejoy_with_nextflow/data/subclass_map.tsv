@@ -1,0 +1,25 @@
+subclass_label	mgp_trait	n_supertypes	n_core
+Astrocyte	Astrocyte	6	3
+Chandelier	PVALB	2	0
+Endothelial	Endothelial	3	0
+Immune	Microglia	8	3
+L2/3 IT	IT	11	4
+L4 IT	L4.IT	4	0
+L5 ET	L5.ET	2	0
+L5 IT	IT	7	2
+L5/6 NP	L5.6.NP	8	1
+L6 CT	L6.CT	4	0
+L6 IT	IT	4	0
+L6 IT Car3	L5.6.IT.Car3	2	0
+L6b	L6b	6	0
+Lamp5	LAMP5	6	3
+Lamp5 Lhx6	LAMP5	3	1
+OPC	OPC	4	3
+Oligodendrocyte	Oligodendrocyte	6	1
+Pax6	PAX6	5	0
+Pvalb	PVALB	14	3
+Sncg	NA	7	0
+Sst	SST	16	7
+Sst Chodl	SST	3	1
+VLMC & Perivascular	VLMC	4	0
+Vip	VIP	17	1

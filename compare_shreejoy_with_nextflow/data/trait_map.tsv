@@ -1,0 +1,153 @@
+supertype_label	regenie_trait	subclass_label	class_label	compartment	core	mgp_trait
+Chandelier_1	Chandelier_1	Chandelier	Neuronal: GABAergic	neu	False	PVALB
+Chandelier_2	Chandelier_2	Chandelier	Neuronal: GABAergic	neu	False	PVALB
+Lamp5_1	Lamp5_1	Lamp5	Neuronal: GABAergic	neu	False	LAMP5
+Lamp5_2	Lamp5_2	Lamp5	Neuronal: GABAergic	neu	False	LAMP5
+Lamp5_3	Lamp5_3	Lamp5	Neuronal: GABAergic	neu	True	LAMP5
+Lamp5_4	Lamp5_4	Lamp5	Neuronal: GABAergic	neu	False	LAMP5
+Lamp5_5	Lamp5_5	Lamp5	Neuronal: GABAergic	neu	True	LAMP5
+Lamp5_6	Lamp5_6	Lamp5	Neuronal: GABAergic	neu	True	LAMP5
+Lamp5_Lhx6_1	Lamp5_Lhx6_1	Lamp5 Lhx6	Neuronal: GABAergic	neu	False	LAMP5
+Lamp5_Lhx6_2-SEAAD	Lamp5_Lhx6_2_SEAAD	Lamp5 Lhx6	Neuronal: GABAergic	neu	True	LAMP5
+Lamp5_Lhx6_3-SEAAD	Lamp5_Lhx6_3_SEAAD	Lamp5 Lhx6	Neuronal: GABAergic	neu	False	LAMP5
+Pax6_1	Pax6_1	Pax6	Neuronal: GABAergic	neu	False	PAX6
+Pax6_2	Pax6_2	Pax6	Neuronal: GABAergic	neu	False	PAX6
+Pax6_3	Pax6_3	Pax6	Neuronal: GABAergic	neu	False	PAX6
+Pax6_4	Pax6_4	Pax6	Neuronal: GABAergic	neu	False	PAX6
+Pax6_6-SEAAD	Pax6_6_SEAAD	Pax6	Neuronal: GABAergic	neu	False	PAX6
+Pvalb_1	Pvalb_1	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_10	Pvalb_10	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_12	Pvalb_12	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_13	Pvalb_13	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_14	Pvalb_14	Pvalb	Neuronal: GABAergic	neu	True	PVALB
+Pvalb_15	Pvalb_15	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_16-SEAAD	Pvalb_16_SEAAD	Pvalb	Neuronal: GABAergic	neu	True	PVALB
+Pvalb_2	Pvalb_2	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_3	Pvalb_3	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_5	Pvalb_5	Pvalb	Neuronal: GABAergic	neu	True	PVALB
+Pvalb_6	Pvalb_6	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_7	Pvalb_7	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_8	Pvalb_8	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Pvalb_9	Pvalb_9	Pvalb	Neuronal: GABAergic	neu	False	PVALB
+Sncg_1	Sncg_1	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_2	Sncg_2	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_3	Sncg_3	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_4	Sncg_4	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_5	Sncg_5	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_6	Sncg_6	Sncg	Neuronal: GABAergic	neu	False	NA
+Sncg_8	Sncg_8	Sncg	Neuronal: GABAergic	neu	False	NA
+Sst_1	Sst_1	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_10	Sst_10	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_11	Sst_11	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_12	Sst_12	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_13	Sst_13	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_19	Sst_19	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_2	Sst_2	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_20	Sst_20	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_22	Sst_22	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_23	Sst_23	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_25	Sst_25	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_3	Sst_3	Sst	Neuronal: GABAergic	neu	True	SST
+Sst_4	Sst_4	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_5	Sst_5	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_7	Sst_7	Sst	Neuronal: GABAergic	neu	False	SST
+Sst_9	Sst_9	Sst	Neuronal: GABAergic	neu	False	SST
+Sst Chodl_1	Sst_Chodl_1	Sst Chodl	Neuronal: GABAergic	neu	False	SST
+Sst Chodl_2	Sst_Chodl_2	Sst Chodl	Neuronal: GABAergic	neu	False	SST
+Sst Chodl_3-SEAAD	Sst_Chodl_3_SEAAD	Sst Chodl	Neuronal: GABAergic	neu	True	SST
+Vip_1	Vip_1	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_11	Vip_11	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_12	Vip_12	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_13	Vip_13	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_14	Vip_14	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_15	Vip_15	Vip	Neuronal: GABAergic	neu	True	VIP
+Vip_16	Vip_16	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_18	Vip_18	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_19	Vip_19	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_2	Vip_2	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_21	Vip_21	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_23	Vip_23	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_24-SEAAD	Vip_24_SEAAD	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_4	Vip_4	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_5	Vip_5	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_6	Vip_6	Vip	Neuronal: GABAergic	neu	False	VIP
+Vip_9	Vip_9	Vip	Neuronal: GABAergic	neu	False	VIP
+L2/3 IT_1	L2_3_IT_1	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_10	L2_3_IT_10	L2/3 IT	Neuronal: Glutamatergic	neu	True	IT
+L2/3 IT_12	L2_3_IT_12	L2/3 IT	Neuronal: Glutamatergic	neu	True	IT
+L2/3 IT_13	L2_3_IT_13	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_14-SEAAD	L2_3_IT_14_SEAAD	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_2	L2_3_IT_2	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_3	L2_3_IT_3	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_5	L2_3_IT_5	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_6	L2_3_IT_6	L2/3 IT	Neuronal: Glutamatergic	neu	False	IT
+L2/3 IT_7	L2_3_IT_7	L2/3 IT	Neuronal: Glutamatergic	neu	True	IT
+L2/3 IT_8	L2_3_IT_8	L2/3 IT	Neuronal: Glutamatergic	neu	True	IT
+L4 IT_1	L4_IT_1	L4 IT	Neuronal: Glutamatergic	neu	False	L4.IT
+L4 IT_2	L4_IT_2	L4 IT	Neuronal: Glutamatergic	neu	False	L4.IT
+L4 IT_3	L4_IT_3	L4 IT	Neuronal: Glutamatergic	neu	False	L4.IT
+L4 IT_4	L4_IT_4	L4 IT	Neuronal: Glutamatergic	neu	False	L4.IT
+L5 ET_2	L5_ET_2	L5 ET	Neuronal: Glutamatergic	neu	False	L5.ET
+L5 ET_4-SEAAD	L5_ET_4_SEAAD	L5 ET	Neuronal: Glutamatergic	neu	False	L5.ET
+L5 IT_1	L5_IT_1	L5 IT	Neuronal: Glutamatergic	neu	False	IT
+L5 IT_10-SEAAD	L5_IT_10_SEAAD	L5 IT	Neuronal: Glutamatergic	neu	True	IT
+L5 IT_2	L5_IT_2	L5 IT	Neuronal: Glutamatergic	neu	False	IT
+L5 IT_3	L5_IT_3	L5 IT	Neuronal: Glutamatergic	neu	False	IT
+L5 IT_5	L5_IT_5	L5 IT	Neuronal: Glutamatergic	neu	False	IT
+L5 IT_6	L5_IT_6	L5 IT	Neuronal: Glutamatergic	neu	True	IT
+L5 IT_7	L5_IT_7	L5 IT	Neuronal: Glutamatergic	neu	False	IT
+L5/6 NP_1	L5_6_NP_1	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_2	L5_6_NP_2	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_3	L5_6_NP_3	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_4	L5_6_NP_4	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_6	L5_6_NP_6	L5/6 NP	Neuronal: Glutamatergic	neu	True	L5.6.NP
+L5/6 NP_7-SEAAD	L5_6_NP_7_SEAAD	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_8-SEAAD	L5_6_NP_8_SEAAD	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L5/6 NP_9-SEAAD	L5_6_NP_9_SEAAD	L5/6 NP	Neuronal: Glutamatergic	neu	False	L5.6.NP
+L6 CT_1	L6_CT_1	L6 CT	Neuronal: Glutamatergic	neu	False	L6.CT
+L6 CT_2	L6_CT_2	L6 CT	Neuronal: Glutamatergic	neu	False	L6.CT
+L6 CT_3	L6_CT_3	L6 CT	Neuronal: Glutamatergic	neu	False	L6.CT
+L6 CT_4	L6_CT_4	L6 CT	Neuronal: Glutamatergic	neu	False	L6.CT
+L6 IT_1	L6_IT_1	L6 IT	Neuronal: Glutamatergic	neu	False	IT
+L6 IT_2	L6_IT_2	L6 IT	Neuronal: Glutamatergic	neu	False	IT
+L6 IT_3-SEAAD	L6_IT_3_SEAAD	L6 IT	Neuronal: Glutamatergic	neu	False	IT
+L6 IT_4-SEAAD	L6_IT_4_SEAAD	L6 IT	Neuronal: Glutamatergic	neu	False	IT
+L6 IT Car3_1	L6_IT_Car3_1	L6 IT Car3	Neuronal: Glutamatergic	neu	False	L5.6.IT.Car3
+L6 IT Car3_3	L6_IT_Car3_3	L6 IT Car3	Neuronal: Glutamatergic	neu	False	L5.6.IT.Car3
+L6b_1	L6b_1	L6b	Neuronal: Glutamatergic	neu	False	L6b
+L6b_2	L6b_2	L6b	Neuronal: Glutamatergic	neu	False	L6b
+L6b_3	L6b_3	L6b	Neuronal: Glutamatergic	neu	False	L6b
+L6b_4	L6b_4	L6b	Neuronal: Glutamatergic	neu	False	L6b
+L6b_5	L6b_5	L6b	Neuronal: Glutamatergic	neu	False	L6b
+L6b_6	L6b_6	L6b	Neuronal: Glutamatergic	neu	False	L6b
+Astro_1	Astro_1	Astrocyte	Non-neuronal and Non-neural	glia	False	Astrocyte
+Astro_2	Astro_2	Astrocyte	Non-neuronal and Non-neural	glia	True	Astrocyte
+Astro_3	Astro_3	Astrocyte	Non-neuronal and Non-neural	glia	False	Astrocyte
+Astro_4	Astro_4	Astrocyte	Non-neuronal and Non-neural	glia	True	Astrocyte
+Astro_5	Astro_5	Astrocyte	Non-neuronal and Non-neural	glia	False	Astrocyte
+Astro_6-SEAAD	Astro_6_SEAAD	Astrocyte	Non-neuronal and Non-neural	glia	True	Astrocyte
+Endo_1	Endo_1	Endothelial	Non-neuronal and Non-neural	glia	False	Endothelial
+Endo_2	Endo_2	Endothelial	Non-neuronal and Non-neural	glia	False	Endothelial
+Endo_3	Endo_3	Endothelial	Non-neuronal and Non-neural	glia	False	Endothelial
+Lymphocyte	Lymphocyte	Immune	Non-neuronal and Non-neural	glia	False	Microglia
+Micro-PVM_1	Micro_PVM_1	Immune	Non-neuronal and Non-neural	glia	False	Microglia
+Micro-PVM_2	Micro_PVM_2	Immune	Non-neuronal and Non-neural	glia	True	Microglia
+Micro-PVM_2_1-SEAAD	Micro_PVM_2_1_SEAAD	Immune	Non-neuronal and Non-neural	glia	True	Microglia
+Micro-PVM_2_3-SEAAD	Micro_PVM_2_3_SEAAD	Immune	Non-neuronal and Non-neural	glia	True	Microglia
+Micro-PVM_3-SEAAD	Micro_PVM_3_SEAAD	Immune	Non-neuronal and Non-neural	glia	False	Microglia
+Micro-PVM_4-SEAAD	Micro_PVM_4_SEAAD	Immune	Non-neuronal and Non-neural	glia	False	Microglia
+Monocyte	Monocyte	Immune	Non-neuronal and Non-neural	glia	False	Microglia
+OPC_1	OPC_1	OPC	Non-neuronal and Non-neural	glia	False	OPC
+OPC_2	OPC_2	OPC	Non-neuronal and Non-neural	glia	True	OPC
+OPC_2_1-SEAAD	OPC_2_1_SEAAD	OPC	Non-neuronal and Non-neural	glia	True	OPC
+OPC_2_2-SEAAD	OPC_2_2_SEAAD	OPC	Non-neuronal and Non-neural	glia	True	OPC
+Oligo_1	Oligo_1	Oligodendrocyte	Non-neuronal and Non-neural	glia	False	Oligodendrocyte
+Oligo_2	Oligo_2	Oligodendrocyte	Non-neuronal and Non-neural	glia	False	Oligodendrocyte
+Oligo_2_1-SEAAD	Oligo_2_1_SEAAD	Oligodendrocyte	Non-neuronal and Non-neural	glia	False	Oligodendrocyte
+Oligo_3	Oligo_3	Oligodendrocyte	Non-neuronal and Non-neural	glia	False	Oligodendrocyte
+Oligo_4	Oligo_4	Oligodendrocyte	Non-neuronal and Non-neural	glia	False	Oligodendrocyte
+Oligo_5-SEAAD	Oligo_5_SEAAD	Oligodendrocyte	Non-neuronal and Non-neural	glia	True	Oligodendrocyte
+Pericyte_1	Pericyte_1	VLMC & Perivascular	Non-neuronal and Non-neural	glia	False	VLMC
+Pericyte_2-SEAAD	Pericyte_2_SEAAD	VLMC & Perivascular	Non-neuronal and Non-neural	glia	False	VLMC
+SMC-SEAAD	SMC_SEAAD	VLMC & Perivascular	Non-neuronal and Non-neural	glia	False	VLMC
+VLMC_1	VLMC_1	VLMC & Perivascular	Non-neuronal and Non-neural	glia	False	VLMC
