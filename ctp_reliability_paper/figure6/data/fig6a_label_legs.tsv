@@ -1,0 +1,8 @@
+n_legs	combo	n_donors
+1	Green	164
+1	Mathys	141
+1	Multiome	268
+2	Green + Mathys	168
+2	Green + Multiome	46
+2	Mathys + Multiome	38
+3	Green + Mathys + Multiome	59

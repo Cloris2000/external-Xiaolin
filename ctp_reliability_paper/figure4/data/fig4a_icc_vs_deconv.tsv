@@ -1,0 +1,151 @@
+cell_type	median_icc	n_pairs	bulk_r	bulk_n_pairs	compartment	reactive	core
+Micro-PVM_2_3-SEAAD	0.6935	6	0.6446	6	glia	True	True
+OPC_2_2-SEAAD	0.6166	6	0.6781	6	glia	True	True
+OPC_2	0.5567	6	0.3987	6	glia	False	True
+Astro_6-SEAAD	0.4962	6	0.6205	6	glia	True	True
+Micro-PVM_2	0.4595	6	0.4266	6	glia	False	True
+Sst_25	0.4357	6	0.3469	6	neu	False	True
+Sst_11	0.4337	6	0.323	6	neu	False	True
+Micro-PVM_2_1-SEAAD	0.4157	6	0.4677	6	glia	True	True
+Lamp5_Lhx6_2-SEAAD	0.4105	2	0.2368	5	neu	True	False
+Oligo_5-SEAAD	0.41	6	0.3531	6	glia	True	True
+Sst_23	0.4003	6	0.3513	6	neu	False	True
+Astro_2	0.3818	6	0.3137	6	glia	False	True
+Astro_5	0.3343	6	0.2617	6	glia	False	False
+Sst_20	0.3342	6	0.3355	6	neu	False	True
+Lamp5_5	0.3097	6	0.2333	6	neu	False	True
+Astro_4	0.2994	6	0.1389	6	glia	False	True
+L2/3 IT_13	0.2968	6	0.2072	6	neu	False	False
+Lamp5_3	0.2965	6	0.1521	6	neu	False	True
+L2/3 IT_6	0.2946	6	0.2102	6	neu	False	False
+Sst Chodl_3-SEAAD	0.2915	5	0.2512	6	neu	True	True
+Oligo_1	0.2911	6	0.1715	6	glia	False	False
+Sst_3	0.2795	6	0.3434	6	neu	False	True
+Sst_13	0.2761	6	0.2147	6	neu	False	False
+Sst_19	0.2752	6	0.1899	6	neu	False	True
+L2/3 IT_10	0.2735	6	0.3779	6	neu	False	True
+Micro-PVM_3-SEAAD	0.2735	6	0.1635	6	glia	True	False
+L5/6 NP_3	0.2711	5	0.2367	6	neu	False	False
+L2/3 IT_5	0.2683	6	0.1708	6	neu	False	False
+L2/3 IT_3	0.263	5	0.1809	6	neu	False	False
+Vip_23	0.2599	6	0.0803	6	neu	False	False
+L4 IT_4	0.2448	6	0.1706	6	neu	False	False
+Sst_22	0.238	6	0.2353	6	neu	False	False
+Vip_19	0.238	6	0.0614	6	neu	False	False
+Sst_2	0.2355	6	0.3224	6	neu	False	True
+Pvalb_6	0.2278	6	0.0829	6	neu	False	False
+Pvalb_3	0.227	6	0.1295	6	neu	False	False
+L5/6 NP_6	0.2236	5	0.2249	6	neu	False	True
+L5 IT_5	0.2222	6	0.137	6	neu	False	False
+Pvalb_2	0.2215	6	0.1993	6	neu	False	False
+Pvalb_5	0.2213	6	0.2536	6	neu	False	True
+L5 IT_10-SEAAD	0.2193	6	0.284	6	neu	True	True
+Micro-PVM_1	0.219	6	0.1088	6	glia	False	False
+L6 IT Car3_1	0.2145	5	0.1555	6	neu	False	False
+Pax6_6-SEAAD	0.2132	6	0.172	6	neu	True	False
+Pvalb_8	0.2069	6	0.2316	6	neu	False	True
+Sncg_1	0.2061	6	0.1582	6	neu	False	False
+OPC_1	0.2052	6	0.131	6	glia	False	False
+Vip_4	0.2022	6	0.1102	6	neu	False	False
+L2/3 IT_14-SEAAD	0.1946	5	0.0567	6	neu	True	False
+Sst_9	0.1883	6	0.2543	6	neu	False	False
+L5 IT_2	0.188	6	0.1421	6	neu	False	False
+Vip_2	0.1853	6	0.2024	6	neu	False	False
+Vip_15	0.1799	6	0.2445	6	neu	False	True
+L6 IT_4-SEAAD	0.1783	6	0.1304	6	neu	True	False
+L6b_3	0.1764	5	0.1718	6	neu	False	False
+Lamp5_Lhx6_3-SEAAD	0.1751	6	0.1348	6	neu	True	False
+Oligo_3	0.1747	6	0.1447	6	glia	False	False
+Lamp5_6	0.173	6	0.1408	6	neu	False	True
+L5 IT_6	0.1719	6	0.1527	6	neu	False	True
+Pvalb_14	0.1719	6	0.2748	6	neu	False	True
+L5 ET_4-SEAAD	0.1706	6	0.112	6	neu	True	False
+L2/3 IT_12	0.1691	6	0.2852	6	neu	False	True
+Oligo_2	0.1668	6	0.2047	6	glia	False	False
+Chandelier_2	0.1663	6	0.0617	6	neu	False	True
+L6 CT_4	0.1641	5	0.1128	6	neu	False	False
+Astro_1	0.1633	6	0.2627	6	glia	False	False
+L2/3 IT_8	0.1611	6	0.1507	6	neu	False	True
+OPC_2_1-SEAAD	0.1579	5	0.2328	6	glia	True	False
+Sncg_4	0.1535	6	0.1208	6	neu	False	False
+Endo_2	0.1496	6	0.2297	6	glia	False	False
+Endo_3	0.1494	6	0.1536	6	glia	False	False
+Pericyte_1	0.1492	6	0.2526	6	glia	False	False
+L4 IT_3	0.1477	6	0.167	6	neu	False	False
+Astro_3	0.143	6	0.1417	6	glia	False	False
+L5/6 NP_7-SEAAD	0.1427	5	0.0538	6	neu	True	False
+L4 IT_1	0.1425	6	0.211	6	neu	False	False
+Oligo_2_1-SEAAD	0.1349	6	0.219	6	glia	True	False
+L6b_4	0.133	6	0.0869	6	neu	False	False
+L2/3 IT_2	0.1277	5	0.1185	6	neu	False	False
+L6b_1	0.1272	6	0.087	6	neu	False	False
+L5 IT_7	0.1255	6	0.0725	6	neu	False	False
+Pax6_3	0.1242	6	0.1043	4	neu	False	False
+L5/6 NP_4	0.119	6	0.1384	6	neu	False	False
+Vip_24-SEAAD	0.1188	6	0.0742	6	neu	True	False
+L5/6 NP_9-SEAAD	0.1183	5	0.085	6	neu	True	False
+L5/6 NP_1	0.1159	6	0.0986	6	neu	False	False
+L4 IT_2	0.1138	6	0.1395	6	neu	False	False
+Vip_11	0.1137	6	0.085	6	neu	False	False
+L2/3 IT_1	0.1087	6	0.1614	6	neu	False	False
+L5/6 NP_2	0.1008	6	0.1087	6	neu	False	False
+Vip_18	0.0997	6	0.1567	6	neu	False	False
+Lymphocyte	0.0995	6	0.178	6	glia	False	False
+Micro-PVM_4-SEAAD	0.0993	5	0.186	6	glia	True	False
+Sncg_5	0.0993	6	0.1137	6	neu	False	True
+L6 CT_3	0.0974	5	0.1046	6	neu	False	False
+Pvalb_15	0.0968	6	0.1222	6	neu	False	False
+Vip_5	0.0962	6	0.049	6	neu	False	False
+Vip_13	0.0944	6	0.0456	6	neu	False	False
+L5 IT_3	0.0887	6	0.0847	6	neu	False	False
+Vip_9	0.0856	6	-0.0402	6	neu	False	False
+L6 IT Car3_3	0.0831	6	0.1162	6	neu	False	False
+L2/3 IT_7	0.0772	5	0.2658	6	neu	False	True
+Vip_12	0.0746	6	0.0875	6	neu	False	False
+L6 IT_1	0.0738	6	0.1244	6	neu	False	False
+L6b_2	0.0736	6	0.0292	6	neu	False	False
+Pericyte_2-SEAAD	0.0713	6	0.1584	6	glia	True	False
+Pvalb_12	0.0691	6	0.0921	6	neu	False	False
+Lamp5_1	0.0684	6	0.0702	6	neu	False	False
+Sst_1	0.0682	6	-0.0348	6	neu	False	False
+Sncg_3	0.0671	6	0.097	6	neu	False	False
+Vip_16	0.0668	6	0.0536	6	neu	False	False
+Sst Chodl_2	0.0667	6	0.0352	6	neu	False	False
+Sst_7	0.0651	6	0.0677	6	neu	False	False
+Sncg_6	0.0636	6	0.0554	6	neu	False	False
+Pax6_4	0.0627	6	0.0762	6	neu	False	False
+L6 CT_1	0.0611	6	0.1579	6	neu	False	False
+Pvalb_1	0.0598	6	0.0482	6	neu	False	False
+Vip_6	0.0568	6	0.0725	6	neu	False	False
+Pax6_2	0.056	6	0.1471	6	neu	False	False
+Pvalb_13	0.0476	6	0.0384	6	neu	False	False
+Vip_14	0.0461	6	0.0331	6	neu	False	False
+Chandelier_1	0.0453	6	0.1793	6	neu	False	False
+Sst_12	0.0424	6	0.0797	6	neu	False	True
+Vip_21	0.0415	6	-0.0556	6	neu	False	False
+L6b_5	0.0401	6	0.1846	6	neu	False	False
+Oligo_4	0.0356	6	0.2694	6	glia	False	False
+Lamp5_Lhx6_1	0.0342	6	0.1687	6	neu	False	False
+L5/6 NP_8-SEAAD	0.0327	6	0.08	6	neu	True	False
+Endo_1	0.0295	5	0.0408	6	glia	False	False
+L6 IT_2	0.0274	6	0.03	6	neu	False	False
+Pvalb_10	0.0259	6	0.0832	6	neu	False	False
+VLMC_1	0.02	5	0.2509	6	glia	False	False
+L6 IT_3-SEAAD	0.0163	6	0.0518	6	neu	True	False
+Lamp5_4	0.0129	6	0.0657	6	neu	False	False
+Vip_1	0.0085	6	0.1331	6	neu	False	False
+Sncg_8	0.0078	6	0.0399	6	neu	False	False
+Pax6_1	0.0074	6	0.0023	6	neu	False	False
+Sst_4	0.0055	6	0.0565	6	neu	False	False
+SMC-SEAAD	-0.0001	6	0.1222	6	glia	True	False
+Sst_5	-0.0017	6	0.0819	6	neu	False	False
+Pvalb_9	-0.0021	6	0.0061	6	neu	False	False
+Sst Chodl_1	-0.0055	6	0.0088	6	neu	False	False
+Sst_10	-0.0061	6	0.0046	6	neu	False	False
+Sncg_2	-0.0084	6	0.0026	6	neu	False	False
+Lamp5_2	-0.0109	6	0.0283	6	neu	False	False
+Pvalb_7	-0.0132	6	0.0308	6	neu	False	False
+L5 ET_2	-0.0175	6	0.1082	6	neu	False	False
+L6 CT_2	-0.028	6	0.0269	6	neu	False	False
+L5 IT_1	-0.0366	6	0.0887	6	neu	False	False
+L6b_6	-0.0593	6	0.056	6	neu	False	False

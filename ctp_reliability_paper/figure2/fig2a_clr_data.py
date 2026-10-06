@@ -6,10 +6,12 @@ shows exactly the data behind the published ICC:
   - shared donors only; a donor is kept in a compartment if it has >0 nuclei
     of that compartment in both datasets
   - CLR within compartment (neuronal vs non-neuronal), pseudocount 0.5
-  - ICC = cov(a, b) / var(a), the icc_person_a of 114
+  - r = Pearson correlation of the two CLR vectors (r_cross_study of 114), the
+    paper's reliability metric since 2026-10-01; ICC = cov(a, b) / var(a)
+    (icc_person_a) is kept for reference
 
-The ICC recomputed here is checked against 114_pair_percelltype_supertype.csv
-and the script stops if any supertype differs.
+Both are recomputed here and checked against 114_pair_percelltype_supertype.csv;
+the script stops if any supertype differs.
 
 Reads /scratch/shreejoy (read-only). Writes data/ next to this script.
 """
@@ -69,21 +71,22 @@ def main():
                 continue
             ac, bc = a[ok] - a[ok].mean(), b[ok] - b[ok].mean()
             icc.append(dict(cell_type=ct, group=grp, n_donors=int(ok.sum()),
+                            r=float(np.corrcoef(ac, bc)[0, 1]),
                             icc=float(np.cov(ac, bc, ddof=1)[0, 1] / ac.var(ddof=1))))
             long.append(pd.DataFrame(dict(pair=PAIR, cell_type=ct, group=grp,
                                           donor=donors[ok], clr_a=a[ok], clr_b=b[ok])))
 
     icc = pd.DataFrame(icc)
     ref = pd.read_csv(RESULTS / "114_pair_percelltype_supertype.csv")
-    ref = ref[ref.pair == PAIR][["cell_type", "icc_person_a", "n_donors"]]
+    ref = ref[ref.pair == PAIR][["cell_type", "r_cross_study", "icc_person_a", "n_donors"]]
     m = icc.merge(ref, on="cell_type", how="outer", indicator=True,
                   suffixes=("", "_114"))
     if (m._merge != "both").any():
         raise SystemExit(f"supertype sets differ from 114:\n{m[m._merge != 'both']}")
-    d = (m.icc - m.icc_person_a).abs().max()
+    d = max((m.r - m.r_cross_study).abs().max(), (m.icc - m.icc_person_a).abs().max())
     if d > 1e-9 or (m.n_donors != m.n_donors_114).any():
-        raise SystemExit(f"ICC does not reproduce 114 (max |diff| = {d})")
-    print(f"{len(icc)} supertypes; ICC reproduces 114 (max |diff| = {d:.1e})")
+        raise SystemExit(f"r/ICC do not reproduce 114 (max |diff| = {d})")
+    print(f"{len(icc)} supertypes; r and ICC reproduce 114 (max |diff| = {d:.1e})")
 
     pd.concat(long).to_csv(OUT / "fig2a_clr_green_mathys.tsv", sep="\t", index=False)
     icc.to_csv(OUT / "fig2a_icc_green_mathys.tsv", sep="\t", index=False)

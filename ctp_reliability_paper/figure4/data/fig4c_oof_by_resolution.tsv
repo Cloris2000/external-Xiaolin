@@ -1,0 +1,1042 @@
+pair	bulk	snRNA	level	cell_type	set	n_donors	r
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_1	Other supertypes	428	0.0786340447492507
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_2	CORE supertypes	428	0.4895646916372184
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_3	Other supertypes	428	0.3149804684959523
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_4	CORE supertypes	428	0.3288423409130312
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_5	Other supertypes	428	0.3796830797988139
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Astro_6-SEAAD	CORE supertypes	428	0.7221527317153555
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Chandelier_1	Other supertypes	428	0.0518574501414275
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Chandelier_2	CORE supertypes	428	-0.0454927346481604
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Endo_1	Other supertypes	428	0.1518698345754294
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Endo_2	Other supertypes	428	0.1933639712216678
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Endo_3	Other supertypes	428	0.264462493790674
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_1	Other supertypes	428	0.0328924509827341
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_10	CORE supertypes	428	0.3586560081511596
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_12	CORE supertypes	428	0.2897564456953567
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_13	Other supertypes	428	0.1167797722446526
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	428	0.0129171687328075
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_2	Other supertypes	428	-0.0061105510622563
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_3	Other supertypes	428	0.1930765197325917
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_5	Other supertypes	428	0.0326670091141546
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_6	Other supertypes	428	0.0417239487318332
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_7	CORE supertypes	428	0.2878082579195595
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L2/3 IT_8	CORE supertypes	428	0.1964150658193418
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L4 IT_1	Other supertypes	428	0.2049012803146552
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L4 IT_2	Other supertypes	428	0.064600771830465
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L4 IT_3	Other supertypes	428	0.2303303065361425
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L4 IT_4	Other supertypes	428	0.1031732008004247
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 ET_2	Other supertypes	428	0.0052683138428139
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	428	0.0825095962265947
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_1	Other supertypes	428	0.0456177026184932
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	428	0.3438367014659865
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_2	Other supertypes	428	0.0407617620165486
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_3	Other supertypes	428	0.0855422976560519
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_5	Other supertypes	428	0.0620201665500315
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_6	CORE supertypes	428	0.3169064571618318
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5 IT_7	Other supertypes	428	-0.0976778128497533
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_1	Other supertypes	428	0.0390708644770447
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_2	Other supertypes	428	-0.0482966094217805
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_3	Other supertypes	428	0.3052372595480297
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_4	Other supertypes	428	0.1313750431061666
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_6	CORE supertypes	428	0.2591978402091272
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	428	0.1199332823582652
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	428	0.0255231539587899
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	428	0.0837753714713655
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 CT_1	Other supertypes	428	0.1418178639757206
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 CT_2	Other supertypes	428	0.0198975712147689
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 CT_3	Other supertypes	428	0.1435650296836723
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 CT_4	Other supertypes	428	0.0676001985101435
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT Car3_1	Other supertypes	428	0.1668545286581909
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT Car3_3	Other supertypes	428	0.0687167290809922
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT_1	Other supertypes	428	0.0455043459914864
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT_2	Other supertypes	428	0.0492040903808592
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	428	0.0324581897590733
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	428	0.1971760518952564
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_1	Other supertypes	428	0.1218454161725146
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_2	Other supertypes	428	0.0650451827682681
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_3	Other supertypes	428	0.1933563603534563
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_4	Other supertypes	428	0.113173956287305
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_5	Other supertypes	428	0.0519283487372464
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	L6b_6	Other supertypes	428	-0.0385039612634162
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_1	Other supertypes	428	0.1073841764246486
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_2	Other supertypes	428	-0.0078605005740888
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_3	CORE supertypes	428	0.202857507177069
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_4	Other supertypes	428	0.088831147168021
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_5	CORE supertypes	428	0.2491586660510762
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_6	CORE supertypes	428	0.161895277976982
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	428	0.0580239687184309
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_Lhx6_2-SEAAD	Other supertypes	428	0.3396722125167693
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	428	0.2269449047297318
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Lymphocyte	Other supertypes	428	0.2947199861383335
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_1	Other supertypes	428	0.0966923911356537
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_2	CORE supertypes	428	0.4057155760081968
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	428	0.5368688276421634
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	428	0.6764310081440597
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	428	0.0858661749295551
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	428	0.0890929701721066
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	OPC_1	Other supertypes	428	0.0996194424890821
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	OPC_2	CORE supertypes	428	0.5650141445550677
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	428	0.3722519924357775
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	428	0.6799680404271892
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_1	Other supertypes	428	0.129327437239181
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_2	Other supertypes	428	-0.0021168598561827
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	428	0.3657973177315282
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_3	Other supertypes	428	0.1715823932641736
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_4	Other supertypes	428	0.3044235663555077
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	428	0.3190986569579039
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pax6_1	Other supertypes	428	-0.0720017173148137
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pax6_2	Other supertypes	428	0.0126929007132054
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pax6_3	Other supertypes	428	0.1412398252608007
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pax6_4	Other supertypes	428	0.0870472720465524
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pax6_6-SEAAD	Other supertypes	428	0.1430961867269038
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pericyte_1	Other supertypes	428	0.2921782591595708
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	428	0.2500572349088511
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_1	Other supertypes	428	-0.0677344922525875
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_10	Other supertypes	428	0.0270351201545412
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_12	Other supertypes	428	0.0470120489753078
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_13	Other supertypes	428	0.0971864114157741
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_14	CORE supertypes	428	0.3258711312752125
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_15	Other supertypes	428	0.1481889317718952
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_2	Other supertypes	428	0.2075017309702371
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_3	Other supertypes	428	-0.015640158343466
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_5	CORE supertypes	428	0.2024491005087589
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_6	Other supertypes	428	0.0589548945127215
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_7	Other supertypes	428	-0.0756038906828046
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_8	CORE supertypes	428	0.2228311139035727
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Pvalb_9	Other supertypes	428	0.0094161158567306
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	SMC-SEAAD	Other supertypes	428	0.1463993393598424
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_1	Other supertypes	428	0.0197785792338308
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_2	Other supertypes	428	0.0017914119979526
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_3	Other supertypes	428	0.0673536912068041
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_4	Other supertypes	428	0.0785044493390071
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_5	CORE supertypes	428	0.1110297856061146
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_6	Other supertypes	428	0.0040062206728696
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sncg_8	Other supertypes	428	-0.0437767864385241
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst Chodl_1	Other supertypes	428	0.0145386738149246
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst Chodl_2	Other supertypes	428	0.0224558054476889
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	428	0.3140395060101577
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_1	Other supertypes	428	-0.031741092016262
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_10	Other supertypes	428	0.0677141326783437
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_11	CORE supertypes	428	0.3342679831628987
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_12	CORE supertypes	428	0.0820999075971564
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_13	Other supertypes	428	0.2766375116548562
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_19	CORE supertypes	428	0.2106887413766467
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_2	CORE supertypes	428	0.3164477064461646
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_20	CORE supertypes	428	0.3485304516838274
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_22	Other supertypes	428	0.2086134391860308
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_23	CORE supertypes	428	0.3524219551027915
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_25	CORE supertypes	428	0.3702610046725125
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_3	CORE supertypes	428	0.3793863087820127
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_4	Other supertypes	428	0.102418027811822
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_5	Other supertypes	428	0.0064542940490243
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_7	Other supertypes	428	0.0373046769570872
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Sst_9	Other supertypes	428	0.3107114034977015
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	VLMC_1	Other supertypes	428	0.1843025259069191
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_1	Other supertypes	428	-0.0416506646761812
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_11	Other supertypes	428	-0.0943687173980564
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_12	Other supertypes	428	-0.0528251524703936
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_13	Other supertypes	428	-0.1195220242518765
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_14	Other supertypes	428	-0.0012849653917067
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_15	CORE supertypes	428	0.0817804676191904
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_16	Other supertypes	428	-0.0599305387428049
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_18	Other supertypes	428	0.1734173523286533
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_19	Other supertypes	428	0.0424610942140874
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_2	Other supertypes	428	-0.0444108017192443
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_21	Other supertypes	428	-0.0163517529232165
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_23	Other supertypes	428	0.0834228868576766
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_24-SEAAD	Other supertypes	428	0.0592734932393343
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_4	Other supertypes	428	-0.0437078745796425
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_5	Other supertypes	428	0.0501048548071376
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_6	Other supertypes	428	0.0724167322810307
+ROSMAP x Green	ROSMAP	Green_DFC	supertype	Vip_9	Other supertypes	428	-0.0439648510276594
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_1	Other supertypes	384	0.0168221599251314
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_2	CORE supertypes	384	0.2897665951633726
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_3	Other supertypes	384	-0.0010577216100712
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_4	CORE supertypes	384	0.1286279782004738
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_5	Other supertypes	384	0.1559402452085418
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Astro_6-SEAAD	CORE supertypes	384	0.4969960973420411
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Chandelier_1	Other supertypes	384	-0.030377596480772
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Chandelier_2	CORE supertypes	384	0.0122164459522357
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Endo_1	Other supertypes	384	-0.0057801219603295
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Endo_2	Other supertypes	384	0.0183552099103726
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Endo_3	Other supertypes	384	0.1207930412277593
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_1	Other supertypes	384	0.092768096743708
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_10	CORE supertypes	384	0.3971847233996433
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_12	CORE supertypes	384	0.2958655221953452
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_13	Other supertypes	384	0.243958522550662
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	384	0.127224793265259
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_2	Other supertypes	384	0.2004813063085975
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_3	Other supertypes	384	0.140954463584614
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_5	Other supertypes	384	0.1463312842521582
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_6	Other supertypes	384	0.2234033893682543
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_7	CORE supertypes	384	0.1883535125392984
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L2/3 IT_8	CORE supertypes	384	0.2026205516612305
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L4 IT_1	Other supertypes	384	0.1374175987316539
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L4 IT_2	Other supertypes	384	-0.0439397882713944
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L4 IT_3	Other supertypes	384	0.1207429452472179
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L4 IT_4	Other supertypes	384	0.1543848751706719
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 ET_2	Other supertypes	384	0.184902334386882
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	384	0.0555833380491311
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_1	Other supertypes	384	-0.1005532892603608
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	384	0.1450640040393219
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_2	Other supertypes	384	0.1787164256941703
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_3	Other supertypes	384	-0.0104611765526284
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_5	Other supertypes	384	0.0912365739356756
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_6	CORE supertypes	384	0.2357980412102232
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5 IT_7	Other supertypes	384	0.0621549344843334
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_1	Other supertypes	384	-0.0157435093574886
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_2	Other supertypes	384	0.0778470060254529
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_3	Other supertypes	384	0.2002459688930787
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_4	Other supertypes	384	0.246807639813284
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_6	CORE supertypes	384	0.1905881251147918
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	384	0.075562100331852
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	384	0.0357438085207909
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	384	0.1760429998297275
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 CT_1	Other supertypes	384	0.1537267550952223
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 CT_2	Other supertypes	384	-0.1853461509522886
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 CT_3	Other supertypes	384	0.0151577363323774
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 CT_4	Other supertypes	384	0.1417053607476767
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT Car3_1	Other supertypes	384	0.1440521087830044
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT Car3_3	Other supertypes	384	0.1141987866844254
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT_1	Other supertypes	384	0.1203161991486813
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT_2	Other supertypes	384	-0.0166564385030409
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	384	0.0612832821137336
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	384	0.0199808923596416
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_1	Other supertypes	384	0.0521333591292933
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_2	Other supertypes	384	-0.0128742235474046
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_3	Other supertypes	384	0.1501899193365642
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_4	Other supertypes	384	0.0313696390939708
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_5	Other supertypes	384	0.2211255245100401
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	L6b_6	Other supertypes	384	0.0285361381779768
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_1	Other supertypes	384	0.0034525032552749
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_2	Other supertypes	384	0.064503281810689
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_3	CORE supertypes	384	0.1455962478828911
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_4	Other supertypes	384	0.1266100922423046
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_5	CORE supertypes	384	0.3093832425765815
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_6	CORE supertypes	384	0.1350235293331263
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	384	0.1658092976255784
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_Lhx6_2-SEAAD	Other supertypes	384	0.1511061381975372
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	384	0.146532247926428
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Lymphocyte	Other supertypes	384	0.1332039159860296
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_1	Other supertypes	384	0.064854151887172
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_2	CORE supertypes	384	0.4475792796516883
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	384	0.4473727106744694
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	384	0.6187762161226731
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	384	0.2012788691609042
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	384	0.2287253545990251
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	OPC_1	Other supertypes	384	-0.0154435889046246
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	OPC_2	CORE supertypes	384	0.3532219229695487
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	384	0.4128179216011512
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	384	0.6684782727221106
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_1	Other supertypes	384	0.0935169100869828
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_2	Other supertypes	384	0.17264072776492
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	384	0.1281700432954542
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_3	Other supertypes	384	0.1118096279534544
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_4	Other supertypes	384	0.207389801065183
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	384	0.336279068922424
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pax6_1	Other supertypes	384	0.1071885907170862
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pax6_2	Other supertypes	384	0.0239384260011826
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pax6_3	Other supertypes	384	0.0674562492768771
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pax6_4	Other supertypes	384	0.0820244663504738
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pax6_6-SEAAD	Other supertypes	384	0.1544618988440249
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pericyte_1	Other supertypes	384	-0.0505387296750445
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	384	0.0667644469154662
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_1	Other supertypes	384	0.0851996417741735
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_10	Other supertypes	384	0.0762978472880098
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_12	Other supertypes	384	0.138131786122884
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_13	Other supertypes	384	-0.0939961703495526
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_14	CORE supertypes	384	0.2697041988954229
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_15	Other supertypes	384	0.0271346633184849
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_2	Other supertypes	384	0.2101042298907676
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_3	Other supertypes	384	0.2621040625042408
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_5	CORE supertypes	384	0.3088979092568404
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_6	Other supertypes	384	0.0497592484029966
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_7	Other supertypes	384	0.108395843350076
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_8	CORE supertypes	384	0.1149150108095557
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Pvalb_9	Other supertypes	384	0.0036718731152761
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	SMC-SEAAD	Other supertypes	384	0.0666064051544057
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_1	Other supertypes	384	0.3162965299646546
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_2	Other supertypes	384	0.0034105825797193
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_3	Other supertypes	384	0.0515129013116462
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_4	Other supertypes	384	0.1587972066575294
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_5	CORE supertypes	384	0.093288216498468
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_6	Other supertypes	384	0.0800118486946053
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sncg_8	Other supertypes	384	-0.0559036540307722
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst Chodl_1	Other supertypes	384	0.0723073970539188
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst Chodl_2	Other supertypes	384	0.0395361000530416
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	384	0.1562407011208868
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_1	Other supertypes	384	-0.0378199660031602
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_10	Other supertypes	384	-0.0483965644892794
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_11	CORE supertypes	384	0.3116462203772305
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_12	CORE supertypes	384	-0.0028175425136572
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_13	Other supertypes	384	0.2188983638300093
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_19	CORE supertypes	384	0.097161799729404
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_2	CORE supertypes	384	0.3166252403506321
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_20	CORE supertypes	384	0.3463676906614907
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_22	Other supertypes	384	0.0785016723756256
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_23	CORE supertypes	384	0.3540364808277115
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_25	CORE supertypes	384	0.3303823625239712
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_3	CORE supertypes	384	0.3351331760159998
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_4	Other supertypes	384	0.0606083008867854
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_5	Other supertypes	384	0.0910195077196178
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_7	Other supertypes	384	0.1889038368627783
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Sst_9	Other supertypes	384	0.2854771700455079
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	VLMC_1	Other supertypes	384	0.1718944948293028
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_1	Other supertypes	384	0.1414398187608603
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_11	Other supertypes	384	0.0220459727895085
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_12	Other supertypes	384	0.0962453821377554
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_13	Other supertypes	384	0.0359811989984148
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_14	Other supertypes	384	-0.0580958624969833
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_15	CORE supertypes	384	0.2427744414379403
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_16	Other supertypes	384	-0.0020316770385143
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_18	Other supertypes	384	0.0005231408537052
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_19	Other supertypes	384	0.0709682500537749
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_2	Other supertypes	384	0.2136620054568384
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_21	Other supertypes	384	-0.0985939181457687
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_23	Other supertypes	384	0.0399555697715165
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_24-SEAAD	Other supertypes	384	0.1950282268209544
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_4	Other supertypes	384	0.0182915322069697
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_5	Other supertypes	384	0.1320333958236405
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_6	Other supertypes	384	-0.0517789449808174
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	supertype	Vip_9	Other supertypes	384	-0.0364181544715962
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_1	Other supertypes	253	0.1994338240123398
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_2	CORE supertypes	253	0.1410462042743699
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_3	Other supertypes	253	0.0055976072918963
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_4	CORE supertypes	253	0.0157351390142207
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_5	Other supertypes	253	0.1011076746696575
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Astro_6-SEAAD	CORE supertypes	253	0.4474397894997758
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Chandelier_1	Other supertypes	253	0.1324265306697749
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Chandelier_2	CORE supertypes	253	0.1231280684161016
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Endo_1	Other supertypes	253	0.1096429894958928
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Endo_2	Other supertypes	253	0.2321417800938184
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Endo_3	Other supertypes	253	0.1388943575703661
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_1	Other supertypes	253	0.0910344544550817
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_10	CORE supertypes	253	0.2725981467622314
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_12	CORE supertypes	253	0.2870774434121061
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_13	Other supertypes	253	0.0727127080022909
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	253	0.100581793405267
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_2	Other supertypes	253	-0.0516038258786174
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_3	Other supertypes	253	-0.0839663357882949
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_5	Other supertypes	253	-0.0111616902681217
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_6	Other supertypes	253	-0.0545410549160745
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_7	CORE supertypes	253	0.0613537938241044
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L2/3 IT_8	CORE supertypes	253	0.0877460177312545
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L4 IT_1	Other supertypes	253	0.2080754613189179
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L4 IT_2	Other supertypes	253	0.1417352010231887
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L4 IT_3	Other supertypes	253	0.1103233655946089
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L4 IT_4	Other supertypes	253	0.1868032963556204
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 ET_2	Other supertypes	253	0.1801456503200493
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	253	0.1414183375794177
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_1	Other supertypes	253	0.09625487397791
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	253	0.276818885100313
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_2	Other supertypes	253	0.1054832156903896
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_3	Other supertypes	253	0.1162808939564783
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_5	Other supertypes	253	0.1828192703197048
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_6	CORE supertypes	253	-0.05852855289492
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5 IT_7	Other supertypes	253	0.0904298530578071
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_1	Other supertypes	253	0.2953817396721483
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_2	Other supertypes	253	0.2346552121610911
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_3	Other supertypes	253	-0.0171946179158512
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_4	Other supertypes	253	0.2114312152424501
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_6	CORE supertypes	253	0.0335134311574597
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	253	-0.0786472467750959
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	253	0.0955960421046416
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	253	0.0606252109489371
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 CT_1	Other supertypes	253	-0.1998281723555654
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 CT_2	Other supertypes	253	-0.0762470623601847
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 CT_3	Other supertypes	253	-0.1225180908004655
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 CT_4	Other supertypes	253	0.0214095979501825
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT Car3_1	Other supertypes	253	0.1873090104427802
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT Car3_3	Other supertypes	253	0.1866631080474932
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT_1	Other supertypes	253	-0.0680453156443928
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT_2	Other supertypes	253	-0.0082697655659605
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	253	-0.0181714053620164
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	253	-0.0748606891303556
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_1	Other supertypes	253	-0.143220931848537
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_2	Other supertypes	253	-0.1719973447144315
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_3	Other supertypes	253	0.1024082555833991
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_4	Other supertypes	253	-0.009737552291655
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_5	Other supertypes	253	-0.0516432386150147
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	L6b_6	Other supertypes	253	-0.0631104477104095
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_1	Other supertypes	253	-0.0197809945330122
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_2	Other supertypes	253	-0.109605498928664
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_3	CORE supertypes	253	0.1585959855838518
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_4	Other supertypes	253	0.0426483778557191
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_5	CORE supertypes	253	0.217384080859751
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_6	CORE supertypes	253	0.0889018011152256
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	253	0.1094579652474733
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	253	-0.0803578287721247
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Lymphocyte	Other supertypes	253	0.0540049358265866
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_1	Other supertypes	253	0.1208890347201762
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_2	CORE supertypes	253	0.0950561310125412
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	253	0.315865379799314
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	253	0.5315347671583611
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	253	0.0771133657621078
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	253	0.2648597030500728
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	OPC_1	Other supertypes	253	0.1624087672658961
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	OPC_2	CORE supertypes	253	0.3722159010742653
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	253	0.2289099401643627
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	253	0.5575356493330226
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_1	Other supertypes	253	-0.0299871228029925
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_2	Other supertypes	253	0.2575499480310869
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	253	0.3382986659910501
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_3	Other supertypes	253	-0.0287594585687169
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_4	Other supertypes	253	0.5586038460112086
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	253	0.2325772344014389
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pax6_1	Other supertypes	253	-0.0887353209310424
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pax6_2	Other supertypes	253	0.1138199894205773
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pax6_3	Other supertypes	253	-0.0067681900510018
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pax6_4	Other supertypes	253	-0.0263330269396189
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pax6_6-SEAAD	Other supertypes	253	-0.0086826822441082
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pericyte_1	Other supertypes	253	0.2541153981705368
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	253	0.2582260954134183
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_1	Other supertypes	253	-0.0599590416597353
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_10	Other supertypes	253	0.1451263966556373
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_12	Other supertypes	253	0.1372540890311122
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_13	Other supertypes	253	-0.0126928454871346
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_14	CORE supertypes	253	0.0939580899535404
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_15	Other supertypes	253	0.1001388242279285
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_2	Other supertypes	253	0.0450308767899329
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_3	Other supertypes	253	-0.1213067012000673
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_5	CORE supertypes	253	0.289111892540584
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_6	Other supertypes	253	0.0682679429347018
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_7	Other supertypes	253	0.069487025997654
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_8	CORE supertypes	253	0.096213954557788
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Pvalb_9	Other supertypes	253	-0.117521558030755
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	SMC-SEAAD	Other supertypes	253	-0.0700607095029572
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_1	Other supertypes	253	0.0894332423548133
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_2	Other supertypes	253	0.0660782783598197
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_3	Other supertypes	253	0.1897425601198961
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_4	Other supertypes	253	-0.1282781524504529
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_5	CORE supertypes	253	-0.0352569830051852
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_6	Other supertypes	253	0.030846848263387
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sncg_8	Other supertypes	253	-0.0074045966943672
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst Chodl_1	Other supertypes	253	-0.0771080105247941
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst Chodl_2	Other supertypes	253	-0.0406057887746284
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	253	0.1902548310546217
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_1	Other supertypes	253	-0.0882587977434292
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_10	Other supertypes	253	0.0297197178526864
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_11	CORE supertypes	253	0.1777714683847646
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_12	CORE supertypes	253	0.0773379473475882
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_13	Other supertypes	253	-0.0130110124845388
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_19	CORE supertypes	253	0.16910453364327
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_2	CORE supertypes	253	0.1064204847074621
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_20	CORE supertypes	253	0.1925549907139512
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_22	Other supertypes	253	0.1542767616565533
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_23	CORE supertypes	253	0.1665809298445265
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_25	CORE supertypes	253	0.1649884471376748
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_3	CORE supertypes	253	0.0896296736405753
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_4	Other supertypes	253	0.1640742052098254
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_5	Other supertypes	253	0.1008585593998944
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_7	Other supertypes	253	-0.1701278600174817
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Sst_9	Other supertypes	253	0.1647095905673837
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	VLMC_1	Other supertypes	253	0.2553366176135359
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_1	Other supertypes	253	-0.0226226915679893
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_11	Other supertypes	253	-0.08748780680106
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_12	Other supertypes	253	-0.0929543160100398
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_13	Other supertypes	253	-0.0354117725286873
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_14	Other supertypes	253	0.0641021202003334
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_15	CORE supertypes	253	0.0261718995909541
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_16	Other supertypes	253	0.1091834050217197
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_18	Other supertypes	253	-0.1433326670381852
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_19	Other supertypes	253	0.0235810473432487
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_2	Other supertypes	253	0.0184966727286047
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_21	Other supertypes	253	-0.0620455894531343
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_23	Other supertypes	253	-0.0275925784124573
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_24-SEAAD	Other supertypes	253	0.0090917509127956
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_4	Other supertypes	253	-0.1569300859169109
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_5	Other supertypes	253	-0.0203048823035521
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_6	Other supertypes	253	0.2074007938639458
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	supertype	Vip_9	Other supertypes	253	-0.1762730935417692
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_1	Other supertypes	253	0.3258758058441012
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_2	CORE supertypes	253	0.2528447759217647
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_3	Other supertypes	253	0.0645038431289382
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_4	CORE supertypes	253	0.2202281048570677
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_5	Other supertypes	253	0.289970549545175
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Astro_6-SEAAD	CORE supertypes	253	0.6655098744222552
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Chandelier_1	Other supertypes	253	0.2261339603668314
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Chandelier_2	CORE supertypes	253	0.1112487561651433
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Endo_1	Other supertypes	253	-0.0871194908959637
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Endo_2	Other supertypes	253	0.227234835088348
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Endo_3	Other supertypes	253	0.0753142668948485
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_1	Other supertypes	253	0.3419261495300411
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_10	CORE supertypes	253	0.4039114556061008
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_12	CORE supertypes	253	0.2109265595348985
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_13	Other supertypes	253	0.178820989674145
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	253	-0.1030621574613088
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_2	Other supertypes	253	0.1603140300577003
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_3	Other supertypes	253	0.1733928618545785
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_5	Other supertypes	253	0.1952536410421596
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_6	Other supertypes	253	0.296863731964759
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_7	CORE supertypes	253	0.3037870094996699
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L2/3 IT_8	CORE supertypes	253	0.1050005789595819
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L4 IT_1	Other supertypes	253	0.2138502606526199
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L4 IT_2	Other supertypes	253	0.1373468933338788
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L4 IT_3	Other supertypes	253	0.1188384451538517
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L4 IT_4	Other supertypes	253	0.1191414706943544
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 ET_2	Other supertypes	253	0.2216658085375649
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	253	0.2786485283917125
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_1	Other supertypes	253	0.0811046576105667
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	253	0.4015440739003172
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_2	Other supertypes	253	0.0233971331810605
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_3	Other supertypes	253	0.0838970119809695
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_5	Other supertypes	253	0.1890313652554062
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_6	CORE supertypes	253	0.0510401311133679
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5 IT_7	Other supertypes	253	0.0376584710076339
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_1	Other supertypes	253	0.0740300174096663
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_2	Other supertypes	253	0.1396447750486485
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_3	Other supertypes	253	0.3366810920074216
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_4	Other supertypes	253	0.1048947617974729
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_6	CORE supertypes	253	0.3253797425211497
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	253	0.1867385404327828
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	253	0.148635065020213
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	253	0.191602768261336
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 CT_1	Other supertypes	253	0.3218444186684702
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 CT_2	Other supertypes	253	0.2850416702813001
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 CT_3	Other supertypes	253	0.1694942251161184
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 CT_4	Other supertypes	253	0.2398700694734749
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT Car3_1	Other supertypes	253	0.0499125329766224
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT Car3_3	Other supertypes	253	0.1182332627122085
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT_1	Other supertypes	253	0.1526533189872015
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT_2	Other supertypes	253	0.2475937087266329
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	253	0.0423687626424517
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	253	0.2719853971586672
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_1	Other supertypes	253	0.0456072832201368
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_2	Other supertypes	253	-0.0066525563471399
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_3	Other supertypes	253	0.3344026868430651
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_4	Other supertypes	253	0.1989132585458997
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_5	Other supertypes	253	0.2648334373010042
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	L6b_6	Other supertypes	253	0.0834093260545464
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_1	Other supertypes	253	0.0331127137064997
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_2	Other supertypes	253	0.1866215002166399
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_3	CORE supertypes	253	0.0932443347458601
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_4	Other supertypes	253	-0.0341659477989179
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_5	CORE supertypes	253	0.2120339012846497
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_6	CORE supertypes	253	0.1465186595316067
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	253	0.2907078462416663
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_2-SEAAD	Other supertypes	253	0.3124066606285836
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	253	0.280852577868711
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Lymphocyte	Other supertypes	253	0.2248549488149882
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_1	Other supertypes	253	0.251009956433303
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_2	CORE supertypes	253	0.5167550522955586
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	253	0.4597263641385755
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	253	0.6703609515389308
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	253	0.3478868891824535
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	253	0.0247028461833114
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	OPC_1	Other supertypes	253	-0.0946828991599942
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	OPC_2	CORE supertypes	253	0.2654522087519798
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	253	0.2366490439690184
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	253	0.6761711251615898
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_1	Other supertypes	253	0.2136648741754632
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_2	Other supertypes	253	0.2159913738641596
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	253	0.24415333826984
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_3	Other supertypes	253	0.1233907824000365
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_4	Other supertypes	253	0.2344560122427555
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	253	0.3731559133768221
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pax6_1	Other supertypes	253	0.0765682431942489
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pax6_2	Other supertypes	253	0.2875963343577744
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pax6_4	Other supertypes	253	0.0703634056068862
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pax6_6-SEAAD	Other supertypes	253	0.3505200983498199
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pericyte_1	Other supertypes	253	0.1254185867479531
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	253	-0.1307811056101031
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_1	Other supertypes	253	0.0138194162142283
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_10	Other supertypes	253	0.0901848125669899
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_12	Other supertypes	253	-0.0278744142691441
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_13	Other supertypes	253	0.0861139206107826
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_14	CORE supertypes	253	0.2799394200331737
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_15	Other supertypes	253	-0.0356010274923062
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_2	Other supertypes	253	0.191054089440347
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_3	Other supertypes	253	0.1150521124098769
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_5	CORE supertypes	253	0.1625838142428001
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_6	Other supertypes	253	0.0974979363939219
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_7	Other supertypes	253	-0.0078986944725916
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_8	CORE supertypes	253	0.2403867194057139
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Pvalb_9	Other supertypes	253	0.0084877379773142
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	SMC-SEAAD	Other supertypes	253	0.1002552644310406
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_1	Other supertypes	253	0.2077208974971284
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_2	Other supertypes	253	-0.0891423845106603
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_3	Other supertypes	253	0.0675904724023809
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_4	Other supertypes	253	0.3134834442838128
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_5	CORE supertypes	253	0.1164276909186481
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_6	Other supertypes	253	-0.0815238651962469
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sncg_8	Other supertypes	253	0.2538861592217887
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst Chodl_1	Other supertypes	253	0.0030799048198265
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst Chodl_2	Other supertypes	253	0.0307656307199303
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	253	0.3244750488999507
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_1	Other supertypes	253	0.1244621025486152
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_10	Other supertypes	253	-0.0395408432197968
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_11	CORE supertypes	253	0.2394357575837499
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_12	CORE supertypes	253	0.2140672420480192
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_13	Other supertypes	253	0.0485474354347387
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_19	CORE supertypes	253	0.1120186970211501
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_2	CORE supertypes	253	0.3579766211577757
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_20	CORE supertypes	253	0.3261174082787134
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_22	Other supertypes	253	0.2620661560135062
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_23	CORE supertypes	253	0.3349423705345393
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_25	CORE supertypes	253	0.3424143649317983
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_3	CORE supertypes	253	0.3517575003206847
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_4	Other supertypes	253	-0.0562327998610015
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_5	Other supertypes	253	-0.080662904940816
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_7	Other supertypes	253	0.0754085240323808
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Sst_9	Other supertypes	253	0.2231655110454471
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	VLMC_1	Other supertypes	253	0.2940542870358902
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_1	Other supertypes	253	0.1341594992938447
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_11	Other supertypes	253	0.1480514479815382
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_12	Other supertypes	253	0.07878076058066
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_13	Other supertypes	253	0.1759194158045026
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_14	Other supertypes	253	0.0748777261424849
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_15	CORE supertypes	253	0.2651133124219459
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_16	Other supertypes	253	-0.0559654537233087
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_18	Other supertypes	253	0.2564070036952456
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_19	Other supertypes	253	0.1089029132379064
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_2	Other supertypes	253	0.2308686221690604
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_21	Other supertypes	253	-0.1463441856330428
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_23	Other supertypes	253	0.0771628964389753
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_24-SEAAD	Other supertypes	253	0.0890931875875434
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_4	Other supertypes	253	0.2022064893262722
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_5	Other supertypes	253	0.1694751123566686
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_6	Other supertypes	253	-0.0528032507150773
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	supertype	Vip_9	Other supertypes	253	-0.190686792610308
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_1	Other supertypes	252	0.3738089042832804
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_2	CORE supertypes	252	0.4526794345252108
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_3	Other supertypes	252	0.2627692991556146
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_4	CORE supertypes	252	0.149075598130455
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_5	Other supertypes	252	0.284930233754039
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Astro_6-SEAAD	CORE supertypes	252	0.5755252013947507
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Chandelier_1	Other supertypes	252	0.3356036431872004
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Chandelier_2	CORE supertypes	252	0.1873855948788558
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Endo_1	Other supertypes	252	0.0874791275824529
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Endo_2	Other supertypes	252	0.2671329468306774
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Endo_3	Other supertypes	252	0.1734545757470218
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_1	Other supertypes	252	0.3849154677706937
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_10	CORE supertypes	252	0.5987730996687015
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_12	CORE supertypes	252	0.2832926429694513
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_13	Other supertypes	252	0.5289806258475831
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	252	0.5310355869129385
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_2	Other supertypes	252	0.0766157458199417
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_3	Other supertypes	252	0.5439115326672866
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_5	Other supertypes	252	0.5502757751120098
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_6	Other supertypes	252	0.4314999341928723
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_7	CORE supertypes	252	0.292853217404269
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L2/3 IT_8	CORE supertypes	252	0.443517332955459
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L4 IT_1	Other supertypes	252	0.5342101459919393
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L4 IT_2	Other supertypes	252	0.6358925508989208
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L4 IT_3	Other supertypes	252	0.3537155821454703
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L4 IT_4	Other supertypes	252	0.449398713812245
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 ET_2	Other supertypes	252	0.036241522338909
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	252	0.0423830449465448
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_1	Other supertypes	252	0.5660962602274537
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	252	0.1575003366614433
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_2	Other supertypes	252	0.4272787294702451
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_3	Other supertypes	252	0.335090289097588
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_5	Other supertypes	252	0.4505455099488128
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_6	CORE supertypes	252	0.2080484030650089
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5 IT_7	Other supertypes	252	0.2580372009224582
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_1	Other supertypes	252	0.2067706176192975
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_2	Other supertypes	252	0.4441974699577639
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_3	Other supertypes	252	0.2731563589530559
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_4	Other supertypes	252	-0.1185925825853687
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_6	CORE supertypes	252	0.1550740551703047
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	252	0.0319983348587676
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	252	0.2092073124344692
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	252	-0.0845222785524559
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 CT_1	Other supertypes	252	0.1620895889926204
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 CT_2	Other supertypes	252	0.1142153507044382
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 CT_3	Other supertypes	252	0.0656982284063753
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 CT_4	Other supertypes	252	0.0838460849647443
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT Car3_1	Other supertypes	252	0.1730259863700229
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT Car3_3	Other supertypes	252	0.2544721016594675
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT_1	Other supertypes	252	0.128533013205696
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT_2	Other supertypes	252	0.4077153984762581
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	252	0.123657753646186
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	252	0.1002376066390507
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_1	Other supertypes	252	0.1582614385804192
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_2	Other supertypes	252	0.1419931248880653
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_3	Other supertypes	252	0.0444562934147355
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_4	Other supertypes	252	0.0607199317370496
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_5	Other supertypes	252	0.1816830860842519
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	L6b_6	Other supertypes	252	0.2021628010779002
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_1	Other supertypes	252	0.1335607904389667
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_2	Other supertypes	252	0.1119334717071953
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_3	CORE supertypes	252	0.2185341804873204
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_4	Other supertypes	252	0.1843850302067568
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_5	CORE supertypes	252	0.1936428400048557
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_6	CORE supertypes	252	0.1854366648163157
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	252	0.4079643743339304
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_Lhx6_2-SEAAD	Other supertypes	252	0.2367667473289071
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	252	0.1229931297483535
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Lymphocyte	Other supertypes	252	0.1768342485092269
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_1	Other supertypes	252	0.3545781460945405
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_2	CORE supertypes	252	0.5605931571526022
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	252	0.5814666468880845
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	252	0.5190539731429378
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	252	0.1257419376886246
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	252	0.2544494007510973
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	OPC_1	Other supertypes	252	0.6962490063083016
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	OPC_2	CORE supertypes	252	0.4251896753739063
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	252	0.1783535419425242
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	252	0.7414448836309308
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_1	Other supertypes	252	0.3896331166595012
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_2	Other supertypes	252	0.5968707976126177
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	252	0.1938053223664658
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_3	Other supertypes	252	0.3998141234513296
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_4	Other supertypes	252	0.4605514772714455
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	252	0.464560308857957
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pax6_1	Other supertypes	252	0.2259462306013091
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pax6_2	Other supertypes	252	0.2181766529462056
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pax6_3	Other supertypes	252	0.241334765405375
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pax6_4	Other supertypes	252	0.289375523523362
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pax6_6-SEAAD	Other supertypes	252	0.2682467337428209
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pericyte_1	Other supertypes	252	0.291593077639476
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	252	0.2765388661944041
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_1	Other supertypes	252	0.1834105344295123
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_10	Other supertypes	252	-0.0596584392994587
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_12	Other supertypes	252	0.2032335196856341
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_13	Other supertypes	252	0.1837314277008812
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_14	CORE supertypes	252	0.3785182795147706
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_15	Other supertypes	252	0.2152470224011561
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_2	Other supertypes	252	0.1848769373103742
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_3	Other supertypes	252	0.2684845667785506
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_5	CORE supertypes	252	0.2180248871212307
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_6	Other supertypes	252	0.1732048167931592
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_7	Other supertypes	252	0.1156758135544843
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_8	CORE supertypes	252	0.3491712778028941
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Pvalb_9	Other supertypes	252	0.1648263947640068
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	SMC-SEAAD	Other supertypes	252	0.1440824399424391
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_1	Other supertypes	252	0.120582919584903
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_2	Other supertypes	252	-0.0716009036104638
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_3	Other supertypes	252	0.2519073731072274
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_4	Other supertypes	252	0.1872117923713832
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_5	CORE supertypes	252	0.1560812332075966
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_6	Other supertypes	252	0.1774848910987687
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sncg_8	Other supertypes	252	0.2398987187504947
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst Chodl_1	Other supertypes	252	0.0957402859453012
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst Chodl_2	Other supertypes	252	0.1086624616626924
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	252	0.2784747421750701
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_1	Other supertypes	252	-0.039587646627804
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_10	Other supertypes	252	-0.0205209813136534
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_11	CORE supertypes	252	0.4106507035726547
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_12	CORE supertypes	252	0.065149272477946
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_13	Other supertypes	252	0.2105234324117096
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_19	CORE supertypes	252	0.2498326137139934
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_2	CORE supertypes	252	0.3280804576181306
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_20	CORE supertypes	252	0.314841085602715
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_22	Other supertypes	252	0.2988763095363189
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_23	CORE supertypes	252	0.3501808221047642
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_25	CORE supertypes	252	0.3513396542142292
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_3	CORE supertypes	252	0.3118995552711361
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_4	Other supertypes	252	0.0524515148037555
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_5	Other supertypes	252	0.1588369830100864
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_7	Other supertypes	252	0.0919755302868917
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Sst_9	Other supertypes	252	0.1469737610163778
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	VLMC_1	Other supertypes	252	0.4036306742761775
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_1	Other supertypes	252	0.2891101004839971
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_11	Other supertypes	252	0.1898711078716911
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_12	Other supertypes	252	0.1777516592965673
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_13	Other supertypes	252	0.0553019516047417
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_14	Other supertypes	252	0.1675888837049332
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_15	CORE supertypes	252	0.2695935444714387
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_16	Other supertypes	252	0.3135688064924557
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_18	Other supertypes	252	0.140052755483898
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_19	Other supertypes	252	0.3436611188647125
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_2	Other supertypes	252	0.1911722634799644
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_21	Other supertypes	252	0.2251804256694796
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_23	Other supertypes	252	0.1522085684396195
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_24-SEAAD	Other supertypes	252	0.2459175681317059
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_4	Other supertypes	252	0.2307325317431039
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_5	Other supertypes	252	0.0478252487572017
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_6	Other supertypes	252	0.1404644511721846
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	supertype	Vip_9	Other supertypes	252	0.2799891771365683
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_1	Other supertypes	203	0.3273572520606224
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_2	CORE supertypes	203	0.3377099292003629
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_3	Other supertypes	203	0.2188375423430924
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_4	CORE supertypes	203	0.1158659146886903
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_5	Other supertypes	203	0.2384480704615139
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Astro_6-SEAAD	CORE supertypes	203	0.7244549792496968
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Chandelier_1	Other supertypes	203	0.2261289674766461
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Chandelier_2	CORE supertypes	203	-0.0781810746071726
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Endo_1	Other supertypes	203	-0.016202204382115
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Endo_2	Other supertypes	203	0.3084912582948964
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Endo_3	Other supertypes	203	0.168217268167233
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_1	Other supertypes	203	0.2300664518895978
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_10	CORE supertypes	203	0.09505154779986
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_12	CORE supertypes	203	0.2172424476550771
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_13	Other supertypes	203	0.2355233312467217
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_14-SEAAD	Other supertypes	203	-0.0671534776557548
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_2	Other supertypes	203	0.2536363360504727
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_3	Other supertypes	203	0.1883399265127405
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_5	Other supertypes	203	0.2784671386980425
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_6	Other supertypes	203	0.1969264936023959
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_7	CORE supertypes	203	0.2437747115597322
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L2/3 IT_8	CORE supertypes	203	-0.0470373368950021
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L4 IT_1	Other supertypes	203	0.3309412975342419
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L4 IT_2	Other supertypes	203	0.3338588789797366
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L4 IT_3	Other supertypes	203	0.2132254618148992
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L4 IT_4	Other supertypes	203	0.2724179869667421
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 ET_2	Other supertypes	203	-0.0267099719685214
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 ET_4-SEAAD	Other supertypes	203	0.233462270543206
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_1	Other supertypes	203	0.2392458555260335
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_10-SEAAD	CORE supertypes	203	0.2912009852430028
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_2	Other supertypes	203	0.3831687654438901
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_3	Other supertypes	203	0.0129965302239763
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_5	Other supertypes	203	0.0456755610790205
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_6	CORE supertypes	203	0.0974085888762301
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5 IT_7	Other supertypes	203	0.0827861696823215
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_1	Other supertypes	203	0.1231496201653434
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_2	Other supertypes	203	0.0441160739918827
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_3	Other supertypes	203	0.1962852192230894
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_4	Other supertypes	203	0.1454490476918692
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_6	CORE supertypes	203	0.2647762357683547
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_7-SEAAD	Other supertypes	203	-0.037573426383937
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_8-SEAAD	Other supertypes	203	0.0643413178619508
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L5/6 NP_9-SEAAD	Other supertypes	203	0.0862356946107293
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 CT_1	Other supertypes	203	0.2413023045779448
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 CT_2	Other supertypes	203	0.0338671960066519
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 CT_3	Other supertypes	203	0.2784144579062892
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 CT_4	Other supertypes	203	0.2080292469911914
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT Car3_1	Other supertypes	203	0.088463874357795
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT Car3_3	Other supertypes	203	-0.0436677452032642
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT_1	Other supertypes	203	0.20476228861255
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT_2	Other supertypes	203	0.0107690749748705
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT_3-SEAAD	Other supertypes	203	0.2170704993095276
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6 IT_4-SEAAD	Other supertypes	203	0.1606233045117086
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_1	Other supertypes	203	0.1364396437059312
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_2	Other supertypes	203	0.2247696564671746
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_3	Other supertypes	203	0.2450845685131774
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_4	Other supertypes	203	0.2013378664376875
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_5	Other supertypes	203	0.1875034283260831
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	L6b_6	Other supertypes	203	0.0928488275233039
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_1	Other supertypes	203	0.1325643227610067
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_2	Other supertypes	203	-0.0225853029787322
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_3	CORE supertypes	203	0.0694088225797039
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_4	Other supertypes	203	0.0400280552827117
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_5	CORE supertypes	203	0.2970104115351802
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_6	CORE supertypes	203	-0.0057984587167332
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_1	Other supertypes	203	0.1716776567774074
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_2-SEAAD	Other supertypes	203	0.1976596698008198
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lamp5_Lhx6_3-SEAAD	Other supertypes	203	0.1182705531799951
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Lymphocyte	Other supertypes	203	0.1791804258163837
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_1	Other supertypes	203	-0.0340366722693384
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_2	CORE supertypes	203	0.2691480958248142
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_2_1-SEAAD	CORE supertypes	203	0.4756572705808275
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_2_3-SEAAD	CORE supertypes	203	0.7381488791409138
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_3-SEAAD	Other supertypes	203	0.2304678402372164
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Micro-PVM_4-SEAAD	Other supertypes	203	0.1433314196433421
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	OPC_1	Other supertypes	203	0.2615111677260043
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	OPC_2	CORE supertypes	203	0.4509663853582507
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	OPC_2_1-SEAAD	Other supertypes	203	0.1889431691546592
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	OPC_2_2-SEAAD	CORE supertypes	203	0.7369509484643797
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_1	Other supertypes	203	0.2536160176639187
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_2	Other supertypes	203	0.1933365873792687
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_2_1-SEAAD	Other supertypes	203	0.1377648876082331
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_3	Other supertypes	203	0.1660558124317118
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_4	Other supertypes	203	0.0361387079050895
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Oligo_5-SEAAD	CORE supertypes	203	0.3698518374225844
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pax6_1	Other supertypes	203	-0.1264255093939928
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pax6_2	Other supertypes	203	0.1802851891956786
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pax6_4	Other supertypes	203	-0.0110064011333497
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pax6_6-SEAAD	Other supertypes	203	0.1894963340519182
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pericyte_1	Other supertypes	203	0.2509916253428028
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pericyte_2-SEAAD	Other supertypes	203	-0.0553108798428129
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_1	Other supertypes	203	0.0825515201926962
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_10	Other supertypes	203	0.0996860380193128
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_12	Other supertypes	203	-0.2222672135314942
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_13	Other supertypes	203	-0.0092798739222617
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_14	CORE supertypes	203	0.120007667854569
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_15	Other supertypes	203	0.1441732337121267
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_2	Other supertypes	203	0.2658183585784193
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_3	Other supertypes	203	0.1440381219300625
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_5	CORE supertypes	203	0.2938796638318524
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_6	Other supertypes	203	0.2277246224020761
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_7	Other supertypes	203	-0.0110684289816211
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_8	CORE supertypes	203	0.3160264704497019
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Pvalb_9	Other supertypes	203	-0.2412261694833904
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	SMC-SEAAD	Other supertypes	203	0.21346821733393
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_1	Other supertypes	203	0.1957345917963357
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_2	Other supertypes	203	0.0094565787213824
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_3	Other supertypes	203	0.1264318145020219
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_4	Other supertypes	203	0.0827202915473761
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_5	CORE supertypes	203	0.1667113885688899
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_6	Other supertypes	203	0.2193556290299146
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sncg_8	Other supertypes	203	0.0872043205055821
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst Chodl_1	Other supertypes	203	0.0030500433379872
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst Chodl_2	Other supertypes	203	0.1335175237395178
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst Chodl_3-SEAAD	CORE supertypes	203	0.2239660587854405
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_1	Other supertypes	203	0.0533537162323359
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_10	Other supertypes	203	0.2193379671448037
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_11	CORE supertypes	203	0.367208102577814
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_12	CORE supertypes	203	0.1559258566412641
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_13	Other supertypes	203	0.3157850825921215
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_19	CORE supertypes	203	0.4523423774665071
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_2	CORE supertypes	203	0.3410882425141575
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_20	CORE supertypes	203	0.3449442422404575
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_22	Other supertypes	203	0.3699171514054973
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_23	CORE supertypes	203	0.4398696813683801
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_25	CORE supertypes	203	0.4389720785602327
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_3	CORE supertypes	203	0.4569992740307225
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_4	Other supertypes	203	-0.0723863548508525
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_5	Other supertypes	203	0.0727761026960902
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_7	Other supertypes	203	0.0600604082570051
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Sst_9	Other supertypes	203	0.3119686213513263
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	VLMC_1	Other supertypes	203	0.2465048868237669
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_1	Other supertypes	203	0.1319752637788831
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_11	Other supertypes	203	0.230347795467216
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_12	Other supertypes	203	0.1843147694526114
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_13	Other supertypes	203	0.1072107542897288
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_14	Other supertypes	203	0.0020218849549443
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_15	CORE supertypes	203	0.2462233658745192
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_16	Other supertypes	203	0.1502949975759312
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_18	Other supertypes	203	0.1901678443125227
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_19	Other supertypes	203	0.0518425748669358
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_2	Other supertypes	203	0.3029361247959299
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_21	Other supertypes	203	-0.0491582877667698
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_23	Other supertypes	203	0.3179957522106631
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_24-SEAAD	Other supertypes	203	0.0424473085142177
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_4	Other supertypes	203	0.3567898676453664
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_5	Other supertypes	203	0.0200326507812282
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_6	Other supertypes	203	0.0725988226489703
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	supertype	Vip_9	Other supertypes	203	0.0686257153090242
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Astrocyte	Subclasses	428	0.2860558875394793
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Chandelier	Subclasses	428	-0.0221090671419265
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Endothelial	Subclasses	428	0.0569284023568392
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Immune	Subclasses	428	0.4645995783462482
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L2/3 IT	Subclasses	428	-0.0074075331155248
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L4 IT	Subclasses	428	0.1429410547168498
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L5 ET	Subclasses	428	-0.0021359004938042
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L5 IT	Subclasses	428	0.0457934511918436
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L5/6 NP	Subclasses	428	0.0441722973756617
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L6 CT	Subclasses	428	-0.0036608886717964
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L6 IT	Subclasses	428	0.0213390197321836
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L6 IT Car3	Subclasses	428	0.1059208773589649
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	L6b	Subclasses	428	-0.0344194247400625
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Lamp5	Subclasses	428	0.06879210019792
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Lamp5 Lhx6	Subclasses	428	0.0994948961290758
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	OPC	Subclasses	428	0.2667327424420234
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Oligodendrocyte	Subclasses	428	0.1671353565476464
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Pax6	Subclasses	428	0.0172073587123114
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Pvalb	Subclasses	428	0.0340592440874542
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Sncg	Subclasses	428	0.0396953920777384
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Sst	Subclasses	428	0.4494583462194375
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Sst Chodl	Subclasses	428	0.037783604668042
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	VLMC & Perivascular	Subclasses	428	0.0754624375201778
+ROSMAP x Green	ROSMAP	Green_DFC	subclass	Vip	Subclasses	428	-0.0202252728373593
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Astrocyte	Subclasses	384	0.2606502041598328
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Chandelier	Subclasses	384	0.0772342616856495
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Endothelial	Subclasses	384	-2.787843318093064e-05
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Immune	Subclasses	384	0.3269689314301378
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L2/3 IT	Subclasses	384	0.1088575503263499
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L4 IT	Subclasses	384	-0.0137552361766564
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L5 ET	Subclasses	384	0.1486193660859399
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L5 IT	Subclasses	384	0.0649238402190776
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L5/6 NP	Subclasses	384	-0.160527694515986
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L6 CT	Subclasses	384	-0.0345272512950457
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L6 IT	Subclasses	384	0.0488273152543711
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L6 IT Car3	Subclasses	384	0.1925846496130718
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	L6b	Subclasses	384	0.0280110096475458
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Lamp5	Subclasses	384	-0.0450383215386623
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Lamp5 Lhx6	Subclasses	384	0.1587389297645915
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	OPC	Subclasses	384	-0.0388673543675583
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Oligodendrocyte	Subclasses	384	0.0117846031069901
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Pax6	Subclasses	384	-0.0612529397579289
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Pvalb	Subclasses	384	0.0834074107409996
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Sncg	Subclasses	384	0.1488252354800581
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Sst	Subclasses	384	0.2832938947872679
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Sst Chodl	Subclasses	384	-0.0062724096049793
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	VLMC & Perivascular	Subclasses	384	0.0716922739828479
+ROSMAP x Mathys	ROSMAP	Mathys_DFC	subclass	Vip	Subclasses	384	-0.0060391105035934
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Astrocyte	Subclasses	253	0.0615445446734062
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Chandelier	Subclasses	253	0.1385415179603601
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Endothelial	Subclasses	253	0.1935368094893885
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Immune	Subclasses	253	0.1821966530715156
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L2/3 IT	Subclasses	253	-0.1070053445983394
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L4 IT	Subclasses	253	0.1106241154856255
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L5 ET	Subclasses	253	0.1876207446209008
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L5 IT	Subclasses	253	0.2321665490025941
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L5/6 NP	Subclasses	253	0.3008278119949961
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L6 CT	Subclasses	253	-0.2524756590733661
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L6 IT	Subclasses	253	-0.1084609783246309
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L6 IT Car3	Subclasses	253	0.2026179777933718
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	L6b	Subclasses	253	-0.180939706418257
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Lamp5	Subclasses	253	0.0199443084764807
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Lamp5 Lhx6	Subclasses	253	0.1796593384646251
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	OPC	Subclasses	253	0.1044619300398862
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Oligodendrocyte	Subclasses	253	0.2466498050271779
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Pax6	Subclasses	253	-0.0250339333842076
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Pvalb	Subclasses	253	-0.0607922298727391
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Sncg	Subclasses	253	0.0345574193927791
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Sst	Subclasses	253	0.2514494870261625
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Sst Chodl	Subclasses	253	0.0098645787306913
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	VLMC & Perivascular	Subclasses	253	0.1005594984145762
+ROSMAP x Multiome	ROSMAP	Multiome_DFC	subclass	Vip	Subclasses	253	-0.0123421397086006
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Astrocyte	Subclasses	253	0.2608130728721836
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Chandelier	Subclasses	253	0.1790447357894544
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Endothelial	Subclasses	253	-0.0071298674057891
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Immune	Subclasses	253	0.3724463484835504
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L2/3 IT	Subclasses	253	0.3113209993342342
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L4 IT	Subclasses	253	0.2046644172426266
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L5 ET	Subclasses	253	0.2514624926822694
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L5 IT	Subclasses	253	0.0242546969423738
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L5/6 NP	Subclasses	253	0.0862376150571607
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L6 CT	Subclasses	253	0.0193048219901301
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L6 IT	Subclasses	253	0.2932053706081422
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L6 IT Car3	Subclasses	253	0.1905795641774528
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	L6b	Subclasses	253	0.0776121071821036
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Lamp5	Subclasses	253	0.1936466561793013
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Lamp5 Lhx6	Subclasses	253	0.3165688903397088
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	OPC	Subclasses	253	0.1629427537132388
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Oligodendrocyte	Subclasses	253	0.2155873492609895
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Pax6	Subclasses	253	0.1108958825278555
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Pvalb	Subclasses	253	0.0887835536071336
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Sncg	Subclasses	253	0.2116697866409354
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Sst	Subclasses	253	0.2273320521524705
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Sst Chodl	Subclasses	253	0.0565400075461282
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	VLMC & Perivascular	Subclasses	253	0.2816840403662018
+MSBB x PsychAD MSBB	MSBB	PsychAD_MSBB_DFC	subclass	Vip	Subclasses	253	0.2426951254525501
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Astrocyte	Subclasses	252	0.5220640708723923
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Chandelier	Subclasses	252	0.1916950712719676
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Endothelial	Subclasses	252	0.2202686019022172
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Immune	Subclasses	252	0.5836131576592476
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L2/3 IT	Subclasses	252	0.4531462060977747
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L4 IT	Subclasses	252	0.5631531336730183
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L5 ET	Subclasses	252	0.1168544210778746
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L5 IT	Subclasses	252	0.4726300841862426
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L5/6 NP	Subclasses	252	0.1854338343230647
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L6 CT	Subclasses	252	-0.0292700768084926
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L6 IT	Subclasses	252	0.3435312167774605
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L6 IT Car3	Subclasses	252	0.1941955603049102
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	L6b	Subclasses	252	0.2288380996090159
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Lamp5	Subclasses	252	0.3690195532446538
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Lamp5 Lhx6	Subclasses	252	0.546038631883124
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	OPC	Subclasses	252	0.49426747059776
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Oligodendrocyte	Subclasses	252	0.5293396237183496
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Pax6	Subclasses	252	0.2993797368311992
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Pvalb	Subclasses	252	0.3843723947116233
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Sncg	Subclasses	252	0.193836718275962
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Sst	Subclasses	252	0.4615058307169446
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Sst Chodl	Subclasses	252	0.1323960564101069
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	VLMC & Perivascular	Subclasses	252	0.3656841133181536
+HBCC x PsychAD HBCC	NIMH_HBCC	PsychAD_HBCC_DFC	subclass	Vip	Subclasses	252	0.3896176050000394
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Astrocyte	Subclasses	203	0.2016248194375758
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Chandelier	Subclasses	203	0.0936690438473662
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Endothelial	Subclasses	203	0.1571959524112882
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Immune	Subclasses	203	0.3796610564373867
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L2/3 IT	Subclasses	203	0.1959208227150092
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L4 IT	Subclasses	203	0.3084041845498341
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L5 ET	Subclasses	203	0.0517747344436151
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L5 IT	Subclasses	203	0.3259829253358478
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L5/6 NP	Subclasses	203	0.1241092728628893
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L6 CT	Subclasses	203	0.01047597628646
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L6 IT	Subclasses	203	0.0880899074292385
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L6 IT Car3	Subclasses	203	0.1419131390771135
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	L6b	Subclasses	203	0.1602008412326324
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Lamp5	Subclasses	203	0.2336025712354726
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Lamp5 Lhx6	Subclasses	203	0.0321282678541073
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	OPC	Subclasses	203	0.2831745922209387
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Oligodendrocyte	Subclasses	203	0.2428072942173751
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Pax6	Subclasses	203	0.0323640762171846
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Pvalb	Subclasses	203	0.0475593117792074
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Sncg	Subclasses	203	0.336977434964235
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Sst	Subclasses	203	0.4498972545853567
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Sst Chodl	Subclasses	203	0.106728118081945
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	VLMC & Perivascular	Subclasses	203	0.2316416876460864
+CommonMind x PsychAD MSBB	CommonMind	PsychAD_MSBB_DFC	subclass	Vip	Subclasses	203	0.3539736200866297

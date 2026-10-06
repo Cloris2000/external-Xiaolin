@@ -1,12 +1,16 @@
+# Figure 2 -> SUPPLEMENT (2026-10-05): panel (a) moved into Fig 1a; this script now
+# supplies the supplementary nine-supertype Green x Mathys scatter grid.
 # Figure 2. Only a limited number of supertypes give a reliable snRNA-seq signal.
-#   (a) median ICC per supertype across the six independent matched-donor pairs
+#   (a) median symmetric ICC per supertype across the five independent matched-donor pairs
 #   (b) donor-level CLR, Green vs Mathys (227 shared donors), for the nine
 #       supertypes with the highest median ICC (measured in >= 5 pairs)
 #
+# Metric (decision 2026-10-05): symmetric ICC = 2 cov / (var_a + var_b) of matched donors'
+# CLR values, from common/reliability_stats.py (donor caches; checked vs 114). Not icc_person_a.
 # Layout and styling follow compare_shreejoy_with_nextflow/fig7_combined.R.
 # Taxonomy: SEA-AD DFC 2026, reactive (-SEAAD) states included.
 # Inputs:
-#   117_whitelist_dfc.csv            median/IQR of ICC over the 6 independent pairs
+#   common/data/reliability_summary.tsv   median/IQR of icc_sym over the 6 independent pairs
 #   data/fig2a_clr_green_mathys.tsv   from fig2a_clr_data.py (reproduces 114)
 #   taxonomy_DFC_2026.tsv            compartment and reactive_state
 # Run: /home/zhoux156/miniforge3/envs/test/bin/Rscript fig2.R
@@ -21,19 +25,21 @@ suppressPackageStartupMessages({
 HERE <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/ctp_reliability_paper/figure2"
 FIG_DIR <- file.path(HERE, "figures")
 dir.create(FIG_DIR, showWarnings = FALSE)
-WL <- "/scratch/shreejoy/cell_type_bias/wp3/results/117_whitelist_dfc.csv"
+WL <- file.path(dirname(HERE), "common", "data", "reliability_summary.tsv")
 TAX <- "/project/rrg-shreejoy/zhoux156/shreejoy_pipeline/celltype-composition/refs/taxonomy_DFC_2026.tsv"
 
 N_SHOW <- 9
-MIN_PAIRS_SHOW <- 5
+MIN_PAIRS_SHOW <- 4   # measured in >= 4 of the 5 pairs
 
 # ---- style (fig7_combined.R) -------------------------------------------------
 NEU <- "#3C5488"
 GLIA <- "#E64B35"
 fontsize <- 8
-FILL <- c("Neuronal" = NEU, "Non-neuronal" = GLIA, "Reactive (-SEAAD)" = GLIA)
+# Cell class (taxonomy class_id), Allen-style hues as in Fig 1 (2026-10-05):
+# excitatory = red/orange, inhibitory = blue/purple, non-neuronal = green.
+# Reactive (-SEAAD) states are not marked separately: the name carries it.
+FILL <- c("Excitatory" = "#D1491C", "Inhibitory" = "#2F4FA8", "Non-neuronal" = "#2E8B3C")
 COL <- FILL
-SHP <- c("Neuronal" = 21, "Non-neuronal" = 21, "Reactive (-SEAAD)" = 23)
 PT_SIZE <- 1.15
 
 theme_cns <- theme_classic(base_size = fontsize, base_family = "sans") +
@@ -63,32 +69,31 @@ theme_cns <- theme_classic(base_size = fontsize, base_family = "sans") +
                             face = "bold", colour = "black")
   )
 
-tax <- fread(TAX)[, .(cell_type = supertype_label, compartment, reactive_state)]
-key_of <- function(compartment, reactive) {
-  factor(fcase(reactive, "Reactive (-SEAAD)",
-               compartment == "neu", "Neuronal",
-               default = "Non-neuronal"), levels = names(FILL))
+tax <- fread(TAX)[, .(cell_type = supertype_label, compartment, reactive_state, class_id)]
+key_of <- function(class_id) {
+  factor(fifelse(class_id == "Glia", "Non-neuronal", class_id), levels = names(FILL))
 }
 
-# ---- (a) ranked median ICC --------------------------------------------------
-wl <- fread(WL)
+# ---- (a) ranked median ICC ----------------------------------------------------
+wl <- fread(WL)[level == "supertype"]
 wl <- merge(wl, tax, by = "cell_type", all.x = TRUE)
 stopifnot(!anyNA(wl$compartment), all(wl$group == wl$compartment))
-wl[, key := key_of(compartment, reactive_state)]
-setorder(wl, -median_icc)
+wl[, key := key_of(class_id)]
+stopifnot(!anyNA(wl$key))
+setorder(wl, -median_icc_sym)
 wl[, rank := .I]
 
 SHOW <- wl[n_pairs >= MIN_PAIRS_SHOW][1:N_SHOW, cell_type]
 cat(sprintf("%d supertypes (%d reactive); median ICC %.3f; %d with ICC >= 0.30\n",
-            nrow(wl), wl[reactive_state == TRUE, .N], median(wl$median_icc),
-            wl[median_icc >= 0.30, .N]))
+            nrow(wl), wl[reactive_state == TRUE, .N], median(wl$median_icc_sym),
+            wl[median_icc_sym >= 0.30, .N]))
 cat("shown in b:", paste(SHOW, collapse = ", "), "\n")
 
 lab <- wl[cell_type %in% SHOW][order(rank)]
-p_a <- ggplot(wl[order(as.integer(key))], aes(rank, median_icc)) +
+p_a <- ggplot(wl[order(as.integer(key))], aes(rank, median_icc_sym)) +
   geom_linerange(aes(ymin = q25, ymax = q75),
                  colour = "#B7B7B7", linewidth = 0.28) +
-  geom_point(aes(fill = key, colour = key, shape = key),
+  geom_point(aes(fill = key, colour = key), shape = 21,
              size = PT_SIZE, stroke = 0.28) +
   geom_text_repel(
     data = lab,
@@ -101,14 +106,12 @@ p_a <- ggplot(wl[order(as.integer(key))], aes(rank, median_icc)) +
     ylim = c(0.30, NA)) +
   scale_fill_manual(values = FILL, name = NULL) +
   scale_colour_manual(values = COL, name = NULL) +
-  scale_shape_manual(values = SHP, name = NULL) +
   scale_x_continuous(expand = expansion(mult = c(0.02, 0.03))) +
   scale_y_continuous(expand = expansion(mult = c(0.04, 0.10))) +
-  labs(x = "Supertypes", y = "Intraclass correlation (ICC)") +
+  labs(x = "Supertypes", y = "Intraclass correlation (ICC)\nacross five snRNA-seq pairs") +
   guides(
     fill = guide_legend(nrow = 1, override.aes = list(size = PT_SIZE, stroke = 0.4)),
-    colour = guide_legend(nrow = 1),
-    shape = guide_legend(nrow = 1)) +
+    colour = guide_legend(nrow = 1)) +
   theme_cns +
   theme(legend.position = "bottom", legend.justification = "center")
 
@@ -117,12 +120,12 @@ dt <- fread(file.path(HERE, "data/fig2a_clr_green_mathys.tsv"))
 dt <- dt[cell_type %in% SHOW]
 stopifnot(setequal(unique(dt$cell_type), SHOW))
 dt <- merge(dt, tax, by = "cell_type")
-dt[, key := key_of(compartment, reactive_state)]
+dt[, key := key_of(class_id)]
 dt[, cell_type := factor(cell_type, levels = SHOW)]
 
 st <- dt[, {
   ac <- clr_a - mean(clr_a); bc <- clr_b - mean(clr_b)
-  list(icc = cov(ac, bc) / var(ac), n = .N)
+  list(icc = 2 * cov(ac, bc) / (var(ac) + var(bc)), n = .N)
 }, by = cell_type]
 st[, lab := sprintf("ICC = %.2f", icc)]
 cat("\nGreen x Mathys ICC for the panels in b:\n"); print(st)
@@ -146,8 +149,8 @@ p_b <- ggplot(dt, aes(clr_a, clr_b)) +
             colour = "black", inherit.aes = FALSE) +
   scale_colour_manual(values = FILL, guide = "none") +
   facet_wrap(~ cell_type, nrow = 3, scales = "free") +
-  labs(x = "Centred log-ratio of cell-type\nproportion (Green, ln)",
-       y = "Centred log-ratio of cell-type\nproportion (Mathys, ln)") +
+  labs(x = "Centred log-ratio of cell-type\nproportion (Green)",
+       y = "Centred log-ratio of cell-type\nproportion (Mathys)") +
   theme_cns +
   theme(legend.position = "none")
 
