@@ -76,9 +76,10 @@ if (sys.nframe() == 0) {   # standalone: Rscript fig9_schematic.R
   source(file.path(HERE, "..", "common", "theme_cns.R"))
   STRAT_COL <- c(S1 = "#7B8C9E", S2 = "#2F7E8F", S3 = "#E1A22E", prod = "black")
   p <- make_schematic()
-  for (ext in c("pdf", "png"))
-    ggsave(file.path(HERE, "figures", paste0("figure9a_schematic_draft.", ext)), p,
-           width = 110 / 25.4, height = 66 / 25.4, dpi = 300, bg = "white")
+  out <- file.path(HERE, "figures", "figure9a_schematic_draft")
+  ggsave(paste0(out, ".pdf"), p, width = 110 / 25.4, height = 66 / 25.4, bg = "white",
+         device = cairo_pdf)   # cairo keeps the arrow glyph
+  ggsave(paste0(out, ".png"), p, width = 110 / 25.4, height = 66 / 25.4, dpi = 300, bg = "white")
   ggsave(file.path(HERE, "figures", "figure9a_schematic_draft.svg"), p, width = 110 / 25.4,
          height = 66 / 25.4, bg = "white", device = svglite::svglite)
 }

@@ -155,8 +155,9 @@ pd <- ggplot(d, aes(median_icc_sym, r)) +
        y = sprintf("CelMod r, %s\n(median over cohorts)", STRAT_LAB[[as.character(best)]])) +
   theme_cns + theme(legend.position = "bottom")
 
-pa <- ggplot() + theme_void() +
-  annotate("text", x = 0, y = 0, label = "schematic (BioRender)", colour = GREYS[2], size = 3)
+# a: draft schematic (fig9_schematic.R, user 2026-11-09); layout guide for BioRender
+source(file.path(HERE, "fig9_schematic.R"))
+pa <- make_schematic(STRAT_COL)
 pc <- pc + guides(colour = guide_legend(nrow = 2, order = 1), shape = guide_legend(nrow = 2, order = 2)) +
   theme(legend.text = element_text(size = 6), legend.title = element_text(size = 6))
 pd <- pd + guides(shape = guide_legend(nrow = 2)) +
