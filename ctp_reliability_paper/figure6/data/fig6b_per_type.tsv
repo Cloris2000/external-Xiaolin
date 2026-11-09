@@ -1,0 +1,1342 @@
+cell_type	n	r	r_disatt	family	arm	core_supertype
+Astro_1	428	0.14139737048697457	0.3145253482951539	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Astro_2	428	0.4608694242547855	0.6381842787238828	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Astro_3	428	0.04695183841173668	0.09073429785032448	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Astro_4	428	0.23529187374576105	0.38496609492590017	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Astro_5	428	0.21307164901868053	0.2745998122239557	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Astro_6-SEAAD	428	0.6764667383015678	0.7036628130276482	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Chandelier_1	428	0.06988375147738116		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Chandelier_2	428	0.020383663833045663	0.046242400416365084	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Endo_1	428	-0.012933587930891326	-0.015295567098267895	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Endo_2	428	-0.032542733300753024	-0.18532339231690462	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Endo_3	428	0.07987326033615487	0.23813973969517307	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_1	428	0.016256091084469633		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L2/3 IT_10	428	0.38844811205159097	0.7399622264547087	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_12	428	0.25457911690417384	0.3394090917337409	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_13	428	0.12892816838939	0.7177648600756769	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_14-SEAAD	428	-0.016748666391916366		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_2	428	0.049506991732188	0.3524378591922318	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L2/3 IT_3	428	-0.032786807048337405	-0.03830723890619065	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_5	428	0.08678049257820578		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_6	428	0.11346923642196963	0.23910227900110756	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_7	428	0.14771861191034985	0.1699664349687346	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L2/3 IT_8	428	0.09445800410681751	0.19067531883655942	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L4 IT_1	428	0.17369240546614534		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L4 IT_2	428	0.0799995272491403		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L4 IT_3	428	0.20568979150245836	0.4491600567786902	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L4 IT_4	428	0.17885310746159405	0.4552675435066795	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 ET_2	428	0.045214179292395566	0.31648102078697216	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5 ET_4-SEAAD	428	0.06572836948281914		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_1	428	0.08308365354369299		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5 IT_10-SEAAD	428	0.244243358798361	0.36910673536614746	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_2	428	-0.006054227345037256		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_3	428	-0.03871136654214783		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_5	428	-0.08100076156724567		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_6	428	0.2849863796981682	0.5061765262406476	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5 IT_7	428	-0.03745140759997634		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5/6 NP_1	428	-0.06289151068875962		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5/6 NP_2	428	0.06355715480763882	0.22272707404035158	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5/6 NP_3	428	0.24563030606023184	0.6042399382751287	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5/6 NP_4	428	0.11478044179012518	0.4443193685082386	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5/6 NP_6	428	0.2901632302123811	0.524569894393849	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L5/6 NP_7-SEAAD	428	0.06725692246970512	0.6619216871715549	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5/6 NP_8-SEAAD	428	0.014415469792554838		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L5/6 NP_9-SEAAD	428	0.055372904403120184	0.7166307050189435	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L6 CT_1	428	0.1251740607377505	0.18491875492861737	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 CT_2	428	0.041080959395034866	0.08568965493559483	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 CT_3	428	0.013140161799632151	0.021951711823249002	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 CT_4	428	0.06940323500163216	0.1907072861700803	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L6 IT Car3_1	428	0.19570368981052522	0.30000124978045845	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L6 IT Car3_3	428	0.09940769307802072	0.2855983675628778	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 IT_1	428	0.04065850646979933	0.33787380544249446	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 IT_2	428	0.04175316202317162		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 IT_3-SEAAD	428	0.021107096826184522	0.04263515143838136	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6 IT_4-SEAAD	428	-0.09415825406064104	-0.2163283025169457	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L6b_1	428	0.10224301112084122	1.161321181585254	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6b_2	428	0.10441185642519024		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6b_3	428	0.06713559481702114	0.2816414384311229	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+L6b_4	428	0.12396224585211567	0.3106964606563367	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6b_5	428	-0.0013742096917773055	-0.007499527923219204	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+L6b_6	428	0.08338076543403235	0.18729884976876532	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Lamp5_1	428	-0.010970152951738208	-0.002785185354570113	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Lamp5_2	428	-0.0025903457447942965	-0.005085522721771807	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Lamp5_3	428	0.1778101704973287	0.3751992138433237	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Lamp5_4	428	0.10691160264234773	2.933586477520834	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Lamp5_5	428	0.2209800777769096	0.3446963827302659	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Lamp5_6	428	0.2465854549436807	0.5601542275237843	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Lamp5_Lhx6_1	428	-0.06600177780128177	-0.21388581740924048	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Lamp5_Lhx6_3-SEAAD	428	0.17820123052049583	0.547305707414019	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Lymphocyte	428	0.043808604437178524	0.03392754286606777	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Micro-PVM_1	428	-0.07823281687596921	-0.12967851209663664	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Micro-PVM_2	428	0.33078221584115075	0.5010012922935945	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Micro-PVM_2_1-SEAAD	428	0.19502448456102217	0.21428246739062273	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Micro-PVM_2_3-SEAAD	428	0.659793228062033	0.7811727737607939	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Micro-PVM_3-SEAAD	428	0.12758285122635732	0.12629810740336297	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Micro-PVM_4-SEAAD	428	0.06092888685217644	0.30197977222236083	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+OPC_1	428	0.06286455578139581	0.16211864458971198	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+OPC_2	428	0.49748273779567403	0.6163838730246209	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+OPC_2_1-SEAAD	428	0.31731831694374524	0.5789480809350788	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+OPC_2_2-SEAAD	428	0.6992641971237746	0.7901346462630172	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Oligo_1	428	0.09930750146114281	0.27015380751728096	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Oligo_2	428	-0.03851555334609803	-0.23690885420806426	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Oligo_2_1-SEAAD	428	0.1353628972049706		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Oligo_3	428	0.017780335823422276	0.0462586391395386	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Oligo_4	428	-0.06683813183961759		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Oligo_5-SEAAD	428	0.20464073438138572	0.458148502331665	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pax6_1	428	0.09888939801400697		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pax6_2	428	0.029443548036374785		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pax6_3	428	0.16098161376596626	0.5898333487589824	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pax6_4	428	-0.03597358959923538		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pax6_6-SEAAD	428	0.07740920516702071	0.22635223539043128	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pericyte_1	428	0.10022221182461045	1.3430297780555407	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pericyte_2-SEAAD	428	0.1464198101069478		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_1	428	-0.019035266536621506		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pvalb_10	428	0.07862791179551544	0.32048826155056565	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pvalb_12	428	0.11496959048001464	0.6448206124212083	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_13	428	-0.017731161863465846		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pvalb_14	428	0.3410085569786896	0.5574185332273293	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_15	428	-0.05808293272438645	-0.1299307586136614	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_2	428	0.18451179967802112	0.49386507817752895	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_3	428	0.01990932550488503	0.06970628854587493	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_5	428	0.17157487541725525	0.5551007370473447	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_6	428	0.06487746552193446	1.3836939990472408	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_7	428	0.02057904532971313	0.13482218196429457	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Pvalb_8	428	0.21905906827597643	0.32065158942823213	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Pvalb_9	428	0.13471740086363712	0.6153191341405625	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+SMC-SEAAD	428	0.03790316462680975	0.29678669505229666	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sncg_1	428	0.11215418154028073	0.3368646721267752	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sncg_2	428	0.007060144536886824	0.03213626073908822	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sncg_3	428	-0.08943247743426759		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sncg_4	428	0.09233368523798575	0.10388153285016559	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sncg_5	428	0.11598389698432408	0.28082745496110795	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sncg_6	428	-0.025283272413667082	-0.07745735384178835	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sncg_8	428	-0.0027556814226892138	-0.2742467584740528	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst Chodl_1	428	0.05978194057561221	3.470339680141062	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst Chodl_2	428	-0.056925501182813365	-0.16542263455518463	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst Chodl_3-SEAAD	428	0.22252799216769134	0.3890918009507877	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_1	428	-0.011096459870076103		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_10	428	0.016820402351518583	0.25212069641027884	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_11	428	0.252734335578836	0.3381308869088504	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_12	428	0.12541576538185428	0.3234193785183981	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_13	428	0.24083417795459772	0.24785092602695022	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_19	428	0.20308730133275116	0.41881360813799257	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_2	428	0.30732597415352597	0.645999424183159	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_20	428	0.29383484225160456	0.4814429609546078	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_22	428	-0.0056223868921748766	-0.0402956418014967	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_23	428	0.3315849296949899	0.5421930429966301	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_25	428	0.3360583644707062	0.46185048446466004	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_3	428	0.325204043131061	0.47882504497295586	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Sst_4	428	-0.03426582226132823	-0.02782024962644972	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_5	428	0.09678943397441929	0.9222546699140189	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_7	428	0.02382062287031788	0.04838914586195423	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Sst_9	428	0.28567265096352173	0.8987806548530703	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+VLMC_1	428	0.07033361894854222		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_1	428	0.04760495766708259	1.6120346431411134	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_11	428	-0.02299922134308481	-0.04288940884594823	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_12	428	-0.026505186443654627	-0.5629393194000272	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_13	428	0.012944827837967925		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_14	428	0.016109663756639973		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_15	428	0.09390552575297534	0.28425967605620583	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_16	428	0.03545359582324467	0.3371361865076719	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_18	428	0.12454705108674212	0.22096427516107556	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_19	428	-0.06576702345397424		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_2	428	-0.013870353660034909	-0.04902003975810784	exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_21	428	0.011553859535834958		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_23	428	-0.047108968418713586		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_24-SEAAD	428	0.048750769103971144		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_4	428	-0.025965913245930013		exclude_Green	exclude_Green__cons_Mathys_Multiome	True
+Vip_5	428	-0.0019089110247816046		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_6	428	0.05514703732220202	0.6194676322571269	exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Vip_9	428	0.06895366322142633		exclude_Green	exclude_Green__cons_Mathys_Multiome	False
+Astro_1	428	0.033003942566316606	0.07341421198310216	exclude_Green	exclude_Green__solo_Mathys	True
+Astro_2	428	0.3558026318803339	0.49269409955275917	exclude_Green	exclude_Green__solo_Mathys	True
+Astro_3	428	0.012983480805386687	0.025090540740901994	exclude_Green	exclude_Green__solo_Mathys	False
+Astro_4	428	0.26862257301048575	0.43949916881758533	exclude_Green	exclude_Green__solo_Mathys	True
+Astro_5	428	0.14232551016314887	0.18342448911188983	exclude_Green	exclude_Green__solo_Mathys	True
+Astro_6-SEAAD	428	0.5636748620249021	0.5863363512022286	exclude_Green	exclude_Green__solo_Mathys	True
+Chandelier_1	428	0.0626229502735536		exclude_Green	exclude_Green__solo_Mathys	False
+Chandelier_2	428	-0.00366022631517055	-0.008303593125698793	exclude_Green	exclude_Green__solo_Mathys	True
+Endo_1	428	-0.04204361614796135	-0.04972177521668143	exclude_Green	exclude_Green__solo_Mathys	False
+Endo_2	428	0.03799560164830049	0.21637622523925742	exclude_Green	exclude_Green__solo_Mathys	True
+Endo_3	428	0.047490144015908245	0.14159044574414958	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_1	428	-0.011764795352231275		exclude_Green	exclude_Green__solo_Mathys	False
+L2/3 IT_10	428	0.31551855078617347	0.6010373125368463	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_12	428	0.22137765788849487	0.29514435711692494	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_13	428	0.08560825258535017	0.4765955819108941	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_14-SEAAD	428	-0.0073647917817209465		exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_2	428	0.05977939083905038	0.4255665673467389	exclude_Green	exclude_Green__solo_Mathys	False
+L2/3 IT_3	428	0.022947083660352505	0.026810766131679258	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_5	428	0.07250504986083114		exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_6	428	0.13290057252572948	0.28004797400135983	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_7	428	0.009665197123121031	0.011120867418412643	exclude_Green	exclude_Green__solo_Mathys	True
+L2/3 IT_8	428	-0.020821659746649603	-0.04203112958441412	exclude_Green	exclude_Green__solo_Mathys	True
+L4 IT_1	428	0.08747959678671818		exclude_Green	exclude_Green__solo_Mathys	True
+L4 IT_2	428	0.01173676331504161		exclude_Green	exclude_Green__solo_Mathys	False
+L4 IT_3	428	0.19458593595246484	0.4249128233459223	exclude_Green	exclude_Green__solo_Mathys	True
+L4 IT_4	428	0.062468072112793434	0.15901141524475082	exclude_Green	exclude_Green__solo_Mathys	True
+L5 ET_2	428	0.09093682831936839	0.6365211246570991	exclude_Green	exclude_Green__solo_Mathys	False
+L5 ET_4-SEAAD	428	-0.019916807746885336		exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_1	428	0.013286590477211424		exclude_Green	exclude_Green__solo_Mathys	False
+L5 IT_10-SEAAD	428	0.11624552850780559	0.17567317997723372	exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_2	428	-0.038199066115121284		exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_3	428	-0.023095341672838072		exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_5	428	-0.039330417870744726		exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_6	428	0.27621538748470226	0.4905979909611789	exclude_Green	exclude_Green__solo_Mathys	True
+L5 IT_7	428	-0.060023609279821075		exclude_Green	exclude_Green__solo_Mathys	False
+L5/6 NP_1	428	-0.09977036636138192		exclude_Green	exclude_Green__solo_Mathys	False
+L5/6 NP_2	428	0.07424700611235209	0.260188148410834	exclude_Green	exclude_Green__solo_Mathys	False
+L5/6 NP_3	428	0.255880567326118	0.629455138035879	exclude_Green	exclude_Green__solo_Mathys	True
+L5/6 NP_4	428	0.12660507577370658	0.49009296741137465	exclude_Green	exclude_Green__solo_Mathys	True
+L5/6 NP_6	428	0.2980566014793847	0.5388398793568397	exclude_Green	exclude_Green__solo_Mathys	True
+L5/6 NP_7-SEAAD	428	-0.011166433804835606	-0.10989656428474813	exclude_Green	exclude_Green__solo_Mathys	False
+L5/6 NP_8-SEAAD	428	0.06749352564840522		exclude_Green	exclude_Green__solo_Mathys	False
+L5/6 NP_9-SEAAD	428	0.0941159336292789	1.2180391943909978	exclude_Green	exclude_Green__solo_Mathys	True
+L6 CT_1	428	0.13377989310233188	0.19763209023629627	exclude_Green	exclude_Green__solo_Mathys	False
+L6 CT_2	428	0.06258226393784816	0.13053864079354172	exclude_Green	exclude_Green__solo_Mathys	False
+L6 CT_3	428	0.06385649571476017	0.10667748337864388	exclude_Green	exclude_Green__solo_Mathys	False
+L6 CT_4	428	0.07118689869491487	0.1956084649462288	exclude_Green	exclude_Green__solo_Mathys	True
+L6 IT Car3_1	428	0.15503716516223248	0.23766206634182557	exclude_Green	exclude_Green__solo_Mathys	True
+L6 IT Car3_3	428	0.12538282024382144	0.3602249249860385	exclude_Green	exclude_Green__solo_Mathys	False
+L6 IT_1	428	0.03207486922586354	0.26654343863965246	exclude_Green	exclude_Green__solo_Mathys	False
+L6 IT_2	428	0.05552643360554029		exclude_Green	exclude_Green__solo_Mathys	False
+L6 IT_3-SEAAD	428	0.039573564054508764	0.07993637923370732	exclude_Green	exclude_Green__solo_Mathys	False
+L6 IT_4-SEAAD	428	0.008297215510109165	0.019062827415674038	exclude_Green	exclude_Green__solo_Mathys	True
+L6b_1	428	0.10720448871531452	1.217675830761348	exclude_Green	exclude_Green__solo_Mathys	False
+L6b_2	428	0.09269803457863947		exclude_Green	exclude_Green__solo_Mathys	False
+L6b_3	428	0.02821292256873006	0.11835641162128295	exclude_Green	exclude_Green__solo_Mathys	True
+L6b_4	428	0.08325119524210091	0.20865910849975908	exclude_Green	exclude_Green__solo_Mathys	False
+L6b_5	428	0.06766643141521997	0.36927864422693624	exclude_Green	exclude_Green__solo_Mathys	False
+L6b_6	428	0.10918870458711882	0.24527142045834113	exclude_Green	exclude_Green__solo_Mathys	False
+Lamp5_1	428	-0.07042540777600749	-0.017880134870524738	exclude_Green	exclude_Green__solo_Mathys	True
+Lamp5_2	428	0.019044557844565074	0.037389422566185014	exclude_Green	exclude_Green__solo_Mathys	False
+Lamp5_3	428	0.19599559614064677	0.4135724822885146	exclude_Green	exclude_Green__solo_Mathys	True
+Lamp5_4	428	0.09844089581220723	2.7011556618022357	exclude_Green	exclude_Green__solo_Mathys	False
+Lamp5_5	428	0.27225965674182295	0.4246849751633872	exclude_Green	exclude_Green__solo_Mathys	True
+Lamp5_6	428	0.24197342796264892	0.5496773467545242	exclude_Green	exclude_Green__solo_Mathys	True
+Lamp5_Lhx6_1	428	0.001006188658896283	0.0032606619237422947	exclude_Green	exclude_Green__solo_Mathys	False
+Lamp5_Lhx6_3-SEAAD	428	0.0603301092640299	0.1852906011516978	exclude_Green	exclude_Green__solo_Mathys	True
+Lymphocyte	428	0.18332961001200468	0.14197948741373712	exclude_Green	exclude_Green__solo_Mathys	False
+Micro-PVM_1	428	-0.039192124767580015	-0.06496476323769791	exclude_Green	exclude_Green__solo_Mathys	True
+Micro-PVM_2	428	0.3019811875174271	0.45737938120361227	exclude_Green	exclude_Green__solo_Mathys	True
+Micro-PVM_2_1-SEAAD	428	0.112254288827004	0.12333900555703618	exclude_Green	exclude_Green__solo_Mathys	True
+Micro-PVM_2_3-SEAAD	428	0.6484313640271792	0.7677207126214739	exclude_Green	exclude_Green__solo_Mathys	True
+Micro-PVM_3-SEAAD	428	0.13686854233405996	0.13549029272891555	exclude_Green	exclude_Green__solo_Mathys	True
+Micro-PVM_4-SEAAD	428	0.008360066167372102	0.041434711963668706	exclude_Green	exclude_Green__solo_Mathys	True
+OPC_1	428	0.04380875817842206	0.11297648426470037	exclude_Green	exclude_Green__solo_Mathys	True
+OPC_2	428	0.2376952766984607	0.2945057669744338	exclude_Green	exclude_Green__solo_Mathys	True
+OPC_2_1-SEAAD	428	0.28291449794193624	0.5161782251644577	exclude_Green	exclude_Green__solo_Mathys	True
+OPC_2_2-SEAAD	428	0.49182953759995496	0.5557435362938463	exclude_Green	exclude_Green__solo_Mathys	True
+Oligo_1	428	0.06011102241738711	0.16352462141208807	exclude_Green	exclude_Green__solo_Mathys	True
+Oligo_2	428	0.0601485446294857	0.3699732069900976	exclude_Green	exclude_Green__solo_Mathys	True
+Oligo_2_1-SEAAD	428	0.09949587246643735		exclude_Green	exclude_Green__solo_Mathys	False
+Oligo_3	428	0.13618874437206335	0.3543187284727882	exclude_Green	exclude_Green__solo_Mathys	True
+Oligo_4	428	0.0758616740392399		exclude_Green	exclude_Green__solo_Mathys	False
+Oligo_5-SEAAD	428	0.1525840266683128	0.3416042436963667	exclude_Green	exclude_Green__solo_Mathys	True
+Pax6_1	428	0.0969815691719786		exclude_Green	exclude_Green__solo_Mathys	False
+Pax6_2	428	-0.010290503995237043		exclude_Green	exclude_Green__solo_Mathys	False
+Pax6_3	428	0.1448143808701866	0.53059693724588	exclude_Green	exclude_Green__solo_Mathys	True
+Pax6_4	428	-0.07085951926483909		exclude_Green	exclude_Green__solo_Mathys	False
+Pax6_6-SEAAD	428	0.2037283067405339	0.5957218853175075	exclude_Green	exclude_Green__solo_Mathys	True
+Pericyte_1	428	0.08160900784696536	1.0936031614214354	exclude_Green	exclude_Green__solo_Mathys	True
+Pericyte_2-SEAAD	428	0.15323986005573179		exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_1	428	-0.00718066869232757		exclude_Green	exclude_Green__solo_Mathys	False
+Pvalb_10	428	0.06714808191397109	0.2736963445631146	exclude_Green	exclude_Green__solo_Mathys	False
+Pvalb_12	428	0.0782510727071725	0.43888044147140504	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_13	428	0.001134564780788077		exclude_Green	exclude_Green__solo_Mathys	False
+Pvalb_14	428	0.3402921843709384	0.5562475380716801	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_15	428	-0.06536678005429569	-0.1462246295463158	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_2	428	0.09635341192171176	0.25789995758767825	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_3	428	0.022663907560190842	0.07935059776786858	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_5	428	0.15597074959534135	0.5046162956414628	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_6	428	0.08081065765568061	1.723514029989687	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_7	428	0.01193532505057242	0.07819345066740807	exclude_Green	exclude_Green__solo_Mathys	False
+Pvalb_8	428	0.22924007625790752	0.3355542201071636	exclude_Green	exclude_Green__solo_Mathys	True
+Pvalb_9	428	0.06106636998845196	0.27891946894399894	exclude_Green	exclude_Green__solo_Mathys	False
+SMC-SEAAD	428	0.04050426051466185	0.317153613215212	exclude_Green	exclude_Green__solo_Mathys	False
+Sncg_1	428	0.10167284312513679	0.30538307616506655	exclude_Green	exclude_Green__solo_Mathys	True
+Sncg_2	428	-0.04674411735421452	-0.21276917709902357	exclude_Green	exclude_Green__solo_Mathys	False
+Sncg_3	428	0.025937355684134532		exclude_Green	exclude_Green__solo_Mathys	False
+Sncg_4	428	0.12918807411786434	0.14534516986660362	exclude_Green	exclude_Green__solo_Mathys	True
+Sncg_5	428	0.1424410049871037	0.3448870571924069	exclude_Green	exclude_Green__solo_Mathys	True
+Sncg_6	428	0.012972968847118271	0.039743741313587086	exclude_Green	exclude_Green__solo_Mathys	False
+Sncg_8	428	0.08777000943411865	8.734914123365545	exclude_Green	exclude_Green__solo_Mathys	False
+Sst Chodl_1	428	0.006942583549873503	0.4030167462588075	exclude_Green	exclude_Green__solo_Mathys	False
+Sst Chodl_2	428	-0.016357113560542744	-0.047532946793277395	exclude_Green	exclude_Green__solo_Mathys	False
+Sst Chodl_3-SEAAD	428	0.17760502018061347	0.3105436600888414	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_1	428	0.026149960619398005		exclude_Green	exclude_Green__solo_Mathys	False
+Sst_10	428	0.0032555023565967833	0.048796663965436186	exclude_Green	exclude_Green__solo_Mathys	False
+Sst_11	428	0.2594821748259037	0.34715875747540276	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_12	428	0.10406533093895629	0.26836135437290304	exclude_Green	exclude_Green__solo_Mathys	False
+Sst_13	428	0.24771918869888626	0.25493653282566264	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_19	428	0.18366591436341467	0.3787621568739628	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_2	428	0.3418495548837706	0.7185680163234955	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_20	428	0.3081117085814255	0.5048353426963773	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_22	428	0.14693109311629965	1.0530550122683755	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_23	428	0.3299379808851468	0.5395000249885742	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_25	428	0.33583630069219605	0.4615452985965788	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_3	428	0.3326888705742401	0.4898455808881588	exclude_Green	exclude_Green__solo_Mathys	True
+Sst_4	428	0.015833918113151657	0.012855478882518659	exclude_Green	exclude_Green__solo_Mathys	False
+Sst_5	428	0.0954801365049487	0.9097790756684219	exclude_Green	exclude_Green__solo_Mathys	False
+Sst_7	428	0.07505935225155587	0.15247535566881132	exclude_Green	exclude_Green__solo_Mathys	False
+Sst_9	428	0.2474715568146775	0.7785927254191595	exclude_Green	exclude_Green__solo_Mathys	True
+VLMC_1	428	0.03620760121117785		exclude_Green	exclude_Green__solo_Mathys	False
+Vip_1	428	0.048175387235690384	1.6313509553726786	exclude_Green	exclude_Green__solo_Mathys	False
+Vip_11	428	0.0030017088124541414	0.005597646745225147	exclude_Green	exclude_Green__solo_Mathys	False
+Vip_12	428	-0.0653777139106039	-1.3885465718569163	exclude_Green	exclude_Green__solo_Mathys	False
+Vip_13	428	0.009516900251786071		exclude_Green	exclude_Green__solo_Mathys	False
+Vip_14	428	-0.03897072449570322		exclude_Green	exclude_Green__solo_Mathys	False
+Vip_15	428	0.040484138129820185	0.12254878398178558	exclude_Green	exclude_Green__solo_Mathys	True
+Vip_16	428	0.07096366518040981	0.6748093925029998	exclude_Green	exclude_Green__solo_Mathys	False
+Vip_18	428	0.10329460109316355	0.18325939040264405	exclude_Green	exclude_Green__solo_Mathys	True
+Vip_19	428	-0.07207365576492332		exclude_Green	exclude_Green__solo_Mathys	True
+Vip_2	428	0.011111761606613311	0.039270735922780346	exclude_Green	exclude_Green__solo_Mathys	True
+Vip_21	428	0.02837156291303224		exclude_Green	exclude_Green__solo_Mathys	False
+Vip_23	428	-0.007389465433680615		exclude_Green	exclude_Green__solo_Mathys	True
+Vip_24-SEAAD	428	-0.016419199306195762		exclude_Green	exclude_Green__solo_Mathys	True
+Vip_4	428	0.05795813606661457		exclude_Green	exclude_Green__solo_Mathys	True
+Vip_5	428	-0.051122229813744126		exclude_Green	exclude_Green__solo_Mathys	False
+Vip_6	428	0.07979798592841045	0.8963721679760787	exclude_Green	exclude_Green__solo_Mathys	False
+Vip_9	428	0.1138135616554378		exclude_Green	exclude_Green__solo_Mathys	False
+Astro_1	428	0.0568415247500108	0.12643870468066218	exclude_Green	exclude_Green__solo_Multiome	True
+Astro_2	428	0.3631756764088545	0.5029038484681737	exclude_Green	exclude_Green__solo_Multiome	True
+Astro_3	428	0.20390411109447712	0.39404413064105215	exclude_Green	exclude_Green__solo_Multiome	False
+Astro_4	428	0.17422324946656811	0.28505040537403586	exclude_Green	exclude_Green__solo_Multiome	True
+Astro_5	428	0.24110233075944687	0.31072484330140826	exclude_Green	exclude_Green__solo_Multiome	True
+Astro_6-SEAAD	428	0.558986480345413	0.5814594819426703	exclude_Green	exclude_Green__solo_Multiome	True
+Chandelier_1	428	0.037833220807783716		exclude_Green	exclude_Green__solo_Multiome	False
+Chandelier_2	428	0.07860031686913076	0.1783127584562622	exclude_Green	exclude_Green__solo_Multiome	True
+Endo_1	428	0.021864389437182212	0.025857344264101124	exclude_Green	exclude_Green__solo_Multiome	False
+Endo_2	428	0.04846525863915046	0.27599851731924735	exclude_Green	exclude_Green__solo_Multiome	True
+Endo_3	428	0.05188534196484254	0.15469459713427622	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_1	428	0.04235808779349121		exclude_Green	exclude_Green__solo_Multiome	False
+L2/3 IT_10	428	0.28747641812302793	0.5476193185340756	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_12	428	0.259017404455047	0.34532629014661015	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_13	428	0.010584160711687511	0.05892380794008119	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_14-SEAAD	428	-0.03646414995182092		exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_2	428	0.05515754880038053	0.39266389932673096	exclude_Green	exclude_Green__solo_Multiome	False
+L2/3 IT_3	428	-0.02605470584093415	-0.03044162976308477	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_5	428	-0.024138450816073298		exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_6	428	0.05781786301479319	0.12183375203478726	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_7	428	0.17118327544064035	0.19696509922916505	exclude_Green	exclude_Green__solo_Multiome	True
+L2/3 IT_8	428	0.14669196458948994	0.2961161140694005	exclude_Green	exclude_Green__solo_Multiome	True
+L4 IT_1	428	0.14743188503733332		exclude_Green	exclude_Green__solo_Multiome	True
+L4 IT_2	428	0.07755202444782847		exclude_Green	exclude_Green__solo_Multiome	False
+L4 IT_3	428	0.1966497288721948	0.429419480376562	exclude_Green	exclude_Green__solo_Multiome	True
+L4 IT_4	428	0.1789678978947983	0.4555597406022999	exclude_Green	exclude_Green__solo_Multiome	True
+L5 ET_2	428	-0.037908653450365995	-0.2653452861113683	exclude_Green	exclude_Green__solo_Multiome	False
+L5 ET_4-SEAAD	428	-0.014997470392418404		exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_1	428	0.08468592835895336		exclude_Green	exclude_Green__solo_Multiome	False
+L5 IT_10-SEAAD	428	0.290505197932251	0.43901879561111407	exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_2	428	-0.04043166929958595		exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_3	428	-0.04913709702009145		exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_5	428	-0.11956307519247111		exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_6	428	0.17227439811115783	0.30598394382377125	exclude_Green	exclude_Green__solo_Multiome	True
+L5 IT_7	428	-0.06190034427272394		exclude_Green	exclude_Green__solo_Multiome	False
+L5/6 NP_1	428	0.027279501639634027		exclude_Green	exclude_Green__solo_Multiome	False
+L5/6 NP_2	428	0.04638294138112731	0.1625424682786775	exclude_Green	exclude_Green__solo_Multiome	False
+L5/6 NP_3	428	0.21057797932958602	0.518012729263992	exclude_Green	exclude_Green__solo_Multiome	True
+L5/6 NP_4	428	-0.02595701644437123	-0.10048057818081353	exclude_Green	exclude_Green__solo_Multiome	True
+L5/6 NP_6	428	0.2516307958475662	0.4549092588588287	exclude_Green	exclude_Green__solo_Multiome	True
+L5/6 NP_7-SEAAD	428	0.0731493894200566	0.7199135119853669	exclude_Green	exclude_Green__solo_Multiome	False
+L5/6 NP_8-SEAAD	428	-0.030480479792983763		exclude_Green	exclude_Green__solo_Multiome	False
+L5/6 NP_9-SEAAD	428	-0.1293942521563191	-1.6746077372628632	exclude_Green	exclude_Green__solo_Multiome	True
+L6 CT_1	428	-0.026756673981801964	-0.03952744529964401	exclude_Green	exclude_Green__solo_Multiome	False
+L6 CT_2	428	-0.002319984757570006	-0.0048391930534134675	exclude_Green	exclude_Green__solo_Multiome	False
+L6 CT_3	428	-0.10054208561223442	-0.16796375289153478	exclude_Green	exclude_Green__solo_Multiome	False
+L6 CT_4	428	0.005897667589990998	0.016205702526603704	exclude_Green	exclude_Green__solo_Multiome	True
+L6 IT Car3_1	428	0.19010604699057732	0.29142042106213006	exclude_Green	exclude_Green__solo_Multiome	True
+L6 IT Car3_3	428	0.03610158772221876	0.1037198852587939	exclude_Green	exclude_Green__solo_Multiome	False
+L6 IT_1	428	0.0047154538246824956	0.03918560878071779	exclude_Green	exclude_Green__solo_Multiome	False
+L6 IT_2	428	0.0264844866604655		exclude_Green	exclude_Green__solo_Multiome	False
+L6 IT_3-SEAAD	428	0.04305886050101426	0.0869764825235199	exclude_Green	exclude_Green__solo_Multiome	False
+L6 IT_4-SEAAD	428	0.03885685659144628	0.08927350991617079	exclude_Green	exclude_Green__solo_Multiome	True
+L6b_1	428	0.1430470627281722	1.6247915831962252	exclude_Green	exclude_Green__solo_Multiome	False
+L6b_2	428	0.085502533161601		exclude_Green	exclude_Green__solo_Multiome	False
+L6b_3	428	0.09118912540763403	0.38254872871954787	exclude_Green	exclude_Green__solo_Multiome	True
+L6b_4	428	0.04322597332858105	0.10834070348836078	exclude_Green	exclude_Green__solo_Multiome	False
+L6b_5	428	-0.10084812705749498	-0.5503624005837708	exclude_Green	exclude_Green__solo_Multiome	False
+L6b_6	428	0.03690112494285093	0.08289127859395364	exclude_Green	exclude_Green__solo_Multiome	False
+Lamp5_1	428	0.03131280643257837	0.007949931990026398	exclude_Green	exclude_Green__solo_Multiome	True
+Lamp5_2	428	0.017629926701111256	0.034612133535399	exclude_Green	exclude_Green__solo_Multiome	False
+Lamp5_3	428	0.1017438708894306	0.21469087096828635	exclude_Green	exclude_Green__solo_Multiome	True
+Lamp5_4	428	0.0921633922385529	2.5289049505499976	exclude_Green	exclude_Green__solo_Multiome	False
+Lamp5_5	428	0.19644160796908902	0.3064199830403776	exclude_Green	exclude_Green__solo_Multiome	True
+Lamp5_6	428	0.20121014125892553	0.45707769451603397	exclude_Green	exclude_Green__solo_Multiome	True
+Lamp5_Lhx6_1	428	-0.013472103922838787	-0.043657793104213166	exclude_Green	exclude_Green__solo_Multiome	False
+Lamp5_Lhx6_3-SEAAD	428	0.15194028108966148	0.46665100338292936	exclude_Green	exclude_Green__solo_Multiome	True
+Lymphocyte	428	-0.053281548443745656	-0.04126385768320705	exclude_Green	exclude_Green__solo_Multiome	False
+Micro-PVM_1	428	-0.06935974351529117	-0.11497052896263708	exclude_Green	exclude_Green__solo_Multiome	True
+Micro-PVM_2	428	0.25273778959867116	0.3827955468475597	exclude_Green	exclude_Green__solo_Multiome	True
+Micro-PVM_2_1-SEAAD	428	0.27798357078335717	0.30543347198477216	exclude_Green	exclude_Green__solo_Multiome	True
+Micro-PVM_2_3-SEAAD	428	0.6535127120338539	0.773736856085809	exclude_Green	exclude_Green__solo_Multiome	True
+Micro-PVM_3-SEAAD	428	0.053973730204904716	0.05343022129427779	exclude_Green	exclude_Green__solo_Multiome	True
+Micro-PVM_4-SEAAD	428	0.0185297345340862	0.09183829383786427	exclude_Green	exclude_Green__solo_Multiome	True
+OPC_1	428	0.06086880892704682	0.15697190059463245	exclude_Green	exclude_Green__solo_Multiome	True
+OPC_2	428	0.3894633796768268	0.48254728883690007	exclude_Green	exclude_Green__solo_Multiome	True
+OPC_2_1-SEAAD	428	0.23134184810919084	0.42208379362649506	exclude_Green	exclude_Green__solo_Multiome	True
+OPC_2_2-SEAAD	428	0.6964056896823978	0.7869046714189989	exclude_Green	exclude_Green__solo_Multiome	True
+Oligo_1	428	0.12958256701017512	0.3525133887228015	exclude_Green	exclude_Green__solo_Multiome	True
+Oligo_2	428	-0.06432975665926917	-0.3956918080517472	exclude_Green	exclude_Green__solo_Multiome	True
+Oligo_2_1-SEAAD	428	0.07939827860913254		exclude_Green	exclude_Green__solo_Multiome	False
+Oligo_3	428	0.03419338181272696	0.08896003573519416	exclude_Green	exclude_Green__solo_Multiome	True
+Oligo_4	428	-0.09363762027509391		exclude_Green	exclude_Green__solo_Multiome	False
+Oligo_5-SEAAD	428	0.14343432832801245	0.32111995153397294	exclude_Green	exclude_Green__solo_Multiome	True
+Pax6_1	428	-0.04878003489882082		exclude_Green	exclude_Green__solo_Multiome	False
+Pax6_2	428	0.08445810759619751		exclude_Green	exclude_Green__solo_Multiome	False
+Pax6_3	428	0.1552128607986637	0.5686967555713028	exclude_Green	exclude_Green__solo_Multiome	True
+Pax6_4	428	-0.10065388237024071		exclude_Green	exclude_Green__solo_Multiome	False
+Pax6_6-SEAAD	428	-0.015778560618832052	-0.04613808473565961	exclude_Green	exclude_Green__solo_Multiome	True
+Pericyte_1	428	0.05356045134881415	0.7177379123645383	exclude_Green	exclude_Green__solo_Multiome	True
+Pericyte_2-SEAAD	428	0.1438344156432678		exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_1	428	-0.053247317760900616		exclude_Green	exclude_Green__solo_Multiome	False
+Pvalb_10	428	0.05964629946903314	0.2431189941107547	exclude_Green	exclude_Green__solo_Multiome	False
+Pvalb_12	428	0.12416805634946375	0.6964113014939403	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_13	428	-0.008186246922337515		exclude_Green	exclude_Green__solo_Multiome	False
+Pvalb_14	428	0.3345719004322252	0.546897062203825	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_15	428	-0.07807011026627791	-0.17464181259722775	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_2	428	0.1586412676200205	0.42461990058122223	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_3	428	-0.004663540876096981	-0.01632793265020134	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_5	428	0.17599564074351923	0.5694033561514218	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_6	428	0.04097800745371262	0.8739709936333006	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_7	428	-0.00879297594170651	-0.05760656937320353	exclude_Green	exclude_Green__solo_Multiome	False
+Pvalb_8	428	0.2046130622626157	0.2995059923729291	exclude_Green	exclude_Green__solo_Multiome	True
+Pvalb_9	428	0.04938362266965919	0.22555874554451052	exclude_Green	exclude_Green__solo_Multiome	False
+SMC-SEAAD	428	0.04519983856607974	0.35392059837229584	exclude_Green	exclude_Green__solo_Multiome	False
+Sncg_1	428	0.07993450053725099	0.2400901058283554	exclude_Green	exclude_Green__solo_Multiome	True
+Sncg_2	428	0.046428839735165414	0.21133410112883264	exclude_Green	exclude_Green__solo_Multiome	False
+Sncg_3	428	-0.07534379567904337		exclude_Green	exclude_Green__solo_Multiome	False
+Sncg_4	428	0.06568485736930599	0.07389983028383297	exclude_Green	exclude_Green__solo_Multiome	True
+Sncg_5	428	0.057920164684941586	0.1402399200433727	exclude_Green	exclude_Green__solo_Multiome	True
+Sncg_6	428	-0.05316675476507693	-0.16288066153303982	exclude_Green	exclude_Green__solo_Multiome	False
+Sncg_8	428	-0.05326616314210493	-5.301074521094902	exclude_Green	exclude_Green__solo_Multiome	False
+Sst Chodl_1	428	0.07829461173010158	4.544999630524739	exclude_Green	exclude_Green__solo_Multiome	False
+Sst Chodl_2	428	-0.021856916445774	-0.0635150965136182	exclude_Green	exclude_Green__solo_Multiome	False
+Sst Chodl_3-SEAAD	428	0.24963776715095928	0.4364934382408123	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_1	428	0.0382421002677255		exclude_Green	exclude_Green__solo_Multiome	False
+Sst_10	428	0.014411626783161116	0.21601560444525095	exclude_Green	exclude_Green__solo_Multiome	False
+Sst_11	428	0.24781550983591272	0.33155003628087576	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_12	428	0.0874162034439978	0.22542695572773777	exclude_Green	exclude_Green__solo_Multiome	False
+Sst_13	428	0.06185349799184698	0.06365561103281399	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_19	428	0.10422092987240357	0.2149279812027267	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_2	428	0.10685144388460427	0.22460181379954328	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_20	428	0.26414994146561516	0.4328047993923622	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_22	428	-0.14400111340431776	-1.0320558503067545	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_23	428	0.2602272332469634	0.4255120870377021	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_25	428	0.3200187573884647	0.43980699117675004	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_3	428	0.18435068237357194	0.2714348903182183	exclude_Green	exclude_Green__solo_Multiome	True
+Sst_4	428	-0.10952263583557342	-0.08892087997932353	exclude_Green	exclude_Green__solo_Multiome	False
+Sst_5	428	-0.01213347032082817	-0.1156133392473852	exclude_Green	exclude_Green__solo_Multiome	False
+Sst_7	428	-0.05607992301147624	-0.11392059684177663	exclude_Green	exclude_Green__solo_Multiome	False
+Sst_9	428	0.303277639773958	0.9541693079787956	exclude_Green	exclude_Green__solo_Multiome	True
+VLMC_1	428	-0.042006913725126334		exclude_Green	exclude_Green__solo_Multiome	False
+Vip_1	428	0.035923140349754946	1.216456217421824	exclude_Green	exclude_Green__solo_Multiome	False
+Vip_11	428	-0.021811123072845655	-0.04067381938310008	exclude_Green	exclude_Green__solo_Multiome	False
+Vip_12	428	0.06884891155002557	1.4622707707337297	exclude_Green	exclude_Green__solo_Multiome	False
+Vip_13	428	0.004583956553556218		exclude_Green	exclude_Green__solo_Multiome	False
+Vip_14	428	0.03308138049841423		exclude_Green	exclude_Green__solo_Multiome	False
+Vip_15	428	0.0385971027464984	0.11683657415740627	exclude_Green	exclude_Green__solo_Multiome	True
+Vip_16	428	0.005821664662815857	0.055359513695967505	exclude_Green	exclude_Green__solo_Multiome	False
+Vip_18	428	0.04354211608049337	0.07724993915757031	exclude_Green	exclude_Green__solo_Multiome	True
+Vip_19	428	-0.11406357502921702		exclude_Green	exclude_Green__solo_Multiome	True
+Vip_2	428	-0.060340073872995316	-0.21325143487754084	exclude_Green	exclude_Green__solo_Multiome	True
+Vip_21	428	-0.06079436900693861		exclude_Green	exclude_Green__solo_Multiome	False
+Vip_23	428	-0.014773613307087452		exclude_Green	exclude_Green__solo_Multiome	True
+Vip_24-SEAAD	428	0.014479113596950456		exclude_Green	exclude_Green__solo_Multiome	True
+Vip_4	428	-0.04856953740853976		exclude_Green	exclude_Green__solo_Multiome	True
+Vip_5	428	0.04256326558769148		exclude_Green	exclude_Green__solo_Multiome	False
+Vip_6	428	0.06667999927960144	0.7490175951122569	exclude_Green	exclude_Green__solo_Multiome	False
+Vip_9	428	-0.0002348713807953184		exclude_Green	exclude_Green__solo_Multiome	False
+Astro_1	384	0.08536020397045473	0.20058171607802136	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Astro_2	384	0.23560004535220958	0.5249595149592841	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Astro_3	384	0.08747619114627672	0.4209777009878988	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Astro_4	384	0.24653061618610425	0.8792622801008927	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Astro_5	384	0.06098440534735268	0.20834567129436382	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Astro_6-SEAAD	384	0.4231159240276963	0.6544251485008954	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Chandelier_1	384	-0.0418562681239811		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Chandelier_2	384	0.08790242142967765	0.21860477639724477	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Endo_1	384	0.04497855622011085	0.6975420777956034	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Endo_2	384	-0.10984296783813241	-0.13096714488231107	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Endo_3	384	0.054800620806299105	0.10592864133589537	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_1	384	-0.12991254190375126		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L2/3 IT_10	384	0.37266842948114876	0.7763328133671209	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_12	384	0.17956605735457404	0.3380031971918922	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_13	384	-0.017135588903713243	-0.01480683282995034	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_14-SEAAD	384	0.06446765462822082		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_2	384	0.08219359445201585	0.09157204747063398	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L2/3 IT_3	384	-0.0070150973445745595	-0.025146522378977527	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_5	384	-0.11285202589315621		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_6	384	0.1043363927566403	0.2664058150177916	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_7	384	0.12515429988093518	0.36446028101462086	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L2/3 IT_8	384	0.013889611210895521	0.037897655822980596	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L4 IT_1	384	0.12648802556057426		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L4 IT_2	384	-0.08044965177935617		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L4 IT_3	384	0.15685480173702238	0.5895576905134748	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L4 IT_4	384	0.16057238720996395	0.42775193014952007	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 ET_2	384	0.0939534492701315	0.10217448574581481	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5 ET_4-SEAAD	384	-0.050443142975858495		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_1	384	-0.009184914308754455		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5 IT_10-SEAAD	384	0.21058653530661825	0.6107930383377687	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_2	384	-0.04111558042462449		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_3	384	0.06305354864993783		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_5	384	0.14381984830941133		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_6	384	0.2733702276015152	0.634463892602043	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5 IT_7	384	0.12091447193827122		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5/6 NP_1	384	-0.14765418982783804		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5/6 NP_2	384	-0.005272893737178612	-0.01585795465925352	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5/6 NP_3	384	0.20938462326289173	0.6442011469008602	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5/6 NP_4	384	0.2716058365276176	0.44521209921785576	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5/6 NP_6	384	0.25444310753069965	0.5781305331014633	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L5/6 NP_7-SEAAD	384	-0.08401918112211026	-0.4011616448653488	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5/6 NP_8-SEAAD	384	-0.03986583210209932		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L5/6 NP_9-SEAAD	384	0.14188321503782214	0.10165296580845663	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L6 CT_1	384	0.10894503108656771	0.34845761456941476	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 CT_2	384	0.06894023457120972	0.315396786431536	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 CT_3	384	-0.06564570165028279	-0.27463089151824543	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 CT_4	384	-0.055052478473812005	-0.21152648084840334	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L6 IT Car3_1	384	0.1282966389347179	0.38620181748124943	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L6 IT Car3_3	384	0.15688352455556387	0.5995912900235032	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 IT_1	384	0.05130958500070139	0.5194892713822103	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 IT_2	384	0.11071612830470255		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 IT_3-SEAAD	384	-0.09559422442909359	-1.0036279899439309	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6 IT_4-SEAAD	384	0.08758513395139199	0.2728653210961442	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L6b_1	384	0.04399945763816926	0.5194842825376909	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6b_2	384	-0.02396847546860051		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6b_3	384	0.08875230703947706	0.43602800476552217	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+L6b_4	384	0.1647904574924422	0.4784247011611069	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6b_5	384	-0.032754720742636474	-0.06600578511009783	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+L6b_6	384	0.09486794453776225	0.34286116040335596	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Lamp5_1	384	0.017255675368054835	0.4873417876453818	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Lamp5_2	384	0.03460845498175104	0.13211331695791212	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Lamp5_3	384	0.2159769274308817	0.3379048242234999	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Lamp5_4	384	0.20683124329434935	4.05130142202287	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Lamp5_5	384	0.26125800643118224	0.6070256146651138	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Lamp5_6	384	0.2012321803067627	0.4872243248483059	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Lamp5_Lhx6_1	384	0.07263530508412422	1.0897191923496066	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Lamp5_Lhx6_3-SEAAD	384	0.07022859429521817	0.28402289002615244	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Lymphocyte	384	0.16265080132123338	0.593362552370768	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Micro-PVM_1	384	-0.11567841145591334	-0.35002634454525877	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Micro-PVM_2	384	0.2677990835934128	0.4282867645579288	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Micro-PVM_2_1-SEAAD	384	0.41109453829147935	0.5394721139757517	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Micro-PVM_2_3-SEAAD	384	0.5775715524637806	0.6898088303794406	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Micro-PVM_3-SEAAD	384	0.008688871238191707	0.02246825602660745	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Micro-PVM_4-SEAAD	384	-0.022951131918841544	-0.07090503317333983	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+OPC_1	384	0.10395773413532906	0.1543118151498555	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+OPC_2	384	0.2546212331515705	0.45466402815140117	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+OPC_2_1-SEAAD	384	0.22051169339409768	0.27683650547572786	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+OPC_2_2-SEAAD	384	0.6382110586617927	0.7937584895143108	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Oligo_1	384	-0.013321527426638769	-0.027832076304632282	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Oligo_2	384	0.12006062390998622	0.09720038298946239	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Oligo_2_1-SEAAD	384	0.11382822047673975		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Oligo_3	384	0.07144318725768746	0.15374224257100963	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Oligo_4	384	0.17394932933203955		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Oligo_5-SEAAD	384	0.209965931064641	0.2867383310899244	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pax6_1	384	-0.05952131191327063		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pax6_2	384	0.12712676113278695		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pax6_3	384	0.09288162910523672	0.35565102600183895	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pax6_4	384	-0.10131859509871421		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pax6_6-SEAAD	384	0.18088961210304366	0.401515735332983	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pericyte_1	384	0.005199280722112379	0.00615985903608375	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pericyte_2-SEAAD	384	0.040694967791602456		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_1	384	0.05824949842024842		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pvalb_10	384	0.11703548514068404	0.18762953510876576	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pvalb_12	384	0.13007632350048928	0.2573612061672144	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_13	384	-0.05824111997707076		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pvalb_14	384	0.31111233795453974	0.8488090371099519	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_15	384	-0.06728867600807244	-0.2974447519969744	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_2	384	-0.07593588921240776	-0.35961579081475487	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_3	384	0.22786633185339952	0.44596167816402255	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_5	384	0.3481674564844103	0.6657564215796499	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_6	384	0.01185755609687098	0.06007851209190902	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_7	384	0.04465566356657816	0.11932657637198091	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Pvalb_8	384	0.15175754695928004	0.5418905437672978	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Pvalb_9	384	0.02197720527820348	0.0492385895833111	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+SMC-SEAAD	384	0.13428193856901058	0.3620077411798094	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sncg_1	384	0.31437516460518944	0.41772366349677786	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sncg_2	384	0.030959692044228614	0.1581627236679141	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sncg_3	384	0.09535343001804769		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sncg_4	384	0.05277249732672078	0.2441316835831782	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sncg_5	384	0.19032142557013948	0.47837367787127005	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sncg_6	384	0.1144104630926627	0.49832127905158247	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sncg_8	384	0.056499811321790196	0.5635356637627525	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst Chodl_1	384	-0.02494986026627564	-8.06053087795064	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst Chodl_2	384	0.017413806156422088	0.06666240000015099	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst Chodl_3-SEAAD	384	0.1947611991009496	0.457554435870581	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_1	384	-0.042149871765968475		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_10	384	0.013903660170522362	0.23139877738730288	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_11	384	0.2839428793524594	0.4473031670081388	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_12	384	-0.031954424537762954	-0.07701639867222898	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_13	384	0.26056847428801305	0.8107741874846737	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_19	384	0.11541967054119952	0.2688527303308359	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_2	384	0.3281056383893812	0.5449378969094277	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_20	384	0.3812054916758207	0.6213451345121821	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_22	384	0.12090981972235439	0.053056441130822515	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_23	384	0.39303959761776347	0.5998881072103549	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_25	384	0.3442428539763732	0.6264938158527248	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_3	384	0.24374915988428908	0.445939461034236	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Sst_4	384	0.02023924658913352	0.1472759400503865	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_5	384	-0.004634778493398547	-0.00870533188513278	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_7	384	-0.022793326571916874	-0.0933874866789775	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Sst_9	384	0.31601327558818637	0.9452620017925497	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+VLMC_1	384	0.02964314976878742		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_1	384	0.05452617899691792	1.3180280091353913	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_11	384	0.1299357176379828	0.5970711115952958	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_12	384	-0.10456357195516296	-0.30662195896820893	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_13	384	-0.04823414303854787		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_14	384	0.00012956525600251126		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_15	384	0.08656294140865278	0.15176781347804338	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_16	384	0.10731608436687182	1.084165030680916	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_18	384	0.08858325131407901	0.30584646926000947	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_19	384	0.11008364141014747		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_2	384	-0.07871422177713075	-0.10631912657251927	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_21	384	-0.0379102067091362		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_23	384	-0.09881009916736609		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_24-SEAAD	384	0.10812026549898442		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_4	384	-0.0026678827810107508		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	True
+Vip_5	384	0.08887292525178069		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_6	384	0.06090148504804089	0.4244502172604615	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Vip_9	384	-0.07859798839507891		exclude_Mathys	exclude_Mathys__cons_Green_Multiome	False
+Astro_1	384	0.052035140602398104	0.12227358081293649	exclude_Mathys	exclude_Mathys__solo_Green	True
+Astro_2	384	0.11850310201310822	0.2640463454112337	exclude_Mathys	exclude_Mathys__solo_Green	True
+Astro_3	384	0.030094749111361167	0.1448304747462439	exclude_Mathys	exclude_Mathys__solo_Green	False
+Astro_4	384	0.21037124872771656	0.7502983064966275	exclude_Mathys	exclude_Mathys__solo_Green	True
+Astro_5	384	0.06281049190693044	0.214584269964464	exclude_Mathys	exclude_Mathys__solo_Green	True
+Astro_6-SEAAD	384	0.42420293479367843	0.6561064068548196	exclude_Mathys	exclude_Mathys__solo_Green	True
+Chandelier_1	384	-0.013723397662147103		exclude_Mathys	exclude_Mathys__solo_Green	False
+Chandelier_2	384	0.03289809764705246	0.08181437056067911	exclude_Mathys	exclude_Mathys__solo_Green	True
+Endo_1	384	0.02183363371569914	0.33860309240133685	exclude_Mathys	exclude_Mathys__solo_Green	False
+Endo_2	384	-0.09449868046939022	-0.11267195906851121	exclude_Mathys	exclude_Mathys__solo_Green	True
+Endo_3	384	0.08554553793646692	0.16535802829658142	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_1	384	-0.11107342829197461		exclude_Mathys	exclude_Mathys__solo_Green	False
+L2/3 IT_10	384	0.3763300029601752	0.7839605044067958	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_12	384	0.17179912026088953	0.32338323165536653	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_13	384	0.11777658863772265	0.10177054719506543	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_14-SEAAD	384	0.015781016418585866		exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_2	384	0.09360492291944723	0.10428543127005724	exclude_Mathys	exclude_Mathys__solo_Green	False
+L2/3 IT_3	384	0.04793539737685504	0.17183062239535746	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_5	384	-0.1054173336546681		exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_6	384	0.1340916077808657	0.3423808616925187	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_7	384	0.14967154367692692	0.4358566419234503	exclude_Mathys	exclude_Mathys__solo_Green	True
+L2/3 IT_8	384	-0.14164387563205244	-0.3864738016515364	exclude_Mathys	exclude_Mathys__solo_Green	True
+L4 IT_1	384	0.11126413828526147		exclude_Mathys	exclude_Mathys__solo_Green	True
+L4 IT_2	384	-0.11041304516312662		exclude_Mathys	exclude_Mathys__solo_Green	False
+L4 IT_3	384	0.14333273160564572	0.5387333590340897	exclude_Mathys	exclude_Mathys__solo_Green	True
+L4 IT_4	384	0.043355639277651015	0.11549593741563786	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 ET_2	384	0.18933686917160733	0.20590406622230997	exclude_Mathys	exclude_Mathys__solo_Green	False
+L5 ET_4-SEAAD	384	-0.09476636471594083		exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_1	384	0.015414267602321882		exclude_Mathys	exclude_Mathys__solo_Green	False
+L5 IT_10-SEAAD	384	0.20121630702241636	0.5836152788704172	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_2	384	0.07095721754859395		exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_3	384	0.12731872236939054		exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_5	384	0.06543740909379948		exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_6	384	0.25708218067941047	0.5966610281725369	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5 IT_7	384	-0.06715669420352392		exclude_Mathys	exclude_Mathys__solo_Green	False
+L5/6 NP_1	384	-0.14317782210257585		exclude_Mathys	exclude_Mathys__solo_Green	False
+L5/6 NP_2	384	0.09668381602056475	0.2907715662705739	exclude_Mathys	exclude_Mathys__solo_Green	False
+L5/6 NP_3	384	0.1580238312676123	0.48618247010646287	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5/6 NP_4	384	0.277682490500933	0.455172856712127	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5/6 NP_6	384	0.26545477763912156	0.6031505966115401	exclude_Mathys	exclude_Mathys__solo_Green	True
+L5/6 NP_7-SEAAD	384	-0.02736465225097545	-0.1306564615550714	exclude_Mathys	exclude_Mathys__solo_Green	False
+L5/6 NP_8-SEAAD	384	-0.09316328071439828		exclude_Mathys	exclude_Mathys__solo_Green	False
+L5/6 NP_9-SEAAD	384	0.07147548242437499	0.05120898035113667	exclude_Mathys	exclude_Mathys__solo_Green	True
+L6 CT_1	384	0.09913474211301723	0.3170796814974262	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 CT_2	384	0.02349893529669738	0.10750599737930214	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 CT_3	384	-0.007489821659273276	-0.03133390835788292	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 CT_4	384	0.12085754684013626	0.46436731416599053	exclude_Mathys	exclude_Mathys__solo_Green	True
+L6 IT Car3_1	384	0.13462025388590246	0.40523732462685563	exclude_Mathys	exclude_Mathys__solo_Green	True
+L6 IT Car3_3	384	0.0713266599200198	0.272602519325511	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 IT_1	384	0.18254288188742748	1.8481745410026666	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 IT_2	384	-0.0011355389266792834		exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 IT_3-SEAAD	384	0.033903196549674657	0.3559440667993777	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6 IT_4-SEAAD	384	0.1459490874055383	0.45469411076888006	exclude_Mathys	exclude_Mathys__solo_Green	True
+L6b_1	384	0.12828722407247323	1.5146367735730493	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6b_2	384	0.1019263082135754		exclude_Mathys	exclude_Mathys__solo_Green	False
+L6b_3	384	0.13685340984182714	0.6723421759858937	exclude_Mathys	exclude_Mathys__solo_Green	True
+L6b_4	384	0.17945415932299977	0.5209968092367327	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6b_5	384	0.12198873449415136	0.2458260065210258	exclude_Mathys	exclude_Mathys__solo_Green	False
+L6b_6	384	0.011647490065454118	0.04209506149928815	exclude_Mathys	exclude_Mathys__solo_Green	False
+Lamp5_1	384	0.020026084332881687	0.5655848021104659	exclude_Mathys	exclude_Mathys__solo_Green	True
+Lamp5_2	384	0.006635011406275146	0.025328301000400216	exclude_Mathys	exclude_Mathys__solo_Green	False
+Lamp5_3	384	0.16698292858021568	0.26125168924944675	exclude_Mathys	exclude_Mathys__solo_Green	True
+Lamp5_4	384	0.12435074452791765	2.4357168680681562	exclude_Mathys	exclude_Mathys__solo_Green	False
+Lamp5_5	384	0.1816331998271189	0.4220196206606619	exclude_Mathys	exclude_Mathys__solo_Green	True
+Lamp5_6	384	0.20762453940189118	0.5027015354990282	exclude_Mathys	exclude_Mathys__solo_Green	True
+Lamp5_Lhx6_1	384	0.10634673691548804	1.5954786742665064	exclude_Mathys	exclude_Mathys__solo_Green	False
+Lamp5_Lhx6_3-SEAAD	384	0.07760693488183604	0.3138628382415356	exclude_Mathys	exclude_Mathys__solo_Green	True
+Lymphocyte	384	0.19021526617914702	0.6939198265432057	exclude_Mathys	exclude_Mathys__solo_Green	False
+Micro-PVM_1	384	-0.02838208729210653	-0.08588014081786262	exclude_Mathys	exclude_Mathys__solo_Green	True
+Micro-PVM_2	384	0.24707311888792297	0.39514006275840696	exclude_Mathys	exclude_Mathys__solo_Green	True
+Micro-PVM_2_1-SEAAD	384	0.3838817873842825	0.5037613007890485	exclude_Mathys	exclude_Mathys__solo_Green	True
+Micro-PVM_2_3-SEAAD	384	0.5935108880218766	0.7088455962510511	exclude_Mathys	exclude_Mathys__solo_Green	True
+Micro-PVM_3-SEAAD	384	0.1853089783553067	0.4791841719802715	exclude_Mathys	exclude_Mathys__solo_Green	True
+Micro-PVM_4-SEAAD	384	0.01736168416625101	0.053637040478272544	exclude_Mathys	exclude_Mathys__solo_Green	True
+OPC_1	384	0.2027120417283955	0.30089981637269503	exclude_Mathys	exclude_Mathys__solo_Green	True
+OPC_2	384	0.24921271540966322	0.4450063164498792	exclude_Mathys	exclude_Mathys__solo_Green	True
+OPC_2_1-SEAAD	384	0.24391277753974483	0.3062148765703005	exclude_Mathys	exclude_Mathys__solo_Green	True
+OPC_2_2-SEAAD	384	0.5258582513075101	0.6540225926697414	exclude_Mathys	exclude_Mathys__solo_Green	True
+Oligo_1	384	0.021151546761657068	0.0441909883587556	exclude_Mathys	exclude_Mathys__solo_Green	True
+Oligo_2	384	0.1761774362974692	0.1426322279905399	exclude_Mathys	exclude_Mathys__solo_Green	True
+Oligo_2_1-SEAAD	384	0.08820720516336383		exclude_Mathys	exclude_Mathys__solo_Green	False
+Oligo_3	384	0.038465880983835334	0.08277669336887061	exclude_Mathys	exclude_Mathys__solo_Green	True
+Oligo_4	384	0.13670941840255427		exclude_Mathys	exclude_Mathys__solo_Green	False
+Oligo_5-SEAAD	384	0.13805817861901812	0.18853807153287477	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pax6_1	384	-0.0239332658379312		exclude_Mathys	exclude_Mathys__solo_Green	False
+Pax6_2	384	0.06059909427018516		exclude_Mathys	exclude_Mathys__solo_Green	False
+Pax6_3	384	0.13703072499165458	0.5247013688986865	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pax6_4	384	0.0997226063463551		exclude_Mathys	exclude_Mathys__solo_Green	False
+Pax6_6-SEAAD	384	0.2086345090594568	0.4631003259221107	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pericyte_1	384	0.02051900383590946	0.024309933997699634	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pericyte_2-SEAAD	384	0.01922973037039461		exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_1	384	-0.005835535902412558		exclude_Mathys	exclude_Mathys__solo_Green	False
+Pvalb_10	384	0.07732564380753752	0.12396731283810251	exclude_Mathys	exclude_Mathys__solo_Green	False
+Pvalb_12	384	0.11677882394350668	0.23105157169341897	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_13	384	-0.07125307362183993		exclude_Mathys	exclude_Mathys__solo_Green	False
+Pvalb_14	384	0.23945619586566785	0.653309297789563	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_15	384	0.0040981428075298814	0.01811554548773814	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_2	384	-0.06041376288883144	-0.28610638978087144	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_3	384	0.16977718429860794	0.332274265390296	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_5	384	0.25053906241469864	0.4790740390941706	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_6	384	-0.03433879839917867	-0.17398390511440054	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_7	384	0.08386678688459284	0.22410453122785975	exclude_Mathys	exclude_Mathys__solo_Green	False
+Pvalb_8	384	0.1541280999607751	0.5503552315587659	exclude_Mathys	exclude_Mathys__solo_Green	True
+Pvalb_9	384	-0.023577208176123604	-0.0528232986045683	exclude_Mathys	exclude_Mathys__solo_Green	False
+SMC-SEAAD	384	0.07272524209589673	0.19605838952317672	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sncg_1	384	0.3644269063602085	0.48422954336346025	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sncg_2	384	-0.014623600094356821	-0.07470708744291285	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sncg_3	384	-0.021457227160944347		exclude_Mathys	exclude_Mathys__solo_Green	False
+Sncg_4	384	0.09293303214692393	0.4299189681711422	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sncg_5	384	0.13876560899796922	0.34878792305988343	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sncg_6	384	-0.019195221037101532	-0.0836058769479775	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sncg_8	384	0.014072655099953717	0.14036229231792463	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst Chodl_1	384	-0.04832949377059538	-15.613769884722423	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst Chodl_2	384	-0.022768468908315596	-0.08716077163850715	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst Chodl_3-SEAAD	384	0.18230114659967395	0.42828190972339925	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_1	384	0.05127931360171265		exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_10	384	0.10426843714960683	1.73534080814616	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_11	384	0.2844208252407628	0.4480560885463869	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_12	384	0.013940932289057108	0.03360036722826045	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_13	384	0.301474985949621	0.9380572129769033	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_19	384	0.1407881911688278	0.3279448764373995	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_2	384	0.3328475513650493	0.5528135557886008	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_20	384	0.3162968191426198	0.5155473725522198	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_22	384	0.1085028333805438	0.04761213113212447	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_23	384	0.3920251385848315	0.5983397596321554	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_25	384	0.3464410873761818	0.63049442070152	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_3	384	0.3259812750137555	0.5963832415089974	exclude_Mathys	exclude_Mathys__solo_Green	True
+Sst_4	384	0.05082812994031667	0.36986360065312157	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_5	384	0.006327167341503453	0.011884082848622222	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_7	384	-0.04956457960592864	-0.20307310137874776	exclude_Mathys	exclude_Mathys__solo_Green	False
+Sst_9	384	0.3012977566241275	0.9012447974915841	exclude_Mathys	exclude_Mathys__solo_Green	True
+VLMC_1	384	0.19464092216412798		exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_1	384	0.034138900921583386	0.8252187929450974	exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_11	384	0.1338586996018836	0.6150977115520565	exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_12	384	-0.07709491533158674	-0.2260729384378316	exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_13	384	0.01870886187075866		exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_14	384	0.010963203704595975		exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_15	384	-0.1010631559654651	-0.177190538519939	exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_16	384	0.10587142999668178	1.0695703521774962	exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_18	384	0.09613203144316185	0.33190972292761517	exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_19	384	0.12543205968846585		exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_2	384	0.031484654196921286	0.0425262533133119	exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_21	384	-0.04706055890053381		exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_23	384	-0.06114892833146692		exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_24-SEAAD	384	0.04586728100574797		exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_4	384	-0.004276516113307429		exclude_Mathys	exclude_Mathys__solo_Green	True
+Vip_5	384	0.08612835635162873		exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_6	384	0.023142119701459487	0.16128798382180118	exclude_Mathys	exclude_Mathys__solo_Green	False
+Vip_9	384	-0.11037321620305614		exclude_Mathys	exclude_Mathys__solo_Green	False
+Astro_1	384	0.06677513480208307	0.1569100178647532	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Astro_2	384	0.07211811032054821	0.16069219408280586	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Astro_3	384	0.07689979608364253	0.3700789773482034	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Astro_4	384	0.19518373843770145	0.6961313834051208	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Astro_5	384	0.1526005324630455	0.5213408279510383	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Astro_6-SEAAD	384	0.41380374519099195	0.6400221830911647	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Chandelier_1	384	-0.057055251968424786		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Chandelier_2	384	0.10958479585657929	0.2725267336796854	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Endo_1	384	0.040919686522081014	0.6345958064922252	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Endo_2	384	-0.03146492697726761	-0.03751602611662654	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Endo_3	384	0.06788220089202965	0.1312151067923024	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_1	384	-0.12766010292636168		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L2/3 IT_10	384	0.17051922149080553	0.3552210396180733	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_12	384	0.14873533649306045	0.2799694998637545	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_13	384	-0.04709636979890451	-0.040695891949111086	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_14-SEAAD	384	0.11654715934610844		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_2	384	0.04868480023512338	0.05423983301803041	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L2/3 IT_3	384	-0.008320763380795416	-0.02982685090281355	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_5	384	-0.0977093676950459		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_6	384	-0.005746692740240338	-0.014673234550972329	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_7	384	0.05468327151277297	0.15924247525897411	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L2/3 IT_8	384	0.14555638064533086	0.397149029787699	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L4 IT_1	384	0.1447387408072407		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L4 IT_2	384	-0.0451977174645374		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L4 IT_3	384	0.15451010168069948	0.5807448525585991	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L4 IT_4	384	0.20310497900635843	0.5410553352448167	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 ET_2	384	0.05970869484620131	0.06493327533855495	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5 ET_4-SEAAD	384	-0.03790276630873228		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_1	384	-0.015604748678501649		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5 IT_10-SEAAD	384	0.18574826456129892	0.5387511918184726	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_2	384	-0.05125429033432805		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_3	384	0.0354681345993271		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_5	384	0.10752812189821163		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_6	384	0.2562907820866705	0.5948242742723225	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5 IT_7	384	0.08563135636643103		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5/6 NP_1	384	-0.11507614733959187		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5/6 NP_2	384	-0.08220001810521475	-0.24721229462890632	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5/6 NP_3	384	0.10263675918897026	0.31577637819519844	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5/6 NP_4	384	0.15101646344267872	0.2475438582813186	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5/6 NP_6	384	0.17494731310219014	0.39750490539907646	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L5/6 NP_7-SEAAD	384	-0.07020185255949028	-0.33518882556626944	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5/6 NP_8-SEAAD	384	0.05238077488870996		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L5/6 NP_9-SEAAD	384	0.07030840217819247	0.05037281965144227	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L6 CT_1	384	-0.08422679324211801	-0.26939702676901955	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 CT_2	384	0.0489357829552407	0.2238778092588556	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 CT_3	384	-0.08441674096592858	-0.3531601345971429	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 CT_4	384	-0.1499110813730188	-0.5759988353312294	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L6 IT Car3_1	384	0.12164186815707617	0.3661694566136035	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L6 IT Car3_3	384	0.16556703442268678	0.6327786938500665	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 IT_1	384	-0.058208011193208564	-0.5893331104306166	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 IT_2	384	0.11799043502629414		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 IT_3-SEAAD	384	-0.15291366649187696	-1.6054153548788228	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6 IT_4-SEAAD	384	-0.09668343118275556	-0.30121042583551677	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L6b_1	384	0.01534073884463983	0.18112206695458247	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6b_2	384	-0.023075998599490933		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6b_3	384	-0.0563886633262297	-0.27702982808767307	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+L6b_4	384	0.042452821783995856	0.12325033187304214	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6b_5	384	-0.16536015740107085	-0.3332260745236472	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+L6b_6	384	0.10897500531072254	0.39384532844941866	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Lamp5_1	384	0.05479540206729885	1.5475539860735752	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Lamp5_2	384	0.04745929120230103	0.1811697281636411	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Lamp5_3	384	0.23465429294465098	0.36712633406699	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Lamp5_4	384	0.20163651700760016	3.9495498604245283	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Lamp5_5	384	0.28690155518110305	0.6666076774495353	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Lamp5_6	384	0.22477755303547908	0.5442324947819744	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Lamp5_Lhx6_1	384	0.009698424349710631	0.14550168319924053	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Lamp5_Lhx6_3-SEAAD	384	0.04160942237302636	0.16827943821610103	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Lymphocyte	384	0.06848290574335063	0.2498308733529522	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Micro-PVM_1	384	-0.11477487470047952	-0.3472923714236853	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Micro-PVM_2	384	0.05453102513725139	0.0872105909052295	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Micro-PVM_2_1-SEAAD	384	0.31087966290699753	0.4079619000474157	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Micro-PVM_2_3-SEAAD	384	0.5887440930836167	0.7031524882248801	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Micro-PVM_3-SEAAD	384	-0.051200175249002194	-0.13239678832450547	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Micro-PVM_4-SEAAD	384	-0.007110224636513592	-0.021966267960318593	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+OPC_1	384	0.06195964932916418	0.0919710883808365	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+OPC_2	384	0.2475009801185552	0.4419497588605882	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+OPC_2_1-SEAAD	384	0.27732481434304196	0.34816127572528865	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+OPC_2_2-SEAAD	384	0.541976184706618	0.6740688552584753	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Oligo_1	384	-0.018590063265810548	-0.03883939451923111	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Oligo_2	384	0.05230789726115689	0.042348169462869185	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Oligo_2_1-SEAAD	384	-0.039771746075871445		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Oligo_3	384	0.05050877791395535	0.1086924181868301	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Oligo_4	384	0.10955593562329902		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Oligo_5-SEAAD	384	0.18598958536837507	0.2539952221687641	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pax6_1	384	-0.06887500586929507		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pax6_2	384	0.11741185115860493		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pax6_3	384	-0.014672939747181537	-0.056183834476413785	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pax6_4	384	-0.07223732584285392		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pax6_6-SEAAD	384	-0.01870327068991212	-0.041515139520084884	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pericyte_1	384	-0.01256963188317929	-0.014891898451751807	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pericyte_2-SEAAD	384	-0.022572720809592533		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_1	384	0.12660280734079304		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pvalb_10	384	0.08804199385841283	0.14114760457348122	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pvalb_12	384	0.12320481359007565	0.2437656491039233	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_13	384	-5.278983686137846e-05		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pvalb_14	384	0.29127409753876343	0.794684286365636	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_15	384	-0.036187809712883504	-0.1599656097271259	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_2	384	-0.08192669131149612	-0.38798692147277747	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_3	384	0.015993538570995825	0.03130126878722523	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_5	384	0.3694664308035859	0.7064837459230328	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_6	384	0.09524725721760069	0.4825879336112792	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_7	384	0.025624085854858487	0.06847136944148796	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Pvalb_8	384	0.12610725891863278	0.45029939187642193	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Pvalb_9	384	0.025976249594941183	0.05819820475479102	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+SMC-SEAAD	384	0.04214936150034883	0.11362954177989366	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sncg_1	384	0.29632695221016647	0.3937422354132807	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sncg_2	384	0.0005990056779968519	0.0030601198936082035	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sncg_3	384	0.15503338232961486		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sncg_4	384	-0.037276000327608624	-0.17244309400188992	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sncg_5	384	0.1673697344516522	0.42068450882041175	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sncg_6	384	0.046145296088690196	0.20098846161042064	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sncg_8	384	0.07723063816177267	0.7703073323809558	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst Chodl_1	384	0.03269571310274834	10.562977196210912	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst Chodl_2	384	0.039646906708410465	0.15177370932144113	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst Chodl_3-SEAAD	384	0.16679066779894627	0.3918429865163643	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_1	384	-0.0014917988148530248		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_10	384	0.007619691689911067	0.12681461712159853	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_11	384	0.26238531322257613	0.41334292956575325	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_12	384	-0.007899396897425599	-0.01903908799870035	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_13	384	-0.18996565867159934	-0.5910893594488156	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_19	384	0.01139775845043647	0.026549360821103554	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_2	384	0.2674476091912011	0.4441933348098916	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_20	384	0.3742559440748067	0.6100177331938849	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_22	384	0.09044164057339098	0.03968669864760336	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_23	384	0.3796113715205097	0.5793928869183063	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_25	384	0.3167281243716103	0.5764192602210574	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_3	384	0.13217411367946452	0.24181274325162236	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Sst_4	384	-0.011817554142521239	-0.08599338852715002	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_5	384	-0.012113678581845158	-0.022752671471783902	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_7	384	-0.039636520322723696	-0.16239643660438666	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Sst_9	384	0.30672577011325614	0.9174811245475938	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+VLMC_1	384	-0.16937116759652893		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_1	384	0.0662056214046321	1.600348034261691	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_11	384	0.05070022615501579	0.2329739731214534	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_12	384	-0.0873353581244444	-0.25610198747600244	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_13	384	-0.06652799209988251		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_14	384	0.020218224492100832		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_15	384	0.12386502011323869	0.21716825887712948	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_16	384	0.05975339497600132	0.6036610604984352	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_18	384	-0.000827370442549399	-0.0028566159501938137	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_19	384	0.05906780544204923		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_2	384	-0.12514674560031222	-0.16903543457866183	exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_21	384	0.017764055552796462		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_23	384	-0.06946430933013849		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_24-SEAAD	384	0.095319290261287		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_4	384	-0.015638793417211787		exclude_Mathys	exclude_Mathys__solo_Multiome	True
+Vip_5	384	0.10636811989139448		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_6	384	0.04344574676509061	0.3027932182431881	exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Vip_9	384	-0.057968944886004854		exclude_Mathys	exclude_Mathys__solo_Multiome	False
+Astro_1	253	0.21589832680052443	0.7197752844754043	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Astro_2	253	0.19350628047903748	0.4355466443217713	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Astro_3	253	0.12425913752249206		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Astro_4	253	0.20089964630000176	0.3927313651719784	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Astro_5	253	0.10639332010627083	0.27344400542165326	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Astro_6-SEAAD	253	0.4747405437279817	0.7897891469900046	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Chandelier_1	253	0.06505009735071594	0.617191402028063	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Chandelier_2	253	0.20277117525110183	0.9446925175476754	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Endo_1	253	0.11172428097328511	3.166425504373104	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Endo_2	253	0.07786410720042078		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Endo_3	253	0.23211804620721752	0.36188771041004436	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_1	253	0.1215839825274845	0.4226767766244656	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L2/3 IT_10	253	0.19415527472585892	0.645527320295222	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_12	253	0.1418876231204466	0.3399921074363287	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_13	253	0.23022277910417852	1.2684520182253936	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_14-SEAAD	253	-0.060955270917315424		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_2	253	0.07553279128307318	1.9859470241958488	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L2/3 IT_3	253	0.08633714594904023		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_5	253	-0.03456173697063756	-0.13138406230958638	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_6	253	-0.0185255827355623	-0.17600079177692401	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_7	253	0.0030832202957354806	0.07342132803346711	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L2/3 IT_8	253	0.056035259898423166		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L4 IT_1	253	0.13234988160018843	0.38697729957128923	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L4 IT_2	253	0.10251122100525498	1.2563136851377652	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L4 IT_3	253	0.08976876147116401	0.35422977107283404	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L4 IT_4	253	0.07686124537852451	0.286118563683826	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 ET_2	253	-0.05390523753391088	-0.366768992363858	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5 ET_4-SEAAD	253	-0.07071536290545752	-0.6469211643665896	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_1	253	0.10909892290006165		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5 IT_10-SEAAD	253	0.14682260178587206	0.38739895176641304	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_2	253	-0.08814464811904643		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_3	253	-0.03560730245451301		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_5	253	0.058912841459179716	0.335774655299919	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_6	253	-0.09258231590329216	-0.32478201810232377	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5 IT_7	253	0.03568823940433902		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5/6 NP_1	253	0.037757486346547416	0.2574264696978461	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5/6 NP_2	253	-0.109436496348321	-0.8710858329528993	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5/6 NP_3	253	0.10143223105414055	0.7283010281055441	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5/6 NP_4	253	0.009564917292229783		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5/6 NP_6	253	0.21722130210617044	0.9101533570660685	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L5/6 NP_7-SEAAD	253	0.02118722163480362	0.34553890204579335	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5/6 NP_8-SEAAD	253	0.0585776223444967		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L5/6 NP_9-SEAAD	253	0.04433801917360919	0.43789455893138896	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L6 CT_1	253	-0.0018408533166301088	-0.029062096210258456	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 CT_2	253	-0.00438207161113154	-0.16328507120748015	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 CT_3	253	0.008776892175973283		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 CT_4	253	0.061942059976408344	0.25959420485192225	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L6 IT Car3_1	253	0.12527130220729443	0.42503917219260234	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L6 IT Car3_3	253	0.18395363677813206	4.928509830100593	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 IT_1	253	0.05756879890199487	0.5008442834688271	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 IT_2	253	-0.05267829339276723		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 IT_3-SEAAD	253	0.009698759475556807		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6 IT_4-SEAAD	253	0.05198719238128567		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L6b_1	253	0.038737742304132766		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6b_2	253	0.015909812314901132		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6b_3	253	0.03291401634513135	0.10635650679343309	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+L6b_4	253	0.07394261585826717	3.4076503992998624	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6b_5	253	-0.01781430427712271	-0.4736957847784069	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+L6b_6	253	0.098645783272126	2.689148365686443	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Lamp5_1	253	-0.005306332973637952	-0.0358123512993714	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Lamp5_2	253	0.10200915818612825	0.7155426684246318	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Lamp5_3	253	0.15201594888597672	0.4031919392194526	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Lamp5_4	253	0.01637844038557282	0.07191177699291021	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Lamp5_5	253	0.20160178167379572	0.45897870669541313	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Lamp5_6	253	0.11043309111628236	0.2918769472475838	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Lamp5_Lhx6_1	253	0.12301270194736363		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Lamp5_Lhx6_3-SEAAD	253	0.024635572507604786		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Lymphocyte	253	0.08999742254440526	4.963613108989529	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Micro-PVM_1	253	0.07915684223859168	0.481341497726925	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Micro-PVM_2	253	0.13766535934842145	0.4199868893895923	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Micro-PVM_2_1-SEAAD	253	0.46585692029262643	0.6607249886695368	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Micro-PVM_2_3-SEAAD	253	0.5439589564402206	0.7640953181002229	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Micro-PVM_3-SEAAD	253	-0.038156335842649804	-1.1322783057992287	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Micro-PVM_4-SEAAD	253	0.21480901635173938	0.7103341236191174	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+OPC_1	253	0.12353325625797096	0.41664757509524664	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+OPC_2	253	0.40744269301783087	0.5474518604441938	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+OPC_2_1-SEAAD	253	0.08908079265806555	0.3538032987489805	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+OPC_2_2-SEAAD	253	0.5746236298701582	0.9489327203385496	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Oligo_1	253	0.10385695297346817	0.4169842862127486	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Oligo_2	253	0.2818423438880834	1.4333715251721475	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Oligo_2_1-SEAAD	253	0.04648919608277836	0.1933819983309404	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Oligo_3	253	0.136433109052578	0.8175105508577326	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Oligo_4	253	0.0674732000465354		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Oligo_5-SEAAD	253	0.2438301383389046	0.44474234334872537	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pax6_1	253	0.01912391517640683	0.12625303958556083	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pax6_2	253	0.11467581808653485		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pax6_3	253	0.005026050345598127	0.03568512806653149	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pax6_4	253	-0.02074524089110909	-0.8685624068572305	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pax6_6-SEAAD	253	-0.05093504044291822		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pericyte_1	253	0.1676976413889456		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pericyte_2-SEAAD	253	0.1577952419233342	3.868201026400964	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_1	253	0.016087981029990598	0.6740060444611281	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pvalb_10	253	0.13040961621395025		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pvalb_12	253	0.1197502813715459	0.8575690746466098	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_13	253	0.1175003773985383	0.294040165199606	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pvalb_14	253	0.20097956596017078	0.5960898186642356	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_15	253	-0.08167398927549542	-0.7131354257828526	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_2	253	0.09962071491548004	0.4833329456157128	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_3	253	0.03537339160507817	0.15916545809865482	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_5	253	0.32182722133772956	0.9332130727432003	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_6	253	0.02226414902510927	0.04766142197788198	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_7	253	0.11391130312290419	1.9424393870828032	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Pvalb_8	253	0.09465031389687709	0.24864688373486998	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Pvalb_9	253	0.050568707863556		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+SMC-SEAAD	253	0.060135643437709656		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sncg_1	253	0.11189958486369524	0.4828771960164638	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sncg_2	253	0.0759793104586659		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sncg_3	253	0.0645833559398369	0.1668376926117977	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sncg_4	253	-0.007513779784184862	-0.04229420307003787	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sncg_5	253	0.14344335614475812		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sncg_6	253	0.013081497076595004	0.04751421792150291	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sncg_8	253	0.055041493174846905	0.32989269097264895	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst Chodl_1	253	0.00842194461344796	0.12239265239768703	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst Chodl_2	253	0.09292144319630613	2.7920058736387867	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst Chodl_3-SEAAD	253	0.21668279082868075	1.0473175934629628	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_1	253	-0.03824532607376488	-0.32455777093374594	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_10	253	0.077203155212967		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_11	253	0.15255821537552333	0.3535843306887049	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_12	253	0.07967052337037393	0.24924887341397026	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_13	253	-0.02577999236767399	-0.12805445684980227	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_19	253	0.15326994382754164	0.25093636098374894	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_2	253	0.11097539885076102	0.4446118834261561	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_20	253	0.15933691640457637	0.37088040470875333	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_22	253	0.12423519993699926	0.5248030841652073	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_23	253	0.21936259621209367	0.4736366520529642	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_25	253	0.1956696633648274	0.4061295198534092	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_3	253	0.09849956399969097	3.0794942421502465	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Sst_4	253	-0.160509787119186	-1.8869526242003585	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_5	253	0.008469241763727335		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_7	253	-0.008302905241179676	-0.07326380600221627	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Sst_9	253	0.24278683763218534	1.1351076238742048	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+VLMC_1	253	-0.021428303160396553	-0.2037724208400963	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_1	253	0.11520081637854758		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_11	253	0.06137491022040632	0.24251233971088043	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_12	253	0.05993899914316739		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_13	253	-0.004914953933248161	-0.0246015706181406	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_14	253	-0.03416401591050229	-0.57348114821802	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_15	253	0.12236419157664889		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_16	253	0.031254025791104666	0.19645545622549054	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_18	253	0.06343583411969382		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_19	253	-0.018294879547224776		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_2	253	-0.06342908564270613		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_21	253	-0.044314716008590445	-0.14716439074425344	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_23	253	-0.012019502474338585	-0.027291332701740653	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_24-SEAAD	253	0.0941345910421845	0.5436613544013023	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_4	253	0.029694467807889022	0.15816700354141383	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	True
+Vip_5	253	0.042705252371981056		exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_6	253	0.041752044164759125	0.3315931165787375	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Vip_9	253	0.03755784837534862	1.164959099082292	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	False
+Astro_1	253	0.1498917160549563	0.49971833576850405	exclude_Multiome	exclude_Multiome__solo_Green	True
+Astro_2	253	0.19874890472133663	0.447346816339551	exclude_Multiome	exclude_Multiome__solo_Green	True
+Astro_3	253	0.1436515599241964		exclude_Multiome	exclude_Multiome__solo_Green	False
+Astro_4	253	0.18440017484349192	0.36047715233949346	exclude_Multiome	exclude_Multiome__solo_Green	True
+Astro_5	253	0.14124261098014348	0.36301099772095974	exclude_Multiome	exclude_Multiome__solo_Green	True
+Astro_6-SEAAD	253	0.44727228912495376	0.7440923349969255	exclude_Multiome	exclude_Multiome__solo_Green	True
+Chandelier_1	253	0.009685792640876417	0.09189821665516411	exclude_Multiome	exclude_Multiome__solo_Green	False
+Chandelier_2	253	0.18253803925171613	0.8504281717328709	exclude_Multiome	exclude_Multiome__solo_Green	True
+Endo_1	253	0.08619554257629657	2.4429046398797154	exclude_Multiome	exclude_Multiome__solo_Green	False
+Endo_2	253	-0.04031770515673655		exclude_Multiome	exclude_Multiome__solo_Green	True
+Endo_3	253	0.22912729678794108	0.3572249300815131	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_1	253	0.1357469015507485	0.47191300689018606	exclude_Multiome	exclude_Multiome__solo_Green	False
+L2/3 IT_10	253	0.2080885663973957	0.6918527186049953	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_12	253	0.1486177545261452	0.3561188950279742	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_13	253	0.042874992361027736	0.23622714834457875	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_14-SEAAD	253	-0.13947741279478618		exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_2	253	-0.06776185235428019	-1.7816294982751224	exclude_Multiome	exclude_Multiome__solo_Green	False
+L2/3 IT_3	253	0.09996610150200473		exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_5	253	0.010966170710314499	0.04168714255089545	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_6	253	0.04392103121697451	0.4172681842286933	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_7	253	0.0938011228526867	2.2337044876100274	exclude_Multiome	exclude_Multiome__solo_Green	True
+L2/3 IT_8	253	0.04259542166981795		exclude_Multiome	exclude_Multiome__solo_Green	True
+L4 IT_1	253	0.0308322022170501	0.09015015510050126	exclude_Multiome	exclude_Multiome__solo_Green	True
+L4 IT_2	253	0.022685767102174882	0.2780226339012137	exclude_Multiome	exclude_Multiome__solo_Green	False
+L4 IT_3	253	0.04312232507670048	0.17016176997111324	exclude_Multiome	exclude_Multiome__solo_Green	True
+L4 IT_4	253	0.000778690652976428	0.002898702071328748	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 ET_2	253	-0.027758833149139423	-0.18886994527946527	exclude_Multiome	exclude_Multiome__solo_Green	False
+L5 ET_4-SEAAD	253	-0.11141198410391165	-1.0192236526772045	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_1	253	0.08767503208156176		exclude_Multiome	exclude_Multiome__solo_Green	False
+L5 IT_10-SEAAD	253	0.13943335375021995	0.3679020425131055	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_2	253	-0.06822458968363528		exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_3	253	0.07934649843236682		exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_5	253	-0.10415888431503453	-0.5936551796018537	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_6	253	-0.06722125782729978	-0.23581453502774938	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5 IT_7	253	-0.09297260723407273		exclude_Multiome	exclude_Multiome__solo_Green	False
+L5/6 NP_1	253	0.0775502367151612	0.5287291499912499	exclude_Multiome	exclude_Multiome__solo_Green	False
+L5/6 NP_2	253	0.24287983381514106	1.9332598301843371	exclude_Multiome	exclude_Multiome__solo_Green	False
+L5/6 NP_3	253	0.09508280633087725	0.6827110563009886	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5/6 NP_4	253	0.057497774565404745		exclude_Multiome	exclude_Multiome__solo_Green	True
+L5/6 NP_6	253	0.2381209286400672	0.9977224171297816	exclude_Multiome	exclude_Multiome__solo_Green	True
+L5/6 NP_7-SEAAD	253	0.04407651343373821	0.7188365855805486	exclude_Multiome	exclude_Multiome__solo_Green	False
+L5/6 NP_8-SEAAD	253	-0.05324492290525805		exclude_Multiome	exclude_Multiome__solo_Green	False
+L5/6 NP_9-SEAAD	253	0.039500933066376295	0.3901221566698858	exclude_Multiome	exclude_Multiome__solo_Green	True
+L6 CT_1	253	-0.023746052854323484	-0.3748859653465255	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 CT_2	253	0.011678909935586172	0.43518039176121803	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 CT_3	253	0.023419480131646776		exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 CT_4	253	0.04276510172308503	0.1792251110383485	exclude_Multiome	exclude_Multiome__solo_Green	True
+L6 IT Car3_1	253	0.15321733641118607	0.5198586482800521	exclude_Multiome	exclude_Multiome__solo_Green	True
+L6 IT Car3_3	253	0.16792833168200472	4.499157765743831	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 IT_1	253	-0.019187804865211044	-0.16693248013418763	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 IT_2	253	-0.056013374456683		exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 IT_3-SEAAD	253	-0.06381723899806345		exclude_Multiome	exclude_Multiome__solo_Green	False
+L6 IT_4-SEAAD	253	0.024913426912488833		exclude_Multiome	exclude_Multiome__solo_Green	True
+L6b_1	253	0.04637583894830323		exclude_Multiome	exclude_Multiome__solo_Green	False
+L6b_2	253	-0.03177600977049425		exclude_Multiome	exclude_Multiome__solo_Green	False
+L6b_3	253	0.06441234221475955	0.20813843076791094	exclude_Multiome	exclude_Multiome__solo_Green	True
+L6b_4	253	0.09469233546508515	4.363902615735724	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6b_5	253	0.0650077613430644	1.7286053974971158	exclude_Multiome	exclude_Multiome__solo_Green	False
+L6b_6	253	0.09039120877497357	2.4641232831928583	exclude_Multiome	exclude_Multiome__solo_Green	False
+Lamp5_1	253	-0.0023112120339367974	-0.015598330843142192	exclude_Multiome	exclude_Multiome__solo_Green	True
+Lamp5_2	253	0.10797259874562355	0.7573731888093516	exclude_Multiome	exclude_Multiome__solo_Green	False
+Lamp5_3	253	0.09262542098026233	0.2456704272132807	exclude_Multiome	exclude_Multiome__solo_Green	True
+Lamp5_4	253	0.019138138660192334	0.08402860876811202	exclude_Multiome	exclude_Multiome__solo_Green	False
+Lamp5_5	253	0.18968160586106508	0.43184051955894404	exclude_Multiome	exclude_Multiome__solo_Green	True
+Lamp5_6	253	0.08514148952938892	0.22503072038238117	exclude_Multiome	exclude_Multiome__solo_Green	True
+Lamp5_Lhx6_1	253	0.09439450147697526		exclude_Multiome	exclude_Multiome__solo_Green	False
+Lamp5_Lhx6_3-SEAAD	253	0.01723286857769863		exclude_Multiome	exclude_Multiome__solo_Green	True
+Lymphocyte	253	0.16676035037224904	9.197306297955071	exclude_Multiome	exclude_Multiome__solo_Green	False
+Micro-PVM_1	253	0.09361205606468945	0.5692415967738857	exclude_Multiome	exclude_Multiome__solo_Green	True
+Micro-PVM_2	253	0.12724304756770688	0.38819069660915334	exclude_Multiome	exclude_Multiome__solo_Green	True
+Micro-PVM_2_1-SEAAD	253	0.45478671702580775	0.6450241165574647	exclude_Multiome	exclude_Multiome__solo_Green	True
+Micro-PVM_2_3-SEAAD	253	0.529415711438433	0.7436665241916303	exclude_Multiome	exclude_Multiome__solo_Green	True
+Micro-PVM_3-SEAAD	253	-0.05215739604806258	-1.5477557456182207	exclude_Multiome	exclude_Multiome__solo_Green	True
+Micro-PVM_4-SEAAD	253	0.13939423502221665	0.4609512368416084	exclude_Multiome	exclude_Multiome__solo_Green	True
+OPC_1	253	0.10281896506471255	0.34678331783431127	exclude_Multiome	exclude_Multiome__solo_Green	True
+OPC_2	253	0.3803653752019783	0.5110699881756475	exclude_Multiome	exclude_Multiome__solo_Green	True
+OPC_2_1-SEAAD	253	0.09407801393597669	0.3736508250220134	exclude_Multiome	exclude_Multiome__solo_Green	True
+OPC_2_2-SEAAD	253	0.5605733217793278	0.9257300597009438	exclude_Multiome	exclude_Multiome__solo_Green	True
+Oligo_1	253	0.08847746501554371	0.35523584641314276	exclude_Multiome	exclude_Multiome__solo_Green	True
+Oligo_2	253	0.09481349600672669	0.4821949871096402	exclude_Multiome	exclude_Multiome__solo_Green	True
+Oligo_2_1-SEAAD	253	-0.06465946080992169	-0.26896519613200637	exclude_Multiome	exclude_Multiome__solo_Green	False
+Oligo_3	253	0.13930599651685593	0.8347249633253767	exclude_Multiome	exclude_Multiome__solo_Green	True
+Oligo_4	253	-0.01158228865384716		exclude_Multiome	exclude_Multiome__solo_Green	False
+Oligo_5-SEAAD	253	0.13977917435845133	0.2549550190104977	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pax6_1	253	0.019622330528376194	0.12954349829036998	exclude_Multiome	exclude_Multiome__solo_Green	False
+Pax6_2	253	-0.048270311206545354		exclude_Multiome	exclude_Multiome__solo_Green	False
+Pax6_3	253	-0.04083388988897762	-0.28992200434661614	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pax6_4	253	0.017550125103283562	0.7347891972122829	exclude_Multiome	exclude_Multiome__solo_Green	False
+Pax6_6-SEAAD	253	-0.05129287010026637		exclude_Multiome	exclude_Multiome__solo_Green	True
+Pericyte_1	253	0.07241346262055524		exclude_Multiome	exclude_Multiome__solo_Green	True
+Pericyte_2-SEAAD	253	-0.058470936537974576	-1.4333596753234712	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_1	253	-0.003958067787001346	-0.16582326942409054	exclude_Multiome	exclude_Multiome__solo_Green	False
+Pvalb_10	253	0.0562204453255557		exclude_Multiome	exclude_Multiome__solo_Green	False
+Pvalb_12	253	0.011683045364670488	0.0836659278599029	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_13	253	0.1336937488140512	0.33456345296749046	exclude_Multiome	exclude_Multiome__solo_Green	False
+Pvalb_14	253	0.19098107581755308	0.566435071687569	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_15	253	-0.1754733411462248	-1.5321433048868751	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_2	253	0.10681360689267007	0.5182309251150615	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_3	253	0.05328944071067956	0.23978018102507231	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_5	253	0.31792809609377265	0.9219066498905942	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_6	253	-0.0910586251246309	-0.19493148163427276	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_7	253	0.017819658550393934	0.303864547974715	exclude_Multiome	exclude_Multiome__solo_Green	False
+Pvalb_8	253	0.10969013172847931	0.28815656607826273	exclude_Multiome	exclude_Multiome__solo_Green	True
+Pvalb_9	253	0.03094844172727734		exclude_Multiome	exclude_Multiome__solo_Green	False
+SMC-SEAAD	253	-0.02701161692763337		exclude_Multiome	exclude_Multiome__solo_Green	False
+Sncg_1	253	0.20977489242372227	0.9052358145171878	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sncg_2	253	0.07889106471248512		exclude_Multiome	exclude_Multiome__solo_Green	False
+Sncg_3	253	-0.04844688161697695	-0.12515246111928457	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sncg_4	253	0.03709659836095259	0.2088124897655586	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sncg_5	253	0.08475467894347888		exclude_Multiome	exclude_Multiome__solo_Green	True
+Sncg_6	253	0.012916797963900153	0.04691600278708511	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sncg_8	253	0.07943820316447535	0.47611503788084986	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst Chodl_1	253	0.10942790593698397	1.5902706879081316	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst Chodl_2	253	0.08346373130603936	2.5078304859080687	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst Chodl_3-SEAAD	253	0.21190852304630134	1.024241581633566	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_1	253	-0.02462991255714682	-0.2090145473573089	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_10	253	0.009477505014747579		exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_11	253	0.1520582818437522	0.3524256342344692	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_12	253	0.04656366251751884	0.1456742083965729	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_13	253	0.0037554415103871757	0.018654040543737378	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_19	253	0.07908186446959854	0.1294742778280131	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_2	253	0.07849281318218643	0.3144736388943377	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_20	253	0.15124979496780053	0.35205642506184887	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_22	253	0.1269207477879805	0.5361475645989563	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_23	253	0.2170257381112886	0.4685910259238952	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_25	253	0.20828381807898522	0.43231130250341404	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_3	253	0.07051055209572486	2.2044446733825236	exclude_Multiome	exclude_Multiome__solo_Green	True
+Sst_4	253	-0.11959622195781423	-1.4059728625779921	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_5	253	-0.001222819389197142		exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_7	253	-0.09589090912155566	-0.8461294883162663	exclude_Multiome	exclude_Multiome__solo_Green	False
+Sst_9	253	0.1848968320357118	0.8644529733192673	exclude_Multiome	exclude_Multiome__solo_Green	True
+VLMC_1	253	-0.03217995762434869	-0.306015264884086	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_1	253	0.06855782396854387		exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_11	253	0.06700631510288826	0.2647638618557699	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_12	253	0.029058456587407678		exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_13	253	0.05003864379687961	0.25046607673723664	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_14	253	-0.06633504323052075	-1.1135077579458876	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_15	253	0.07736057916554674		exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_16	253	0.06959007283175868	0.43742683257205617	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_18	253	0.049022401752716965		exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_19	253	-0.05082175480808775		exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_2	253	-0.03398240939646769		exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_21	253	-0.061798792478404356	-0.20522712234129936	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_23	253	0.014104638329205289	0.03202581621842441	exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_24-SEAAD	253	0.0038050293829108416	0.02197542268944513	exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_4	253	0.0439516909338424	0.23410782441223935	exclude_Multiome	exclude_Multiome__solo_Green	True
+Vip_5	253	0.02820816423884754		exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_6	253	0.09912085053537067	0.7872139533398198	exclude_Multiome	exclude_Multiome__solo_Green	False
+Vip_9	253	0.05689975231925754	1.7649010011807564	exclude_Multiome	exclude_Multiome__solo_Green	False
+Astro_1	253	0.14663551694856247	0.4888626164452199	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Astro_2	253	0.16781647453402512	0.3777236695587391	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Astro_3	253	0.08164111853127323		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Astro_4	253	0.12966807876721603	0.2534833810380677	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Astro_5	253	0.07254409744915223	0.18644731225965142	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Astro_6-SEAAD	253	0.41040990136762984	0.6827672298052502	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Chandelier_1	253	0.08812802265803585	0.8361533660591118	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Chandelier_2	253	0.1742481262536772	0.8118062188311799	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Endo_1	253	-0.02210140843987834	-0.6263854442109282	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Endo_2	253	0.07413456063639182		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Endo_3	253	0.0019687309410302565	0.0030693844976914086	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_1	253	0.027004878853530243	0.09388025387607374	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L2/3 IT_10	253	0.19659757780340706	0.6536474878426888	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_12	253	0.13894730239189515	0.33294649049629227	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_13	253	0.2357175547308686	1.2987264300819927	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_14-SEAAD	253	0.010681158718588041		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_2	253	0.053695152783043924	1.4117805931941574	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L2/3 IT_3	253	0.036341972582318235		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_5	253	0.09011368903308757	0.3425609813803136	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_6	253	-0.05645973954696665	-0.5363911627303218	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_7	253	-0.03800160761203695	-0.904939715835939	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L2/3 IT_8	253	0.02668623117315863		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L4 IT_1	253	0.17817227206434613	0.5209572072774983	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L4 IT_2	253	0.12248006243979018	1.5010393700388025	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L4 IT_3	253	0.06493202792171983	0.25622340120392706	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L4 IT_4	253	0.13980196229128614	0.5204174932890095	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 ET_2	253	-0.04919867538604513	-0.33474573942142066	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5 ET_4-SEAAD	253	0.07113656774038424	0.6507744476002758	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_1	253	-0.012560060089453973		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5 IT_10-SEAAD	253	0.18040428548213713	0.476005943498228	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_2	253	-0.02392159325079601		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_3	253	0.0001776223832670026		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_5	253	0.24529700123423295	1.3980740700242436	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_6	253	-0.09369434301735503	-0.32868304830194744	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5 IT_7	253	0.1271479242502581		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5/6 NP_1	253	-0.085029600169583	-0.5797226433606767	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5/6 NP_2	253	-0.185516722751456	-1.4766644981971175	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5/6 NP_3	253	0.11823091737003631	0.8489185121886765	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5/6 NP_4	253	-0.002400082757903568		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5/6 NP_6	253	0.1796501426378124	0.7527308732330737	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L5/6 NP_7-SEAAD	253	0.006913057548331741	0.11274391499761525	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5/6 NP_8-SEAAD	253	0.13646641033449455		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L5/6 NP_9-SEAAD	253	0.016343388580898652	0.16141183272203335	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L6 CT_1	253	0.03734765922416341	0.5896185512420588	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 CT_2	253	-0.005901636801374846	-0.21990721988779716	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 CT_3	253	-0.0030999690663735193		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 CT_4	253	0.043130374658444944	0.18075594061109437	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L6 IT Car3_1	253	0.055789304084246115	0.18929027803934312	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L6 IT Car3_3	253	0.1575534288486118	4.2211920158065945	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 IT_1	253	0.04356588457445643	0.37901996671018207	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 IT_2	253	0.05475937497058722		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 IT_3-SEAAD	253	0.08846514495148702		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6 IT_4-SEAAD	253	0.010839111378027075		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L6b_1	253	0.07527846535477654		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6b_2	253	0.0519227566430737		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6b_3	253	-0.039632391301489385	-0.12806588690050164	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+L6b_4	253	-0.029219586627297355	-1.3465866047901562	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6b_5	253	-0.05238334385585884	-1.3929126162386403	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+L6b_6	253	0.02058680965109611	0.5612098529870577	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Lamp5_1	253	-0.035988186671073445	-0.24288366186116636	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Lamp5_2	253	0.00037942925251025953	0.0026615043653646603	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Lamp5_3	253	0.1875257469528883	0.4973745855063121	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Lamp5_4	253	0.07971229474363942	0.349987705071544	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Lamp5_5	253	0.18300452934194475	0.4166390867154043	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Lamp5_6	253	0.1427841881217748	0.37738156672917467	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Lamp5_Lhx6_1	253	-0.009988902714898808		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Lamp5_Lhx6_3-SEAAD	253	0.0377187074786694		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Lymphocyte	253	0.024746840747346944	1.3648584555741097	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Micro-PVM_1	253	0.002680460320024627	0.016299497915155864	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Micro-PVM_2	253	0.1758226475810263	0.5363964267503617	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Micro-PVM_2_1-SEAAD	253	0.42830474869170965	0.6074647341262601	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Micro-PVM_2_3-SEAAD	253	0.5242888965810728	0.7364649234405153	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Micro-PVM_3-SEAAD	253	0.010975610226894602	0.3256980807609401	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Micro-PVM_4-SEAAD	253	0.26285819470458516	0.869223967144119	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+OPC_1	253	0.12865183291096358	0.43391128703007154	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+OPC_2	253	0.41334821688676815	0.555386694187318	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+OPC_2_1-SEAAD	253	0.09313708823943719	0.36991373866052135	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+OPC_2_2-SEAAD	253	0.5728178766104426	0.9459507017372794	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Oligo_1	253	0.18039524391239803	0.7242845073473566	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Oligo_2	253	0.3231153113951783	1.6432743224875033	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Oligo_2_1-SEAAD	253	0.1877810038498164	0.7811162341548775	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Oligo_3	253	0.024202467722253183	0.145021782887838	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Oligo_4	253	0.11531789562373897		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Oligo_5-SEAAD	253	0.22303630283166356	0.4068147139190752	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pax6_1	253	0.06340286901003345	0.4185756345979514	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pax6_2	253	0.0917513462255911		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pax6_3	253	0.030193117486897496	0.21437215908340584	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pax6_4	253	-0.03995069306726136	-1.672656890717834	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pax6_6-SEAAD	253	-0.01777519612727943		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pericyte_1	253	0.2611631356022124		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pericyte_2-SEAAD	253	0.1724947855240435	4.228546426875813	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_1	253	0.06920257610551184	2.8992422666614415	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pvalb_10	253	0.16067131190963505		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pvalb_12	253	0.16846924550087747	1.2064607557985143	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_13	253	0.1268144314824919	0.31734822651956784	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pvalb_14	253	0.18451598349617684	0.5472601088445285	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_15	253	0.1585092548895876	1.3840215958463489	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_2	253	0.06733999992830103	0.32671558872792283	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_3	253	0.06808176819168806	0.3063394639500955	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_5	253	0.26162030543120146	0.7586290808733503	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_6	253	0.05375089023155528	0.11506587824774936	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_7	253	0.1885871091179949	3.215826863569782	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Pvalb_8	253	0.08364968022966005	0.21974815991824817	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Pvalb_9	253	0.0746946734815773		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+SMC-SEAAD	253	0.07798721091093834		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sncg_1	253	0.08110361325826225	0.34998418809737214	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sncg_2	253	-0.10304025663021002		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sncg_3	253	0.13307970099733304	0.3437837802753096	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sncg_4	253	-0.0198848641729323	-0.11192961565366895	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sncg_5	253	0.1000371239640012		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sncg_6	253	0.051210908950882185	0.18600671418594333	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sncg_8	253	-0.03955905902542777	-0.237098299509941	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst Chodl_1	253	-0.006181824443602767	-0.08983790858719991	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst Chodl_2	253	-0.015316175212657473	-0.46020433695890334	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst Chodl_3-SEAAD	253	0.2152299545824955	1.0402954346877717	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_1	253	0.05131623580091568	0.4354802223971771	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_10	253	0.07940941832911244		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_11	253	0.16053772120670412	0.37207843945629704	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_12	253	0.0890153824742482	0.2784842230177997	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_13	253	-0.0281908025888201	-0.14002944074560514	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_19	253	0.21989360679966466	0.36001384300099043	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_2	253	0.14342122509699792	0.5746028549932591	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_20	253	0.1566793417939901	0.36469450398117004	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_22	253	0.1166059652619083	0.492575133557503	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_23	253	0.20542852972251419	0.44355091858896545	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_25	253	0.2010017312208678	0.4171966935836664	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_3	253	0.1268618300113169	3.9662132420171874	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Sst_4	253	-0.04728090792074346	-0.5558342259177923	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_5	253	0.01127110354164947		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_7	253	0.06271971989908237	0.5534310289860475	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Sst_9	253	0.21864858744915208	1.022253434260955	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+VLMC_1	253	-0.03453242245231879	-0.3283860260847491	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_1	253	0.026614573838951813		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_11	253	0.016938598082818876	0.0669299399010908	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_12	253	0.026080438804025982		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_13	253	-0.035799868267071856	-0.17919455589087208	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_14	253	-0.008299146371056991	-0.13931043711521332	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_15	253	0.11934176603033303		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_16	253	-0.0024252135586170735	-0.0152443221006737	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_18	253	0.016572204001431876		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_19	253	-0.03712592214950212		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_2	253	-0.07161728622586781		exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_21	253	-0.06286679026641728	-0.20877382776887482	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_23	253	-0.044032312452111665	-0.0999792205478709	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_24-SEAAD	253	0.09325263057484742	0.5385677132977252	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_4	253	-0.00735692777698764	-0.03918653229567517	exclude_Multiome	exclude_Multiome__solo_Mathys	True
+Vip_5	253	0.1016322820236164		exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_6	253	0.009258252333825536	0.07352868121453068	exclude_Multiome	exclude_Multiome__solo_Mathys	False
+Vip_9	253	-0.026544685376038685	-0.8233558124003124	exclude_Multiome	exclude_Multiome__solo_Mathys	False

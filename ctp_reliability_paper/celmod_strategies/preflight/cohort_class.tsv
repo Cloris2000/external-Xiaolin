@@ -1,0 +1,17 @@
+cohort	n_persons	n_age	median_age	q25	q75	cls	dx_top
+CommonMind_MSSM	329	328	75.0	62.75	84.25	aging_AD	Control 161, SCZ 148, BD 12, AffectiveDisorder 8
+Diverse_Rush2_DLPFC	213	212	86.0971937029432	78.63791923340176	90.7241615325	aging_AD	AD 105, Control 58, Other 28, MCI 18, OtherDementia 3
+Diverse_Rush2_STG	200	199	86.48596851471595	79.07597535934292	91.31690623	aging_AD	AD 100, Control 54, Other 24, MCI 18, OtherDementia 3
+LBP_liv_L	148	148	64.0	55.0	70.0	adult_psych	PD 115, ET 14, Dystonia 12, OCD 5, MDD 2
+LBP_liv_R	124	124	63.5	55.0	68.0	adult_psych	PD 105, Dystonia 8, ET 5, OCD 4, MDD 2
+LBP_pm	243	241	75.0	68.0	80.0	aging_AD	PD 132, Control 96, AD 14, ET 1
+LIBD_szControl_HBCC	230	230	41.0	20.0	52.75	adult_psych	Control 163, SCZ 67
+MSBB_FP	281	281	85.0	79.0	89.0	aging_AD	AD 139, Control 93, OtherDementia 28, MCI 12, PathAging 3
+MSBB_IFG	273	272	85.0	79.0	89.0	aging_AD	AD 138, Control 83, OtherDementia 29, MCI 13, PathAging 4
+MSBB_STG	273	272	85.0	79.0	89.0	aging_AD	AD 138, Control 84, OtherDementia 30, MCI 12, PathAging 4
+NABEC	247	247	47.0	25.5	81.0	adult_psych	Control 247
+NIMH_HBCC	386	386	43.5	25.0	53.0	adult_psych	Control 220, SCZ 96, BD 70
+ROSMAP	1108	1107	90.03696099	85.37029431895962	93.88637919499999	aging_AD	AD 468, Control 362, MCI 261, OtherDementia 17
+ROSMAP_FC	121	121	91.24435318	87.32101300479124	94.64476386	aging_AD	Control 63, AD 37, MCI 20, OtherDementia 1
+ROSMAP_PCC	661	660	89.95071868583162	85.34907597535934	94.02258727	aging_AD	AD 254, Control 242, MCI 154, OtherDementia 10, Other 1
+ROSMAP_TC	122	122	91.08829569	86.86105407255305	94.643394935	aging_AD	Control 62, AD 39, MCI 20, OtherDementia 1

@@ -1,0 +1,49 @@
+canonical_name	display_label	modality	consortium	cohort	region	current_labels_in_figures	figures_current	figures_all	source_key	note
+AMP-AD_ROSMAP_DLPFC_bulk	ROSMAP	bulk RNA-seq	AMP-AD	ROSMAP	DLPFC	ROSMAP; srcROSMAP; "ROSMAP x Green"	4	4, 5, 6	ROSMAP	Your example was AMP-AD_ROSMAP_bulk; region added because Fig 6e also uses ROSMAP PCC. Drop _DLPFC if you prefer the shorter form.
+AMP-AD_MSBB_frontal_bulk	MSBB	bulk RNA-seq	AMP-AD	MSBB	FP + IFG (BM10 + BM44)	MSBB; srcMSBB; "MSBB x PsychAD MSBB"; "Reference applied to MSBB bulk"	4	4, 5, 6c	MSBB	78_build_bulk.py pools frontal pole and inferior frontal gyrus into one matrix; distinct from the per-region MSBB_FP / MSBB_IFG below.
+CMC_DLPFC_bulk	CMC	bulk RNA-seq	CommonMind	CMC (MSSM + PITT + PENN)	DLPFC	CommonMind; "CommonMind x PsychAD MSBB"	4	4, 6	CommonMind	PsychENCODE prefix pending PI decision.
+NIMH_HBCC_bulk	HBCC	bulk RNA-seq	NIMH	HBCC	DLPFC	NIMH HBCC; NIMH_HBCC; HBCC; srcHBCC; "HBCC x PsychAD HBCC"	4	4, 5, 6	NIMH_HBCC	78_build_bulk.py keeps prefrontal tissue only.
+AMP-AD_ROSMAP_Green_snRNA	Green	snRNA-seq	AMP-AD	ROSMAP (Green et al. 2024)	DLPFC	Green; Green RADC; Green_DFC; Green_DFC_person	1, 3, 4, 7, 8	1, 2, 3, 4, 5, 6, 7, 8	Green_DFC_person	
+AMP-AD_ROSMAP_Mathys2023_snRNA	Mathys	snRNA-seq	AMP-AD	ROSMAP (Mathys et al. 2023)	DLPFC	Mathys; Mathys RADC; Mathys_DFC; Mathys_DFC_person	1, 3, 4, 7, 8	1, 2, 3, 4, 6, 7, 8	Mathys_DFC_person	Keep the year so it is not confused with Mathys 2019 below.
+AMP-AD_Diverse-Rush_DLPFC_snMultiome	Diverse_multiome	snMultiome (RNA used)	AMP-AD	Diverse Cohorts multiome, Rush/RADC arm (ROSMAP Diversity, 2025 release)	DLPFC	Multiome; Multiome 2025; Multiome2025; Multiome2025_DLPFC; Multiome RADC; Multiome_DFC; "AMP-AD Diverse multiome"	1, 3, 4, 7, 8	1, 2, 3, 4, 6, 7, 8	Multiome2025_DLPFC_DFC_person	Only the RNA modality is used. Site token chosen 2026-10-19 for parity with the Diverse bulk arms.
+AMP-AD_Diverse-Rush_STG_snMultiome	Diverse_multiome_STG	snMultiome (RNA used)	AMP-AD	Diverse Cohorts multiome, Rush/RADC arm (ROSMAP Diversity, 2025 release)	STG	Multiome2025 STG	7	7	Multiome2025_STG (atlas cells)	
+PsychAD_all_snRNA	PsychAD	snRNA-seq	PsychAD	MSBB + HBCC + ROSMAP arms pooled	DLPFC	PsychAD; PsychAD_full	1, 3, 4, 7, 8	1, 2, 3, 4, 7, 8	PsychAD_full_DFC_person	Used in the "Multiome x PsychAD" and "BrainSCOPE CMC x PsychAD" pairs, which feed the five-pair ICC used in Figs 1, 4, 7.
+PsychAD_MSBB_snRNA	PsychAD_MSBB	snRNA-seq	PsychAD	MSBB arm	DLPFC	PsychAD MSBB; PsychAD_MSBB_DFC; MSSM_PsychAD	1d (axis), 4	1d (axis), 4	PsychAD_MSBB_DFC	Fig 1d's "MSSM_PsychAD" axis is PsychAD restricted to the MSSM donors shared with BrainSCOPE CMC.
+PsychAD_HBCC_snRNA	PsychAD_HBCC	snRNA-seq	PsychAD	HBCC arm	DLPFC	PsychAD HBCC; PsychAD_HBCC_DFC	4	4	PsychAD_HBCC_DFC	
+BrainSCOPE_CMC_snRNA	BrainSCOPE_CMC	snRNA-seq	BrainSCOPE	CMC (MSSM donors)	DLPFC	BrainSCOPE CMC; BrainSCOPE_CMC; BrainSCOPE CMC_MSSM	1, 3, 4, 7, 8	1, 2, 3, 4, 7, 8	BrainSCOPE_CMC_DFC_person	PsychENCODE prefix pending PI decision. Same 91 donors' nuclei as Ruzicka's MSSM arm (independent reprocessing).
+BrainSCOPE_UCLA_snRNA	BrainSCOPE_UCLA	snRNA-seq	BrainSCOPE	UCLA-ASD	DLPFC	BrainSCOPE UCLA	3a	3a	BrainSCOPE_UCLA_DFC_person	Developmental ages; see manifest caution. PsychENCODE prefix pending PI decision.
+BrainSCOPE_MultiomeBrain_snMultiome	BrainSCOPE_Multiome	snMultiome (RNA used)	BrainSCOPE	MultiomeBrain	DLPFC	BrainSCOPE Multiome	3a	3a	BrainSCOPE_Multiome_DFC_person	PsychENCODE prefix pending PI decision.
+SEA-AD_DFC_snRNA	SEA-AD_DFC	snRNA-seq	SEA-AD	SEA-AD DFC 2026 (label-transfer reference)	DFC	SEA-AD DFC; SEAAD_DFC_2026; "SEA-AD snRNA-seq"	3a	3, 5c, 6d	SEAAD_DFC_2026	Fig 3 label changed from "SEA-AD DLPFC" to "SEA-AD DFC" on 2026-10-19. Also the label-transfer reference for every snRNA-seq dataset.
+SEA-AD_Multiregion_DFC_snRNA	SEA-AD_Multiregion_DFC	snRNA-seq	SEA-AD	SEA-AD Multiregion 2026	DFC	SEA-AD Multiregion (DFC vs MTG)	7	7	seaad_multiregion cache	
+SEA-AD_Multiregion_MTG_snRNA	SEA-AD_Multiregion_MTG	snRNA-seq	SEA-AD	SEA-AD Multiregion 2026	MTG	SEA-AD Multiregion (DFC vs MTG)	7	7	seaad_multiregion cache	
+PsychENCODE_Ruzicka_snRNA	Ruzicka	snRNA-seq	PsychENCODE (phase 2; SZBDMulti-Seq)	Ruzicka et al. 2024, MtSinai + McLean	DLPFC	Ruzicka; "PsychAD x Ruzicka"	3a, 3b, 3c	3a, 3b, 3c	Ruzicka_full_DFC_person	Named by first author on purpose: 91 of 140 donors are the same nuclei as BrainSCOPE CMC and 51 are also PsychAD MSBB people, so an MSSM-based name would imply independence. Pair excluded from the five-pair set 2026-10-05.
+Frohlich_OFC_snRNA	Frohlich	snRNA-seq	(single study)	Frohlich et al.	OFC	Frohlich	3a	3a	Frohlich_full_DFC_person	
+Batiuk_snRNA	Batiuk	snRNA-seq	(single study)	Batiuk et al.	DLPFC	Batiuk	3a	3a	Batiuk_full_DFC_person	
+IAC_Cain2023_snRNA	Cain_2023	snRNA-seq	SEA-AD IAC harmonized resource	Cain et al. 2023	DLPFC	Cain 2023	3a	3a	Cain_2023_DFC_person	
+IAC_Lau2020_snRNA	Lau_2020	snRNA-seq	SEA-AD IAC harmonized resource	Lau et al. 2020	DLPFC	Lau 2020	3a	3a	Lau_2020_DFC_person	
+IAC_Leng2021_snRNA	Leng_2021	snRNA-seq	SEA-AD IAC harmonized resource	Leng et al. 2021	DLPFC	Leng 2021	3a	3a	Leng_2021_DFC_person	
+IAC_Mathys2019_snRNA	Mathys_2019	snRNA-seq	SEA-AD IAC harmonized resource	Mathys et al. 2019	DLPFC	Mathys 2019	3a	3a	Mathys_2019_DFC_person	46 of 48 libraries are inside Mathys 2023.
+IAC_Morabito2021_snRNA	Morabito_2021	snRNA-seq	SEA-AD IAC harmonized resource	Morabito et al. 2021	DLPFC	Morabito 2021	3a	3a	Morabito_2021_DFC_person	
+IAC_Yang2022_snRNA	Yang_2022	snRNA-seq	SEA-AD IAC harmonized resource	Yang et al. 2022	DLPFC	Yang 2022	3a	3a	Yang_2022_DFC_person	
+IAC_Zhou2020_snRNA	Zhou_2020	snRNA-seq	SEA-AD IAC harmonized resource	Zhou et al. 2020	DLPFC	Zhou 2020	3a	3a	Zhou_2020_DFC_person	
+AMP-AD_ROSMAP_PCC_bulk	ROSMAP_PCC	bulk RNA-seq	AMP-AD	ROSMAP	PCC	ROSMAP PCC	-	6	ROSMAP_PCC	Not in current figures (Fig 6 only).
+AMP-AD_MSBB_FP_bulk	MSBB_FP	bulk RNA-seq	AMP-AD	MSBB	FP (BM10)	MSBB FP; "MSBB: FP, IFG, STG"	-	6	MSBB_FP	Not in current figures (Fig 6 only).
+AMP-AD_MSBB_IFG_bulk	MSBB_IFG	bulk RNA-seq	AMP-AD	MSBB	IFG (BM44)	MSBB IFG; MSBB_IFG	-	5, 6	MSBB_IFG	Not in current figures (Figs 5, 6 only).
+AMP-AD_MSBB_STG_bulk	MSBB_STG	bulk RNA-seq	AMP-AD	MSBB	STG (BM22)	MSBB STG; MSBB_STG	-	5, 6	MSBB_STG	Not in current figures (Figs 5, 6 only).
+AMP-AD_Mayo_TCX_bulk	Mayo_TCX	bulk RNA-seq	AMP-AD	Mayo	TCX	Mayo TCX	-	6	Mayo_TCX	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-MSSM_DLPFC_bulk	Diverse_MSSM_DLPFC	bulk RNA-seq	AMP-AD	Diverse Cohorts, MSSM arm	DLPFC	Diverse MSSM DLPFC	-	6	Diverse_MSSM_DLPFC	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-MSSM_STG_bulk	Diverse_MSSM_STG	bulk RNA-seq	AMP-AD	Diverse Cohorts, MSSM arm	STG	Diverse MSSM STG	-	6	Diverse_MSSM_STG	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-MayoEmory_DLPFC_bulk	Diverse_Mayo/Emory_DLPFC	bulk RNA-seq	AMP-AD	Diverse Cohorts, Mayo/Emory arm	DLPFC	Diverse MayoEmory DLPFC	-	6	Diverse_MayoEmory_DLPFC	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-MayoEmory_STG_bulk	Diverse_Mayo/Emory_STG	bulk RNA-seq	AMP-AD	Diverse Cohorts, Mayo/Emory arm	STG	Diverse MayoEmory STG	-	6	Diverse_MayoEmory_STG	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-Rush_DLPFC_bulk	Diverse_Rush_DLPFC	bulk RNA-seq	AMP-AD	Diverse Cohorts, Rush arm	DLPFC	Diverse Rush2 DLPFC	-	6	Diverse_Rush2_DLPFC	Not in current figures (Fig 6 only). "Rush2" in the source key is the pipeline's second Rush build; the site is Rush/RADC.
+AMP-AD_Diverse-Rush_STG_bulk	Diverse_Rush_STG	bulk RNA-seq	AMP-AD	Diverse Cohorts, Rush arm	STG	Diverse Rush2 STG	-	6	Diverse_Rush2_STG	Not in current figures (Fig 6 only).
+AMP-AD_Diverse-Columbia_DLPFC_bulk	Diverse_Columbia_DLPFC	bulk RNA-seq	AMP-AD	Diverse Cohorts, Columbia arm	DLPFC	Diverse Columbia DLPFC	-	6	Diverse_Columbia_DLPFC	Not in current figures (Fig 6 only).
+AMP-AD_HBTRC_microarray	HBTRC	microarray	AMP-AD	HBTRC	DLPFC	HBTRC	-	6	HBTRC	Not in current figures (Fig 6 only). Only microarray cohort; covariate file on disk is AMP-AD_HBTRC_MSSM_Covariates.
+PsychENCODE_BrainGVEX_bulk	BrainGVEX	bulk RNA-seq	PsychENCODE	BrainGVEX	DLPFC	GVEX	-	6	GVEX	Not in current figures (Fig 6 only).
+NABEC_FCTX_bulk	NABEC	bulk RNA-seq	NABEC	NABEC	frontal cortex	NABEC	-	6	NABEC	Not in current figures (Fig 6 only). No consortium above NABEC itself; uncorrected for RIN/PMI (210_build_wp1_bulk.py).
+GTEx_BA9_bulk	GTEx_BA9	bulk RNA-seq	GTEx	GTEx v10	BA9 frontal cortex	GTEx BA9 frz	-	6	GTEx_BA9_frz	Not in current figures (Fig 6 only). "_frz" marks the v10 freeze rebuild; not needed in a display name.
+GTEx_BA24_bulk	GTEx_BA24	bulk RNA-seq	GTEx	GTEx v10	BA24 anterior cingulate	GTEx BA24	-	6	GTEx_BA24	Not in current figures (Fig 6 only).
+GTEx_CTX_bulk	GTEx_cortex	bulk RNA-seq	GTEx	GTEx v10	Brain - Cortex	GTEx CTX	-	6	GTEx_CTX	Not in current figures (Fig 6 only).
+GTEx_CBL_bulk	GTEx_cerebellum	bulk RNA-seq	GTEx	GTEx v10	cerebellum	GTEx CBL	-	6	GTEx_CBL	Not in current figures (Fig 6 only). Negative-control region.
+PsychAD_ROSMAP_snRNA	PsychAD_ROSMAP	snRNA-seq	PsychAD	ROSMAP arm	DLPFC	PsychAD ROSMAP	-	(registry only)	PsychAD_ROSMAP_DFC	Not plotted on its own; listed for completeness.
+IAC_Olah2020_snRNA	Olah_2020	snRNA-seq	SEA-AD IAC harmonized resource	Olah et al. 2020	DLPFC	Olah_2020	-	(excluded from 3a)	Olah_2020_DFC_person	Microglia-enriched; excluded in fig3.R.

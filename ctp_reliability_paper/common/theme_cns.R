@@ -40,6 +40,29 @@ class_key <- function(compartment, reactive) {
   factor(fcase(reactive, "Reactive (-SEAAD)", compartment == "neu", "Neuronal",
                default = "Non-neuronal"), levels = names(CLASS_COL))
 }
+# ---- cohort display labels (common/cohort_names.tsv, 2026-10-27) -------------
+# cohort_label() maps any key a figure script already uses -- a canonical_name,
+# a wp3 source_key, or one of the labels listed in current_labels_in_figures --
+# to the figure-facing display_label. Unknown keys (e.g. "Green x Mathys" pair
+# labels) pass through unchanged, so it is safe to wrap an existing label vector.
+COHORT_TSV <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/ctp_reliability_paper/common/cohort_names.tsv"
+cohort_tab <- fread(COHORT_TSV, quote = "")
+.cohort_map <- local({
+  m <- cohort_tab[, {
+    keys <- c(canonical_name, source_key,
+              sub("(_full)?_DFC_person$", "", source_key),   # short() form of fig3/fig8
+              gsub('"', "", trimws(strsplit(current_labels_in_figures, ";")[[1]])))
+    .(key = unique(keys[nzchar(keys)]))
+  }, by = display_label]
+  m <- m[!grepl(" x ", key, fixed = TRUE)]   # pair labels are not datasets
+  m <- m[!duplicated(key)]                    # first (top-of-table) row wins
+  setNames(m$display_label, m$key)
+})
+cohort_label <- function(x) {
+  x <- as.character(x)
+  out <- unname(.cohort_map[x])
+  ifelse(is.na(out), x, out)
+}
 save_fig <- function(fig, path, height_in, width_mm = 183) {
   ggsave(paste0(path, ".pdf"), fig, width = width_mm / 25.4, height = height_in,
          bg = "white", device = cairo_pdf)

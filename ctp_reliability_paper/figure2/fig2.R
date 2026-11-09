@@ -1,17 +1,19 @@
 # Figure 2 -> SUPPLEMENT (2026-10-05): panel (a) moved into Fig 1a; this script now
 # supplies the supplementary nine-supertype Green x Mathys scatter grid.
 # Figure 2. Only a limited number of supertypes give a reliable snRNA-seq signal.
-#   (a) median symmetric ICC per supertype across the five independent matched-donor pairs
+#   (a) median symmetric ICC per supertype across the eight matched-donor pairs
 #   (b) donor-level CLR, Green vs Mathys (227 shared donors), for the nine
-#       supertypes with the highest median ICC (measured in >= 5 pairs)
+#       supertypes with the highest median ICC (measured in >= MIN_PAIRS_SHOW pairs)
 #
 # Metric (decision 2026-10-05): symmetric ICC = 2 cov / (var_a + var_b) of matched donors'
-# CLR values, from common/reliability_stats.py (donor caches; checked vs 114). Not icc_person_a.
+# CLR values, from common/reliability_stats.py. Not icc_person_a.
+# Pair set (2026-10-29): the eight pairs of common/reliability_stats.py, from the
+# registry composition counts (was five pairs from the wp3 donor caches).
 # Layout and styling follow compare_shreejoy_with_nextflow/fig7_combined.R.
 # Taxonomy: SEA-AD DFC 2026, reactive (-SEAAD) states included.
 # Inputs:
-#   common/data/reliability_summary.tsv   median/IQR of icc_sym over the 6 independent pairs
-#   data/fig2a_clr_green_mathys.tsv   from fig2a_clr_data.py (reproduces 114)
+#   common/data/reliability_summary.tsv   median/IQR of icc_sym over the eight pairs
+#   data/fig2a_clr_green_mathys.tsv   from fig2a_clr_data.py (reproduces pair_stats)
 #   taxonomy_DFC_2026.tsv            compartment and reactive_state
 # Run: /home/zhoux156/miniforge3/envs/test/bin/Rscript fig2.R
 
@@ -29,7 +31,7 @@ WL <- file.path(dirname(HERE), "common", "data", "reliability_summary.tsv")
 TAX <- "/project/rrg-shreejoy/zhoux156/shreejoy_pipeline/celltype-composition/refs/taxonomy_DFC_2026.tsv"
 
 N_SHOW <- 9
-MIN_PAIRS_SHOW <- 4   # measured in >= 4 of the 5 pairs
+MIN_PAIRS_SHOW <- 7   # measured in all but at most one of the 8 pairs (as Fig 1)
 
 # ---- style (fig7_combined.R) -------------------------------------------------
 NEU <- "#3C5488"
@@ -108,7 +110,7 @@ p_a <- ggplot(wl[order(as.integer(key))], aes(rank, median_icc_sym)) +
   scale_colour_manual(values = COL, name = NULL) +
   scale_x_continuous(expand = expansion(mult = c(0.02, 0.03))) +
   scale_y_continuous(expand = expansion(mult = c(0.04, 0.10))) +
-  labs(x = "Supertypes", y = "Intraclass correlation (ICC)\nacross five snRNA-seq pairs") +
+  labs(x = "Supertypes", y = "Intraclass correlation (ICC)\nacross eight snRNA-seq pairs") +
   guides(
     fill = guide_legend(nrow = 1, override.aes = list(size = PT_SIZE, stroke = 0.4)),
     colour = guide_legend(nrow = 1)) +

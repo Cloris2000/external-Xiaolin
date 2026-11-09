@@ -1,0 +1,9 @@
+panel	family	ref	other	n_types	paired_diff	p
+b	exclude_Green	exclude_Green__cons_Mathys_Multiome	exclude_Green__solo_Mathys	68	0.03459324036007007	0.026137098007560866
+b	exclude_Green	exclude_Green__cons_Mathys_Multiome	exclude_Green__solo_Multiome	68	0.07676129507008739	1.475994972536019e-05
+b	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	exclude_Mathys__solo_Green	68	-0.005119601759447673	0.902735027484961
+b	exclude_Mathys	exclude_Mathys__cons_Green_Multiome	exclude_Mathys__solo_Multiome	68	0.047562190007923465	4.589471341816648e-05
+b	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	exclude_Multiome__solo_Green	65	0.023202660637605788	0.022760850588277606
+b	exclude_Multiome	exclude_Multiome__cons_Green_Mathys	exclude_Multiome__solo_Mathys	65	0.007045616940036414	0.5630333649970041
+c	MSBB harness	production consensus	solo Green (reference)	75	0.12581244577613687	3.986283978533813e-05
+c	MSBB harness	production consensus	solo Mathys (reference)	75	0.17808118792282904	7.920320091868659e-07

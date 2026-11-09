@@ -17,16 +17,28 @@ rebuilt exactly as wp3lib.decompose does (see fig2a_clr_data.py); r, icc_sym
 and icc_person_a are checked against 114 for every pair and level, which proves
 the donors and the CLR are the ones behind the published numbers.
 
-Inputs (read-only): /scratch/shreejoy/cell_type_bias/wp3/
-  cache/<dataset>_cells.parquet      per-nucleus donor / supertype / subclass / class
-  results/114_pair_percelltype_{subclass,supertype}.csv   for the check
+Pair set (decision 2026-10-29, Shreejoy's 2026-10-28 overlap handoff): the eight
+snRNA-seq study pairs sharing >= 50 registry persons. The two PsychAD pairs are
+named by the PsychAD arm that holds the shared people (PsychAD_ROSMAP for
+Multiome, PsychAD_MSBB for BrainSCOPE CMC): the same 87 and 54 persons as the
+earlier PsychAD_full pairs (checked 2026-10-29 through legacy_ids.tsv). New:
+CUIMC2 x Multiome, CUIMC2 x Mathys, Catching_2026_HBCC x PsychAD_HBCC.
+
+Inputs (read-only):
+  /scratch/shreejoy/composition/results_2026-10-21c/counts/<dataset>__supertype.parquet
+      donor (registry person_id) x supertype nucleus counts, QC-passing nuclei of the
+      cleaned snRNA vintage 2026-10-13 (byte-identical to results_2026-10-13 for every
+      dataset used here; totals equal the wp3 per-nucleus caches, checked 2026-10-29).
+      Replaces the wp3 caches, which have no CUIMC2 / Catching_2026 / PsychAD arms.
+  /scratch/shreejoy/cell_type_bias/wp3/results/114_pair_percelltype_{subclass,supertype}.csv
+      for the check on the five pairs 114 covers (the three new pairs have no 114 row)
 Outputs (data/ next to this script):
   pair_stats_percelltype.tsv   per pair x level x cell type: n_donors, icc_sym, rho, r,
                                icc_person_a
   reliability_summary.tsv      per level x cell type: n_pairs; median/IQR/min of icc_sym;
                                medians of rho, r, icc_person_a
                                (types measured in >= MIN_PAIRS pairs, as 117_whitelist)
-Run (login node is fine, ~1 min wall, ~6 GB RAM for the PsychAD cache):
+Run (login node is fine, < 1 min; count tables only):
   PYTHONNOUSERSITE=1 /home/zhoux156/miniforge3/envs/brisc/bin/python reliability_stats.py
 """
 from pathlib import Path
@@ -35,32 +47,52 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
-CACHE = Path("/scratch/shreejoy/cell_type_bias/wp3/cache")
+COUNTS = Path("/scratch/shreejoy/composition/results_2026-10-21c/counts")
 RESULTS = Path("/scratch/shreejoy/cell_type_bias/wp3/results")
 TAX = Path("/project/rrg-shreejoy/zhoux156/shreejoy_pipeline/celltype-composition/"
            "refs/taxonomy_DFC_2026.tsv")
 OUT = Path(__file__).resolve().parent / "data"
 
-# (dataset a, dataset b, label) in the order of 114_pairs_dfc.py; a is the 114 reference
+# (dataset a, dataset b, label); the first five in the order of 114_pairs_dfc.py, a is
+# the 114 reference. Datasets are composition count-table ids (registry dataset_id).
 PAIRS = [
-    ("Green_DFC_person", "Mathys_DFC_person", "Green x Mathys"),
-    ("Green_DFC_person", "Multiome2025_DLPFC_DFC_person", "Green x Multiome"),
-    ("Mathys_DFC_person", "Multiome2025_DLPFC_DFC_person", "Mathys x Multiome"),
-    ("Multiome2025_DLPFC_DFC_person", "PsychAD_full_DFC_person", "Multiome x PsychAD"),
-    ("BrainSCOPE_CMC_DFC_person", "PsychAD_full_DFC_person", "BrainSCOPE CMC x PsychAD"),
-    # ("PsychAD_full_DFC_person", "Ruzicka_full_DFC_person",
-    #  "PsychAD x Ruzicka (MSSM2 x MSSM1)"),   # excluded 2026-10-05, see header
+    ("Green", "Mathys", "Green x Mathys"),
+    ("Green", "Multiome2025_DLPFC", "Green x Multiome"),
+    ("Mathys", "Multiome2025_DLPFC", "Mathys x Multiome"),
+    ("Multiome2025_DLPFC", "PsychAD_ROSMAP", "Multiome x PsychAD ROSMAP"),
+    ("BrainSCOPE_CMC", "PsychAD_MSBB", "BrainSCOPE CMC x PsychAD MSBB"),
+    ("CUIMC2", "Multiome2025_DLPFC", "CUIMC2 x Multiome"),
+    ("CUIMC2", "Mathys", "CUIMC2 x Mathys"),
+    ("Catching_2026_HBCC", "PsychAD_HBCC", "Catching HBCC x PsychAD HBCC"),
+    # ("PsychAD_full", "Ruzicka_full", "PsychAD x Ruzicka (MSSM2 x MSSM1)"),
+    #   excluded 2026-10-05, see header
 ]
+# pair label in 114_pair_percelltype_*.csv, for the pairs 114 computed (PsychAD_full there)
+REF_114 = {"Green x Mathys": "Green x Mathys", "Green x Multiome": "Green x Multiome",
+           "Mathys x Multiome": "Mathys x Multiome",
+           "Multiome x PsychAD ROSMAP": "Multiome x PsychAD",
+           "BrainSCOPE CMC x PsychAD MSBB": "BrainSCOPE CMC x PsychAD"}
 PSEUDO = 0.5
 NEURONAL_PREFIX = "Neuronal"
 MIN_DONORS = 40   # MIN_SHARED in 114_pairs_dfc.py
 MIN_PAIRS = 2     # as 117_whitelist_dfc.py
 
 
-def count_grid(cells, level):
-    grp = np.where(cells.cls.str.startswith(NEURONAL_PREFIX), "neu", "glia")
-    t = pd.crosstab(cells.donor, [grp, cells[level]])
-    return {g: t[g] for g in ("neu", "glia") if g in t.columns.get_level_values(0)}
+def count_grid(counts, level):
+    """donor x type counts per compartment, as the former per-nucleus crosstab: only
+    types with >= 1 nucleus in the dataset (an all-zero column would shift the CLR)."""
+    tax = taxonomy().set_index("supertype_label")
+    counts = counts.loc[:, counts.sum(axis=0) > 0]
+    grp = np.where(tax.loc[counts.columns, "class_label"].str.startswith(NEURONAL_PREFIX),
+                   "neu", "glia")
+    out = {}
+    for g in ("neu", "glia"):
+        t = counts.loc[:, grp == g]
+        if level == "subclass":
+            t = t.T.groupby(tax.loc[t.columns, "subclass_label"].values).sum().T
+        if t.shape[1]:
+            out[g] = t.sort_index(axis=1)
+    return out
 
 
 def clr(counts):
@@ -70,16 +102,22 @@ def clr(counts):
     return L - L.mean(axis=1, keepdims=True)
 
 
-def pair_stats(ca, cb, level, pair):
-    shared = sorted(set(ca.donor) & set(cb.donor))
+def clr_blocks(ca, cb, level):
+    """Per compartment: (group, types, donors, CLR a, CLR b) over the shared donors with
+    > 0 nuclei of that compartment in both datasets. Also used by the figure scripts."""
+    shared = sorted(set(ca.index) & set(cb.index))
     gA, gB = count_grid(ca, level), count_grid(cb, level)
-    rows = []
     for grp in sorted(set(gA) & set(gB)):
         types = [c for c in gA[grp].columns if c in gB[grp].columns]
         dA = gA[grp].reindex(index=shared, columns=types).fillna(0).values
         dB = gB[grp].reindex(index=shared, columns=types).fillna(0).values
         keep = (dA.sum(1) > 0) & (dB.sum(1) > 0)
-        yA, yB = clr(dA[keep]), clr(dB[keep])
+        yield grp, types, np.array(shared)[keep], clr(dA[keep]), clr(dB[keep])
+
+
+def pair_stats(ca, cb, level, pair):
+    rows = []
+    for grp, types, _, yA, yB in clr_blocks(ca, cb, level):
         for j, ct in enumerate(types):
             a, b = yA[:, j], yB[:, j]
             ok = np.isfinite(a) & np.isfinite(b)
@@ -98,8 +136,11 @@ def pair_stats(ca, cb, level, pair):
 
 
 def check_against_114(st, level, pair):
+    if pair not in REF_114:
+        print(f"  {pair} {level}: {len(st)} types (new pair, no 114 reference)")
+        return
     ref = pd.read_csv(RESULTS / f"114_pair_percelltype_{level}.csv")
-    ref = ref[ref.pair == pair][["cell_type", "r_cross_study", "icc_person_a", "n_donors",
+    ref = ref[ref.pair == REF_114[pair]][["cell_type", "r_cross_study", "icc_person_a", "n_donors",
                                  "v_person", "v_total_a", "v_total_b"]]
     ref["icc_sym_114"] = 2 * ref.v_person / (ref.v_total_a + ref.v_total_b)
     m = st.merge(ref, on="cell_type", how="outer", indicator=True, suffixes=("", "_114"))
@@ -108,22 +149,38 @@ def check_against_114(st, level, pair):
     d = max((m.r - m.r_cross_study).abs().max(),
             (m.icc_person_a - m.icc_person_a_114).abs().max(),
             (m.icc_sym - m.icc_sym_114).abs().max())
-    if d > 1e-9 or (m.n_donors != m.n_donors_114).any():
-        raise SystemExit(f"{pair} {level}: r/ICC do not reproduce 114 (max |diff| = {d})")
-    print(f"  {pair} {level}: {len(st)} types, r, icc_sym and icc_person_a reproduce 114 "
-          f"(max |diff| = {d:.1e})")
+    # 114 read the wp3 caches; the registry counts relabel ~1.5% of Green nuclei and add a
+    # few later-resolved donors, so agreement is close but not exact: report, don't abort
+    dd = (m.icc_sym - m.icc_sym_114).abs()
+    print(f"  {pair} {level}: {len(st)} types vs 114: max |diff| r/ICC {d:.1e}, "
+          f"median |diff| icc_sym {dd.median():.1e}, n_donors differ in "
+          f"{int((m.n_donors != m.n_donors_114).sum())} types "
+          f"({int(m.n_donors.min())}-{int(m.n_donors.max())} here vs "
+          f"{int(m.n_donors_114.min())}-{int(m.n_donors_114.max())} in 114)")
+
+
+_TAX = None
+
+
+def taxonomy():
+    global _TAX
+    if _TAX is None:
+        _TAX = pd.read_csv(TAX, sep="\t")
+    return _TAX
 
 
 def load(name):
-    c = pd.read_parquet(CACHE / f"{name}_cells.parquet",
-                        columns=["donor", "supertype", "subclass", "cls"])
-    c["donor"] = c["donor"].astype(str)
-    return c
+    """donor (person_id) x supertype label counts for one dataset."""
+    c = pd.read_parquet(COUNTS / f"{name}__supertype.parquet")
+    c = c.rename(columns=dict(zip(taxonomy().supertype_id, taxonomy().supertype_label)))
+    assert c.columns.isin(taxonomy().supertype_label).all(), name
+    c.index = c.index.astype(str)
+    return c[c.sum(axis=1) > 0]
 
 
 def main():
     OUT.mkdir(exist_ok=True)
-    tax = pd.read_csv(TAX, sep="\t")
+    tax = taxonomy()
     st2sc = dict(zip(tax.supertype_label, tax.subclass_label))
 
     cache, out = {}, []
@@ -131,9 +188,9 @@ def main():
         for n in (a_name, b_name):
             if n not in cache:
                 cache[n] = load(n)
-                print(f"{n}: {cache[n].donor.nunique()} donors, {len(cache[n]):,} nuclei")
+                print(f"{n}: {len(cache[n])} donors, {int(cache[n].values.sum()):,} nuclei")
         ca, cb = cache[a_name], cache[b_name]
-        print(f"{pair}: shared donors {len(set(ca.donor) & set(cb.donor))}")
+        print(f"{pair}: shared donors {len(set(ca.index) & set(cb.index))}")
         for level in ("subclass", "supertype"):
             st = pair_stats(ca, cb, level, pair)
             check_against_114(st, level, pair)

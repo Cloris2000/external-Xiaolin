@@ -27,6 +27,7 @@ Outputs (data/):
                              CLR and depth sensitivity gamma (68's design)
   fig3_ad_donor.tsv          donor depth and CERAD for the AD datasets
 """
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -49,15 +50,15 @@ DATASETS = [
     "PsychAD_full_DFC_person", "Ruzicka_full_DFC_person", "Yang_2022_DFC_person",
     "Zhou_2020_DFC_person",
 ]
-# the six independent pairs of 114/117
-PAIRS = [
-    ("Green_DFC_person", "Mathys_DFC_person", "Green x Mathys"),
-    ("Green_DFC_person", "Multiome2025_DLPFC_DFC_person", "Green x Multiome"),
-    ("Mathys_DFC_person", "Multiome2025_DLPFC_DFC_person", "Mathys x Multiome"),
-    ("Multiome2025_DLPFC_DFC_person", "PsychAD_full_DFC_person", "Multiome x PsychAD"),
-    ("BrainSCOPE_CMC_DFC_person", "PsychAD_full_DFC_person", "BrainSCOPE CMC x PsychAD"),
-    ("PsychAD_full_DFC_person", "Ruzicka_full_DFC_person", "PsychAD x Ruzicka"),
-]
+# Matched-donor pairs (b, c): the eight pairs of common/reliability_stats.py since
+# 2026-10-29 (was the six of 114/117, incl. PsychAD x Ruzicka). Their donor x
+# supertype counts come from the registry composition tables (reliability_stats.load,
+# person_id keys), because the wp3 caches have no CUIMC2, Catching_2026 or PsychAD
+# arms. Panel a (per-dataset profiles) and the AD tables still read the wp3 caches
+# (the AD phenotypes are keyed by wp3 TLP ids).
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "common"))
+import reliability_stats as rs  # noqa: E402
+PAIRS = rs.PAIRS
 AD_DATASETS = ["Green_DFC_person", "Mathys_DFC_person"]
 PHENO = "cerad_ad"
 
@@ -96,6 +97,21 @@ def class_depth(tab, cols, mu):
     return out
 
 
+def donor_depth(t, mu, pwm, cls, dataset):
+    """Per-donor depth scores from a donor x supertype count table (as panel a)."""
+    have = [c for c in t.columns if c in mu.index]
+    T = t[have][t[have].sum(axis=1) >= MIN_CELLS]
+    P = T.div(T.sum(axis=1), axis=0)
+    exc = [c for c in have if cls[c] == "Excitatory"]
+    inh = [c for c in have if cls[c] == "Inhibitory"]
+    return pd.DataFrame({
+        "dataset": dataset, "donor": T.index, "n_nuclei": T.sum(axis=1).values,
+        "depth_all": P.values @ mu[have].values,
+        "depth_exc": class_depth(T, exc, mu), "depth_inh": class_depth(T, inh, mu),
+        "wm_frac": P.values @ pwm[have].values,
+    })
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     tax = pd.read_csv(TAX, sep="\t").set_index("supertype_label")
@@ -123,14 +139,7 @@ def main():
         dropped = 1 - t[have].values.sum() / t.values.sum()
         T = t[have][t[have].sum(axis=1) >= MIN_CELLS]
         P = T.div(T.sum(axis=1), axis=0)
-        exc = [c for c in have if cls[c] == "Excitatory"]
-        inh = [c for c in have if cls[c] == "Inhibitory"]
-        d = pd.DataFrame({
-            "dataset": short(name), "donor": T.index, "n_nuclei": T.sum(axis=1).values,
-            "depth_all": P.values @ mu[have].values,
-            "depth_exc": class_depth(T, exc, mu), "depth_inh": class_depth(T, inh, mu),
-            "wm_frac": P.values @ pwm[have].values,
-        })
+        d = donor_depth(t, mu, pwm, cls, short(name))
         donor_rows.append(d)
         B = np.exp(-((GRID[None, :] - mu[have].values[:, None]) ** 2)
                    / (2 * sig[have].values[:, None] ** 2))
@@ -144,10 +153,13 @@ def main():
     pd.concat(prof_rows).to_csv(OUT / "fig3_dataset_profiles.tsv", sep="\t", index=False)
 
     # ---- matched donors: depth mismatch vs composition agreement -------------
-    Dk = D.set_index(["dataset", "donor"])
+    # registry count tables for the pair datasets; depth scored exactly as panel a
+    rtabs = {n: rs.load(n) for n in sorted({x for p in PAIRS for x in p[:2]})}
+    Dk = pd.concat([donor_depth(t, mu, pwm, cls, n) for n, t in rtabs.items()]
+                   ).set_index(["dataset", "donor"])
     pair_rows = []
     for a, b, label in PAIRS:
-        ta, tb = tabs[a], tabs[b]
+        ta, tb = rtabs[a], rtabs[b]
         shared = sorted(set(ta.index) & set(tb.index))
         inh = [c for c in ta.columns if c in tb.columns and cls[c] == "Inhibitory"]
         A, Bm = ta.loc[shared, inh].values.astype(float), tb.loc[shared, inh].values.astype(float)
@@ -161,14 +173,14 @@ def main():
         zb = (zb - zb.mean(0)) / zb.std(0, ddof=1)
         agree = np.array([np.corrcoef(za[i], zb[i])[0, 1] for i in range(len(za))])
         don = np.array(shared)[ok]
-        g = lambda ds, col: Dk[col].reindex(list(zip([short(ds)] * len(don), don))).values
+        g = lambda ds, col: Dk[col].reindex(list(zip([ds] * len(don), don))).values
         pair_rows.append(pd.DataFrame({
             "pair": label, "donor": don, "n_inh_types": int(keep.sum()),
             "agree_inh": agree,
             "depth_exc_a": g(a, "depth_exc"), "depth_exc_b": g(b, "depth_exc"),
             "depth_all_a": g(a, "depth_all"), "depth_all_b": g(b, "depth_all"),
             "wm_a": g(a, "wm_frac"), "wm_b": g(b, "wm_frac")}))
-        print(f"  {label:26s} {ok.sum():4d} donors, {keep.sum()} inhibitory types")
+        print(f"  {label:30s} {ok.sum():4d} donors, {keep.sum()} inhibitory types")
     pd.concat(pair_rows).to_csv(OUT / "fig3_pair_donor.tsv", sep="\t", index=False)
 
     # ---- AD: CERAD effect vs depth sensitivity (68's design, DFC) ------------

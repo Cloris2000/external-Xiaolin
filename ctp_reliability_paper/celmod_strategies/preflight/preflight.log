@@ -1,0 +1,154 @@
+[legacy TLP] 1,108 of 1,113 ids translated; 5 are now more than one person
+  bulk ROSMAP: 1113 samples -> 1108 persons
+[legacy TLP] 661 of 666 ids translated; 5 are now more than one person
+  bulk ROSMAP_PCC: 666 samples -> 661 persons
+[legacy TLP] 121 of 123 ids translated; 2 are now more than one person
+  bulk ROSMAP_FC: 123 samples -> 121 persons
+[legacy TLP] 122 of 124 ids translated; 2 are now more than one person
+  bulk ROSMAP_TC: 124 samples -> 122 persons
+[legacy TLP] 281 of 281 ids translated (1 split ids resolved within bulk_MSBB)
+  bulk MSBB_FP: 281 samples -> 281 persons
+[legacy TLP] 273 of 273 ids translated (1 split ids resolved within bulk_MSBB)
+  bulk MSBB_IFG: 273 samples -> 273 persons
+[legacy TLP] 273 of 273 ids translated (1 split ids resolved within bulk_MSBB)
+  bulk MSBB_STG: 273 samples -> 273 persons
+[legacy TLP] 386 of 386 ids translated
+  bulk NIMH_HBCC: 386 samples -> 386 persons
+[legacy TLP] 588 of 588 ids translated
+  bulk CommonMind_MSSM: 588 samples -> 329 persons
+[legacy TLP] 214 of 214 ids translated
+  bulk Diverse_Rush2_DLPFC: 214 samples -> 213 persons
+[legacy TLP] 201 of 201 ids translated
+  bulk Diverse_Rush2_STG: 201 samples -> 200 persons
+[registry 2026-10-21c] bulk_LBP: 148 of 148 ids resolved
+  bulk LBP_liv_L: 148 samples -> 148 persons
+[registry 2026-10-21c] bulk_LBP: 124 of 124 ids resolved
+  bulk LBP_liv_R: 124 samples -> 124 persons
+[registry 2026-10-21c] bulk_LBP: 243 of 243 ids resolved
+  bulk LBP_pm: 243 samples -> 243 persons
+[registry 2026-10-21c] LIBD_szControl_HBCC: 230 of 230 ids resolved
+  bulk LIBD_szControl_HBCC: 230 samples -> 230 persons
+[legacy TLP] 247 of 247 ids translated (3 split ids resolved within bulk_NABEC)
+  bulk NABEC: 247 samples -> 247 persons
+
+== matched people per pair (fit floor 90, score floor 50) ==
+               bulk               snrna     kind  n_matched  n_bulk  n_snrna role_by_floor
+             ROSMAP               Green existing        426    1108      437          both
+             ROSMAP              Mathys existing        384    1108      406          both
+             ROSMAP  Multiome2025_DLPFC existing        269    1108      412          both
+             ROSMAP    Multiome2025_STG existing        273    1108      420          both
+         ROSMAP_PCC               Green existing        273     661      437          both
+         ROSMAP_PCC              Mathys existing        243     661      406          both
+         ROSMAP_PCC  Multiome2025_DLPFC existing        172     661      412          both
+         ROSMAP_PCC    Multiome2025_STG existing        174     661      420          both
+          ROSMAP_FC               Green existing         15     121      437          none
+          ROSMAP_FC              Mathys existing          6     121      406          none
+          ROSMAP_FC  Multiome2025_DLPFC existing         37     121      412          none
+          ROSMAP_FC    Multiome2025_STG existing         35     121      420          none
+          ROSMAP_TC               Green existing         15     122      437          none
+          ROSMAP_TC              Mathys existing          6     122      406          none
+          ROSMAP_TC  Multiome2025_DLPFC existing         37     122      412          none
+          ROSMAP_TC    Multiome2025_STG existing         35     122      420          none
+            MSBB_FP        PsychAD_MSBB existing        245     281     1042          both
+           MSBB_IFG        PsychAD_MSBB existing        242     273     1042          both
+           MSBB_STG        PsychAD_MSBB existing        243     273     1042          both
+          NIMH_HBCC        PsychAD_HBCC existing        252     386      300          both
+    CommonMind_MSSM        PsychAD_MSBB existing        203     329     1042          both
+    CommonMind_MSSM      BrainSCOPE_CMC existing         97     329      100          both
+Diverse_Rush2_DLPFC      PsychAD_ROSMAP existing        136     213      151          both
+Diverse_Rush2_DLPFC  Multiome2025_DLPFC existing         99     213      412          both
+Diverse_Rush2_DLPFC    Multiome2025_STG existing        103     213      420          both
+  Diverse_Rush2_STG      PsychAD_ROSMAP existing        129     200      151          both
+  Diverse_Rush2_STG  Multiome2025_DLPFC existing         99     200      412          both
+  Diverse_Rush2_STG    Multiome2025_STG existing        103     200      420          both
+          LBP_liv_L             LBP_liv existing          0     148       20          none
+          LBP_liv_R             LBP_liv existing          0     124       20          none
+             LBP_pm              LBP_pm existing         18     243       19          none
+LIBD_szControl_HBCC        PsychAD_HBCC existing        148     230      300          both
+             ROSMAP              CUIMC2      new        236    1108      237          both
+         ROSMAP_PCC              CUIMC2      new        164     661      237          both
+          NIMH_HBCC  Catching_2026_HBCC      new         89     386      152        target
+LIBD_szControl_HBCC  Catching_2026_HBCC      new         63     230      152        target
+              NABEC Catching_2026_NABEC      new        198     247      198          both
+
+== within-bulk snRNA overlap (a trains -> b scored on b_only; and reverse) ==
+               bulk                  a                  b  n_a  n_b  shared  b_only  a_only
+    CommonMind_MSSM       PsychAD_MSBB     BrainSCOPE_CMC  203   97      54      43     149
+Diverse_Rush2_DLPFC     PsychAD_ROSMAP Multiome2025_DLPFC  136   99      84      15      52
+Diverse_Rush2_DLPFC     PsychAD_ROSMAP   Multiome2025_STG  136  103      86      17      50
+Diverse_Rush2_DLPFC Multiome2025_DLPFC   Multiome2025_STG   99  103      97       6       2
+  Diverse_Rush2_STG     PsychAD_ROSMAP Multiome2025_DLPFC  129   99      84      15      45
+  Diverse_Rush2_STG     PsychAD_ROSMAP   Multiome2025_STG  129  103      86      17      43
+  Diverse_Rush2_STG Multiome2025_DLPFC   Multiome2025_STG   99  103      97       6       2
+LIBD_szControl_HBCC       PsychAD_HBCC Catching_2026_HBCC  148   63      40      23     108
+          NIMH_HBCC       PsychAD_HBCC Catching_2026_HBCC  252   89      59      30     193
+             ROSMAP              Green             Mathys  426  384     223     161     203
+             ROSMAP              Green Multiome2025_DLPFC  426  269     101     168     325
+             ROSMAP              Green   Multiome2025_STG  426  273     105     168     321
+             ROSMAP              Green             CUIMC2  426  236      20     216     406
+             ROSMAP             Mathys Multiome2025_DLPFC  384  269      90     179     294
+             ROSMAP             Mathys   Multiome2025_STG  384  273      93     180     291
+             ROSMAP             Mathys             CUIMC2  384  236      67     169     317
+             ROSMAP Multiome2025_DLPFC   Multiome2025_STG  269  273     259      14      10
+             ROSMAP Multiome2025_DLPFC             CUIMC2  269  236      73     163     196
+             ROSMAP   Multiome2025_STG             CUIMC2  273  236      73     163     200
+          ROSMAP_FC              Green             Mathys   15    6       4       2      11
+          ROSMAP_FC              Green Multiome2025_DLPFC   15   37       9      28       6
+          ROSMAP_FC              Green   Multiome2025_STG   15   35       9      26       6
+          ROSMAP_FC             Mathys Multiome2025_DLPFC    6   37       2      35       4
+          ROSMAP_FC             Mathys   Multiome2025_STG    6   35       2      33       4
+          ROSMAP_FC Multiome2025_DLPFC   Multiome2025_STG   37   35      35       0       2
+         ROSMAP_PCC              Green             Mathys  273  243     148      95     125
+         ROSMAP_PCC              Green Multiome2025_DLPFC  273  172      69     103     204
+         ROSMAP_PCC              Green   Multiome2025_STG  273  174      72     102     201
+         ROSMAP_PCC              Green             CUIMC2  273  164      20     144     253
+         ROSMAP_PCC             Mathys Multiome2025_DLPFC  243  172      60     112     183
+         ROSMAP_PCC             Mathys   Multiome2025_STG  243  174      62     112     181
+         ROSMAP_PCC             Mathys             CUIMC2  243  164      47     117     196
+         ROSMAP_PCC Multiome2025_DLPFC   Multiome2025_STG  172  174     167       7       5
+         ROSMAP_PCC Multiome2025_DLPFC             CUIMC2  172  164      63     101     109
+         ROSMAP_PCC   Multiome2025_STG             CUIMC2  174  164      62     102     112
+          ROSMAP_TC              Green             Mathys   15    6       4       2      11
+          ROSMAP_TC              Green Multiome2025_DLPFC   15   37       9      28       6
+          ROSMAP_TC              Green   Multiome2025_STG   15   35       9      26       6
+          ROSMAP_TC             Mathys Multiome2025_DLPFC    6   37       2      35       4
+          ROSMAP_TC             Mathys   Multiome2025_STG    6   35       2      33       4
+          ROSMAP_TC Multiome2025_DLPFC   Multiome2025_STG   37   35      35       0       2
+
+== gene space == existing cohorts: 18466; with ['NABEC']: 17820
+  NABEC: own 38066, shared with existing 17820
+
+== cohort class (median age >= 65 -> aging_AD) ==
+             cohort  n_persons  n_age  median_age       q25       q75         cls                                                    dx_top
+    CommonMind_MSSM        329    328   75.000000 62.750000 84.250000    aging_AD          Control 161, SCZ 148, BD 12, AffectiveDisorder 8
+Diverse_Rush2_DLPFC        213    212   86.097194 78.637919 90.724162    aging_AD     AD 105, Control 58, Other 28, MCI 18, OtherDementia 3
+  Diverse_Rush2_STG        200    199   86.485969 79.075975 91.316906    aging_AD     AD 100, Control 54, Other 24, MCI 18, OtherDementia 3
+          LBP_liv_L        148    148   64.000000 55.000000 70.000000 adult_psych                  PD 115, ET 14, Dystonia 12, OCD 5, MDD 2
+          LBP_liv_R        124    124   63.500000 55.000000 68.000000 adult_psych                    PD 105, Dystonia 8, ET 5, OCD 4, MDD 2
+             LBP_pm        243    241   75.000000 68.000000 80.000000    aging_AD                           PD 132, Control 96, AD 14, ET 1
+LIBD_szControl_HBCC        230    230   41.000000 20.000000 52.750000 adult_psych                                       Control 163, SCZ 67
+            MSBB_FP        281    281   85.000000 79.000000 89.000000    aging_AD AD 139, Control 93, OtherDementia 28, MCI 12, PathAging 3
+           MSBB_IFG        273    272   85.000000 79.000000 89.000000    aging_AD AD 138, Control 83, OtherDementia 29, MCI 13, PathAging 4
+           MSBB_STG        273    272   85.000000 79.000000 89.000000    aging_AD AD 138, Control 84, OtherDementia 30, MCI 12, PathAging 4
+              NABEC        247    247   47.000000 25.500000 81.000000 adult_psych                                               Control 247
+          NIMH_HBCC        386    386   43.500000 25.000000 53.000000 adult_psych                                Control 220, SCZ 96, BD 70
+             ROSMAP       1108   1107   90.036961 85.370294 93.886379    aging_AD            AD 468, Control 362, MCI 261, OtherDementia 17
+          ROSMAP_FC        121    121   91.244353 87.321013 94.644764    aging_AD                Control 63, AD 37, MCI 20, OtherDementia 1
+         ROSMAP_PCC        661    660   89.950719 85.349076 94.022587    aging_AD   AD 254, Control 242, MCI 154, OtherDementia 10, Other 1
+          ROSMAP_TC        122    122   91.088296 86.861054 94.643395    aging_AD                Control 62, AD 39, MCI 20, OtherDementia 1
+
+== snRNA datasets: age / dx ==
+              snrna    n  median_age                                         dx_top
+     BrainSCOPE_CMC  100   75.000000                       Control 51, SCZ 48, BD 1
+             CUIMC2  237   89.713895    AD 108, Control 64, MCI 63, OtherDementia 2
+ Catching_2026_HBCC  152   46.000000                             Control 118, NA 34
+Catching_2026_NABEC  198   43.000000                                    Control 198
+              Green  437   89.478439 AD 162, Control 145, MCI 116, OtherDementia 14
+            LBP_liv   20   63.000000                                   PD 18, MDD 2
+             LBP_pm   19   72.000000                               Control 11, PD 8
+             Mathys  406   87.849418 AD 153, Control 141, MCI 101, OtherDementia 11
+ Multiome2025_DLPFC  412   90.000000         MCI 135, Control 132, AD 131, Other 11
+   Multiome2025_STG  420   89.842574         AD 137, MCI 136, Control 134, Other 11
+       PsychAD_HBCC  300   41.000000               Control 176, BD 65, SCZ 56, NA 3
+       PsychAD_MSBB 1042   82.000000 AD 405, Control 308, SCZ 123, OtherDementia 58
+     PsychAD_ROSMAP  151   85.186858            AD 78, Control 37, Other 14, MCI 10

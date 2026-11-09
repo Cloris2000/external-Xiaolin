@@ -1,7 +1,14 @@
 # Figure 1. Supertype proportions are reproducible across snRNA-seq datasets for
 # a limited set of supertypes, and those are more reproducible than their subclass.
-#   (a) all 150 DFC 2026 supertypes ranked by median symmetric ICC across the five
-#       independent matched-donor pairs (bar = IQR); labelled: the top N_LABEL and
+#   Pair set (2026-10-29): the eight matched-donor pairs of common/reliability_stats.py
+#   (registry composition counts; adds CUIMC2 x Multiome, CUIMC2 x Mathys, Catching
+#   HBCC x PsychAD HBCC; PsychAD pairs named by arm). Text below written for the
+#   earlier five pairs is kept where still true; under eight pairs Micro-PVM_2_3-SEAAD
+#   and L2/3 IT_13 win 8/8, but no Sst supertype passes the all-but-one rule (Sst_25
+#   wins 5/8, losing CUIMC2 x Mathys, CUIMC2 x Multiome, Mathys x Multiome), so Sst
+#   falls back to the highest median (Sst_25) with a warning.
+#   (a) all DFC 2026 supertypes ranked by median symmetric ICC across the
+#       matched-donor pairs (bar = IQR); labelled: the top N_LABEL and
 #       the three supertypes highlighted in (b-d). Formerly Fig 2a (merged
 #       2026-10-05; the nine Green x Mathys scatters of old Fig 2b go to the
 #       supplement, script figure2/fig2.R).
@@ -46,12 +53,15 @@ WL <- file.path(dirname(HERE), "common", "data", "reliability_summary.tsv")
 TAX <- "/project/rrg-shreejoy/zhoux156/shreejoy_pipeline/celltype-composition/refs/taxonomy_DFC_2026.tsv"
 
 SUBCLASSES <- c("Immune", "Sst", "L2/3 IT")
-MIN_PAIRS_SHOW <- 4          # the highlighted supertype is measured in >= 4 of the 5 pairs
+N_PAIRS <- 8                 # matched-donor pairs (common/reliability_stats.py, 2026-10-29)
+MIN_PAIRS_SHOW <- N_PAIRS - 1  # highlighted supertypes are measured in all but at most one pair
 N_LABEL <- 5                 # (a): label the top N_LABEL plus the three (b-d) supertypes
 PAIR_B <- "Green x Mathys"                # keys into fig1bc_clr.tsv$pair, not labels
-PAIR_C <- "BrainSCOPE CMC x PsychAD"
-LAB_B <- c(a = "Green RADC", b = "Mathys RADC")            # axis labels
-LAB_C <- c(a = "BrainSCOPE CMC_MSSM", b = "MSSM_PsychAD")
+PAIR_C <- "BrainSCOPE CMC x PsychAD MSBB"
+# axis labels = display_label in common/cohort_names.tsv (2026-10-27), each
+# followed by the matched-donor source (no panel titles or n, user decision)
+LAB_B <- c(a = "Green", b = "Mathys", donors = "ROSMAP donors")
+LAB_C <- c(a = "BrainSCOPE_CMC", b = "PsychAD_MSBB", donors = "MSSM donors")
 
 # subclass = large filled square, supertype = small open circle (reactive
 # -SEAAD states are included but not marked)
@@ -75,7 +85,7 @@ class_of <- function(class_id) {
 
 # ---- (a) per-pair ICC, subclass vs supertypes -------------------------------
 a <- fread(file.path(HERE, "data/fig1a_pairs.tsv"))
-stopifnot(uniqueN(a$pair) == 5)
+stopifnot(uniqueN(a$pair) == N_PAIRS)
 a <- merge(a, tax, by = "cell_type", all.x = TRUE)
 sc_lookup <- setNames(sc_class$class_id, sc_class$subclass)
 a[level == "subclass", `:=`(class_id = unname(sc_lookup[as.character(subclass)]),
@@ -122,7 +132,7 @@ if (nrow(TOP) < length(SUBCLASSES)) {
 cat("exemplar rule: wins in all but at most one shared pair, then highest median\n")
 print(cand[order(subclass, -median_icc)][, .(subclass, cell_type, median_icc = round(median_icc, 3),
                                              n_win, n_shared)][, head(.SD, 4), by = subclass])
-cat("subclass vs top supertype (median ICC over 5 pairs):\n")
+cat(sprintf("subclass vs top supertype (median ICC over %d pairs):\n", N_PAIRS))
 print(merge(sub_med, TOP[, .(subclass, top = as.character(cell_type), top_median = median_icc)]))
 
 # subclass: filled with its class colour; supertypes: white fill
@@ -131,6 +141,7 @@ bold_subclass <- function(x)   # x-axis labels: subclass in bold, supertypes pla
   as.expression(lapply(x, function(s) if (s %in% SUBCLASSES) bquote(bold(.(s))) else s))
 
 p_b <- ggplot(sm, aes(cell_type, median_icc)) +
+  geom_hline(yintercept = 0, colour = "grey75", linewidth = 0.3) +
   geom_hline(data = sub_med, aes(yintercept = sub_median),
              colour = "grey55", linewidth = 0.3, linetype = "dashed") +
   geom_linerange(aes(ymin = q25, ymax = q75, colour = cls), linewidth = 0.45) +
@@ -142,7 +153,7 @@ p_b <- ggplot(sm, aes(cell_type, median_icc)) +
   scale_x_discrete(labels = bold_subclass) +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.08))) +
   facet_wrap(~ subclass, nrow = 1, scales = "free_x") +
-  labs(x = NULL, y = "Intraclass correlation (ICC)\nacross five snRNA-seq pairs") +
+  labs(x = NULL, y = "Intraclass correlation (ICC)\nacross eight snRNA-seq pairs") +
   # only the subclass/supertype key lives here (below panel b); the class
   # colour key is drawn once under panel d
   guides(colour = "none", size = "none",
@@ -167,6 +178,7 @@ cat(sprintf("\n(a) %d supertypes (%d reactive); median ICC %.3f; %d with ICC >= 
 lab_a <- rk[cell_type %in% LABEL][order(rank)]
 
 p_a <- ggplot(rk[order(as.integer(cls))], aes(rank, median_icc_sym)) +
+  geom_hline(yintercept = 0, colour = "grey75", linewidth = 0.3) +
   geom_linerange(aes(ymin = q25, ymax = q75), colour = GREYS[1], linewidth = 0.28) +
   geom_point(aes(colour = cls, fill = cls), shape = 21, size = 1.15, stroke = 0.28) +
   geom_text_repel(data = lab_a, aes(label = cell_type, colour = cls),
@@ -178,7 +190,7 @@ p_a <- ggplot(rk[order(as.integer(cls))], aes(rank, median_icc_sym)) +
   scale_fill_manual(values = CLS_COL, guide = "none") +
   scale_x_continuous(expand = expansion(mult = c(0.02, 0.03))) +
   scale_y_continuous(expand = expansion(mult = c(0.04, 0.45))) +   # headroom for the labels
-  labs(x = "Supertypes", y = "Intraclass correlation (ICC)\nacross five snRNA-seq pairs") +
+  labs(x = "Supertypes", y = "Intraclass correlation (ICC)\nacross eight snRNA-seq pairs") +
   theme_cns + theme(legend.position = "none")
 
 # ---- (c, d) donor-level CLR scatters -----------------------------------------
@@ -200,6 +212,7 @@ scatter_panel <- function(pair_label, lab, legend = FALSE) {
   st[, lab := sprintf("ICC = %.2f", icc)]
   cat(sprintf("\n%s (n = %s donors):\n", pair_label, paste(unique(st$n), collapse = "/")))
   print(st[, .(cell_type, icc = round(icc, 3))])
+  stopifnot(uniqueN(st$n) == 1)          # one matched-donor set per pair
   lims <- d[, {
     r <- range(c(clr_a, clr_b), na.rm = TRUE)
     pad <- max(diff(r) * 0.06, 0.15)
@@ -216,8 +229,8 @@ scatter_panel <- function(pair_label, lab, legend = FALSE) {
                         guide = if (legend) guide_legend(
                           nrow = 1, override.aes = list(size = PT_SIZE, alpha = 1)) else "none") +
     facet_wrap(~ cell_type, nrow = 1, scales = "free") +
-    labs(x = sprintf("Centred log-ratio of cell-type proportion (%s)", lab["a"]),
-         y = sprintf("Centred log-ratio of\ncell-type proportion \n (%s)", lab["b"])) +
+    labs(x = sprintf("Centred log-ratio of cell-type proportion (%s, %s)", lab["a"], lab["donors"]),
+         y = sprintf("Centred log-ratio of\ncell-type proportion \n (%s, %s)", lab["b"], lab["donors"])) +
     theme_cns +
     theme(legend.position = if (legend) "bottom" else "none",
           legend.justification = "center",

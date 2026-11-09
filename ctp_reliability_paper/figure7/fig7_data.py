@@ -1,10 +1,19 @@
-"""Data for Figure 7: cross-region reliability of cell-type proportions.
+"""Data for Figure 7: dataset identity, not cortical region, drives cell-type
+proportion discordance across snRNA-seq cohorts.
 
-Companion to Figure 1 (same-region, cross-dataset reliability). Figure 7 asks
-the complementary question: for the SAME donors and the SAME dataset, how
-reliable is a supertype's proportion when measured in a second cortical
-region instead of a second dataset? Same three lineages as Figure 1 (Immune,
-Sst, L2/3 IT), same metric (symmetric ICC on donor-level CLR), same pseudocount.
+Companion to Figure 1 (same-region, cross-dataset reliability). This script
+still only computes the cross-region side: for the SAME donors and the SAME
+dataset, how reliable is a supertype's proportion when measured in a second
+cortical region instead of a second dataset? Same three lineages as Figure 1
+(Immune, Sst, L2/3 IT), same metric (symmetric ICC on donor-level CLR), same
+pseudocount. fig7.R (2026-10-13 redesign) joins this script's per-cell-type,
+per-region-cohort icc_sym against Figure 1's five-dataset-pair summary
+(common/data/reliability_summary.tsv) to plot the two side by side, per cell
+type: if cross-region ICC is consistently higher than cross-dataset ICC for
+the same cell types, that is evidence that which dataset a sample comes from
+drives more of the cross-cohort discordance than which cortical region it
+was sampled from. No new data computation happens here for that comparison;
+this script only ever produced the cross-region half.
 
 Two cohorts, each a single matched-donor region pair (not five independent
 pairs as in Figure 1), so there is no across-pair IQR to report. Instead each

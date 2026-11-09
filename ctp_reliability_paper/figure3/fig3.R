@@ -37,7 +37,7 @@ dir.create(FIG_DIR, showWarnings = FALSE)
 # nothing about where in the cortex the block was taken.
 EXCLUDE <- "Olah_2020"
 REF <- "SEAAD_DFC_2026"
-LABEL <- c(SEAAD_DFC_2026 = "SEA-AD DLPFC", Multiome2025_DLPFC = "Multiome 2025",
+LABEL <- c(SEAAD_DFC_2026 = "SEA-AD DFC", Multiome2025_DLPFC = "Multiome 2025",
            BrainSCOPE_CMC = "BrainSCOPE CMC", BrainSCOPE_UCLA = "BrainSCOPE UCLA",
            BrainSCOPE_Multiome = "BrainSCOPE Multiome")
 pretty <- function(x) ifelse(x %in% names(LABEL), LABEL[x], gsub("_", " ", x))
@@ -47,12 +47,22 @@ PHENO_LAB <- c(cerad_ad = "CERAD", cogdx = "Cognitive diagnosis", dementia = "De
 # Nature: neuronal classes
 CLS_COL <- c(Excitatory = "#3C5488", Inhibitory = "#8491B4")
 # Cell: study pairs (b, c)
+# eight pairs of common/reliability_stats.py (2026-10-29); PsychAD x Ruzicka dropped,
+# its colour now marks CUIMC2 x Multiome; the other two new pairs take the two
+# Cell colours left after the model-state pair (MODEL_COL in fig3.R)
 PAIR_COL <- c("Green x Mathys" = "#2F7E8F", "Green x Multiome" = "#E1A22E",
-              "Mathys x Multiome" = "#8B6FA8", "Multiome x PsychAD" = "#C84C3A",
-              "BrainSCOPE CMC x PsychAD" = "#5F9862", "PsychAD x Ruzicka" = "#4E5A8A")
+              "Mathys x Multiome" = "#8B6FA8", "Multiome x PsychAD ROSMAP" = "#C84C3A",
+              "BrainSCOPE CMC x PsychAD MSBB" = "#5F9862", "CUIMC2 x Multiome" = "#4E5A8A",
+              "CUIMC2 x Mathys" = "#D07A6A", "Catching HBCC x PsychAD HBCC" = "#6B6B6B")
 # Cell: model state (e), the two Cell colours not used by any study pair
 MODEL_COL <- c(Unadjusted = "#B85F7A", `Depth-adjusted` = "#7B8C9E")
 pair_lab <- function(x) gsub(" x ", " vs ", x)
+# facet strip: each dataset wrapped to <= 11 characters, "vs" closing the first
+strip_pair <- function(s) {
+  ab <- strsplit(s, " vs ", fixed = TRUE)[[1]]
+  a <- strwrap(ab[1], 11); a[length(a)] <- paste(a[length(a)], "vs")
+  paste(c(a, strwrap(ab[2], 11)), collapse = "\n")
+}
 
 fontsize <- 8
 theme_cns <- theme_classic(base_size = fontsize, base_family = "sans") +
@@ -120,8 +130,8 @@ p_b <- ggplot(pr_b, aes(depth_exc_a, depth_exc_b)) +
   scale_y_continuous(breaks = c(0.2, 0.5, 0.8)) +
   coord_cartesian(xlim = c(0.1, 0.9), ylim = c(0.1, 0.9)) +
   facet_wrap(~ pair, nrow = 2, axes = "all", axis.labels = "margins",
-             labeller = as_labeller(function(x)
-               sub("BrainSCOPE CMC vs\n", "BrainSCOPE\nCMC vs\n", sub(" vs ", " vs\n", x)))) +
+             labeller = as_labeller(function(x)   # wrap by width: eight pairs, longer names
+               vapply(x, strip_pair, ""))) +
   labs(x = "Sampled depth, first study",
        y = "Sampled depth of the\nsame donor, second study") +
   theme_cns

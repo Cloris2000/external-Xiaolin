@@ -1,0 +1,4 @@
+strategy	cls	recipe
+S2	all	ROSMAP__Mathys+Multiome2025_DLPFC+CUIMC2
+S3	adult_psych	NIMH_HBCC__PsychAD_HBCC+Catching_2026_HBCC
+S3	aging_AD	ROSMAP__Mathys+Multiome2025_DLPFC+CUIMC2

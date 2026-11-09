@@ -1,0 +1,14 @@
+snrna	n	median_age	dx_top
+BrainSCOPE_CMC	100	75.0	Control 51, SCZ 48, BD 1
+CUIMC2	237	89.7138945927447	AD 108, Control 64, MCI 63, OtherDementia 2
+Catching_2026_HBCC	152	46.0	Control 118, NA 34
+Catching_2026_NABEC	198	43.0	Control 198
+Green	437	89.47843942505133	AD 162, Control 145, MCI 116, OtherDementia 14
+LBP_liv	20	63.0	PD 18, MDD 2
+LBP_pm	19	72.0	Control 11, PD 8
+Mathys	406	87.84941820670774	AD 153, Control 141, MCI 101, OtherDementia 11
+Multiome2025_DLPFC	412	90.0	MCI 135, Control 132, AD 131, Other 11
+Multiome2025_STG	420	89.8425735797399	AD 137, MCI 136, Control 134, Other 11
+PsychAD_HBCC	300	41.0	Control 176, BD 65, SCZ 56, NA 3
+PsychAD_MSBB	1042	82.0	AD 405, Control 308, SCZ 123, OtherDementia 58
+PsychAD_ROSMAP	151	85.18685831622176	AD 78, Control 37, Other 14, MCI 10

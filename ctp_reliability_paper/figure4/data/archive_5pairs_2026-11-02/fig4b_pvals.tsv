@@ -1,0 +1,13 @@
+pair	comparison	n_concordant	n_comparison	p
+CommonMind x PsychAD MSBB	Non-core Supertype	75	73	5.138977285512421e-07
+CommonMind x PsychAD MSBB	Subclasses	75	24	0.10653697006773322
+HBCC x PsychAD HBCC	Non-core Supertype	76	73	2.8699454795342056e-05
+HBCC x PsychAD HBCC	Subclasses	76	24	0.8715922050745034
+MSBB x PsychAD MSBB	Non-core Supertype	75	73	2.3600595411318952e-08
+MSBB x PsychAD MSBB	Subclasses	75	24	0.04748585257793691
+ROSMAP x Green	Non-core Supertype	76	73	1.788466439866967e-11
+ROSMAP x Green	Subclasses	76	24	8.061351352218274e-05
+ROSMAP x Mathys	Non-core Supertype	76	73	2.6402376162829864e-12
+ROSMAP x Mathys	Subclasses	76	24	1.8278868284996708e-05
+ROSMAP x Multiome	Non-core Supertype	76	73	0.0017176810728738402
+ROSMAP x Multiome	Subclasses	76	24	0.3041516439860449

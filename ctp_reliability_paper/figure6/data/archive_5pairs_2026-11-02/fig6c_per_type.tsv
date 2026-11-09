@@ -1,0 +1,447 @@
+cell_type	reliability	sign_ok	n	arm	core_supertype
+Astro_1	0.22538083708340212	0.6666666666666666	208.0	production consensus	True
+Astro_2	0.19852315273408694	1.0	208.0	production consensus	True
+Astro_3	0.22805281859934326	1.0	208.0	production consensus	True
+Astro_4	0.8566812193599829	1.0	208.0	production consensus	True
+Astro_5	0.9498404136309974	1.0	208.0	production consensus	True
+Astro_6-SEAAD	0.9598583107628961	1.0	208.0	production consensus	True
+Chandelier_1	0.040722828882393966	0.16666666666666666	208.0	production consensus	False
+Chandelier_2	-0.49002425787012227	0.0	208.0	production consensus	True
+Endo_1	0.40510602348984465	1.0	208.0	production consensus	False
+Endo_2	0.8180587870688112	1.0	208.0	production consensus	False
+Endo_3	-0.3471965172616077	0.3333333333333333	208.0	production consensus	True
+L2/3 IT_1	1.954207666079507	0.0	208.0	production consensus	False
+L2/3 IT_10	0.8565555226473892	1.0	208.0	production consensus	True
+L2/3 IT_12	-0.10835414834800179	0.3333333333333333	208.0	production consensus	True
+L2/3 IT_13	0.03846086947981533	0.0	208.0	production consensus	True
+L2/3 IT_14-SEAAD	0.013515681885795766	0.5	208.0	production consensus	True
+L2/3 IT_2	0.2750611387394105	1.0	208.0	production consensus	False
+L2/3 IT_3	-0.06948464407202762	0.16666666666666666	208.0	production consensus	True
+L2/3 IT_5	0.12453967019284407	0.0	208.0	production consensus	True
+L2/3 IT_6	0.44669742712942284	1.0	208.0	production consensus	True
+L2/3 IT_7	0.685838820196494	1.0	208.0	production consensus	False
+L2/3 IT_8	0.13759740101955065	0.0	208.0	production consensus	True
+L4 IT_1	0.013092756766322183	0.8333333333333334	208.0	production consensus	True
+L4 IT_2	0.0068933271931342485	0.0	208.0	production consensus	False
+L4 IT_3	0.461388709842539	1.0	208.0	production consensus	True
+L4 IT_4	-0.09561025902486989	0.16666666666666666	208.0	production consensus	True
+L5 ET_2	0.8120386871447358	1.0	208.0	production consensus	False
+L5 ET_4-SEAAD	0.5198420438754524	1.0	208.0	production consensus	True
+L5 IT_1	0.3968585968237428	0.0	208.0	production consensus	False
+L5 IT_10-SEAAD	0.7549831726524387	1.0	208.0	production consensus	True
+L5 IT_2	-0.03425542207769715	0.0	208.0	production consensus	False
+L5 IT_3	-0.25735186007464195	0.0	208.0	production consensus	False
+L5 IT_5	0.7469826510732326	0.0	208.0	production consensus	True
+L5 IT_6	-0.12497924304292438	0.16666666666666666	208.0	production consensus	True
+L5 IT_7	-0.2536074069216802	0.0	208.0	production consensus	False
+L5/6 NP_1	0.29531166582074075	0.0	208.0	production consensus	False
+L5/6 NP_2	0.8173999587439589	1.0	208.0	production consensus	False
+L5/6 NP_3	0.9073567414600624	1.0	208.0	production consensus	True
+L5/6 NP_4	0.0948453314259309	0.3333333333333333	208.0	production consensus	False
+L5/6 NP_6	1.0054785265407447	1.0	208.0	production consensus	True
+L5/6 NP_7-SEAAD	-0.006599856956416145	0.5	208.0	production consensus	True
+L5/6 NP_8-SEAAD	0.20043952757743339	0.8333333333333334	208.0	production consensus	False
+L5/6 NP_9-SEAAD	0.7240853274099912	0.0	208.0	production consensus	True
+L6 CT_1	0.03838701278093991	0.5	208.0	production consensus	False
+L6 CT_2	0.010442438504466717	0.16666666666666666	208.0	production consensus	False
+L6 CT_3	-0.0265639131552649	0.3333333333333333	208.0	production consensus	False
+L6 CT_4	0.51662176827727	1.0	208.0	production consensus	True
+L6 IT Car3_1	0.7650183120925391	1.0	208.0	production consensus	True
+L6 IT Car3_3	0.7069559043748966	0.0	208.0	production consensus	False
+L6 IT_1	0.7135877642896657	0.0	208.0	production consensus	False
+L6 IT_2	0.11710052779229127	0.0	208.0	production consensus	False
+L6 IT_3-SEAAD	0.31102214550424767	1.0	208.0	production consensus	False
+L6 IT_4-SEAAD	0.558575131208501	1.0	208.0	production consensus	True
+L6b_1	0.5881238530626344	1.0	208.0	production consensus	False
+L6b_2	0.46841777815911445	1.0	208.0	production consensus	False
+L6b_3	0.8566760128518123	1.0	208.0	production consensus	True
+L6b_4	0.8769820791132497	1.0	208.0	production consensus	False
+L6b_5	0.8130958352844182	0.0	208.0	production consensus	False
+L6b_6	-0.3118159037776633	0.0	208.0	production consensus	False
+Lamp5_1	0.20766646669529645	1.0	208.0	production consensus	False
+Lamp5_2	0.23454477520185718	0.0	208.0	production consensus	False
+Lamp5_3	1.4817371875607095	0.0	208.0	production consensus	True
+Lamp5_4	-0.01683352075177776	0.0	208.0	production consensus	False
+Lamp5_5	0.7756756200474738	0.0	208.0	production consensus	True
+Lamp5_6	1.272335114786638	0.0	208.0	production consensus	True
+Lamp5_Lhx6_1	0.02422028103143473	0.3333333333333333	208.0	production consensus	False
+Lamp5_Lhx6_3-SEAAD	0.7668590305901887	1.0	208.0	production consensus	True
+Lymphocyte	0.9374023029858292	1.0	208.0	production consensus	False
+Micro-PVM_1	0.1662356412051157	0.6666666666666666	208.0	production consensus	True
+Micro-PVM_2	0.8985191676804132	1.0	208.0	production consensus	True
+Micro-PVM_2_1-SEAAD	0.7933972315085466	1.0	208.0	production consensus	True
+Micro-PVM_2_3-SEAAD	0.8951312265774263	1.0	208.0	production consensus	True
+Micro-PVM_3-SEAAD	2.919863459758931	1.0	208.0	production consensus	True
+Micro-PVM_4-SEAAD	-0.023929888538043505	0.0	208.0	production consensus	True
+OPC_1	0.5730267612601453	1.0	208.0	production consensus	True
+OPC_2	0.31035324562909355	1.0	208.0	production consensus	True
+OPC_2_1-SEAAD	0.6568771041256583	1.0	208.0	production consensus	True
+OPC_2_2-SEAAD	0.9871329886563949	1.0	208.0	production consensus	True
+Oligo_1	0.47643442994805535	1.0	208.0	production consensus	True
+Oligo_2	0.20715003572510673	0.6666666666666666	208.0	production consensus	True
+Oligo_2_1-SEAAD	-0.17361080810181417	0.3333333333333333	208.0	production consensus	False
+Oligo_3	0.10633111947717533	0.5	208.0	production consensus	True
+Oligo_4	-0.07740334966079875	0.3333333333333333	208.0	production consensus	False
+Oligo_5-SEAAD	1.0133742387148479	1.0	208.0	production consensus	True
+Pax6_1	0.2895565763405357	0.0	208.0	production consensus	False
+Pax6_2	0.8388724686290263	1.0	208.0	production consensus	False
+Pax6_4	0.16234594155675147	1.0	208.0	production consensus	False
+Pax6_6-SEAAD	0.5938294167667312	1.0	208.0	production consensus	True
+Pericyte_1	0.9254582010611458	1.0	208.0	production consensus	False
+Pericyte_2-SEAAD	-0.015514456230062838	0.5	208.0	production consensus	False
+Pvalb_1	-0.08271736030066695	0.0	208.0	production consensus	False
+Pvalb_10	0.17172917601873006	0.8333333333333334	208.0	production consensus	False
+Pvalb_12	0.0657482440799705	0.0	208.0	production consensus	False
+Pvalb_13	0.12125742822417009	1.0	208.0	production consensus	False
+Pvalb_14	0.6453253807608954	1.0	208.0	production consensus	True
+Pvalb_15	0.04193870276987528	0.0	208.0	production consensus	False
+Pvalb_2	0.10096809246572333	0.0	208.0	production consensus	True
+Pvalb_3	0.06892991806256069	0.8333333333333334	208.0	production consensus	True
+Pvalb_5	0.5149918456249578	1.0	208.0	production consensus	True
+Pvalb_6	0.12018019432264038	0.6666666666666666	208.0	production consensus	True
+Pvalb_7	0.23117236382584838	1.0	208.0	production consensus	False
+Pvalb_8	0.25853990680569683	1.0	208.0	production consensus	True
+Pvalb_9	-0.006800182133737314	0.6666666666666666	208.0	production consensus	False
+SMC-SEAAD	1.3957647211073534	1.0	208.0	production consensus	False
+Sncg_1	0.614284675837113	0.0	208.0	production consensus	True
+Sncg_2	0.025226946252080412	0.5	208.0	production consensus	False
+Sncg_3	0.3730215778242465	0.0	208.0	production consensus	False
+Sncg_4	0.1078287053811898	0.16666666666666666	208.0	production consensus	True
+Sncg_5	0.6192754804001026	0.0	208.0	production consensus	False
+Sncg_6	0.010617005900308576	0.0	208.0	production consensus	False
+Sncg_8	0.922188841928951	0.0	208.0	production consensus	False
+Sst Chodl_1	0.030533637080360124	0.6666666666666666	208.0	production consensus	False
+Sst Chodl_2	1.5121991453270396	0.0	208.0	production consensus	False
+Sst Chodl_3-SEAAD	0.886255298216349	1.0	208.0	production consensus	True
+Sst_1	0.4078120172896225	0.0	208.0	production consensus	False
+Sst_10	0.9278360378109386	1.0	208.0	production consensus	False
+Sst_11	0.5144236647283154	1.0	208.0	production consensus	True
+Sst_12	0.6353335624917188	1.0	208.0	production consensus	False
+Sst_13	0.4649132003682739	1.0	208.0	production consensus	True
+Sst_19	0.04760071829871629	0.6666666666666666	208.0	production consensus	True
+Sst_2	0.8127478268649145	0.6666666666666666	208.0	production consensus	True
+Sst_20	0.9354890264463422	1.0	208.0	production consensus	True
+Sst_22	-0.008325921362260364	0.5	208.0	production consensus	True
+Sst_23	0.9130312146684956	1.0	208.0	production consensus	True
+Sst_25	0.7385492720198581	1.0	208.0	production consensus	True
+Sst_3	2.5909244251349604	1.0	208.0	production consensus	True
+Sst_4	-0.18327963426425847	0.8333333333333334	208.0	production consensus	False
+Sst_5	0.44454617906845706	0.0	208.0	production consensus	False
+Sst_7	0.5325346597806185	1.0	208.0	production consensus	False
+Sst_9	0.7258707362732038	1.0	208.0	production consensus	True
+VLMC_1	0.22876735081513858	1.0	208.0	production consensus	False
+Vip_1	-0.05960023710403428	0.0	208.0	production consensus	False
+Vip_11	0.6429108391542688	0.0	208.0	production consensus	False
+Vip_12	-0.029507054904999237	0.6666666666666666	208.0	production consensus	False
+Vip_13	0.09972639935562067	0.0	208.0	production consensus	False
+Vip_14	0.03020108655651539	0.5	208.0	production consensus	False
+Vip_15	1.0354153543177702	0.0	208.0	production consensus	True
+Vip_16	-0.02227343781030864	0.0	208.0	production consensus	False
+Vip_18	0.40429436678871233	1.0	208.0	production consensus	True
+Vip_19	0.01180127150500776	0.16666666666666666	208.0	production consensus	True
+Vip_2	0.4636743084302629	0.0	208.0	production consensus	True
+Vip_21	-0.2312829793118225	0.0	208.0	production consensus	False
+Vip_23	0.21068763878514796	0.8333333333333334	208.0	production consensus	True
+Vip_24-SEAAD	0.547077194825762	1.0	208.0	production consensus	True
+Vip_4	0.005533124992874686	0.0	208.0	production consensus	False
+Vip_5	0.5822348729942266	1.0	208.0	production consensus	False
+Vip_6	0.491415163291121	1.0	208.0	production consensus	False
+Vip_9	0.042617473141233535	0.6666666666666666	208.0	production consensus	False
+Astro_1	0.15149993495225422	0.8333333333333334	208.0	solo Green (reference)	True
+Astro_2	0.2378078839303118	1.0	208.0	solo Green (reference)	True
+Astro_3	0.14211411916943875	1.0	208.0	solo Green (reference)	True
+Astro_4	0.6158475435519353	1.0	208.0	solo Green (reference)	True
+Astro_5	0.7757020483063475	1.0	208.0	solo Green (reference)	True
+Astro_6-SEAAD	0.9914766313387289	1.0	208.0	solo Green (reference)	True
+Chandelier_1	0.24369980655019557	0.0	208.0	solo Green (reference)	False
+Chandelier_2	0.8551820450282459	1.0	208.0	solo Green (reference)	True
+Endo_1	0.5733239488182917	1.0	208.0	solo Green (reference)	False
+Endo_2	0.7542844683132766	1.0	208.0	solo Green (reference)	False
+Endo_3	-0.2680910054197577	0.3333333333333333	208.0	solo Green (reference)	True
+L2/3 IT_1	0.6080556540393582	0.0	208.0	solo Green (reference)	False
+L2/3 IT_10	0.7716410962440889	1.0	208.0	solo Green (reference)	True
+L2/3 IT_12	0.20477797719184543	0.0	208.0	solo Green (reference)	True
+L2/3 IT_13	0.062407956074024065	0.0	208.0	solo Green (reference)	True
+L2/3 IT_14-SEAAD	0.20343093386039712	0.16666666666666666	208.0	solo Green (reference)	True
+L2/3 IT_2	0.2776320152621655	1.0	208.0	solo Green (reference)	False
+L2/3 IT_3	0.08651886672572907	0.6666666666666666	208.0	solo Green (reference)	True
+L2/3 IT_5	0.6549513663066528	0.0	208.0	solo Green (reference)	True
+L2/3 IT_6	0.016565071880517625	0.0	208.0	solo Green (reference)	True
+L2/3 IT_7	0.41424024897645917	1.0	208.0	solo Green (reference)	False
+L2/3 IT_8	0.214818472920883	0.0	208.0	solo Green (reference)	True
+L4 IT_1	-0.006453028200540056	0.16666666666666666	208.0	solo Green (reference)	True
+L4 IT_2	0.2210569590217334	0.0	208.0	solo Green (reference)	False
+L4 IT_3	0.31166398712251625	1.0	208.0	solo Green (reference)	True
+L4 IT_4	-0.020343281989942695	0.0	208.0	solo Green (reference)	True
+L5 ET_2	-0.008284592807014714	0.16666666666666666	208.0	solo Green (reference)	False
+L5 ET_4-SEAAD	0.00469107084789815	0.0	208.0	solo Green (reference)	True
+L5 IT_1	0.05926718362402547	0.0	208.0	solo Green (reference)	False
+L5 IT_10-SEAAD	0.6903858303866075	1.0	208.0	solo Green (reference)	True
+L5 IT_2	0.20921755459068583	1.0	208.0	solo Green (reference)	False
+L5 IT_3	-0.0067945694029118014	0.5	208.0	solo Green (reference)	False
+L5 IT_5	0.4622717872826544	1.0	208.0	solo Green (reference)	True
+L5 IT_6	-0.040874409712200584	0.0	208.0	solo Green (reference)	True
+L5 IT_7	0.004593205073368416	0.3333333333333333	208.0	solo Green (reference)	False
+L5/6 NP_1	0.08185464424227656	0.0	208.0	solo Green (reference)	False
+L5/6 NP_2	0.23754102914270858	1.0	208.0	solo Green (reference)	False
+L5/6 NP_3	0.5918597872001388	1.0	208.0	solo Green (reference)	True
+L5/6 NP_4	-0.0015276259967211742	0.0	208.0	solo Green (reference)	False
+L5/6 NP_6	0.8915004607860009	1.0	208.0	solo Green (reference)	True
+L5/6 NP_7-SEAAD	0.0115545263437509	0.0	208.0	solo Green (reference)	True
+L5/6 NP_8-SEAAD	0.22629422921639541	1.0	208.0	solo Green (reference)	False
+L5/6 NP_9-SEAAD	1.1405159965104703	0.0	208.0	solo Green (reference)	True
+L6 CT_1	-0.008656094675404905	0.0	208.0	solo Green (reference)	False
+L6 CT_2	0.009306329062252889	0.16666666666666666	208.0	solo Green (reference)	False
+L6 CT_3	0.08188407279600834	0.6666666666666666	208.0	solo Green (reference)	False
+L6 CT_4	0.5685907718332526	1.0	208.0	solo Green (reference)	True
+L6 IT Car3_1	0.4517386158007801	0.8333333333333334	208.0	solo Green (reference)	True
+L6 IT Car3_3	0.06268662684512778	0.0	208.0	solo Green (reference)	False
+L6 IT_1	0.008233651315147306	0.5	208.0	solo Green (reference)	False
+L6 IT_2	-0.17422800492138255	0.0	208.0	solo Green (reference)	False
+L6 IT_3-SEAAD	0.1555245658780331	1.0	208.0	solo Green (reference)	False
+L6 IT_4-SEAAD	0.5281381910485536	1.0	208.0	solo Green (reference)	True
+L6b_1	0.5403650866228027	1.0	208.0	solo Green (reference)	False
+L6b_2	-0.042542940506505006	0.5	208.0	solo Green (reference)	False
+L6b_3	0.47578814487808085	1.0	208.0	solo Green (reference)	True
+L6b_4	0.5555494709982549	1.0	208.0	solo Green (reference)	False
+L6b_5	0.5562795803886014	0.0	208.0	solo Green (reference)	False
+L6b_6	-0.686793794358641	0.0	208.0	solo Green (reference)	False
+Lamp5_1	0.5881530636899188	1.0	208.0	solo Green (reference)	False
+Lamp5_2	0.12505247738355213	0.0	208.0	solo Green (reference)	False
+Lamp5_3	0.49983580985926446	0.0	208.0	solo Green (reference)	True
+Lamp5_4	0.03684358566225376	0.0	208.0	solo Green (reference)	False
+Lamp5_5	0.1253261998834188	0.16666666666666666	208.0	solo Green (reference)	True
+Lamp5_6	0.06784746441355603	0.0	208.0	solo Green (reference)	True
+Lamp5_Lhx6_1	0.3424088864761359	0.5	208.0	solo Green (reference)	False
+Lamp5_Lhx6_2-SEAAD	0.7117891451408479	1.0	208.0	solo Green (reference)	
+Lamp5_Lhx6_3-SEAAD	0.591325273010513	1.0	208.0	solo Green (reference)	True
+Lymphocyte	0.628519578918891	1.0	208.0	solo Green (reference)	False
+Micro-PVM_1	-0.038535642574930355	0.8333333333333334	208.0	solo Green (reference)	True
+Micro-PVM_2	0.47289179174788176	1.0	208.0	solo Green (reference)	True
+Micro-PVM_2_1-SEAAD	0.9060334833331292	1.0	208.0	solo Green (reference)	True
+Micro-PVM_2_3-SEAAD	0.8886499141759173	1.0	208.0	solo Green (reference)	True
+Micro-PVM_3-SEAAD	1.5339286026155639	1.0	208.0	solo Green (reference)	True
+Micro-PVM_4-SEAAD	0.9692229000923017	0.0	208.0	solo Green (reference)	True
+OPC_1	0.3454549341064982	1.0	208.0	solo Green (reference)	True
+OPC_2	0.3014819048849908	1.0	208.0	solo Green (reference)	True
+OPC_2_1-SEAAD	0.11892998868782889	1.0	208.0	solo Green (reference)	True
+OPC_2_2-SEAAD	1.0099777967303365	1.0	208.0	solo Green (reference)	True
+Oligo_1	0.09607497982715488	1.0	208.0	solo Green (reference)	True
+Oligo_2	-0.08407701226827127	0.5	208.0	solo Green (reference)	True
+Oligo_2_1-SEAAD	-0.24325030866734154	0.0	208.0	solo Green (reference)	False
+Oligo_3	-0.6658470597941339	1.0	208.0	solo Green (reference)	True
+Oligo_4	-0.01853495347156623	0.3333333333333333	208.0	solo Green (reference)	False
+Oligo_5-SEAAD	0.36138596480699947	1.0	208.0	solo Green (reference)	True
+Pax6_1	0.5408150202374585	0.0	208.0	solo Green (reference)	False
+Pax6_2	0.2027995072459387	1.0	208.0	solo Green (reference)	False
+Pax6_4	0.01263229533236762	0.5	208.0	solo Green (reference)	False
+Pax6_6-SEAAD	0.6605367585071484	1.0	208.0	solo Green (reference)	True
+Pericyte_1	1.006933754698542	1.0	208.0	solo Green (reference)	False
+Pericyte_2-SEAAD	-0.028824772700228242	0.8333333333333334	208.0	solo Green (reference)	False
+Pvalb_1	-0.06232147760489036	0.0	208.0	solo Green (reference)	False
+Pvalb_10	-0.009877049669595935	0.3333333333333333	208.0	solo Green (reference)	False
+Pvalb_12	-0.7383238982871116	0.6666666666666666	208.0	solo Green (reference)	False
+Pvalb_13	0.01908009619026906	0.6666666666666666	208.0	solo Green (reference)	False
+Pvalb_14	0.49310581474241855	1.0	208.0	solo Green (reference)	True
+Pvalb_15	0.019646740608330455	0.5	208.0	solo Green (reference)	False
+Pvalb_2	0.15382791798486578	0.0	208.0	solo Green (reference)	True
+Pvalb_3	0.17111666988387175	0.0	208.0	solo Green (reference)	True
+Pvalb_5	0.5216823858706291	1.0	208.0	solo Green (reference)	True
+Pvalb_6	0.1546643566066944	0.6666666666666666	208.0	solo Green (reference)	True
+Pvalb_7	0.4254196712786003	1.0	208.0	solo Green (reference)	False
+Pvalb_8	-0.16411978192202137	0.6666666666666666	208.0	solo Green (reference)	True
+Pvalb_9	0.004629053082541445	0.3333333333333333	208.0	solo Green (reference)	False
+SMC-SEAAD	0.5033490639146785	1.0	208.0	solo Green (reference)	False
+Sncg_1	0.029397017667412668	0.0	208.0	solo Green (reference)	True
+Sncg_2	0.009730436985740398	0.5	208.0	solo Green (reference)	False
+Sncg_3	0.07183945717355714	0.16666666666666666	208.0	solo Green (reference)	False
+Sncg_4	-0.017983740394947066	0.5	208.0	solo Green (reference)	True
+Sncg_5	0.23376339960131381	0.0	208.0	solo Green (reference)	False
+Sncg_6	0.06271118050663925	0.0	208.0	solo Green (reference)	False
+Sncg_8	0.3853043156697534	0.0	208.0	solo Green (reference)	False
+Sst Chodl_1	0.07241914922040216	1.0	208.0	solo Green (reference)	False
+Sst Chodl_2	0.378894217849801	0.0	208.0	solo Green (reference)	False
+Sst Chodl_3-SEAAD	0.6906818088595161	1.0	208.0	solo Green (reference)	True
+Sst_1	-0.06544486526965286	0.8333333333333334	208.0	solo Green (reference)	False
+Sst_10	0.35963816067217735	0.8333333333333334	208.0	solo Green (reference)	False
+Sst_11	0.4481901508821742	1.0	208.0	solo Green (reference)	True
+Sst_12	0.5295678310426306	1.0	208.0	solo Green (reference)	False
+Sst_13	0.010201812957366004	0.5	208.0	solo Green (reference)	True
+Sst_19	-0.3584642157994805	1.0	208.0	solo Green (reference)	True
+Sst_2	0.7471511691910292	0.8333333333333334	208.0	solo Green (reference)	True
+Sst_20	0.6945088528665104	1.0	208.0	solo Green (reference)	True
+Sst_22	-0.11415406120208882	0.0	208.0	solo Green (reference)	True
+Sst_23	0.7018286872186563	1.0	208.0	solo Green (reference)	True
+Sst_25	0.43866312214759023	1.0	208.0	solo Green (reference)	True
+Sst_3	1.659104506091355	1.0	208.0	solo Green (reference)	True
+Sst_4	0.02862043908318518	0.16666666666666666	208.0	solo Green (reference)	False
+Sst_5	-0.10739215293252102	1.0	208.0	solo Green (reference)	False
+Sst_7	0.16602149139028705	0.0	208.0	solo Green (reference)	False
+Sst_9	0.5499518953763028	1.0	208.0	solo Green (reference)	True
+VLMC_1	0.6603082780042813	1.0	208.0	solo Green (reference)	False
+Vip_1	-0.019689018864567476	0.0	208.0	solo Green (reference)	False
+Vip_11	-0.1276030498270795	0.0	208.0	solo Green (reference)	False
+Vip_12	-0.11096403942803415	0.0	208.0	solo Green (reference)	False
+Vip_13	0.1418096523669599	0.0	208.0	solo Green (reference)	False
+Vip_14	0.07357905963661626	0.0	208.0	solo Green (reference)	False
+Vip_15	0.9410244380517678	0.0	208.0	solo Green (reference)	True
+Vip_16	-0.022171219881104397	0.0	208.0	solo Green (reference)	False
+Vip_18	0.27153498643013285	1.0	208.0	solo Green (reference)	True
+Vip_19	0.11238469506324203	0.16666666666666666	208.0	solo Green (reference)	True
+Vip_2	0.23964354759187467	0.0	208.0	solo Green (reference)	True
+Vip_21	0.0014391760576064686	0.16666666666666666	208.0	solo Green (reference)	False
+Vip_23	-0.08695155511019181	0.5	208.0	solo Green (reference)	True
+Vip_24-SEAAD	0.09687657901728462	0.8333333333333334	208.0	solo Green (reference)	True
+Vip_4	-0.00587021787952932	0.6666666666666666	208.0	solo Green (reference)	False
+Vip_5	0.6714840281566246	1.0	208.0	solo Green (reference)	False
+Vip_6	0.16783444245963847	1.0	208.0	solo Green (reference)	False
+Vip_9	-0.04058823127696392	0.0	208.0	solo Green (reference)	False
+Astro_1	0.03660653400478449	0.8333333333333334	208.0	solo Mathys (reference)	True
+Astro_2	0.016447497706607597	0.5	208.0	solo Mathys (reference)	True
+Astro_3	0.053178578924004904	1.0	208.0	solo Mathys (reference)	True
+Astro_4	0.4899157664410828	1.0	208.0	solo Mathys (reference)	True
+Astro_5	0.9789929846633525	1.0	208.0	solo Mathys (reference)	True
+Astro_6-SEAAD	0.9218516835721139	1.0	208.0	solo Mathys (reference)	True
+Chandelier_1	-0.020950524194421404	0.6666666666666666	208.0	solo Mathys (reference)	False
+Chandelier_2	0.24608577346098615	0.0	208.0	solo Mathys (reference)	True
+Endo_1	0.013808399742461137	0.0	208.0	solo Mathys (reference)	False
+Endo_2	0.7361846157069597	1.0	208.0	solo Mathys (reference)	False
+Endo_3	0.021641672652961533	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_1	0.19473879928792107	0.0	208.0	solo Mathys (reference)	False
+L2/3 IT_10	0.7881911895783084	1.0	208.0	solo Mathys (reference)	True
+L2/3 IT_12	-0.037651669431954776	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_13	0.026532785546735105	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_14-SEAAD	-0.06931620226770345	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_2	0.045961542953905504	1.0	208.0	solo Mathys (reference)	False
+L2/3 IT_3	0.16502521788664326	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_5	0.15523117220046226	0.0	208.0	solo Mathys (reference)	True
+L2/3 IT_6	0.2939124014552825	0.6666666666666666	208.0	solo Mathys (reference)	True
+L2/3 IT_7	0.06388387507975679	0.0	208.0	solo Mathys (reference)	False
+L2/3 IT_8	0.6520686453880296	0.0	208.0	solo Mathys (reference)	True
+L4 IT_1	0.013510879123873814	0.6666666666666666	208.0	solo Mathys (reference)	True
+L4 IT_2	0.0008906815703730664	0.16666666666666666	208.0	solo Mathys (reference)	False
+L4 IT_3	-0.0259362025180417	0.3333333333333333	208.0	solo Mathys (reference)	True
+L4 IT_4	-0.05222820662268033	0.0	208.0	solo Mathys (reference)	True
+L5 ET_2	0.29603423854995914	1.0	208.0	solo Mathys (reference)	False
+L5 ET_4-SEAAD	0.057963083949804775	0.8333333333333334	208.0	solo Mathys (reference)	True
+L5 IT_1	0.2827600015880313	0.0	208.0	solo Mathys (reference)	False
+L5 IT_10-SEAAD	0.597009133391767	1.0	208.0	solo Mathys (reference)	True
+L5 IT_2	0.015530440227950061	0.3333333333333333	208.0	solo Mathys (reference)	False
+L5 IT_3	-0.4783082839545084	0.0	208.0	solo Mathys (reference)	False
+L5 IT_5	-0.13581059934941164	0.0	208.0	solo Mathys (reference)	True
+L5 IT_6	-0.5311705683895679	0.0	208.0	solo Mathys (reference)	True
+L5 IT_7	-0.5242213722390032	0.0	208.0	solo Mathys (reference)	False
+L5/6 NP_1	0.43395771815114637	0.0	208.0	solo Mathys (reference)	False
+L5/6 NP_2	0.5464642699709767	1.0	208.0	solo Mathys (reference)	False
+L5/6 NP_3	0.5106966245982121	1.0	208.0	solo Mathys (reference)	True
+L5/6 NP_4	0.0010708284713602783	0.5	208.0	solo Mathys (reference)	False
+L5/6 NP_6	0.26311696260597983	1.0	208.0	solo Mathys (reference)	True
+L5/6 NP_7-SEAAD	0.005596073539501631	0.3333333333333333	208.0	solo Mathys (reference)	True
+L5/6 NP_8-SEAAD	0.001010346461278068	0.6666666666666666	208.0	solo Mathys (reference)	False
+L5/6 NP_9-SEAAD	0.19273349143194968	0.0	208.0	solo Mathys (reference)	True
+L6 CT_1	-0.08149342506697027	0.0	208.0	solo Mathys (reference)	False
+L6 CT_2	-0.011581563771433045	0.0	208.0	solo Mathys (reference)	False
+L6 CT_3	0.04561596273762407	0.0	208.0	solo Mathys (reference)	False
+L6 CT_4	0.1362418567526676	0.0	208.0	solo Mathys (reference)	True
+L6 IT Car3_1	0.22414509474038352	1.0	208.0	solo Mathys (reference)	True
+L6 IT Car3_3	-0.08016518960084155	0.0	208.0	solo Mathys (reference)	False
+L6 IT_1	0.5859680782806709	0.0	208.0	solo Mathys (reference)	False
+L6 IT_2	-0.5624669825708198	0.0	208.0	solo Mathys (reference)	False
+L6 IT_3-SEAAD	0.33373812694306765	1.0	208.0	solo Mathys (reference)	False
+L6 IT_4-SEAAD	0.3469820580213293	1.0	208.0	solo Mathys (reference)	True
+L6b_1	0.013765116053240203	0.6666666666666666	208.0	solo Mathys (reference)	False
+L6b_2	0.0009098270693329684	0.5	208.0	solo Mathys (reference)	False
+L6b_3	0.037078104959483965	0.0	208.0	solo Mathys (reference)	True
+L6b_4	0.2008585925123721	0.6666666666666666	208.0	solo Mathys (reference)	False
+L6b_5	0.8746022837447658	0.0	208.0	solo Mathys (reference)	False
+L6b_6	-1.6419809657329214	0.0	208.0	solo Mathys (reference)	False
+Lamp5_1	0.19060720596773695	0.0	208.0	solo Mathys (reference)	False
+Lamp5_2	0.10358205905360737	0.0	208.0	solo Mathys (reference)	False
+Lamp5_3	1.76968041681791	0.0	208.0	solo Mathys (reference)	True
+Lamp5_4	-0.0799945548939717	0.0	208.0	solo Mathys (reference)	False
+Lamp5_5	0.5594406200513337	0.0	208.0	solo Mathys (reference)	True
+Lamp5_6	0.11878271612891603	0.0	208.0	solo Mathys (reference)	True
+Lamp5_Lhx6_1	-0.20710911987965802	0.0	208.0	solo Mathys (reference)	False
+Lamp5_Lhx6_2-SEAAD	0.10335868433807183	1.0	208.0	solo Mathys (reference)	
+Lamp5_Lhx6_3-SEAAD	0.08241568556186914	1.0	208.0	solo Mathys (reference)	True
+Lymphocyte	0.19221315919894966	0.8333333333333334	208.0	solo Mathys (reference)	False
+Micro-PVM_1	0.08625355393033153	0.6666666666666666	208.0	solo Mathys (reference)	True
+Micro-PVM_2	0.7787334915518409	1.0	208.0	solo Mathys (reference)	True
+Micro-PVM_2_1-SEAAD	0.8410509290055783	1.0	208.0	solo Mathys (reference)	True
+Micro-PVM_2_3-SEAAD	0.8986151108021181	1.0	208.0	solo Mathys (reference)	True
+Micro-PVM_3-SEAAD	0.049563784811969526	1.0	208.0	solo Mathys (reference)	True
+Micro-PVM_4-SEAAD	0.5604591398767638	0.0	208.0	solo Mathys (reference)	True
+OPC_1	0.3644900040425209	1.0	208.0	solo Mathys (reference)	True
+OPC_2	0.44509961204557064	1.0	208.0	solo Mathys (reference)	True
+OPC_2_1-SEAAD	0.10519041138649038	0.8333333333333334	208.0	solo Mathys (reference)	True
+OPC_2_2-SEAAD	0.9748653251032937	1.0	208.0	solo Mathys (reference)	True
+Oligo_1	-0.030609100474300842	0.3333333333333333	208.0	solo Mathys (reference)	True
+Oligo_2	0.0290688478022777	0.5	208.0	solo Mathys (reference)	True
+Oligo_2_1-SEAAD	0.03588558606105433	0.3333333333333333	208.0	solo Mathys (reference)	False
+Oligo_3	0.10416650511100217	0.16666666666666666	208.0	solo Mathys (reference)	True
+Oligo_4	0.010042760990666248	0.0	208.0	solo Mathys (reference)	False
+Oligo_5-SEAAD	1.1052538593493515	1.0	208.0	solo Mathys (reference)	True
+Pax6_1	0.07399526913615995	0.16666666666666666	208.0	solo Mathys (reference)	False
+Pax6_2	0.6560053596879554	1.0	208.0	solo Mathys (reference)	False
+Pax6_4	0.07846762456748023	1.0	208.0	solo Mathys (reference)	False
+Pax6_6-SEAAD	0.06052256971694389	0.8333333333333334	208.0	solo Mathys (reference)	True
+Pericyte_1	0.06820327033188432	1.0	208.0	solo Mathys (reference)	False
+Pericyte_2-SEAAD	0.02462306376815695	0.0	208.0	solo Mathys (reference)	False
+Pvalb_1	0.011300389890795045	0.5	208.0	solo Mathys (reference)	False
+Pvalb_10	0.37288960208939265	1.0	208.0	solo Mathys (reference)	False
+Pvalb_12	-0.132323720724482	0.6666666666666666	208.0	solo Mathys (reference)	False
+Pvalb_13	0.11531225988914628	0.8333333333333334	208.0	solo Mathys (reference)	False
+Pvalb_14	0.38580897635189737	1.0	208.0	solo Mathys (reference)	True
+Pvalb_15	0.01894537975855689	0.16666666666666666	208.0	solo Mathys (reference)	False
+Pvalb_2	0.12193083116845008	0.0	208.0	solo Mathys (reference)	True
+Pvalb_3	0.22164694033112917	1.0	208.0	solo Mathys (reference)	True
+Pvalb_5	0.34717570947925147	1.0	208.0	solo Mathys (reference)	True
+Pvalb_6	0.0021299581530781066	0.5	208.0	solo Mathys (reference)	True
+Pvalb_7	0.21746035313900103	1.0	208.0	solo Mathys (reference)	False
+Pvalb_8	-0.20600524049388502	0.6666666666666666	208.0	solo Mathys (reference)	True
+Pvalb_9	0.060411476222524144	1.0	208.0	solo Mathys (reference)	False
+SMC-SEAAD	0.001822243438851904	0.16666666666666666	208.0	solo Mathys (reference)	False
+Sncg_1	0.4883366851175607	0.0	208.0	solo Mathys (reference)	True
+Sncg_2	0.060644431022844544	0.0	208.0	solo Mathys (reference)	False
+Sncg_3	0.011093188098887704	0.0	208.0	solo Mathys (reference)	False
+Sncg_4	-0.02343111660962543	0.6666666666666666	208.0	solo Mathys (reference)	True
+Sncg_5	0.5418282119642339	0.0	208.0	solo Mathys (reference)	False
+Sncg_6	0.15152817748681205	0.16666666666666666	208.0	solo Mathys (reference)	False
+Sncg_8	1.025210488373165	0.0	208.0	solo Mathys (reference)	False
+Sst Chodl_1	0.27857595605192054	1.0	208.0	solo Mathys (reference)	False
+Sst Chodl_2	0.17733591928653922	0.0	208.0	solo Mathys (reference)	False
+Sst Chodl_3-SEAAD	0.1749155098621876	1.0	208.0	solo Mathys (reference)	True
+Sst_1	0.007018751663827309	0.5	208.0	solo Mathys (reference)	False
+Sst_10	0.6013344094366545	0.0	208.0	solo Mathys (reference)	False
+Sst_11	0.29742881808703275	0.6666666666666666	208.0	solo Mathys (reference)	True
+Sst_12	0.5847343026382115	1.0	208.0	solo Mathys (reference)	False
+Sst_13	-0.03711335851390178	0.5	208.0	solo Mathys (reference)	True
+Sst_19	0.1739744776674667	0.8333333333333334	208.0	solo Mathys (reference)	True
+Sst_2	0.34368565570190496	0.6666666666666666	208.0	solo Mathys (reference)	True
+Sst_20	0.5018578895818273	0.6666666666666666	208.0	solo Mathys (reference)	True
+Sst_22	-0.003783604359579383	0.5	208.0	solo Mathys (reference)	True
+Sst_23	0.8022009240848776	1.0	208.0	solo Mathys (reference)	True
+Sst_25	0.045659960397867266	0.6666666666666666	208.0	solo Mathys (reference)	True
+Sst_3	0.8587391194318348	1.0	208.0	solo Mathys (reference)	True
+Sst_4	0.12740581158270614	0.0	208.0	solo Mathys (reference)	False
+Sst_5	0.42828949921739135	0.0	208.0	solo Mathys (reference)	False
+Sst_7	0.3230164596528058	0.8333333333333334	208.0	solo Mathys (reference)	False
+Sst_9	0.37889161452147047	1.0	208.0	solo Mathys (reference)	True
+VLMC_1	0.11339705247404001	1.0	208.0	solo Mathys (reference)	False
+Vip_1	0.04345226922920806	0.0	208.0	solo Mathys (reference)	False
+Vip_11	0.9825610047570141	0.0	208.0	solo Mathys (reference)	False
+Vip_12	0.27082481855544555	0.16666666666666666	208.0	solo Mathys (reference)	False
+Vip_13	0.23162824444409624	0.0	208.0	solo Mathys (reference)	False
+Vip_14	-0.0009832894242213929	0.0	208.0	solo Mathys (reference)	False
+Vip_15	0.08976090049610111	0.3333333333333333	208.0	solo Mathys (reference)	True
+Vip_16	0.006180759956197799	0.0	208.0	solo Mathys (reference)	False
+Vip_18	0.20859119564190193	0.8333333333333334	208.0	solo Mathys (reference)	True
+Vip_19	-0.7779596588101216	0.8333333333333334	208.0	solo Mathys (reference)	True
+Vip_2	0.012371503655812473	0.3333333333333333	208.0	solo Mathys (reference)	True
+Vip_21	0.017471144382774924	0.8333333333333334	208.0	solo Mathys (reference)	False
+Vip_23	0.09515580356124417	0.8333333333333334	208.0	solo Mathys (reference)	True
+Vip_24-SEAAD	-0.010107891694051964	0.16666666666666666	208.0	solo Mathys (reference)	True
+Vip_4	-0.09385746060455183	0.16666666666666666	208.0	solo Mathys (reference)	False
+Vip_5	0.009430008063575726	0.0	208.0	solo Mathys (reference)	False
+Vip_6	0.4743893009366501	1.0	208.0	solo Mathys (reference)	False
+Vip_9	-0.19379772278906235	0.6666666666666666	208.0	solo Mathys (reference)	False
