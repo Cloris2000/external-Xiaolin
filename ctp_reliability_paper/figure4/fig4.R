@@ -5,7 +5,7 @@
 #      over 6 pairs) against snRNA-seq reliability (symmetric ICC, median over
 #      5 matched-donor pairs -- the paper's decided metric, common/data/
 #      reliability_summary.tsv; same metric as Fig 1)
-#   b  out-of-fold CelMod r by group (Core Supertypes = lower bound of the donor-
+#   b  out-of-fold CelMod Spearman rho by group (Core Supertypes = lower bound of the donor-
 #      bootstrap 95% CI of the median snRNA-seq ICC (common/reliability_ci.py) > 0; vs non-core supertypes,
 #      vs subclasses; user decision 2026-10-27, was median ICC > 0), per bulk x snRNA pair -- direct test of the panel a
 #      relationship, selection uses no bulk data; cohort strip labels are the
@@ -28,7 +28,7 @@ library(ggrepel)
 # Allen-style hues, matching Figure 1's class colours (user decision 2026-10-05
 # for Fig 1): excitatory = red/orange, inhibitory = blue/purple, non-neuronal = green.
 CLASS3_COL <- c("Excitatory" = "#D1491C", "Inhibitory" = "#2F4FA8", "Non-neuronal" = "#2E8B3C")
-a <- fread(file.path(DATA, "fig4a_icc_vs_deconv.tsv"))[!is.na(bulk_r)]
+a <- fread(file.path(DATA, "fig4a_icc_vs_deconv.tsv"))[!is.na(bulk_rho)]
 a[, key := factor(fifelse(class_id == "Glia", "Non-neuronal", class_id), levels = names(CLASS3_COL))]
 # filled = Core Supertype (lower bound of the bootstrap 95% CI of the median ICC > 0), open = non-core
 ICC_POS_SHP <- c("Core Supertype" = 16, "Non-core Supertype" = 1)
@@ -36,13 +36,13 @@ a[, icc_pos := factor(fifelse(ci_lo > 0, names(ICC_POS_SHP)[1], names(ICC_POS_SH
                       levels = names(ICC_POS_SHP))]
 cat(sprintf("a: Core Supertype (CI lower bound > 0) in %d/%d supertypes\n", sum(a$ci_lo > 0), nrow(a)))
 THRESH <- 0.3
-ta <- spear(a$median_icc_sym, a$bulk_r)
+ta <- spear(a$median_icc_sym, a$bulk_rho)
 cat(sprintf("a: n=%d rho=%.2f p=%s\n", nrow(a), ta$estimate, fmt_p(ta$p.value)))
-p_a <- ggplot(a[order(as.integer(key))], aes(median_icc_sym, bulk_r)) +
+p_a <- ggplot(a[order(as.integer(key))], aes(median_icc_sym, bulk_rho)) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "grey30", fill = "grey85",
               linewidth = 0.4, linetype = "dashed") +
   geom_point(aes(colour = key, shape = icc_pos), size = 1.3, stroke = 0.45) +
-  geom_text_repel(data = a[median_icc_sym >= THRESH & bulk_r >= THRESH],
+  geom_text_repel(data = a[median_icc_sym >= THRESH & bulk_rho >= THRESH],
                   aes(label = cell_type), size = fontsize / .pt * 0.75,
                   min.segment.length = 0, segment.size = 0.25,
                   max.overlaps = Inf, seed = 1, ylim = c(NA, 0.73)) +
@@ -54,7 +54,7 @@ p_a <- ggplot(a[order(as.integer(key))], aes(median_icc_sym, bulk_r)) +
   guides(colour = guide_legend(order = 1, override.aes = list(shape = 16)),
          shape = guide_legend(order = 2, override.aes = list(colour = "grey30"))) +
   labs(x = "snRNA-seq reliability of the supertype\n(median ICC across matched-donor pairs)",
-       y = "Deconvolution accuracy of the supertype\n(median out-of-fold r, bulk vs snRNA-seq)") +
+       y = "Deconvolution accuracy of the supertype\n(median out-of-fold ρ, bulk vs snRNA-seq)") +
   theme_cns + theme(legend.position = "inside", legend.position.inside = c(1, 0),
                     legend.justification = c(1, 0), legend.spacing.y = unit(0, "pt"),
                     legend.margin = margin(0, 0, 0, 0))
@@ -91,9 +91,14 @@ wrap_name <- function(nm, width = 15) {   # greedy wrap at underscores for ~17 m
   paste(c(done, cur), collapse = "\n")
 }
 pairs <- unique(b[, .(pair, bulk, snRNA)])
+PAIR_ORDER <- c("ROSMAP x Green", "ROSMAP x Mathys", "ROSMAP x CUIMC2", "ROSMAP x Multiome",
+                "MSBB x PsychAD MSBB", "CommonMind x PsychAD MSBB", "HBCC x PsychAD HBCC",
+                "NABEC x Catching")   # facet order (user decision 2026-11-11; NABEC last, not in the list given)
+stopifnot(setequal(pairs$pair, PAIR_ORDER))
+pairs <- pairs[match(PAIR_ORDER, pair)]
 pairs[, lab := vapply(seq_len(.N), function(i) paste0(
-  wrap_name(canon(bulk[i]), 13), "\n×\n",
-  wrap_name(canon(if (snRNA[i] %in% names(SN_KEY)) SN_KEY[[snRNA[i]]] else snRNA[i]), 13)), "")]
+  wrap_name(canon(bulk[i]), 9), "\n×\n",
+  wrap_name(canon(if (snRNA[i] %in% names(SN_KEY)) SN_KEY[[snRNA[i]]] else snRNA[i]), 9)), "")]
 PAIR_LAB <- setNames(pairs$lab, pairs$pair)
 b[, pair := factor(PAIR_LAB[pair], levels = PAIR_LAB)]
 
@@ -105,12 +110,12 @@ pv <- pv[comparison == "Non-core Supertype"]
 stopifnot(!anyNA(pv$pair), nrow(pv) == uniqueN(b$pair))
 pv[, x0 := match(comparison, SET_LEV)]
 pv[, sig := fcase(p < 1e-3, "***", p < 1e-2, "**", p < 0.05, "*", default = "n.s.")]
-ymax <- b[, .(ymax = max(r, na.rm = TRUE)), by = pair]
+ymax <- b[, .(ymax = max(rho, na.rm = TRUE)), by = pair]
 pv <- merge(pv, ymax, by = "pair")
 setorder(pv, pair, -x0)
 pv[, bracket_y := ymax + (seq_len(.N) - 1) * 0.11 + 0.06, by = pair]
 
-p_b <- ggplot(b, aes(set, r)) +
+p_b <- ggplot(b, aes(set, rho)) +
   geom_hline(yintercept = 0, colour = "grey80", linewidth = 0.3) +
   geom_jitter(aes(shape = set_shape), colour = "grey30", width = 0.2, size = 0.9, alpha = 0.8, stroke = 0.35) +
   geom_boxplot(outlier.shape = NA, fill = NA, colour = "black", linewidth = 0.3, width = 0.55) +
@@ -121,7 +126,7 @@ p_b <- ggplot(b, aes(set, r)) +
   facet_wrap(~ pair, nrow = 1) +
   scale_shape_manual(values = setNames(unname(ICC_POS_SHP)[2:1], SET_LAB), name = NULL) +
   scale_y_continuous(expand = expansion(mult = c(0.05, 0.12))) +
-  labs(x = NULL, y = "Out-of-fold r, deconvolved vs snRNA-seq") +
+  labs(x = NULL, y = "Out-of-fold ρ, deconvolved vs snRNA-seq") +
   guides(shape = guide_legend(override.aes = list(size = 2.2, alpha = 1))) +
   theme_cns + theme(legend.position = "bottom", legend.margin = margin(0, 0, 0, 0),
                     legend.text = element_text(size = fontsize * 0.85),
@@ -132,5 +137,5 @@ p_b <- ggplot(b, aes(set, r)) +
                     panel.spacing.x = unit(3, "pt"))
 
 fig <- wrap_plots(A = free(p_a, type = "panel"), B = free(p_b, type = "panel"), nrow = 1) +
-  plot_layout(widths = c(1, 1.4)) + plot_annotation(tag_levels = "a")
+  plot_layout(widths = c(1, 1.75)) + plot_annotation(tag_levels = "a")
 save_fig(fig, file.path(FIG, "figure4_resolution_draft"), height_in = 4.2)

@@ -41,24 +41,24 @@
 <rect x='24.94' y='63.92' width='74.83' height='20.27' style='stroke-width: 0.96; stroke-linecap: butt; stroke-linejoin: miter; fill: #FFFFFF;' />
 <text x='62.36' y='73.30' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='18.95px' lengthAdjust='spacingAndGlyphs'>CelMod</text>
 <text x='62.36' y='78.91' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='50.16px' lengthAdjust='spacingAndGlyphs'>(genes → cell types)</text>
-<rect x='3.12' y='106.02' width='35.86' height='24.94' style='stroke-width: 0.64; stroke: #737373; stroke-linecap: butt; stroke-linejoin: miter; fill: #EDEDED;' />
-<text x='21.05' y='114.77' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.70px' lengthAdjust='spacingAndGlyphs'>Bulk</text>
-<text x='21.05' y='120.38' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='22.31px' lengthAdjust='spacingAndGlyphs'>RNA-seq</text>
-<text x='21.05' y='125.99' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='29.36px' lengthAdjust='spacingAndGlyphs'>(test cohort)</text>
+<rect x='1.56' y='106.02' width='34.30' height='24.94' style='stroke-width: 0.64; stroke: #737373; stroke-linecap: butt; stroke-linejoin: miter; fill: #EDEDED;' />
+<text x='18.71' y='114.77' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.70px' lengthAdjust='spacingAndGlyphs'>Bulk</text>
+<text x='18.71' y='120.38' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='22.31px' lengthAdjust='spacingAndGlyphs'>RNA-seq</text>
+<text x='18.71' y='125.99' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='29.36px' lengthAdjust='spacingAndGlyphs'>(test cohort)</text>
 <line x1='62.36' y1='84.19' x2='62.36' y2='104.46' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt;' />
 <polygon points='61.23,102.49 62.36,104.46 63.50,102.49 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
-<line x1='38.98' y1='118.49' x2='45.21' y2='118.49' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt;' />
-<polygon points='43.25,119.62 45.21,118.49 43.25,117.35 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
-<rect x='45.21' y='106.02' width='34.30' height='24.94' style='stroke-width: 0.96; stroke-linecap: butt; stroke-linejoin: miter; fill: #FFFFFF;' />
+<line x1='35.86' y1='118.49' x2='42.09' y2='118.49' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt;' />
+<polygon points='40.13,119.62 42.09,118.49 40.13,117.35 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
+<rect x='42.09' y='106.02' width='40.54' height='24.94' style='stroke-width: 0.96; stroke-linecap: butt; stroke-linejoin: miter; fill: #FFFFFF;' />
 <text x='62.36' y='117.58' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='23.25px' lengthAdjust='spacingAndGlyphs'>Predicted</text>
 <text x='62.36' y='123.19' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='29.36px' lengthAdjust='spacingAndGlyphs'>composition</text>
-<rect x='85.75' y='106.02' width='38.98' height='24.94' style='stroke-width: 0.64; stroke: #737373; stroke-linecap: butt; stroke-linejoin: miter; fill: #FBE3E0;' />
-<text x='105.24' y='114.77' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='28.12px' lengthAdjust='spacingAndGlyphs'>snRNA-seq</text>
-<text x='105.24' y='120.38' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='29.69px' lengthAdjust='spacingAndGlyphs'>ground truth</text>
-<text x='105.24' y='125.99' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='30.89px' lengthAdjust='spacingAndGlyphs'>(test donors)</text>
-<line x1='79.51' y1='118.49' x2='85.75' y2='118.49' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt;' />
-<polygon points='81.48,117.35 79.51,118.49 81.48,119.62 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
-<polygon points='83.78,119.62 85.75,118.49 83.78,117.35 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
+<rect x='87.31' y='106.02' width='38.98' height='24.94' style='stroke-width: 0.64; stroke: #737373; stroke-linecap: butt; stroke-linejoin: miter; fill: #FBE3E0;' />
+<text x='106.80' y='114.77' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='28.12px' lengthAdjust='spacingAndGlyphs'>snRNA-seq</text>
+<text x='106.80' y='120.38' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='29.69px' lengthAdjust='spacingAndGlyphs'>ground truth</text>
+<text x='106.80' y='125.99' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='30.89px' lengthAdjust='spacingAndGlyphs'>(test donors)</text>
+<line x1='82.63' y1='118.49' x2='87.31' y2='118.49' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt;' />
+<polygon points='84.59,117.35 82.63,118.49 84.59,119.62 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
+<polygon points='85.34,119.62 87.31,118.49 85.34,117.35 ' style='stroke-width: 0.64; stroke: #4D4D4D; stroke-linecap: butt; fill: #4D4D4D;' />
 <text x='62.36' y='146.27' text-anchor='middle' style='font-size: 5.50px;fill: #333333; font-family: "Liberation Sans";' textLength='76.47px' lengthAdjust='spacingAndGlyphs'>Correlation per Core Supertype</text>
 <text x='62.36' y='151.88' text-anchor='middle' style='font-size: 5.50px;fill: #333333; font-family: "Liberation Sans";' textLength='56.59px' lengthAdjust='spacingAndGlyphs'>(c: median; d: per type)</text>
 <text x='62.36' y='157.49' text-anchor='middle' style='font-size: 5.50px;fill: #333333; font-family: "Liberation Sans";' textLength='61.50px' lengthAdjust='spacingAndGlyphs'>training donors excluded;</text>
@@ -72,27 +72,27 @@
 <text x='269.09' y='7.51' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='62.70px' lengthAdjust='spacingAndGlyphs'>Adult / psychiatric cohorts</text>
 <text x='137.20' y='23.72' style='font-size: 5.50px; font-weight: bold;fill: #7B8C9E; font-family: "Liberation Sans";' textLength='129.11px' lengthAdjust='spacingAndGlyphs'>S1 paired: train on each cohort's own snRNA-seq</text>
 <rect x='144.37' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='154.35' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='154.35' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='154.35' y1='42.09' x2='154.35' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='153.21,50.11 154.35,52.07 155.48,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='173.06' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='183.03' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='183.03' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='183.03' y1='42.09' x2='183.03' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='181.90,50.11 183.03,52.07 184.17,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='201.74' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='211.72' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='211.72' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='211.72' y1='42.09' x2='211.72' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='210.59,50.11 211.72,52.07 212.85,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='230.43' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='240.41' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='240.41' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='240.41' y1='42.09' x2='240.41' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='239.27,50.11 240.41,52.07 241.54,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='259.11' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='269.09' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='269.09' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='269.09' y1='42.09' x2='269.09' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='267.96,50.11 269.09,52.07 270.23,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='287.80' y='31.18' width='19.96' height='10.91' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; stroke-linejoin: miter; fill: #7B8C9E; fill-opacity: 0.35;' />
-<text x='297.78' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='17.44px' lengthAdjust='spacingAndGlyphs'>own sn</text>
+<text x='297.78' y='38.53' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='10.09px' lengthAdjust='spacingAndGlyphs'>own</text>
 <line x1='297.78' y1='42.09' x2='297.78' y2='52.07' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt;' />
 <polygon points='296.65,50.11 297.78,52.07 298.91,50.11 ' style='stroke-width: 0.64; stroke: #7B8C9E; stroke-linecap: butt; fill: #7B8C9E;' />
 <rect x='141.56' y='52.07' width='25.57' height='11.85' style='stroke-width: 0.64; stroke: #737373; stroke-linecap: butt; stroke-linejoin: miter; fill: #EEE8F4;' />
@@ -109,7 +109,7 @@
 <text x='297.78' y='59.89' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='18.95px' lengthAdjust='spacingAndGlyphs'>NABEC</text>
 <text x='137.20' y='79.85' style='font-size: 5.50px; font-weight: bold;fill: #2F7E8F; font-family: "Liberation Sans";' textLength='98.77px' lengthAdjust='spacingAndGlyphs'>S2 global: one model for every cohort</text>
 <rect x='174.61' y='85.75' width='102.90' height='12.47' style='stroke-width: 0.64; stroke: #2F7E8F; stroke-linecap: butt; stroke-linejoin: miter; fill: #2F7E8F; fill-opacity: 0.30;' />
-<text x='226.06' y='91.07' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='96.56px' lengthAdjust='spacingAndGlyphs'>best ROSMAP multi-dataset consensus</text>
+<text x='226.06' y='91.07' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='68.11px' lengthAdjust='spacingAndGlyphs'>ROSMAP consensus model</text>
 <text x='226.06' y='96.68' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='71.91px' lengthAdjust='spacingAndGlyphs'>(chosen on the other cohorts)</text>
 <line x1='200.96' y1='98.22' x2='154.35' y2='108.20' style='stroke-width: 0.64; stroke: #2F7E8F; stroke-linecap: butt;' />
 <polygon points='156.03,106.68 154.35,108.20 156.50,108.90 ' style='stroke-width: 0.64; stroke: #2F7E8F; stroke-linecap: butt; fill: #2F7E8F;' />
@@ -137,9 +137,9 @@
 <text x='297.78' y='116.02' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='18.95px' lengthAdjust='spacingAndGlyphs'>NABEC</text>
 <text x='137.20' y='135.97' style='font-size: 5.50px; font-weight: bold;fill: #E1A22E; font-family: "Liberation Sans";' textLength='132.75px' lengthAdjust='spacingAndGlyphs'>S3 class-matched: train within diagnosis/age class</text>
 <rect x='141.56' y='141.87' width='82.94' height='12.47' style='stroke-width: 0.64; stroke: #E1A22E; stroke-linecap: butt; stroke-linejoin: miter; fill: #E1A22E; fill-opacity: 0.30;' />
-<text x='183.03' y='150.00' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='69.75px' lengthAdjust='spacingAndGlyphs'>best aging/AD-trained model</text>
+<text x='183.03' y='150.00' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='57.81px' lengthAdjust='spacingAndGlyphs'>aging/AD-trained model</text>
 <rect x='227.62' y='141.87' width='82.94' height='12.47' style='stroke-width: 0.64; stroke: #E1A22E; stroke-linecap: butt; stroke-linejoin: miter; fill: #E1A22E; fill-opacity: 0.30;' />
-<text x='269.09' y='150.00' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='56.58px' lengthAdjust='spacingAndGlyphs'>best psychiatric-trained</text>
+<text x='269.09' y='150.00' text-anchor='middle' style='font-size: 5.50px; font-family: "Liberation Sans";' textLength='61.16px' lengthAdjust='spacingAndGlyphs'>psychiatric-trained model</text>
 <line x1='154.35' y1='154.35' x2='154.35' y2='164.32' style='stroke-width: 0.64; stroke: #E1A22E; stroke-linecap: butt;' />
 <polygon points='153.21,162.36 154.35,164.32 155.48,162.36 ' style='stroke-width: 0.64; stroke: #E1A22E; stroke-linecap: butt; fill: #E1A22E;' />
 <line x1='183.03' y1='154.35' x2='183.03' y2='164.32' style='stroke-width: 0.64; stroke: #E1A22E; stroke-linecap: butt;' />

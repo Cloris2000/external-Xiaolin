@@ -55,6 +55,16 @@ import retention_matrix as RM  # noqa: E402  (read-only use: load_counts)
 
 MIN_SCORE = 50
 COVER = 0.80
+# METRIC=spearman (user 2026-11-10): selection reads scores_spearman.csv (scores_spearman.py;
+# same rows/donors as scores.csv, Spearman rho) and the common-donor step uses Spearman.
+# Outputs get a "_spearman" suffix; the default (pearson) run and its files are unchanged.
+METRIC = os.environ.get("METRIC", "pearson")
+assert METRIC in ("pearson", "spearman"), METRIC
+SUF = "" if METRIC == "pearson" else "_spearman"
+
+
+def corr(a, y):
+    return np.corrcoef(a, y)[0, 1] if METRIC == "pearson" else stats.spearmanr(a, y).correlation
 PROD = "ROSMAP__Green+Mathys+Multiome2025_DLPFC"
 # The paper's snRNA datasets (Figs 1-4, 8 pairs, plus the matched-bulk Catching_NABEC).
 # Multiome2025_STG is excluded as scorer and trainer member: a second region of the
@@ -94,7 +104,8 @@ ci = ci[ci.level == "supertype"].assign(ct=lambda d: d.cell_type.map(norm))
 CORE = set(ci.loc[ci.ci_lo > 0, "ct"])
 ALL = set(ci.ct)
 
-S = pd.read_csv(MAT / "scores.csv")
+S = pd.read_csv(MAT / ("scores.csv" if METRIC == "pearson" else "scores_spearman.csv"))
+print(f"metric: {METRIC}")
 assert CORE <= set(S.cell_type), sorted(CORE - set(S.cell_type))
 S = S[S.trainer.isin(set(man.pair)) & S.target.isin(set(man.pair))]
 S["core"] = S.cell_type.isin(CORE)
@@ -210,7 +221,7 @@ for strat in ("S2", "S3"):
             print(f"{strat} held-out {fam:8s} class {str(c):12s} -> "
                   f"{ranked[:2] if ranked else None}")
 SEL = pd.concat(sel_rows)
-SEL.to_csv(FIG / "fig9_selection.tsv", sep="\t", index=False)
+SEL.to_csv(FIG / f"fig9_selection{SUF}.tsv", sep="\t", index=False)
 
 # full-data choices (all families) for the transfer-only recommendation
 glob_all = select(list(TRAINERS.index), U)[0][:1]
@@ -322,7 +333,7 @@ for row in U.itertuples():
                 a, y = P[ct].reindex(D).values.astype(float), Y[ct].reindex(D).values.astype(float)
                 ok = np.isfinite(a) & np.isfinite(y)
                 if ok.sum() >= MIN_SCORE and a[ok].std() > 1e-9 and y[ok].std() > 1e-9:
-                    r[ct] = np.corrcoef(a[ok], y[ok])[0, 1]
+                    r[ct] = corr(a[ok], y[ok])
             per.append(pd.Series(r, name=p))
         if not per:
             continue
@@ -351,8 +362,8 @@ for a, b in (("S2", "S1"), ("S3", "S1"), ("S3", "S2"), ("S2", "prod"), ("S3", "p
             ps[u] = stats.wilcoxon(d).pvalue if len(d) >= 10 and (d != 0).any() else np.nan
     UN[f"p_{a}_vs_{b}"] = UN.unit.map(ps)
 
-CT.to_csv(FIG / "fig9_celltype_r.tsv", sep="\t", index=False)
-UN.to_csv(FIG / "fig9_units.tsv", sep="\t", index=False)
+CT.to_csv(FIG / f"fig9_celltype_r{SUF}.tsv", sep="\t", index=False)
+UN.to_csv(FIG / f"fig9_units{SUF}.tsv", sep="\t", index=False)
 
 # across bulk cohorts: mean over a cohort's units, then sign test
 B = UN[UN.used].groupby(["bulk", "cls", "kind"])[
@@ -370,8 +381,8 @@ for a, b in (("S2", "S1"), ("S3", "S1"), ("S3", "S2"), ("S2", "prod"), ("S3", "p
                              median_diff=d.median() if len(d) else 0.0,
                              sign_p=stats.binomtest(w, len(d)).pvalue if len(d) else np.nan))
 SUM = pd.DataFrame(summ)
-SUM.to_csv(FIG / "fig9_summary.tsv", sep="\t", index=False)
-B.reset_index().to_csv(FIG / "fig9_by_bulk.tsv", sep="\t", index=False)
+SUM.to_csv(FIG / f"fig9_summary{SUF}.tsv", sep="\t", index=False)
+B.reset_index().to_csv(FIG / f"fig9_by_bulk{SUF}.tsv", sep="\t", index=False)
 
 # trainer x target matrix (median Core r; diag = same-dataset OOF)
 M = cell.assign(cv=False)
@@ -379,7 +390,7 @@ M = cell.assign(cv=False)
 # from cons_oof.py (5-fold out-of-fold, drawn circled like the diagonal). Heatmap ONLY:
 # `cell` above (selection, oracle, strategies) does not see these rows.
 cf = MAT / "cons_oof_scores.csv"
-if cf.exists():
+if cf.exists() and METRIC == "pearson":   # Pearson r_cv; the Spearman CV cells are in heatmap_spearman.py
     C = pd.read_csv(cf)
     C = C[C.cell_type.isin(CORE)]
     C = (C.groupby(["trainer", "target"]).agg(med_core=("r_cv", "median"), n=("n", "median"))
@@ -390,11 +401,11 @@ if cf.exists():
     print(f"heatmap: added {len(C)} consensus out-of-fold cells from {cf.name}")
 M = M.assign(trainer_cls=M.trainer.map(lambda p: cls_of.get(p.split("__")[0])),
              target_cls=M.target.map(lambda p: cls_of.get(p.split("__")[0])))
-M.to_csv(FIG / "fig9_trainer_target.tsv", sep="\t", index=False)
+M.to_csv(FIG / f"fig9_trainer_target{SUF}.tsv", sep="\t", index=False)
 
 pd.DataFrame([dict(strategy="S2", cls="all", recipe=";".join(glob_all))] +
              [dict(strategy="S3", cls=c, recipe=";".join(r)) for c, r in cls_all.items()]
-             ).to_csv(FIG / "fig9_recommended.tsv", sep="\t", index=False)
+             ).to_csv(FIG / f"fig9_recommended{SUF}.tsv", sep="\t", index=False)
 
 pd.set_option("display.width", 250)
 print("\n== units ==")

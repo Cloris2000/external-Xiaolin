@@ -157,7 +157,7 @@ pd <- ggplot(d, aes(median_icc_sym, r)) +
 
 # a: draft schematic (fig9_schematic.R, user 2026-11-09); layout guide for BioRender
 source(file.path(HERE, "fig9_schematic.R"))
-pa <- make_schematic(STRAT_COL)
+pa <- make_schematic(STRAT_COL, pt = 5)
 pc <- pc + guides(colour = guide_legend(nrow = 2, order = 1), shape = guide_legend(nrow = 2, order = 2)) +
   theme(legend.text = element_text(size = 6), legend.title = element_text(size = 6))
 pd <- pd + guides(shape = guide_legend(nrow = 2)) +
@@ -219,11 +219,15 @@ pcm <- ggplot(pt, aes(st, coh, fill = rho)) +
 
 # ---- compact strategy comparison (user 2026-11-09): main figure ----------------------
 # One row per representative test cohort (bank order, as the heatmap); S1 / S2 / S3 as
-# coloured dots on the common donor set of fig9_by_bulk.tsv (strategy_scores.py, Pearson).
+# coloured dots on the common donor set. Spearman (user 2026-11-10): strategies selected
+# and scored on Spearman rho, fig9_by_bulk_spearman.tsv (strategy_scores.py METRIC=spearman).
 # Open symbols = same-dataset out-of-fold ground truth (cohort has one snRNA-seq dataset).
-# All 11 bulk regions + production trio + ICC link go to figure9_supp_strategies.
+# All 11 bulk regions + production trio + ICC link go to figure9_supp_strategies (still Pearson).
 STRAT3 <- c("S1", "S2", "S3")
-sc <- cl[bulk %in% BULK_ORD & strategy %in% STRAT3]
+by_sp <- fread(file.path(DATA, "fig9_by_bulk_spearman.tsv"))
+sc <- melt(by_sp, id.vars = c("bulk", "cls", "kind"), measure.vars = paste0(STRAT3, "_med_core"),
+           variable.name = "strategy", value.name = "r")[!is.na(r) & bulk %in% BULK_ORD]
+sc[, strategy := sub("_med_core", "", strategy)]
 sc[, strategy := factor(as.character(strategy), STRAT3)]
 sc[, coh := factor(sub("\n", " ", SHORT[bulk]), rev(sub("\n", " ", SHORT[BULK_ORD])))]
 sc[, y := as.numeric(coh) + c(S1 = 0.2, S2 = 0, S3 = -0.2)[as.character(strategy)]]
@@ -236,23 +240,32 @@ pcs <- ggplot(sc) +
   scale_colour_manual(values = STRAT_COL[STRAT3], labels = STRAT_LAB[STRAT3], name = NULL) +
   scale_shape_manual(values = KIND_SHP, name = NULL,
                      labels = c(cross = "other snRNA-seq", oof = "same snRNA-seq (CV)")) +
-  labs(x = "Median Pearson r (Core Supertypes)", y = "Test cohort") +
-  guides(colour = guide_legend(order = 1, ncol = 1), shape = guide_legend(order = 2, ncol = 1)) +
+  labs(x = "Median Spearman ρ (Core Supertypes)", y = "Test cohort") +
+  guides(colour = guide_legend(order = 1, nrow = 1), shape = guide_legend(order = 2, nrow = 1)) +
   theme_cns + theme(axis.text = element_text(size = SUPP_PT), axis.title = element_text(size = 8),
-                    legend.text = element_text(size = SUPP_PT), legend.position = "right",
+                    legend.text = element_text(size = SUPP_PT), legend.position = "bottom", legend.box = "vertical",
                     legend.key.size = unit(0.3, "cm"), legend.spacing.y = unit(2, "pt"))
 
 # Main figure (user 2026-11-09): a = schematic | b = strategy comparison, c = heatmap
 # exactly as figure9_supp_matrix, d = supertype x cohort map for the recommended model.
 pa <- pa + labs(tag = "a")
-pbs_t <- pcs + labs(tag = "b")
+pbs_t <- wrap_elements(full = pcs) + labs(tag = "b")   # legend inside its width share
 pct <- wrap_elements(full = supp) + labs(tag = "c")
 pdt <- wrap_elements(full = pcm) + labs(tag = "d")
-top_row <- (pa + pbs_t + plot_layout(widths = c(1.4, 1))) &   # wider schematic (user 2026-11-09)
+top_row <- (pa + pbs_t + plot_layout(widths = c(1.5, 1))) &   # wider schematic (user 2026-11-09)
   theme(plot.tag = element_text(size = 10, face = "bold", colour = "black"))
 fig <- (wrap_elements(full = top_row) / pct / pdt + plot_layout(heights = c(2.5, 5.9, 2.2))) &
   theme(plot.tag = element_text(size = 10, face = "bold", colour = "black"))   # one tag style
 save_fig(fig, file.path(FIG, "figure9_celmod_strategies_draft"), height_in = 10.6)
+# SVG copy (user 2026-11-10): panel a left blank (tag and space kept) for the BioRender
+# schematic; same layout and sizes as the PNG/PDF, which keep the draft schematic.
+pa_blank <- ggplot() + theme_void() + labs(tag = "a")
+top_row_svg <- (pa_blank + pbs_t + plot_layout(widths = c(1.5, 1))) &
+  theme(plot.tag = element_text(size = 10, face = "bold", colour = "black"))
+fig_svg <- (wrap_elements(full = top_row_svg) / pct / pdt + plot_layout(heights = c(2.5, 5.9, 2.2))) &
+  theme(plot.tag = element_text(size = 10, face = "bold", colour = "black"))
+ggsave(file.path(FIG, "figure9_celmod_strategies_draft.svg"), fig_svg, width = 183 / 25.4, height = 10.6,
+       bg = "white", device = svglite::svglite)
 
 # ---- supplementary strategy detail: all bulk regions, + production trio, ICC link ---------
 supp_str <- (pc + labs(tag = "a")) + (pd + labs(tag = "b")) + plot_layout(widths = c(1.6, 1))

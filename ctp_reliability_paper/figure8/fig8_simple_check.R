@@ -12,6 +12,8 @@
 #              two datasets (the Figure 8 y, 2026-11-03) -> figure8_simple_depth_check_tv.*
 #        icc   icc_inh, per-donor symmetric ICC of the same profiles (also scores
 #              agreement in size, like the paper's metric) -> figure8_simple_depth_check_icc.*
+#        rho   rho_inh, per-donor Spearman rho of the same profiles (rank version of
+#              corr, 2026-11-11) -> figure8_simple_depth_check_rho.*
 #   Pairs: the eight of common/reliability_stats.py (2026-10-29; were five).
 #   (a) per-pair scatter, same donors as the main figure (pass filter, plus
 #       >= 50 marker nuclei on both sides so the fraction is not noise)
@@ -20,7 +22,7 @@
 # wp3 source_key. Pair colours: the Figure 3 pair palette (cnsplots "Cell"),
 # one colour per pair across the paper.
 # Inputs: data/fig8_simple_depth.tsv
-# Run: /home/zhoux156/miniforge3/envs/r_env/bin/Rscript fig8_simple_check.R [tv|disc|corr|icc]
+# Run: /home/zhoux156/miniforge3/envs/r_env/bin/Rscript fig8_simple_check.R [tv|disc|corr|icc|rho]
 
 suppressPackageStartupMessages({
   library(ggplot2)
@@ -32,14 +34,15 @@ HERE <- "/project/rrg-shreejoy/zhoux156/external-Xiaolin/ctp_reliability_paper/f
 source(file.path(dirname(HERE), "common", "theme_cns.R"))
 FIG_DIR <- file.path(HERE, "figures")
 MIN_MARKER <- 50
-Y <- match.arg(commandArgs(trailingOnly = TRUE)[1], c("tv", "disc", "corr", "icc"))
-YCOL <- c(tv = "tv_inh", disc = "disc_inh", corr = "agree_inh", icc = "icc_inh")[[Y]]
+Y <- match.arg(commandArgs(trailingOnly = TRUE)[1], c("tv", "disc", "corr", "icc", "rho"))
+YCOL <- c(tv = "tv_inh", disc = "disc_inh", corr = "agree_inh", icc = "icc_inh", rho = "rho_inh")[[Y]]
 Y_LAB <- c(tv = "Inhibitory neurons that differ\nbetween the two datasets (%)",
            disc = "Discordance of inhibitory cell proportions\n(mean |ΔCLR|)",
            corr = "Agreement of inhibitory cell proportions\n(per-donor r between datasets)",
-           icc = "Agreement of inhibitory cell proportions\n(per-donor ICC between datasets)")[[Y]]
+           icc = "Agreement of inhibitory cell proportions\n(per-donor ICC between datasets)",
+           rho = "Agreement of inhibitory cell proportions\n(per-donor Spearman ρ between datasets)")[[Y]]
 OUT_STEM <- c(tv = "figure8_simple_depth_check_tv", disc = "figure8_simple_depth_check", corr = "figure8_simple_depth_check_corr",
-              icc = "figure8_simple_depth_check_icc")[[Y]]
+              icc = "figure8_simple_depth_check_icc", rho = "figure8_simple_depth_check_rho")[[Y]]
 
 PAIRS <- c("Green x Mathys", "Green x Multiome", "Mathys x Multiome",
           "Multiome x PsychAD ROSMAP", "BrainSCOPE CMC x PsychAD MSBB",
@@ -143,7 +146,8 @@ p_b <- ggplot(forest, aes(estimate, row_lab)) +
   scale_x_continuous(expand = expansion(mult = c(0.05, 0.9))) +
   scale_y_discrete(expand = expansion(add = c(0.6, 1.0))) +
   labs(x = sprintf("Effect of sampled-depth difference on inhibitory composition %s (β, 95%% CI)",
-                   c(tv = "difference", disc = "discordance", corr = "agreement", icc = "agreement")[[Y]]),
+                   c(tv = "difference", disc = "discordance", corr = "agreement", icc = "agreement",
+                     rho = "agreement")[[Y]]),
        y = NULL) +
   theme_cns +
   theme(axis.text.y = element_text(hjust = 0),

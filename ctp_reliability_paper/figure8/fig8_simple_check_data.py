@@ -37,9 +37,13 @@ Two donor-level y measures over INHIBITORY supertypes (excitatory types define x
              (2026-11-03): equals agree_inh when the donor's two profiles have
              equal spread and is lower when one dataset shows a stronger or
              weaker version of the same pattern (higher = more concordant)
+  rho_inh    the same profiles as agree_inh, scored per donor with Spearman rho
+             across types (2026-11-11): rank version of agree_inh, so one outlying
+             type cannot dominate (higher = more concordant)
 
 Output: data/fig8_simple_depth.tsv = fig8_depth_pair_donor.tsv plus, per side,
-n_l23, n_l6it, upper_frac; abs_d_upper; tv_inh; n_inh_types, agree_inh and icc_inh.
+n_l23, n_l6it, upper_frac; abs_d_upper; tv_inh; n_inh_types, agree_inh, icc_inh
+and rho_inh.
 Run: PYTHONNOUSERSITE=1 /home/zhoux156/miniforge3/envs/brisc/bin/python fig8_simple_check_data.py
 """
 import sys
@@ -47,6 +51,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import rankdata
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "common"))
@@ -88,8 +93,9 @@ def agreement_inh(ta, tb, inh_types):
     r = [np.corrcoef(za[i], zb[i])[0, 1] for i in range(len(za))]
     icc = [2 * np.cov(za[i], zb[i], ddof=1)[0, 1] / (za[i].var(ddof=1) + zb[i].var(ddof=1))
            for i in range(len(za))]
+    rho = [np.corrcoef(rankdata(za[i]), rankdata(zb[i]))[0, 1] for i in range(len(za))]
     return pd.DataFrame({"donor": np.array(shared)[ok], "n_inh_types": int(keep.sum()),
-                         "agree_inh": r, "icc_inh": icc})
+                         "agree_inh": r, "icc_inh": icc, "rho_inh": rho})
 
 
 def main():
